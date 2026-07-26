@@ -40,7 +40,7 @@ def parse_metrics(text: str) -> Dict[str, Any]:
 
     priority_names = [
         name for name in observed_metrics
-        if not any(token in name.lower() for token in {"loss", "lr", "time", "mem"})
+        if not any(token in name.lower() for token in {"loss", "lr", "time", "mem", "epoch", "step", "iter", "iteration"})
     ]
     if priority_names:
         chosen = priority_names[-1]
@@ -60,14 +60,19 @@ def split_command(command: str) -> List[str]:
 
 
 def run_git(repo: Path, args: List[str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["git", *args],
-        cwd=repo,
-        capture_output=True,
-        text=True,
-        timeout=15,
-        check=False,
-    )
+    try:
+        return subprocess.run(
+            ["git", *args],
+            cwd=repo,
+            capture_output=True,
+            text=True,
+            timeout=15,
+            check=False,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
+        # A missing or hanging git binary must degrade to the documented
+        # "git-unavailable" evidence path, not crash the runner.
+        return subprocess.CompletedProcess(["git", *args], returncode=127, stdout="", stderr=str(exc))
 
 
 def git_status_snapshot(repo: Path) -> Tuple[Optional[Dict[str, str]], Dict[str, Any]]:

@@ -42,4 +42,4 @@ read-only analysis without constraining the model's project-specific reasoning.
 
 ## Notes
 
-Use `references/analysis-policy.md` and the shared `references/research-pitfall-checklist.md`.
+Use `references/analysis-policy.md` and the shared `../../references/research-pitfall-checklist.md`.

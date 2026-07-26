@@ -90,7 +90,7 @@ def derive_checkpoint_hint(asset_data: Dict[str, Any]) -> str:
 
 
 def extract_config_path(command: str) -> str | None:
-    tokens = shlex.split(command, posix=False)
+    tokens = shlex.split(command, posix=True)
     for index, token in enumerate(tokens):
         if token in {"--config", "--cfg"} and index + 1 < len(tokens):
             return tokens[index + 1]
@@ -208,7 +208,7 @@ def maybe_run_command(repo_path: Path, command: str, timeout: int, user_language
 
     try:
         result = subprocess.run(
-            shlex.split(command, posix=False),
+            shlex.split(command, posix=True),
             cwd=repo_path,
             capture_output=True,
             text=True,

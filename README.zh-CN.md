@@ -113,6 +113,24 @@ Claude Code 可直接使用项目级命令：
 
 详见 [references/research-rigor-principles.md](references/research-rigor-principles.md) 和 [references/agent-operating-principles.md](references/agent-operating-principles.md)。
 
+## 🔁 生命周期视角
+
+本仓库遵循一个浅层的、面向生命周期的路由模型：
+
+```mermaid
+flowchart LR
+    A[理解] --> B[复现]
+    B --> C[环境准备]
+    C --> D[运行或训练]
+    D --> E[调试]
+    E --> F[报告]
+    B -. 仅限显式授权 .-> G[探索]
+    G --> H[候选排序]
+    H --> F
+```
+
+生命周期帮助 agent 选择正确的 lane 和证据目标，但不会强迫每个仓库都走固定的实现顺序。
+
 ## 🧠 Rigor Explore 流程
 
 `ai-research-explore` 适合这样的场景：研究者已经冻结 task family、dataset、evaluation method 和 SOTA 参考，并明确授权 AI 在 `current_research` 上做受约束、可审计、candidate-only 的探索。
@@ -148,7 +166,7 @@ flowchart LR
 | `ABLATION_PLAN.md` | 说明需要隔离哪些变量才能验证候选改动。 |
 | `EXPERIMENT_LEDGER.md` | 记录 run、指标、命令、artifact、变更文件和证据状态。 |
 
-其中 `SCIENTIFIC_CHANGELOG.md` 和 `COMPARABILITY_REPORT.md` 已由标准 trusted / explore writer 生成；其他名称是 future-compatible evidence concepts。
+其中 `SCIENTIFIC_CHANGELOG.md`、`COMPARABILITY_REPORT.md` 和 `EXPERIMENT_LEDGER.md` 已由标准 trusted / explore writer 生成；其余名称（`REPRODUCIBILITY_NOTES.md`、`NOVELTY_CLAIM.md`、`ABLATION_PLAN.md`）是 future-compatible evidence concepts。
 
 ## 📁 输出目录
 

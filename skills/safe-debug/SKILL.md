@@ -42,4 +42,4 @@ cause.
 
 ## Notes
 
-Use `references/debug-policy.md`, `../../references/research-rigor-principles.md`, and the shared `references/research-pitfall-checklist.md`.
+Use `references/debug-policy.md`, `../../references/research-rigor-principles.md`, and the shared `../../references/research-pitfall-checklist.md`.

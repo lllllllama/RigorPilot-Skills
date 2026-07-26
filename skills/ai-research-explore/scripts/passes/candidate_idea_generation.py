@@ -325,7 +325,10 @@ def build_generated_ideas(
     rejected: List[Dict[str, Any]] = []
     existing = existing_signatures(researcher_candidate_ideas)
     used_targets: set[str] = set()
-    axis_map = dict(variant_spec.get("variant_axes") or {})
+    axis_map = {
+        key: list(value) if isinstance(value, (list, tuple)) else [value]
+        for key, value in (variant_spec.get("variant_axes") or {}).items()
+    }
     components = contextual_component_pool(
         component_pool(researcher_candidate_ideas, analysis_data, improvement_bank),
         context,

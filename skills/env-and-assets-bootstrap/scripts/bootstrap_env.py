@@ -57,18 +57,18 @@ def print_activation_instructions(env_name: Optional[str], using_conda: bool) ->
         print(f"  [{platforms}] {item['command']}")
 
 
-def install_with_manager(manager: str, env_name: str, repo_path: Path, rel_env_file: Optional[str]) -> None:
+def install_with_manager(manager: str, env_name: str, repo_path: Path, rel_env_file: Optional[str], *, dry_run: bool) -> None:
     if rel_env_file == "requirements.txt":
         run_command(
             [manager, "run", "-n", env_name, "python", "-m", "pip", "install", "-r", rel_env_file],
             cwd=repo_path,
-            dry_run=False,
+            dry_run=dry_run,
         )
     elif rel_env_file in {"pyproject.toml", "setup.py"}:
         run_command(
             [manager, "run", "-n", env_name, "python", "-m", "pip", "install", "-e", "."],
             cwd=repo_path,
-            dry_run=False,
+            dry_run=dry_run,
         )
 
 
@@ -128,8 +128,7 @@ def main() -> int:
             cwd=repo_path,
             dry_run=args.dry_run,
         )
-        if not args.dry_run:
-            install_with_manager(manager, resolved_env_name, repo_path, rel_env_file)
+        install_with_manager(manager, resolved_env_name, repo_path, rel_env_file, dry_run=args.dry_run)
         print_activation_instructions(resolved_env_name, using_conda=True)
         return 0
 

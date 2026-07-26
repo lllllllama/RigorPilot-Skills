@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Regression checks for trusted vs explore training routing."""
 
 from __future__ import annotations

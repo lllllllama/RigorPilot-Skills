@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import ast
+import contextlib
 import hashlib
 import importlib.util
+import io
 import os
 import platform
 import re
@@ -21,6 +23,14 @@ UNSAFE_RUNTIME_IMPORT_FILES = {
     "main.py",
     "__main__.py",
 }
+
+
+def exec_module_silenced(spec: importlib.machinery.ModuleSpec, module: Any) -> None:
+    # Probed repo modules may print at import time; swallow that output so the
+    # orchestrator's stdout stays a clean JSON payload.
+    sink = io.StringIO()
+    with contextlib.redirect_stdout(sink), contextlib.redirect_stderr(sink):
+        spec.loader.exec_module(module)
 
 
 def safe_float(value: Any) -> float:
@@ -265,7 +275,7 @@ def import_probe_check(repo_path: Path, target_location_map: Sequence[Dict[str, 
                     blockers.append(f"import-spec:{rel}")
                     continue
                 module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
+                exec_module_silenced(spec, module)
                 passed.append(rel)
             except ModuleNotFoundError as exc:
                 blockers.append(f"missing-dependency:{rel}:{exc.name or 'unknown'}")
@@ -327,7 +337,7 @@ def constructor_probe_check(repo_path: Path, target_location_map: Sequence[Dict[
                     blockers.append(f"constructor-spec:{rel}")
                     continue
                 module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
+                exec_module_silenced(spec, module)
                 if hasattr(module, symbol_root):
                     passed.append(f"{rel}:{symbol_root}")
                 else:

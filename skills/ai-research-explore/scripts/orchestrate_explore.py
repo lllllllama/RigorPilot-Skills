@@ -277,9 +277,15 @@ def normalize_variant_spec(spec: Dict[str, Any], current_research: str) -> Dict[
         )
     normalized["current_research"] = current_research
     normalized.setdefault("baseline_ref", current_research)
-    normalized.setdefault("variant_axes", {})
-    normalized.setdefault("subset_sizes", [None])
-    normalized.setdefault("short_run_steps", [None])
+    # Explicit nulls, empty lists, and scalar axis values are all valid-looking
+    # campaign inputs; coerce them so downstream passes never see a non-list.
+    raw_axes = normalized.get("variant_axes") or {}
+    normalized["variant_axes"] = {
+        key: list(value) if isinstance(value, (list, tuple)) else [value]
+        for key, value in raw_axes.items()
+    }
+    normalized["subset_sizes"] = list(normalized.get("subset_sizes") or [None])
+    normalized["short_run_steps"] = list(normalized.get("short_run_steps") or [None])
     return normalized
 
 
@@ -492,6 +498,10 @@ def normalize_candidate_ideas(
                 "campaign_idea_id": str(item.get("id") or f"idea-{index:03d}"),
                 "source_support_hint": str(item.get("source_support_hint") or ""),
                 "feasibility_hint": str(item.get("feasibility_hint") or ""),
+                "source": str(item.get("source") or ""),
+                "source_repo": str(item.get("source_repo") or ""),
+                "source_file": str(item.get("source_file") or ""),
+                "source_symbol": str(item.get("source_symbol") or ""),
                 "selection_origin": "campaign",
                 "context_anchor": str(item.get("context_anchor") or current_research),
                 "task_family_binding": str(item.get("task_family_binding") or task_binding),
@@ -603,7 +613,7 @@ def maybe_append_cli_arg(command: str, flag: Any, value: Any) -> str:
 
 def compose_variant_command(base_command: str, variant: Dict[str, Any], spec: Dict[str, Any]) -> str:
     command = base_command.strip()
-    axis_flag_map = spec.get("axis_flag_map", {})
+    axis_flag_map = spec.get("axis_flag_map") or {}
     for key, value in sorted(variant.get("axes", {}).items()):
         flag = axis_flag_map.get(key) or normalize_flag_name(key)
         command = maybe_append_cli_arg(command, flag, value)
@@ -763,6 +773,7 @@ def execute_variant_candidates(
     current_research: str,
     timeout: int,
     max_executed_variants: int,
+    campaign: Optional[Dict[str, Any]] = None,
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     base_command = variant_matrix.get("base_command")
     variants = variant_matrix.get("variants", [])
@@ -770,7 +781,7 @@ def execute_variant_candidates(
         return [], []
 
     execution_kind = infer_execution_kind(base_command, variant_spec)
-    metric_policy = extract_metric_policy(variant_matrix, variant_spec, {"evaluation_source": {}})
+    metric_policy = extract_metric_policy(variant_matrix, variant_spec, campaign or {"evaluation_source": {}})
     executed_runs: List[Dict[str, Any]] = []
     stage_trace: List[Dict[str, Any]] = []
     for variant in variants[:max_executed_variants]:
@@ -2225,6 +2236,7 @@ def main() -> int:
             current_research=current_research,
             timeout=campaign["execution_policy"]["variant_timeout"],
             max_executed_variants=campaign["execution_policy"]["max_executed_variants"],
+            campaign=campaign,
         )
         short_run_runtime_seconds = round(time.perf_counter() - started, 3)
         helper_stage_trace.extend(execution_trace)

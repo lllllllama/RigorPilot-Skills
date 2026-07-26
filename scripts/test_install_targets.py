@@ -4,17 +4,15 @@
 from __future__ import annotations
 
 import shutil
+import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
-from install_skills import default_target, install_skills
+from install_skills import SHARED_REFERENCE_FILES, SHARED_SCRIPT_FILES, default_target, install_skills
 
 
-SHARED_REFERENCE_REFS = [
-    "../../references/agent-operating-principles.md",
-    "../../references/research-rigor-principles.md",
-    "../../references/deep-learning-experiment-principles.md",
-]
+SHARED_REFERENCE_REFS = [f"../../references/{name}" for name in SHARED_REFERENCE_FILES]
 
 
 def assert_shared_references_resolve(installed: list[Path]) -> None:
@@ -63,15 +61,38 @@ def main() -> int:
             raise AssertionError("installer did not copy the full skill set")
         if not all((path / "SKILL.md").exists() for path in installed):
             raise AssertionError("installer lost SKILL.md during copy")
-        for filename in [
-            "agent-operating-principles.md",
-            "research-rigor-principles.md",
-            "deep-learning-experiment-principles.md",
-        ]:
+        for filename in SHARED_REFERENCE_FILES:
             shared_reference = temp_root / "references" / filename
             if not shared_reference.exists():
                 raise AssertionError(f"installer did not copy the shared reference {filename}")
+        for filename in SHARED_SCRIPT_FILES:
+            shared_script = temp_root / "shared" / "scripts" / filename
+            if not shared_script.exists():
+                raise AssertionError(f"installer did not copy the shared script {filename}")
         assert_shared_references_resolve(installed)
+
+        # Installed write_outputs.py wrappers must find the shared bundle
+        # writers from the copy-mode layout (no repo checkout available).
+        writer_probe = subprocess.run(
+            [sys.executable, str(temp_root / "installed-skills" / "run-train" / "scripts" / "write_outputs.py"), "--help"],
+            capture_output=True,
+            text=True,
+        )
+        if writer_probe.returncode != 0:
+            raise AssertionError(
+                "installed write_outputs.py cannot run from the copy-mode layout: "
+                f"{writer_probe.stderr.strip()}"
+            )
+
+        # --force must replace a prior symlink-mode install without touching
+        # the repo the symlinks point at.
+        symlink_target = temp_root / "symlink-then-copy"
+        install_skills(repo_root, symlink_target, mode="symlink", force=False)
+        reinstalled = install_skills(repo_root, symlink_target, mode="copy", force=True)
+        if not reinstalled or any(path.is_symlink() for path in reinstalled):
+            raise AssertionError("--force did not replace the symlink-mode install with copies")
+        if not (repo_root / "skills" / "ai-research-explore" / "SKILL.md").exists():
+            raise AssertionError("--force reinstall touched the source repo through a symlink")
 
         print("ok: True")
         print("checks: 9")

@@ -1,4 +1,4 @@
-﻿# Example Prompt: Main Skill
+# Example Prompt: Main Skill
 
 Most users should start with `ai-research-reproduction`.
 

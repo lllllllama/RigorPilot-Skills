@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Regression checks for orchestrator dry-run planning."""
 
 from __future__ import annotations

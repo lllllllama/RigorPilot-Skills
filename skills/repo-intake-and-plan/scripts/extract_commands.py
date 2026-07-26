@@ -11,7 +11,9 @@ from typing import Dict, List, Optional
 
 
 CODE_BLOCK_RE = re.compile(r"```(?P<lang>[^\n`]*)\n(?P<body>.*?)```", re.DOTALL | re.IGNORECASE)
-INLINE_CMD_RE = re.compile(r"^\s*(?:\$|>|PS> )\s*(.+)$")
+# Bare ">" is deliberately excluded: it marks markdown blockquotes (prose),
+# not shell prompts, and matching it turns README notes into commands.
+INLINE_CMD_RE = re.compile(r"^\s*(?:\$|PS> )\s*(.+)$")
 HEADING_RE = re.compile(r"^(?P<marks>#{1,6})\s+(?P<title>.+?)\s*$")
 COMMAND_PREFIXES = (
     "python ",
@@ -37,7 +39,16 @@ COMMAND_PREFIXES = (
 def collect_headings(readme_text: str) -> List[Dict[str, object]]:
     headings: List[Dict[str, object]] = []
     offset = 0
+    inside_fence = False
     for line in readme_text.splitlines(keepends=True):
+        if line.lstrip().startswith("```"):
+            inside_fence = not inside_fence
+            offset += len(line)
+            continue
+        if inside_fence:
+            # "# comment" lines inside fenced code blocks are not headings.
+            offset += len(line)
+            continue
         matched = HEADING_RE.match(line.strip())
         if matched:
             headings.append(

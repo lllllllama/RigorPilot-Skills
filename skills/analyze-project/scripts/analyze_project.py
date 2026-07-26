@@ -131,7 +131,7 @@ def collect_candidates(repo: Path, task_family: Optional[str], tokens: List[str]
         if path.is_dir():
             continue
         rel = path.relative_to(repo).as_posix()
-        if any(part in SKIP_PARTS for part in path.parts):
+        if any(part in SKIP_PARTS for part in path.relative_to(repo).parts):
             continue
         for key, pattern in ENTRYPOINT_PATTERNS.items():
             if pattern.search(rel):
@@ -149,7 +149,7 @@ def collect_task_focus_files(repo: Path, task_family: Optional[str], tokens: Lis
     for path in repo.rglob("*"):
         if path.is_dir():
             continue
-        if any(part in SKIP_PARTS for part in path.parts):
+        if any(part in SKIP_PARTS for part in path.relative_to(repo).parts):
             continue
         rel = path.relative_to(repo).as_posix()
         score = task_score(rel, task_family, tokens)
@@ -168,7 +168,7 @@ def collect_data_interface_files(repo: Path, task_family: Optional[str]) -> List
     for path in repo.rglob("*"):
         if path.is_dir():
             continue
-        if any(part in SKIP_PARTS for part in path.parts):
+        if any(part in SKIP_PARTS for part in path.relative_to(repo).parts):
             continue
         rel = path.relative_to(repo).as_posix()
         lower = rel.lower()

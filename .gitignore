@@ -21,6 +21,12 @@ env/
 .env
 .env.*
 repro_outputs/
+train_outputs/
+analysis_outputs/
+debug_outputs/
+explore_outputs/
+sources/
+codex-*/
 tmp/
 artifacts/
 downloads/

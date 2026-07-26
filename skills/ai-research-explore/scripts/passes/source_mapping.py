@@ -313,6 +313,16 @@ def resolve_patch_class(
 ) -> Dict[str, Any]:
     change_types = {str(item.get("change_type") or "") for item in minimal_patch_plan}
     requested_patch_class = normalize_patch_class(selected_idea.get("patch_class"))
+    # A researcher-requested class the plan can satisfy must not be escalated
+    # to the transplant path (which demands a full source triple); per
+    # source-mapping-policy, config-only stays the least invasive choice.
+    if requested_patch_class and requested_patch_class in change_types:
+        return {
+            "requested_patch_class": requested_patch_class,
+            "resolved_patch_class": requested_patch_class,
+            "patch_class_source": "campaign",
+            "requires_source_triple": requested_patch_class == "module-transplant-shim",
+        }
     if "module-transplant-shim" in change_types or "transplant-blocked" in change_types:
         return {
             "requested_patch_class": requested_patch_class,

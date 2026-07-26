@@ -98,7 +98,7 @@ def collect_candidate_edit_targets(repo: Path, current_research: str, task_famil
     for path in repo.rglob("*"):
         if path.is_dir():
             continue
-        if any(part in SKIP_PARTS for part in path.parts):
+        if any(part in SKIP_PARTS for part in path.relative_to(repo).parts):
             continue
         if path.suffix.lower() not in CODE_SUFFIXES:
             continue
@@ -258,7 +258,9 @@ def build_code_tracks(spec: Dict[str, Any], targets: List[str], task_family: str
         tracks.append(f"Stay anchored to the `{task_family}` task family while planning exploratory edits.")
     tracks.append(f"Preserve `{current_research}` as the comparison anchor for all code changes.")
 
-    for axis, values in sorted(spec.get("variant_axes", {}).items()):
+    for axis, values in sorted((spec.get("variant_axes") or {}).items()):
+        if not isinstance(values, (list, tuple)):
+            values = [values]
         shown_values = ", ".join(str(value) for value in values[:3])
         tracks.append(f"Review code touchpoints for `{axis}` variation across: {shown_values}.")
 

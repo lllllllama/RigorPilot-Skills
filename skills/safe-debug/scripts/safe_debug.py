@@ -10,7 +10,7 @@ from typing import Dict, List
 
 
 CATEGORY_RULES = [
-    ("cuda_oom", ["cuda out of memory", "outofmemoryerror", "oom"]),
+    ("cuda_oom", ["cuda out of memory", "outofmemoryerror", "out of memory"]),
     ("checkpoint_mismatch", ["size mismatch", "missing key", "unexpected key", "checkpoint"]),
     ("distributed_issue", ["nccl", "distributed", "ddp", "rank"]),
     ("device_mismatch", ["expected all tensors to be on the same device", "same device"]),

@@ -158,11 +158,14 @@ def annotate_variant_scores(
 
 
 def build_raw_variants(spec: Dict[str, Any]) -> List[Dict[str, Any]]:
-    axes = spec.get("variant_axes", {})
+    axes = {
+        key: list(value) if isinstance(value, (list, tuple)) else [value]
+        for key, value in (spec.get("variant_axes") or {}).items()
+    }
     keys = sorted(axes)
     values = [axes[key] for key in keys]
-    subset_sizes = spec.get("subset_sizes", [None])
-    short_run_steps = spec.get("short_run_steps", [None])
+    subset_sizes = spec.get("subset_sizes") or [None]
+    short_run_steps = spec.get("short_run_steps") or [None]
     current_research = current_research_value(spec)
 
     subset_rank = rank_lookup(subset_sizes)

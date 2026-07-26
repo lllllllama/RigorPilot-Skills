@@ -14,6 +14,15 @@ SHARED_REFERENCE_FILES = [
     "agent-operating-principles.md",
     "research-rigor-principles.md",
     "deep-learning-experiment-principles.md",
+    "explore-variant-spec.md",
+    "research-pitfall-checklist.md",
+]
+
+# Bundle writers loaded at runtime by skills/*/scripts/write_outputs.py via
+# parents[3]/shared/scripts; they must be installed next to the skills.
+SHARED_SCRIPT_FILES = [
+    "write_run_bundle.py",
+    "write_explore_bundle.py",
 ]
 
 
@@ -47,15 +56,19 @@ def discover_skills(skills_root: Path) -> List[Path]:
 
 
 def safe_remove(path: Path, root: Path) -> None:
-    resolved_path = path.resolve()
-    resolved_root = root.resolve()
-    if resolved_root not in resolved_path.parents:
-        raise ValueError(f"Refusing to remove path outside target root: {resolved_path}")
-    if resolved_path.exists():
-        if resolved_path.is_symlink() or resolved_path.is_file():
-            resolved_path.unlink()
+    # Validate containment on the entry itself, without following a symlink:
+    # resolving first would reject (or worse, rmtree) the symlink's target
+    # instead of the entry inside the target root.
+    if path.parent.resolve() != root.resolve():
+        raise ValueError(f"Refusing to remove path outside target root: {path}")
+    if path.is_symlink():
+        path.unlink()
+        return
+    if path.exists():
+        if path.is_file():
+            path.unlink()
         else:
-            shutil.rmtree(resolved_path)
+            shutil.rmtree(path)
 
 
 def copy_skill(source: Path, target: Path) -> None:
@@ -93,6 +106,32 @@ def install_shared_references(repo_root: Path, target_root: Path, force: bool) -
     return installed
 
 
+def install_shared_scripts(repo_root: Path, target_root: Path, force: bool) -> List[Path]:
+    source_root = repo_root / "shared" / "scripts"
+    target_script_root = target_root.parent / "shared" / "scripts"
+    installed: List[Path] = []
+
+    for filename in SHARED_SCRIPT_FILES:
+        source_path = source_root / filename
+        target_path = target_script_root / filename
+        if not source_path.exists():
+            raise FileNotFoundError(f"Shared script does not exist: {source_path}")
+        if target_path.exists():
+            if target_path.read_bytes() == source_path.read_bytes():
+                installed.append(target_path)
+                continue
+            if not force:
+                raise FileExistsError(
+                    f"Shared script already exists with different content: {target_path}. "
+                    "Re-run with --force to replace it."
+                )
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_path, target_path)
+        installed.append(target_path)
+
+    return installed
+
+
 def install_skills(
     repo_root: Path,
     target_root: Path,
@@ -103,6 +142,7 @@ def install_skills(
     skill_dirs = discover_skills(skills_root)
     target_root.mkdir(parents=True, exist_ok=True)
     install_shared_references(repo_root, target_root, force)
+    install_shared_scripts(repo_root, target_root, force)
 
     installed: List[Path] = []
     for skill_dir in skill_dirs:
