@@ -4,7 +4,7 @@
 
 🟢 `success` · `evaluation` · `trusted` · [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)
 
-章节覆盖：🟢 1 · 🟣 1 · 🔵 2 · ⚪ 10（共 14 节）
+章节覆盖：🟢 1 · 🟣 1 · 🔵 2 · ⚪ 10（共 14 节） · 复现得分 0.571
 
 <sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 / 资产缺失 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>
 
@@ -87,7 +87,7 @@ pip install -r requirements.txt
 > `conda activate miniseg`
 > `pip install torch==2.3.0 torchvision==0.18.0 --index-url https://download.pytorch.org/whl/cu121`
 > … +1
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Data Preparation
 
@@ -115,7 +115,7 @@ data/
 > 🔵 **已纳入 setup 计划 · 未直接执行**
 > `python tools/prepare_ade20k.py --root data/ade20k`
 > `python tools/prepare_cityscapes.py --root data/cityscapes`
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Evaluation
 
@@ -136,7 +136,7 @@ python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkp
 > 🟢 **执行成功（低风险）**
 > 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
 > 观测指标：`mIoU=41.18` · `aAcc=79.85`
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: result-match</sub>
 
 ## Training
 
@@ -157,7 +157,7 @@ python tools/train.py --config configs/miniseg_b0_ade20k.yaml --debug
 > `torchrun --nproc_per_node=8 tools/train.py --config configs/miniseg_b0_ade20k.yaml`
 > `python tools/train.py --config configs/miniseg_b0_ade20k.yaml --debug`
 > trusted lane 不会自行发起训练；获得授权后也只先做启动验证。
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Project Structure
 

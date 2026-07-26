@@ -4,7 +4,7 @@
 
 🟡 `partial` · `evaluation` · `trusted` · [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)
 
-章节覆盖：🟡 2 · 🟣 1 · 🔵 1 · ⚪ 10（共 14 节）
+章节覆盖：🟡 2 · 🟣 1 · 🔵 1 · ⚪ 10（共 14 节） · 复现得分 0.406
 
 <sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 / 资产缺失 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>
 
@@ -87,7 +87,7 @@ pip install -r requirements.txt
 > `conda activate miniseg`
 > `pip install torch==2.3.0 torchvision==0.18.0 --index-url https://download.pytorch.org/whl/cu121`
 > … +1
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Data Preparation
 
@@ -116,7 +116,7 @@ data/
 > `python tools/prepare_ade20k.py --root data/ade20k`
 > `python tools/prepare_cityscapes.py --root data/cityscapes`
 > 本地未检测到数据集；需先完成本节准备，完整评测才可复现。
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Evaluation
 
@@ -139,7 +139,7 @@ python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkp
 > 阻塞项：选定的文档命令以退出码 1 结束。
 > 错误摘录：`FileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth`
 > 建议下一步：先准备环境与资源，再重试该文档命令。
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: execution</sub>
 
 ## Training
 
@@ -160,7 +160,7 @@ python tools/train.py --config configs/miniseg_b0_ade20k.yaml --debug
 > `torchrun --nproc_per_node=8 tools/train.py --config configs/miniseg_b0_ade20k.yaml`
 > `python tools/train.py --config configs/miniseg_b0_ade20k.yaml --debug`
 > trusted lane 不会自行发起训练；获得授权后也只先做启动验证。
-> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>证据: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Project Structure
 

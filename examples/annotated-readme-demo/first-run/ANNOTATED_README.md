@@ -4,7 +4,7 @@
 
 🟡 `partial` · `evaluation` · `trusted` · [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)
 
-Section coverage: 🟡 2 · 🟣 1 · 🔵 1 · ⚪ 10 (14 sections)
+Section coverage: 🟡 2 · 🟣 1 · 🔵 1 · ⚪ 10 (14 sections) · score 0.406
 
 <sub>🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial / assets missing · 🔴 blocked · 🟣 decision needed — original content unchanged; its relative links resolve against the repo root.</sub>
 
@@ -87,7 +87,7 @@ pip install -r requirements.txt
 > `conda activate miniseg`
 > `pip install torch==2.3.0 torchvision==0.18.0 --index-url https://download.pytorch.org/whl/cu121`
 > … +1
-> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Data Preparation
 
@@ -116,7 +116,7 @@ data/
 > `python tools/prepare_ade20k.py --root data/ade20k`
 > `python tools/prepare_cityscapes.py --root data/cityscapes`
 > No local dataset was detected; complete this section before a full evaluation is reproducible.
-> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Evaluation
 
@@ -139,7 +139,7 @@ python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkp
 > Blocker: Selected documented command exited with code 1.
 > Error excerpt: `FileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth`
 > Suggested next: Prepare environment and assets, then retry the documented command.
-> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: execution</sub>
 
 ## Training
 
@@ -160,7 +160,7 @@ python tools/train.py --config configs/miniseg_b0_ade20k.yaml --debug
 > `torchrun --nproc_per_node=8 tools/train.py --config configs/miniseg_b0_ade20k.yaml`
 > `python tools/train.py --config configs/miniseg_b0_ade20k.yaml --debug`
 > The trusted lane never launches training on its own; it starts with startup verification only after you approve.
-> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)</sub>
+> <sub>Evidence: [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json) · tier: code-development</sub>
 
 ## Project Structure
 

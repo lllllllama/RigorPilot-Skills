@@ -43,6 +43,12 @@ EVIDENCE_LINKS = [
 METRIC_NOISE_TOKENS = {"loss", "lr", "time", "mem", "epoch", "step", "iter"}
 DATA_SECTION_TOKENS = ("data", "dataset", "数据")
 
+# Evidence tiers follow PaperBench's grading ladder: recognizing/planning work
+# (code-development) < actually running it (execution) < comparable observed
+# results (result-match). Weights and earned fractions feed a 0-1
+# reproduction score over the command-bearing sections.
+STYLE_EARNED = {"success": 1.0, "partial": 0.5, "blocked": 0.0, "decision": 0.25, "info": 0.25}
+
 
 def locale(user_language: str) -> str:
     return "zh" if str(user_language or "").strip().lower().startswith("zh") else "en"
@@ -192,7 +198,9 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
             "启动已验证 · 更完整训练需要你显式授权",
         )
 
-    return {"style": style, "headline": headline, "lines": lines}
+    metrics_present = bool(observed_metric_parts(context)) and status == "success"
+    tier = "result-match" if metrics_present else ("execution" if status in {"success", "partial", "blocked"} else "code-development")
+    return {"style": style, "headline": headline, "lines": lines, "tier": tier, "weight": 3}
 
 
 def training_policy_annotation(matched: List[Dict[str, Any]], user_language: str) -> Dict[str, Any]:
@@ -211,6 +219,8 @@ def training_policy_annotation(matched: List[Dict[str, Any]], user_language: str
                 "trusted lane 不会自行发起训练；获得授权后也只先做启动验证。",
             )
         ],
+        "tier": "code-development",
+        "weight": 2,
     }
 
 
@@ -227,6 +237,8 @@ def data_readiness_annotation(matched: List[Dict[str, Any]], user_language: str)
                 "本地未检测到数据集；需先完成本节准备，完整评测才可复现。",
             )
         ],
+        "tier": "code-development",
+        "weight": 2,
     }
 
 
@@ -266,6 +278,8 @@ def classify_block(block: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, 
                 "style": "info",
                 "headline": text(user_language, "Folded into the setup plan · not executed directly", "已纳入 setup 计划 · 未直接执行"),
                 "lines": command_list_lines(matched),
+                "tier": "code-development",
+                "weight": 1,
             }
         return {
             "style": "info",
@@ -275,12 +289,16 @@ def classify_block(block: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, 
                 "已识别命令 · 未执行（保守策略仅执行选定目标）",
             ),
             "lines": command_list_lines(matched),
+            "tier": "code-development",
+            "weight": 2,
         }
 
     return {
         "style": "readonly",
         "headline": text(user_language, "Read only", "仅阅读"),
         "lines": [],
+        "tier": None,
+        "weight": 0,
     }
 
 
@@ -292,24 +310,29 @@ def render_annotation(annotation: Dict[str, Any], user_language: str, selected_g
     lines = [f"> [!{admonition}]", f"> {dot} **{annotation['headline']}**"]
     for detail in annotation["lines"]:
         lines.append(f"> {detail}")
-    lines.append(f"> <sub>{text(user_language, 'Evidence', '证据')}: {evidence_links(selected_goal)}</sub>")
+    tier_chip = f" · tier: {annotation['tier']}" if annotation.get("tier") else ""
+    lines.append(f"> <sub>{text(user_language, 'Evidence', '证据')}: {evidence_links(selected_goal)}{tier_chip}</sub>")
     return lines
 
 
 COVERAGE_ORDER = ["success", "partial", "blocked", "decision", "info", "readonly"]
 
 
-def coverage_line(coverage: Dict[str, int], user_language: str) -> str:
+def coverage_line(coverage: Dict[str, Any], user_language: str) -> str:
     chips = [
         f"{STYLE_BADGES[style][1]} {coverage[style]}"
         for style in COVERAGE_ORDER
         if coverage.get(style)
     ]
     total = coverage.get("total_sections", 0)
+    score = coverage.get("reproduction_score")
+    score_chip = ""
+    if score is not None:
+        score_chip = text(user_language, f" · score {score}", f" · 复现得分 {score}")
     return text(
         user_language,
-        f"Section coverage: {' · '.join(chips)} ({total} sections)",
-        f"章节覆盖：{' · '.join(chips)}（共 {total} 节）",
+        f"Section coverage: {' · '.join(chips)} ({total} sections){score_chip}",
+        f"章节覆盖：{' · '.join(chips)}（共 {total} 节）{score_chip}",
     )
 
 
@@ -338,19 +361,30 @@ def render_header(context: Dict[str, Any], coverage: Dict[str, int]) -> List[str
     ]
 
 
-def build_annotated_readme(readme_text: str, context: Dict[str, Any]) -> Tuple[str, Dict[str, int]]:
+def build_annotated_readme(readme_text: str, context: Dict[str, Any]) -> Tuple[str, Dict[str, Any]]:
     user_language = str(context.get("user_language") or "en")
     selected_goal = str(context.get("selected_goal") or "")
     annotated_blocks: List[Tuple[List[str], Dict[str, Any]]] = []
-    coverage: Dict[str, int] = {style: 0 for style in COVERAGE_ORDER}
+    coverage: Dict[str, Any] = {style: 0 for style in COVERAGE_ORDER}
+    tiers: Dict[str, int] = {}
+    weight_total = 0.0
+    weight_earned = 0.0
     for block in split_readme_blocks(readme_text):
         block_lines = list(block["lines"])
         while block_lines and not block_lines[-1].strip():
             block_lines.pop()
         annotation = classify_block(block, context)
         coverage[annotation["style"]] += 1
+        tier = annotation.get("tier")
+        if tier:
+            tiers[tier] = tiers.get(tier, 0) + 1
+        weight = float(annotation.get("weight") or 0)
+        weight_total += weight
+        weight_earned += weight * STYLE_EARNED.get(annotation["style"], 0.0)
         annotated_blocks.append((block_lines, annotation))
     coverage["total_sections"] = len(annotated_blocks)
+    coverage["tiers"] = tiers
+    coverage["reproduction_score"] = round(weight_earned / weight_total, 3) if weight_total else None
 
     output: List[str] = render_header(context, coverage)
     for block_lines, annotation in annotated_blocks:

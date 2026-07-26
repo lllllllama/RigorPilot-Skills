@@ -69,6 +69,19 @@ def main() -> int:
         checks += 1
         os.environ.pop("RIGORPILOT_LESSONS", None)
 
+        if not store.touch_lesson("Prefer zh reports"):
+            raise AssertionError("touch did not find the lesson by summary")
+        touched = [i for i in store.load_lessons() if i.get("summary") == "Prefer zh reports"][0]
+        if touched.get("use_count") != 1 or not touched.get("last_used"):
+            raise AssertionError("touch did not bump use_count/last_used")
+        checks += 1
+
+        import time as _time
+        removed = store.prune(now=int(_time.time()) + 400 * 86400)
+        if removed < 1:
+            raise AssertionError("prune did not drop stale lessons after the window")
+        checks += 1
+
         cli = subprocess.run(
             [
                 sys.executable,

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-26T09:39:09.382450+00:00",
+  "generated_at": "2026-07-26T18:21:03.295348+00:00",
   "user_language": "zh",
   "target_repo": "/home/user/demo/miniseg",
   "readme_first": true,
@@ -65,7 +65,12 @@
     "decision": 1,
     "info": 2,
     "readonly": 10,
-    "total_sections": 14
+    "total_sections": 14,
+    "tiers": {
+      "code-development": 3,
+      "result-match": 1
+    },
+    "reproduction_score": 0.571
   },
   "outputs": {
     "summary": "repro_outputs/SUMMARY.md",

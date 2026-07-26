@@ -77,6 +77,29 @@ def main() -> int:
         if selected != case["expected_command"]:
             failures.append(f"{case['id']}: expected `{case['expected_command']}`, got `{selected}`")
 
+    # Real-repo patterns (nanoGPT, dinov2): entrypoint-first classification and
+    # backslash-continuation joining.
+    nanogpt_readme = (
+        "# Demo\n\n## Quick start\n\n```bash\n"
+        "python train.py config/train_shakespeare_char.py --device=cpu --eval_iters=20\n"
+        "```\n"
+    )
+    extracted = run_extract(extract_script, nanogpt_readme)
+    if not extracted["commands"] or extracted["commands"][0]["category"] != "training":
+        failures.append("nanogpt-pattern: train.py with --eval_iters must classify as training, not evaluation")
+
+    dinov2_readme = (
+        "# Demo\n\n## Evaluation\n\n```bash\n"
+        "python dinov2/run/eval/linear.py \\\n"
+        "    --config-file dinov2/configs/eval/vitg14_pretrain.yaml \\\n"
+        "    --pretrained-weights checkpoints/dinov2_vitg14_pretrain.pth\n"
+        "```\n"
+    )
+    extracted = run_extract(extract_script, dinov2_readme)
+    joined = extracted["commands"][0]["command"] if extracted["commands"] else ""
+    if "--config-file" not in joined or "--pretrained-weights" not in joined or joined.endswith("\\"):
+        failures.append("dinov2-pattern: backslash-continued command was not joined into one runnable command")
+
     print(f"ok: {not failures}")
     print(f"cases: {len(payload['cases'])}")
     print(f"failures: {len(failures)}")

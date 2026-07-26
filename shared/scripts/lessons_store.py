@@ -18,12 +18,24 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 VALID_KINDS = {"failure-fix", "user-correction", "preference", "generalization"}
+# Best-effort blocklist: keyword shapes plus common bare-credential formats.
+# This is a guardrail, not a guarantee — callers still must not pass secrets.
 SECRET_RE = re.compile(
-    r"(api[_-]?key|secret|token|password|passwd|authorization|bearer\s+\S|-----BEGIN)",
+    r"(api[_-]?key|secret|token|password|passwd|authorization|bearer\s+\S|-----BEGIN"
+    r"|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9_-]{16,}"
+    r"|xox[a-z]-[A-Za-z0-9-]{10,}|AIza[0-9A-Za-z_-]{30,})",
     re.IGNORECASE,
 )
 MAX_FIELD_CHARS = 300
 SUMMARY_LIMIT_PER_KIND = 12
+# Staleness windows for prune, in days; doubled once a lesson proves useful
+# (use_count >= 3), mirroring usage-driven curation in self-improving skills.
+PRUNE_WINDOW_DAYS = {
+    "failure-fix": 90,
+    "user-correction": 180,
+    "preference": 365,
+    "generalization": 365,
+}
 
 
 def lessons_home() -> Path:
@@ -117,6 +129,50 @@ def record_lesson(
     return path
 
 
+def rewrite_store(lessons: List[Dict[str, Any]]) -> Path:
+    path = lessons_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "".join(json.dumps(item, ensure_ascii=False) + "\n" for item in lessons),
+        encoding="utf-8",
+    )
+    return path
+
+
+def touch_lesson(summary: str) -> bool:
+    """Mark a lesson as used: bump use_count, refresh last_used."""
+    lessons = load_lessons()
+    hit = False
+    now = int(time.time())
+    for item in reversed(lessons):
+        if item.get("summary") == summary:
+            item["use_count"] = int(item.get("use_count", 0)) + 1
+            item["last_used"] = now
+            hit = True
+            break
+    if hit:
+        rewrite_store(lessons)
+    return hit
+
+
+def prune(now: Optional[int] = None) -> int:
+    """Drop stale lessons per kind-specific windows; useful lessons live longer."""
+    lessons = load_lessons()
+    current = now if now is not None else int(time.time())
+    kept: List[Dict[str, Any]] = []
+    for item in lessons:
+        window_days = PRUNE_WINDOW_DAYS.get(str(item.get("kind")), 180)
+        if int(item.get("use_count", 0)) >= 3:
+            window_days *= 2
+        reference = int(item.get("last_used") or item.get("ts") or current)
+        if (current - reference) <= window_days * 86400:
+            kept.append(item)
+    removed = len(lessons) - len(kept)
+    if removed:
+        rewrite_store(kept)
+    return removed
+
+
 def summarize(path: Optional[Path] = None) -> Path:
     lessons = load_lessons(path)
     lines = [
@@ -164,8 +220,19 @@ def main() -> int:
 
     sub.add_parser("summarize", help="Distill the store into PERSONAL_RIGOR.md.")
     sub.add_parser("list", help="Print stored lessons as JSON lines.")
+    touch = sub.add_parser("touch", help="Mark a lesson as used (bumps use_count).")
+    touch.add_argument("--summary", required=True)
+    sub.add_parser("prune", help="Drop stale lessons per kind-specific windows.")
 
     args = parser.parse_args()
+    if args.command == "touch":
+        hit = touch_lesson(args.summary)
+        print(json.dumps({"touched": hit}, ensure_ascii=False))
+        return 0
+    if args.command == "prune":
+        removed = prune()
+        print(json.dumps({"pruned": removed}, ensure_ascii=False))
+        return 0
     if args.command == "record":
         fingerprint = repo_fingerprint(Path(args.repo).resolve()) if args.repo else ""
         path = record_lesson(

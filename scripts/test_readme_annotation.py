@@ -148,6 +148,15 @@ def main() -> int:
         if "Section coverage:" not in annotated or "🟢 1" not in annotated:
             raise AssertionError("header lost the section-coverage scoreboard")
         checks += 1
+        if "score 0." not in annotated:
+            raise AssertionError("header lost the weighted reproduction score")
+        checks += 1
+        if "tier: result-match" not in annotated:
+            raise AssertionError("successful run with observed metrics lost its result-match evidence tier")
+        checks += 1
+        if "tier: code-development" not in annotated:
+            raise AssertionError("planned-only sections lost their code-development evidence tier")
+        checks += 1
         fence_block = annotated.split("## Evaluation", 1)[1].split("```bash", 1)[1].split("```", 1)[0]
         if "[!" in fence_block:
             raise AssertionError("annotation leaked inside a fenced code block")

@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+### Added (from studying real GitHub projects)
+
+- Extractor robustness proven against real READMEs (dinov2, nanoGPT):
+  backslash-continued commands are joined into single runnable commands, and
+  classification is entrypoint-first with word-boundary keywords — a
+  `train.py` command with `--eval_iters` no longer classifies as evaluation
+  (which would have bypassed the training-authorization gate).
+- Research thinking loop upgraded with AIDE / AI-Scientist-v2 mechanics:
+  draft/debug/improve iteration types (debug capped at 3), a
+  no-metric-means-buggy rule, replication-before-promotion (3 seeds), typed
+  stop reasons, and a defaults table.
+- Annotated README now grades evidence PaperBench-style: per-annotation
+  evidence tiers (code-development / execution / result-match) and a
+  weighted 0-1 reproduction score in the header and
+  `readme_section_coverage`.
+- Lessons store lifecycle: `touch` (usage tracking) and `prune`
+  (kind-specific staleness windows, doubled for proven-useful lessons),
+  broader credential-shape blocklist, and policy additions (what NOT to
+  record; human-reviewed promotion flow).
+
 ### Added
 
 - `references/research-thinking-loop.md`: the greedy, evidence-anchored
