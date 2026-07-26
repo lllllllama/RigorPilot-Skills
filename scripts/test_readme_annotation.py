@@ -140,7 +140,7 @@ def main() -> int:
         )
         zh_annotated = zh_output_path.read_text(encoding="utf-8")
         assert_original_preserved(zh_annotated)
-        if "已执行且成功" not in zh_annotated:
+        if "执行成功" not in zh_annotated:
             raise AssertionError("zh rendering lost the localized success annotation")
         checks += 2
 

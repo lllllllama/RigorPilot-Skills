@@ -87,35 +87,28 @@ def block_commands(block: Dict[str, Any], commands: List[Dict[str, Any]]) -> Lis
     return matched
 
 
-def evidence_line(user_language: str, selected_goal: str) -> str:
+def evidence_links(selected_goal: str) -> str:
     links = " · ".join(f"[{label}]({target})" for label, target in EVIDENCE_LINKS)
     if selected_goal == "training":
         links += " · [train status](../train_outputs/status.json)"
-    return text(user_language, f"Evidence: {links}", f"证据：{links}")
+    return links
 
 
 def selected_command_annotation(context: Dict[str, Any], user_language: str) -> Dict[str, Any]:
     status = str(context.get("status") or "not_run")
     command = str(context.get("documented_command") or "")
     lines: List[str] = []
+    parts: List[str] = [f"`{command}`"]
 
     if status == "success":
         style = "success"
-        headline = text(user_language, "Executed successfully · low risk", "已执行且成功 · 低风险")
-        lines.append(text(user_language, f"Ran `{command}` to completion.", f"已完整执行 `{command}`。"))
+        headline = text(user_language, "Executed successfully", "执行成功")
         best_metric = context.get("best_metric")
         if isinstance(best_metric, dict) and best_metric.get("name") is not None:
-            lines.append(
-                text(
-                    user_language,
-                    f"Observed metric: `{best_metric['name']}={best_metric['value']}`.",
-                    f"观测指标：`{best_metric['name']}={best_metric['value']}`。",
-                )
-            )
+            parts.append(f"`{best_metric['name']}={best_metric['value']}`")
     elif status == "partial":
         style = "partial"
-        headline = text(user_language, "Partially completed · review needed", "部分完成 · 需检查")
-        lines.append(text(user_language, f"Started `{command}` but it did not finish cleanly.", f"已启动 `{command}`，但未完整成功结束。"))
+        headline = text(user_language, "Partial", "部分完成")
         lines.append(
             text(
                 user_language,
@@ -125,8 +118,7 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
         )
     elif status == "blocked":
         style = "blocked"
-        headline = text(user_language, "Blocked · researcher attention required", "被阻塞 · 需要研究者关注")
-        lines.append(text(user_language, f"Could not launch `{command}`.", f"无法启动 `{command}`。"))
+        headline = text(user_language, "Blocked", "被阻塞")
         lines.append(
             text(
                 user_language,
@@ -136,31 +128,17 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
         )
     else:
         style = "info"
-        headline = text(user_language, "Selected as the reproduction target · not executed", "已选为复现目标 · 未执行")
-        lines.append(
-            text(
-                user_language,
-                f"`{command}` was selected as the smallest trustworthy target; execution was not requested.",
-                f"`{command}` 已被选为最小可信目标；本次未请求执行。",
-            )
-        )
+        headline = text(user_language, "Selected target · not executed", "已选为目标 · 未执行")
 
     if context.get("requires_full_training_confirmation"):
         style = "decision"
-        headline = text(user_language, "Startup verified · fuller training needs your approval", "启动已验证 · 更完整训练需要你确认")
-        lines.append(
-            text(
-                user_language,
-                "Trusted lane stops at startup verification; review the evidence and explicitly authorize fuller training.",
-                "trusted lane 在启动验证后停止；请先检查证据，再显式授权更完整的训练。",
-            )
-        )
+        headline = text(user_language, "Startup verified · awaiting your approval for fuller training", "启动已验证 · 等你授权更完整训练")
 
     completed_steps = context.get("completed_steps")
     if completed_steps:
-        lines.append(text(user_language, f"Completed steps observed: {completed_steps}.", f"已观测到完成步数：{completed_steps}。"))
+        parts.append(text(user_language, f"{completed_steps} steps", f"{completed_steps} 步"))
 
-    return {"style": style, "headline": headline, "lines": lines}
+    return {"style": style, "headline": headline, "parts": parts, "lines": lines}
 
 
 def classify_block(block: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
@@ -186,69 +164,59 @@ def classify_block(block: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, 
         if len(setup_like) == len(matched):
             return {
                 "style": "info",
-                "headline": text(user_language, "Folded into the setup plan · not executed directly", "已纳入 setup 计划 · 未直接执行"),
-                "lines": [
-                    text(
-                        user_language,
-                        f"{len(matched)} command(s) recorded as environment/asset preparation; see the setup plan in the evidence bundle.",
-                        f"{len(matched)} 条命令已记录为环境/资源准备；详见证据包中的 setup 计划。",
-                    )
+                "headline": text(user_language, "Folded into the setup plan", "已纳入 setup 计划"),
+                "parts": [
+                    text(user_language, f"{len(matched)} command(s), not executed directly", f"{len(matched)} 条命令，未直接执行")
                 ],
+                "lines": [],
             }
         return {
             "style": "info",
             "headline": text(user_language, "Commands recognized · not executed", "已识别命令 · 未执行"),
-            "lines": [
-                text(
-                    user_language,
-                    f"{len(matched)} command(s) recognized here; the conservative policy executes only the selected target.",
-                    f"此处识别到 {len(matched)} 条命令；保守策略只执行选定目标。",
-                )
+            "parts": [
+                text(user_language, f"{len(matched)} command(s); only the selected target runs", f"{len(matched)} 条命令；仅执行选定目标")
             ],
+            "lines": [],
         }
 
     return {
         "style": "readonly",
-        "headline": text(user_language, "Read only · no action taken", "仅阅读 · 无执行动作"),
+        "headline": text(user_language, "Read only", "仅阅读"),
+        "parts": [],
         "lines": [],
     }
 
 
-def render_annotation(annotation: Dict[str, Any], user_language: str, selected_goal: str) -> List[str]:
+def render_annotation(annotation: Dict[str, Any]) -> List[str]:
     admonition, dot = STYLE_BADGES[annotation["style"]]
-    lines = [f"> [!{admonition}]", f"> {dot} **RigorPilot · {annotation['headline']}**"]
+    if annotation["style"] == "readonly":
+        # Keep prose-only sections almost invisible: one small dim line.
+        return [f"<sub>{dot} {annotation['headline']}</sub>"]
+    summary = f"> {dot} **{annotation['headline']}**"
+    if annotation.get("parts"):
+        summary += " · " + " · ".join(annotation["parts"])
+    lines = [f"> [!{admonition}]", summary]
     for detail in annotation["lines"]:
         lines.append(f"> {detail}")
-    if annotation["style"] != "readonly":
-        lines.append(f"> {evidence_line(user_language, selected_goal)}")
     return lines
 
 
 def render_header(context: Dict[str, Any]) -> List[str]:
     user_language = str(context.get("user_language") or "en")
     status = str(context.get("status") or "not_run")
+    selected_goal = str(context.get("selected_goal") or "")
     status_style = {"success": "🟢", "partial": "🟡", "blocked": "🔴"}.get(status, "🔵")
     return [
         "<!-- RigorPilot annotated README: original content preserved verbatim; annotations added below each section. -->",
         "",
-        text(user_language, "# RigorPilot · Annotated README", "# RigorPilot · 批注版 README"),
+        text(user_language, "# 📄 README · RigorPilot annotations", "# 📄 README · RigorPilot 复现批注"),
+        "",
+        f"{status_style} `{status}` · `{selected_goal}` · `{context.get('lane')}` · {evidence_links(selected_goal)}",
         "",
         text(
             user_language,
-            f"{status_style} Overall status: `{status}` · Selected goal: `{context.get('selected_goal')}` · Lane: `{context.get('lane')}`",
-            f"{status_style} 总体状态：`{status}` · 选定目标：`{context.get('selected_goal')}` · Lane：`{context.get('lane')}`",
-        ),
-        "",
-        text(
-            user_language,
-            "Legend: 🟢 executed successfully · 🔵 informational / not executed · ⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision required",
-            "图例：🟢 已执行成功 · 🔵 信息性 / 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 被阻塞 · 🟣 需要决策",
-        ),
-        "",
-        text(
-            user_language,
-            f"{evidence_line(user_language, str(context.get('selected_goal') or ''))} · Relative links below resolve against the target repo root.",
-            f"{evidence_line(user_language, str(context.get('selected_goal') or ''))} · 下方原文中的相对链接以目标仓库根目录为基准。",
+            "<sub>🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision needed — original content unchanged; its relative links resolve against the repo root.</sub>",
+            "<sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>",
         ),
         "",
         "---",
@@ -257,14 +225,15 @@ def render_header(context: Dict[str, Any]) -> List[str]:
 
 
 def render_annotated_readme(readme_text: str, context: Dict[str, Any]) -> str:
-    user_language = str(context.get("user_language") or "en")
-    selected_goal = str(context.get("selected_goal") or "")
     output: List[str] = render_header(context)
     for block in split_readme_blocks(readme_text):
-        output.extend(block["lines"])
+        block_lines = list(block["lines"])
+        while block_lines and not block_lines[-1].strip():
+            block_lines.pop()
+        output.extend(block_lines)
         annotation = classify_block(block, context)
         output.append("")
-        output.extend(render_annotation(annotation, user_language, selected_goal))
+        output.extend(render_annotation(annotation))
         output.append("")
     return "\n".join(output).rstrip() + "\n"
 

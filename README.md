@@ -165,19 +165,18 @@ python eval.py --config configs/demo.yaml
 ````
 
 > [!TIP]
-> 🟢 **RigorPilot · Executed successfully · low risk**
-> Ran `python eval.py --config configs/demo.yaml` to completion. Observed metric: `miou=79.4`.
-> Evidence: `SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`
+> 🟢 **Executed successfully** · `python eval.py --config configs/demo.yaml` · `miou=79.4`
 
-Sections the run only planned or skipped stay visible at the same glance:
+Sections the run only planned or skipped stay visible at the same glance —
+prose-only sections get a single dim line instead of a box:
 
 > [!NOTE]
-> 🔵 **RigorPilot · Folded into the setup plan · not executed directly**
-> 2 command(s) recorded as environment/asset preparation; see the setup plan in the evidence bundle.
+> 🔵 **Folded into the setup plan** · 2 command(s), not executed directly
 
 > [!IMPORTANT]
-> 🟣 **RigorPilot · Startup verified · fuller training needs your approval**
-> Trusted lane stops at startup verification; review the evidence and explicitly authorize fuller training.
+> 🟣 **Startup verified · awaiting your approval for fuller training** · `python train.py --config configs/demo.yaml`
+
+<sub>⚪ Read only</sub>
 
 ## 🧠 Rigor Explore Flow
 

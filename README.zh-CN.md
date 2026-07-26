@@ -152,19 +152,17 @@ python eval.py --config configs/demo.yaml
 ````
 
 > [!TIP]
-> 🟢 **RigorPilot · 已执行且成功 · 低风险**
-> 已完整执行 `python eval.py --config configs/demo.yaml`。观测指标：`miou=79.4`。
-> 证据：`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`
+> 🟢 **执行成功** · `python eval.py --config configs/demo.yaml` · `miou=79.4`
 
-只做了规划或跳过的章节同样一目了然：
+只做了规划或跳过的章节同样一目了然——纯文字章节只留一行浅色小字，不占版面：
 
 > [!NOTE]
-> 🔵 **RigorPilot · 已纳入 setup 计划 · 未直接执行**
-> 2 条命令已记录为环境/资源准备；详见证据包中的 setup 计划。
+> 🔵 **已纳入 setup 计划** · 2 条命令，未直接执行
 
 > [!IMPORTANT]
-> 🟣 **RigorPilot · 启动已验证 · 更完整训练需要你确认**
-> trusted lane 在启动验证后停止；请先检查证据，再显式授权更完整的训练。
+> 🟣 **启动已验证 · 等你授权更完整训练** · `python train.py --config configs/demo.yaml`
+
+<sub>⚪ 仅阅读</sub>
 
 ## 🧠 Rigor Explore 流程
 
