@@ -178,6 +178,14 @@ prose-only sections get a single dim line instead of a box:
 
 <sub>⚪ Read only</sub>
 
+**[Browse a full real example →](examples/annotated-readme-demo/ANNOTATED_README.md)** — generated
+by actually running `ai-research-reproduction` on a realistic segmentation-repo
+README (model zoo, installation, data prep, evaluation, training, citation).
+The evidence links inside it ([SUMMARY](examples/annotated-readme-demo/SUMMARY.md),
+[COMMANDS](examples/annotated-readme-demo/COMMANDS.md),
+[LOG](examples/annotated-readme-demo/LOG.md),
+[status.json](examples/annotated-readme-demo/status.json)) are the real generated bundle.
+
 ## 🧠 Rigor Explore Flow
 
 `ai-research-explore` fits cases where the researcher has already frozen the

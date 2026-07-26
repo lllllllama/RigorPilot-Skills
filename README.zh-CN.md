@@ -164,6 +164,14 @@ python eval.py --config configs/demo.yaml
 
 <sub>⚪ 仅阅读</sub>
 
+**[查看完整真实示例 →](examples/annotated-readme-demo-zh/ANNOTATED_README.md)**——在一个
+仿真实语义分割仓库 README（Model Zoo、安装、数据准备、评测、训练、引用）上真实运行
+`ai-research-reproduction` 生成。示例中的证据链接
+（[SUMMARY](examples/annotated-readme-demo-zh/SUMMARY.md)、
+[COMMANDS](examples/annotated-readme-demo-zh/COMMANDS.md)、
+[LOG](examples/annotated-readme-demo-zh/LOG.md)、
+[status.json](examples/annotated-readme-demo-zh/status.json)）都是真实生成的证据包文件。
+
 ## 🧠 Rigor Explore 流程
 
 `ai-research-explore` 适合这样的场景：研究者已经冻结 task family、dataset、evaluation method 和 SOTA 参考，并明确授权 AI 在 `current_research` 上做受约束、可审计、candidate-only 的探索。

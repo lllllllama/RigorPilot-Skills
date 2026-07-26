@@ -103,9 +103,16 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
     if status == "success":
         style = "success"
         headline = text(user_language, "Executed successfully", "执行成功")
+        observed = context.get("observed_metrics") or {}
+        shown = [
+            f"`{name}={value}`"
+            for name, value in list(observed.items())[:3]
+            if not any(token in name.lower() for token in {"loss", "lr", "time", "mem", "epoch", "step", "iter"})
+        ]
         best_metric = context.get("best_metric")
-        if isinstance(best_metric, dict) and best_metric.get("name") is not None:
-            parts.append(f"`{best_metric['name']}={best_metric['value']}`")
+        if not shown and isinstance(best_metric, dict) and best_metric.get("name") is not None:
+            shown = [f"`{best_metric['name']}={best_metric['value']}`"]
+        parts.extend(shown[:3])
     elif status == "partial":
         style = "partial"
         headline = text(user_language, "Partial", "部分完成")

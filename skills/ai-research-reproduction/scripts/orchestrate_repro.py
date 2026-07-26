@@ -195,6 +195,24 @@ def plan_skill_chain(selected_goal: str, include_analysis_pass: bool, include_pa
     return chain
 
 
+METRIC_RE = re.compile(
+    r"\b([A-Za-z][A-Za-z0-9_.-]{1,31})\s*[:=]\s*(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)"
+)
+METRIC_NOISE_TOKENS = {"loss", "lr", "time", "mem", "epoch", "step", "iter", "iteration"}
+
+
+def parse_observed_metrics(output_text: str) -> Dict[str, Any]:
+    observed: Dict[str, float] = {}
+    for match in METRIC_RE.finditer(output_text):
+        observed[match.group(1)] = float(match.group(2))
+    priority = [name for name in observed if not any(token in name.lower() for token in METRIC_NOISE_TOKENS)]
+    chosen = priority[-1] if priority else (list(observed)[-1] if observed else None)
+    return {
+        "observed_metrics": observed,
+        "best_metric": {"name": chosen, "value": observed[chosen]} if chosen else None,
+    }
+
+
 def maybe_run_command(repo_path: Path, command: str, timeout: int, user_language: str) -> Dict[str, Any]:
     if not command:
         return {
@@ -246,18 +264,22 @@ def maybe_run_command(repo_path: Path, command: str, timeout: int, user_language
     if result.stderr.strip():
         combined.append("STDERR:\n" + result.stderr.strip())
 
+    metric_data = parse_observed_metrics("\n".join([result.stdout or "", result.stderr or ""]))
+
     if result.returncode == 0:
         return {
             "status": "success",
             "documented_command_status": "success",
             "execution_log": combined,
             "main_blocker": text(user_language, "None.", "无。"),
+            **metric_data,
         }
 
     return {
         "status": "partial",
         "documented_command_status": "partial",
         "execution_log": combined,
+        **metric_data,
         "main_blocker": text(
             user_language,
             f"Selected documented command exited with code {result.returncode}.",
