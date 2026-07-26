@@ -14,6 +14,7 @@ reproduces, improves, or explores a research repository.
 </p>
 
 <p>
+  <a href="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml"><img alt="CI" src="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml/badge.svg"></a>
   <img alt="research-first" src="https://img.shields.io/badge/research-first-1f6feb?style=flat-square">
   <img alt="deep learning" src="https://img.shields.io/badge/deep-learning-238636?style=flat-square">
   <img alt="reproducibility" src="https://img.shields.io/badge/reproducibility-auditable-0a7ea4?style=flat-square">
@@ -330,6 +331,12 @@ Use ai-research-explore with research_campaign.json. Treat the task family, data
 
 ## ✅ Local Validation
 
+Run everything (CI entrypoint):
+
+```bash
+python scripts/run_all_tests.py
+```
+
 Basic checks:
 
 ```bash
@@ -372,7 +379,7 @@ python scripts/test_setup_planning.py
 - `11` skills total: `9` public skills and `2` helper skills.
 - `6` trusted-lane public skills and `3` explore-lane public skills.
 - `4` project-scoped Claude Code wrappers under `.claude/commands/`.
-- `46` Python scripts, including `44` test scripts.
+- `47` Python scripts, including `44` test scripts.
 - Documentation and command examples are kept usable from both Windows PowerShell and Linux shells.
 
 ## ⚠️ Current Limits

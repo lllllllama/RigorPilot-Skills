@@ -1,8 +1,14 @@
 # Changelog
 
-## Unreleased
+## v1.1.0 (2026-07-26)
 
 ### Added
+
+- `scripts/run_all_tests.py`: single cross-platform entrypoint that runs
+  `validate_repo.py` plus every `scripts/test_*.py`; CI now uses it on the
+  ubuntu/macos/windows matrix, so all 44 test scripts run on every push
+  (previously only 9 were hand-listed) and new tests are picked up
+  automatically. CI status badge added to both READMEs.
 
 - Root `AGENTS.md` for AGENTS.md-aware agents (Codex, Cursor, Copilot,
   Gemini CLI, …): lane model, entrypoint table, and hard rules at the

@@ -9,6 +9,7 @@ on:
 jobs:
   validate:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
@@ -22,35 +23,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Validate repository
-        run: python scripts/validate_repo.py
-
-      - name: Test installer targets
-        run: python scripts/test_install_targets.py
-
-      - name: Test bootstrapper
-        run: python scripts/test_bootstrap_env.py
-
-      - name: Test trigger boundaries
-        run: python scripts/test_trigger_boundaries.py
-
-      - name: Test Claude command wrappers
-        run: python scripts/test_claude_command_wrappers.py
-
-      - name: Test README selection
-        run: python scripts/test_readme_selection.py
-
-      - name: Test output rendering
-        run: python scripts/test_output_rendering.py
-
-      - name: Test explore output rendering
-        run: python scripts/test_explore_output_rendering.py
-
-      - name: Test explore variant matrix
-        run: python scripts/test_explore_variant_matrix.py
-
-      - name: Test research explore dry-run
-        run: python scripts/test_research_explore_dry_run.py
+      - name: Validate repository and run the full test suite
+        run: python scripts/run_all_tests.py
 
       - name: Test Agent Skills installer
         run: python scripts/install_skills.py --client agents --target ./tmp/agents-skills --force

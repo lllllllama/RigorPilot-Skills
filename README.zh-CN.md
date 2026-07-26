@@ -12,6 +12,7 @@
 </p>
 
 <p>
+  <a href="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml"><img alt="CI" src="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml/badge.svg"></a>
   <img alt="research-first" src="https://img.shields.io/badge/research-first-1f6feb?style=flat-square">
   <img alt="deep learning" src="https://img.shields.io/badge/deep-learning-238636?style=flat-square">
   <img alt="reproducibility" src="https://img.shields.io/badge/reproducibility-auditable-0a7ea4?style=flat-square">
@@ -303,6 +304,12 @@ Use ai-research-explore with research_campaign.json. Treat the task family, data
 
 ## ✅ 本地自检
 
+一键全量（CI 同款入口）：
+
+```bash
+python scripts/run_all_tests.py
+```
+
 基础检查：
 
 ```bash
@@ -345,7 +352,7 @@ python scripts/test_setup_planning.py
 - 共 `11` 个 skill，其中 `9` 个 public skill，`2` 个 helper skill。
 - 共 `6` 个 trusted-lane public skill，`3` 个 explore-lane public skill。
 - `.claude/commands/` 下提供 `4` 个项目级 Claude Code wrappers。
-- 共有 `46` 个 Python 脚本，其中 `44` 个是测试脚本。
+- 共有 `47` 个 Python 脚本，其中 `44` 个是测试脚本。
 - 文档和命令示例兼顾 Windows PowerShell 与 Linux shell。
 
 ## ⚠️ 当前限制
