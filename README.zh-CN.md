@@ -30,8 +30,9 @@
 | 🧭 项目定位 | 面向深度学习实验的科研 workflow skills，不是普通 coding agent，也不是刷分自动化框架。 |
 | 🔒 默认原则 | `trusted by default`：模糊请求默认走可信复现、环境准备、运行、训练、分析或安全调试。 |
 | 🧪 探索边界 | 只有研究者明确授权 candidate-only 探索时，才进入 explore lane。 |
+| 📄 主打产物 | 每次复现都以[批注版 README](#-批注版-readme) 收尾：原 README 原样重放，每节附彩色、可下钻证据的完成情况。 |
 | 📦 证据产物 | 输出写入 `repro_outputs/`、`analysis_outputs/`、`train_outputs/`、`debug_outputs/`、`explore_outputs/` 等目录。 |
-| 🔗 跨客户端合同 | `SKILL.md` 是 canonical contract；支持中立 Agent Skills、Codex 和 Claude Code。 |
+| 🌐 跨代理可用 | 技能遵循 [Agent Skills 开放标准](https://agentskills.io)（Claude Code、Codex、Cursor、VS Code、Gemini CLI 等）；根级 [`AGENTS.md`](AGENTS.md) 为任何 AGENTS.md 感知的代理提供路由。 |
 
 ## 🚀 快速开始
 
@@ -62,6 +63,61 @@ Claude Code 可直接使用项目级命令：
 - 现有兼容 skill slug 会继续保留；`rigor-*` 当前主要是 display mode，不是安装 alias。
 
 </details>
+
+## 📄 批注版 README
+
+Rigor Reproduce 运行结束后，`repro_outputs/ANNOTATED_README.md` 会原样重放目标仓库的
+README——按标题分块，每一块下面追加一条彩色标注，说明 agent 在这一节实际做了什么。
+一眼就能看清哪些跑了、哪些跳过了、哪里需要你关注；每条标注都链接回证据包
+（`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`），细节随时可查。
+
+颜色图例：🟢 已执行成功 · 🔵 信息性 / 未执行 · ⚪ 仅阅读 · 🟡 部分完成 ·
+🔴 被阻塞 · 🟣 需要决策。
+
+文件头部带有 rubric 式的**章节覆盖计分板**
+（如 `🟢 1 · 🟡 2 · 🟣 1 · 🔵 1 · ⚪ 8（共 13 节）`），并以
+`readme_section_coverage` 字段机器可读地写入 `status.json`——借鉴
+[PaperBench](https://arxiv.org/abs/2504.01848) 等复现基准用分层 rubric
+而非单一通过/失败来评判复现的思路。
+
+渲染效果预览——原文一字不动，彩色标注追加在下方：
+
+````markdown
+## Evaluation
+
+```bash
+python eval.py --config configs/demo.yaml
+```
+````
+
+> [!WARNING]
+> 🟡 **部分完成（中风险）**
+> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
+> 阻塞项：选定的文档命令以退出码 1 结束。
+> 错误摘录：`FileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth`
+> 建议下一步：先准备环境与资源，再重试该文档命令。
+
+> [!TIP]
+> 🟢 **执行成功（低风险）**
+> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
+> 观测指标：`mIoU=41.18` · `aAcc=79.85`
+
+> [!IMPORTANT]
+> 🟣 **训练未执行 · 需要显式授权（高影响操作）**
+> `torchrun --nproc_per_node=8 tools/train.py --config configs/miniseg_b0_ade20k.yaml`
+
+<sub>⚪ 仅阅读</sub>
+
+**完整真实示例**——在一个仿真实语义分割仓库 README（徽章、Model Zoo、安装、数据准备、
+评测、训练、FAQ、引用）上真实运行 `ai-research-reproduction` 生成，同一条命令在
+资产准备前后的两幕对照：
+
+| 场景 | 你会看到 |
+|---|---|
+| [首次尝试 →](examples/annotated-readme-demo-zh/first-run/ANNOTATED_README.md) | 🟡 评测失败（checkpoint 缺失，含真实错误摘录）· 🟡 数据未就绪 · 🟣 训练等待授权 |
+| [资产就绪后 →](examples/annotated-readme-demo-zh/after-setup/ANNOTATED_README.md) | 🟢 评测成功，含真实观测指标 `mIoU` / `aAcc` |
+
+两个文件里的证据链接（SUMMARY、COMMANDS、LOG、status.json）都指向随文件一同提交的真实证据包。
 
 ## 🎯 该用哪个入口
 
@@ -130,55 +186,6 @@ flowchart LR
 ```
 
 生命周期帮助 agent 选择正确的 lane 和证据目标，但不会强迫每个仓库都走固定的实现顺序。
-
-## 📄 批注版 README
-
-Rigor Reproduce 运行结束后，`repro_outputs/ANNOTATED_README.md` 会原样重放目标仓库的
-README——按标题分块，每一块下面追加一条彩色标注，说明 agent 在这一节实际做了什么。
-一眼就能看清哪些跑了、哪些跳过了、哪里需要你关注；每条标注都链接回证据包
-（`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`），细节随时可查。
-
-颜色图例：🟢 已执行成功 · 🔵 信息性 / 未执行 · ⚪ 仅阅读 · 🟡 部分完成 ·
-🔴 被阻塞 · 🟣 需要决策。
-
-渲染效果预览——原文一字不动，彩色标注追加在下方：
-
-````markdown
-## Evaluation
-
-```bash
-python eval.py --config configs/demo.yaml
-```
-````
-
-> [!WARNING]
-> 🟡 **部分完成（中风险）**
-> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
-> 阻塞项：选定的文档命令以退出码 1 结束。
-> 错误摘录：`FileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth`
-> 建议下一步：先准备环境与资源，再重试该文档命令。
-
-> [!TIP]
-> 🟢 **执行成功（低风险）**
-> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
-> 观测指标：`mIoU=41.18` · `aAcc=79.85`
-
-> [!IMPORTANT]
-> 🟣 **训练未执行 · 需要显式授权（高影响操作）**
-> `torchrun --nproc_per_node=8 tools/train.py --config configs/miniseg_b0_ade20k.yaml`
-
-<sub>⚪ 仅阅读</sub>
-
-**完整真实示例**——在一个仿真实语义分割仓库 README（徽章、Model Zoo、安装、数据准备、
-评测、训练、FAQ、引用）上真实运行 `ai-research-reproduction` 生成，同一条命令在
-资产准备前后的两幕对照：
-
-| 场景 | 你会看到 |
-|---|---|
-| [首次尝试 →](examples/annotated-readme-demo-zh/first-run/ANNOTATED_README.md) | 🟡 评测失败（checkpoint 缺失，含真实错误摘录）· 🟡 数据未就绪 · 🟣 训练等待授权 |
-| [资产就绪后 →](examples/annotated-readme-demo-zh/after-setup/ANNOTATED_README.md) | 🟢 评测成功，含真实观测指标 `mIoU` / `aAcc` |
-
-两个文件里的证据链接（SUMMARY、COMMANDS、LOG、status.json）都指向随文件一同提交的真实证据包。
 
 ## 🧠 Rigor Explore 流程
 
@@ -253,6 +260,23 @@ flowchart LR
 - `feasibility_policy`
 
 详见 [skills/ai-research-explore/references/research-campaign-spec.md](skills/ai-research-explore/references/research-campaign-spec.md)。
+
+## 🌐 多代理、多模型
+
+RigorPilot 在设计上就是模型无关的：
+
+- **Agent Skills 标准**——每个技能都是符合规范的 `SKILL.md`
+  （[agentskills.io](https://agentskills.io)），该格式已被 Claude Code、
+  OpenAI Codex、Cursor、VS Code、Gemini CLI 等 30+ 工具采纳；
+  `npx skills add lllllllama/rigorpilot-skills` 对它们通用。
+- **`AGENTS.md` 路由**——根级 [`AGENTS.md`](AGENTS.md) 让 AGENTS.md 感知的代理
+  （Codex、Cursor、Copilot、Gemini CLI、Aider、Zed 等）无需安装即可获得
+  lane 模型、入口表和硬性规则。
+- **同一契约，任意模型**——SKILL.md 指令不含任何模型特定的工具语法；
+  证据包（`status.json`、`ANNOTATED_README.md` 等）与执行模型无关，
+  GPT / Claude / Gemini 系代理产出的结果保持可比。
+- **按客户端的镜像入口**——`skills/*/agents/openai.yaml` 与
+  `.claude/commands/*` 让 Codex 和 Claude 的专属入口与 canonical contract 同步。
 
 ## 🛠️ 本地安装
 

@@ -4,6 +4,8 @@
 
 🟡 `partial` · `evaluation` · `trusted` · [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)
 
+章节覆盖：🟡 2 · 🟣 1 · 🔵 1 · ⚪ 10（共 14 节）
+
 <sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 / 资产缺失 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>
 
 ---

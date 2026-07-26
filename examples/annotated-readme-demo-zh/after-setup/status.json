@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-26T09:27:22.755589+00:00",
+  "generated_at": "2026-07-26T09:39:09.382450+00:00",
   "user_language": "zh",
   "target_repo": "/home/user/demo/miniseg",
   "readme_first": true,
@@ -58,6 +58,15 @@
   "full_training_command": null,
   "training_duration_hint": null,
   "verified_commit_count": 0,
+  "readme_section_coverage": {
+    "success": 1,
+    "partial": 0,
+    "blocked": 0,
+    "decision": 1,
+    "info": 2,
+    "readonly": 10,
+    "total_sections": 14
+  },
   "outputs": {
     "summary": "repro_outputs/SUMMARY.md",
     "commands": "repro_outputs/COMMANDS.md",
@@ -65,6 +74,7 @@
     "scientific_changelog": "repro_outputs/SCIENTIFIC_CHANGELOG.md",
     "comparability_report": "repro_outputs/COMPARABILITY_REPORT.md",
     "status": "repro_outputs/status.json",
+    "annotated_readme": "repro_outputs/ANNOTATED_README.md",
     "patches": null
   },
   "notes": [

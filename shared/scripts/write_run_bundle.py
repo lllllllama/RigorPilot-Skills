@@ -236,6 +236,7 @@ def write_repro_status(output_dir: Path, context: Dict[str, Any]) -> None:
         "full_training_command": context.get("full_training_command"),
         "training_duration_hint": context.get("training_duration_hint"),
         "verified_commit_count": len(context.get("verified_commits", [])),
+        "readme_section_coverage": context.get("readme_section_coverage", {}),
         "outputs": {
             "summary": "repro_outputs/SUMMARY.md",
             "commands": "repro_outputs/COMMANDS.md",
@@ -243,6 +244,7 @@ def write_repro_status(output_dir: Path, context: Dict[str, Any]) -> None:
             "scientific_changelog": "repro_outputs/SCIENTIFIC_CHANGELOG.md",
             "comparability_report": "repro_outputs/COMPARABILITY_REPORT.md",
             "status": "repro_outputs/status.json",
+            "annotated_readme": "repro_outputs/ANNOTATED_README.md" if context.get("annotated_readme") else None,
             "patches": "repro_outputs/PATCHES.md" if context.get("patches_applied") else None,
         },
         "notes": context.get("notes", []),

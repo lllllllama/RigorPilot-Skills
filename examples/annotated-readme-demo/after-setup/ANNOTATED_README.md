@@ -4,6 +4,8 @@
 
 🟢 `success` · `evaluation` · `trusted` · [SUMMARY](SUMMARY.md) · [COMMANDS](COMMANDS.md) · [LOG](LOG.md) · [status.json](status.json)
 
+Section coverage: 🟢 1 · 🟣 1 · 🔵 2 · ⚪ 10 (14 sections)
+
 <sub>🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial / assets missing · 🔴 blocked · 🟣 decision needed — original content unchanged; its relative links resolve against the repo root.</sub>
 
 ---

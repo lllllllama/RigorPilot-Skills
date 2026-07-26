@@ -4,6 +4,15 @@
 
 ### Added
 
+- Root `AGENTS.md` for AGENTS.md-aware agents (Codex, Cursor, Copilot,
+  Gemini CLI, …): lane model, entrypoint table, and hard rules at the
+  project level, aligned with the Agent Skills open standard.
+- Rubric-style section-coverage scoreboard in `ANNOTATED_README.md` and a
+  machine-readable `readme_section_coverage` field in
+  `repro_outputs/status.json` (PaperBench-inspired).
+- Multi-agent / multi-model section in both READMEs; client-compatibility
+  policy now covers the Agent Skills standard and `AGENTS.md`.
+
 - `ai-research-reproduction` now writes `repro_outputs/ANNOTATED_README.md`: the
   target README replayed verbatim, split into heading blocks, each followed by a
   color-coded annotation (GitHub admonitions) of what the agent did in that

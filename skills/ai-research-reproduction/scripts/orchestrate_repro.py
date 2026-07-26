@@ -753,13 +753,10 @@ def main() -> int:
         full_training_authorized=args.full_training_authorized,
     )
 
-    write_bundle(repro_write_script, output_dir, context)
-    if context["selected_goal"] == "training":
-        write_bundle(train_write_script, train_output_dir, context)
-
     context["annotated_readme"] = None
+    context["readme_section_coverage"] = {}
     if readme_path and Path(readme_path).exists():
-        annotated_path = write_annotated_readme(
+        annotated_path, coverage = write_annotated_readme(
             readme_path=Path(readme_path),
             context={
                 **context,
@@ -773,6 +770,11 @@ def main() -> int:
             output_path=output_dir / "ANNOTATED_README.md",
         )
         context["annotated_readme"] = str(annotated_path)
+        context["readme_section_coverage"] = coverage
+
+    write_bundle(repro_write_script, output_dir, context)
+    if context["selected_goal"] == "training":
+        write_bundle(train_write_script, train_output_dir, context)
 
     print(json.dumps(context, indent=2, ensure_ascii=False))
     return 0

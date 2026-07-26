@@ -19,7 +19,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 
 BLOCK_SPLIT_MAX_LEVEL = 2
@@ -296,7 +296,24 @@ def render_annotation(annotation: Dict[str, Any], user_language: str, selected_g
     return lines
 
 
-def render_header(context: Dict[str, Any]) -> List[str]:
+COVERAGE_ORDER = ["success", "partial", "blocked", "decision", "info", "readonly"]
+
+
+def coverage_line(coverage: Dict[str, int], user_language: str) -> str:
+    chips = [
+        f"{STYLE_BADGES[style][1]} {coverage[style]}"
+        for style in COVERAGE_ORDER
+        if coverage.get(style)
+    ]
+    total = coverage.get("total_sections", 0)
+    return text(
+        user_language,
+        f"Section coverage: {' · '.join(chips)} ({total} sections)",
+        f"章节覆盖：{' · '.join(chips)}（共 {total} 节）",
+    )
+
+
+def render_header(context: Dict[str, Any], coverage: Dict[str, int]) -> List[str]:
     user_language = str(context.get("user_language") or "en")
     status = str(context.get("status") or "not_run")
     selected_goal = str(context.get("selected_goal") or "")
@@ -307,6 +324,8 @@ def render_header(context: Dict[str, Any]) -> List[str]:
         text(user_language, "# 📄 README · RigorPilot annotations", "# 📄 README · RigorPilot 复现批注"),
         "",
         f"{status_style} `{status}` · `{selected_goal}` · `{context.get('lane')}` · {evidence_links(selected_goal)}",
+        "",
+        coverage_line(coverage, user_language),
         "",
         text(
             user_language,
@@ -319,27 +338,39 @@ def render_header(context: Dict[str, Any]) -> List[str]:
     ]
 
 
-def render_annotated_readme(readme_text: str, context: Dict[str, Any]) -> str:
+def build_annotated_readme(readme_text: str, context: Dict[str, Any]) -> Tuple[str, Dict[str, int]]:
     user_language = str(context.get("user_language") or "en")
     selected_goal = str(context.get("selected_goal") or "")
-    output: List[str] = render_header(context)
+    annotated_blocks: List[Tuple[List[str], Dict[str, Any]]] = []
+    coverage: Dict[str, int] = {style: 0 for style in COVERAGE_ORDER}
     for block in split_readme_blocks(readme_text):
         block_lines = list(block["lines"])
         while block_lines and not block_lines[-1].strip():
             block_lines.pop()
-        output.extend(block_lines)
         annotation = classify_block(block, context)
+        coverage[annotation["style"]] += 1
+        annotated_blocks.append((block_lines, annotation))
+    coverage["total_sections"] = len(annotated_blocks)
+
+    output: List[str] = render_header(context, coverage)
+    for block_lines, annotation in annotated_blocks:
+        output.extend(block_lines)
         output.append("")
         output.extend(render_annotation(annotation, user_language, selected_goal))
         output.append("")
-    return "\n".join(output).rstrip() + "\n"
+    return "\n".join(output).rstrip() + "\n", coverage
 
 
-def write_annotated_readme(readme_path: Path, context: Dict[str, Any], output_path: Path) -> Path:
+def render_annotated_readme(readme_text: str, context: Dict[str, Any]) -> str:
+    return build_annotated_readme(readme_text, context)[0]
+
+
+def write_annotated_readme(readme_path: Path, context: Dict[str, Any], output_path: Path) -> Tuple[Path, Dict[str, int]]:
     readme_text = readme_path.read_text(encoding="utf-8-sig", errors="replace")
+    rendered, coverage = build_annotated_readme(readme_text, context)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(render_annotated_readme(readme_text, context), encoding="utf-8")
-    return output_path
+    output_path.write_text(rendered, encoding="utf-8")
+    return output_path, coverage
 
 
 def main() -> int:
@@ -352,8 +383,8 @@ def main() -> int:
     context = json.loads(Path(args.context_json).read_text(encoding="utf-8-sig"))
     if not isinstance(context, dict):
         raise SystemExit("Context JSON must contain a top-level object.")
-    written = write_annotated_readme(Path(args.readme), context, Path(args.output))
-    print(json.dumps({"annotated_readme": str(written)}, ensure_ascii=False))
+    written, coverage = write_annotated_readme(Path(args.readme), context, Path(args.output))
+    print(json.dumps({"annotated_readme": str(written), "readme_section_coverage": coverage}, ensure_ascii=False))
     return 0
 
 

@@ -145,6 +145,9 @@ def main() -> int:
         if annotated.count("# run the documented evaluation") != 1:
             raise AssertionError("fenced comment line was duplicated or dropped")
         checks += 1
+        if "Section coverage:" not in annotated or "🟢 1" not in annotated:
+            raise AssertionError("header lost the section-coverage scoreboard")
+        checks += 1
         fence_block = annotated.split("## Evaluation", 1)[1].split("```bash", 1)[1].split("```", 1)[0]
         if "[!" in fence_block:
             raise AssertionError("annotation leaked inside a fenced code block")
