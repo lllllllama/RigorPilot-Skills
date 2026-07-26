@@ -21,6 +21,14 @@ def combine_logs(parts: Iterable[str]) -> str:
     return "\n".join(part for part in parts if part).strip()
 
 
+def decode_stream(value: Any) -> str:
+    # On POSIX, subprocess.TimeoutExpired carries captured output as bytes
+    # even when the run was started with text=True.
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    return value or ""
+
+
 def parse_metrics(text: str) -> Dict[str, Any]:
     observed_metrics: Dict[str, float] = {}
     best_metric: Optional[Dict[str, Any]] = None
@@ -185,8 +193,8 @@ def execute_command(repo: Path, command: str, timeout: int) -> Dict[str, Any]:
         execution = {
             "returncode": None,
             "timed_out": True,
-            "stdout": exc.stdout or "",
-            "stderr": exc.stderr or "",
+            "stdout": decode_stream(exc.stdout),
+            "stderr": decode_stream(exc.stderr),
         }
         execution.update(diff_status_snapshots(before_status, after_status))
         execution["evidence_capture"] = {

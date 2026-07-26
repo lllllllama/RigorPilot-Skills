@@ -24,6 +24,14 @@ def combine_logs(parts: Iterable[str]) -> str:
     return "\n".join(part for part in parts if part).strip()
 
 
+def decode_stream(value: Any) -> str:
+    # On POSIX, subprocess.TimeoutExpired carries captured output as bytes
+    # even when the run was started with text=True.
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    return value or ""
+
+
 def parse_progress(text: str) -> Dict[str, Any]:
     last_epoch: Optional[int] = None
     last_step: Optional[int] = None
@@ -203,8 +211,8 @@ def execute_command(repo: Path, command: str, timeout: int) -> Tuple[Dict[str, A
             "evidence_capture": before_capture,
         }, f"Command failed before launch: {exc}"
     except subprocess.TimeoutExpired as exc:
-        stdout = exc.stdout or ""
-        stderr = exc.stderr or ""
+        stdout = decode_stream(exc.stdout)
+        stderr = decode_stream(exc.stderr)
         combined = combine_logs(
             [
                 f"STDOUT:\n{stdout.strip()}" if stdout.strip() else "",

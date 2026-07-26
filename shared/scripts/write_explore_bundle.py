@@ -625,9 +625,9 @@ def write_comparability_report(output_dir: Path, context: Dict[str, Any], mode: 
         bullets(
             context.get("comparability_risks", [])
             or [
-                f"eval_risk={context.get('selected_idea', {}).get('eval_risk', 'not-recorded')}",
-                f"patch_surface={context.get('patch_surface_summary', {}).get('estimated_patch_surface', 'not-recorded')}",
-                f"dependency_drag={context.get('selected_idea', {}).get('dependency_drag', 'not-recorded')}",
+                f"eval_risk={(context.get('selected_idea') or {}).get('eval_risk', 'not-recorded')}",
+                f"patch_surface={(context.get('patch_surface_summary') or {}).get('estimated_patch_surface', 'not-recorded')}",
+                f"dependency_drag={(context.get('selected_idea') or {}).get('dependency_drag', 'not-recorded')}",
             ]
         ),
         "",
