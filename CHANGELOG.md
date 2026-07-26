@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `references/research-thinking-loop.md`: the greedy, evidence-anchored
+  research cycle (observe → ground → hypothesize → design → run → fair
+  compare → keep/rollback → record) required in the explore lane; adapted
+  from AIDE's greedy search and AI-Scientist-v2's managed tree search under
+  RigorPilot's comparability-first gates.
+- Continuous learning: `references/continuous-learning-policy.md` plus
+  `shared/scripts/lessons_store.py` — an immutable rigor core with a
+  user-owned lessons overlay (`~/.rigorpilot/lessons.jsonl`, distilled to
+  `PERSONAL_RIGOR.md`). Failed and later-resolved reproduction runs are
+  auto-recorded; secrets are refused; lessons are advisory and never edit
+  skill files. `RIGORPILOT_LESSONS=0` opts out.
+- READMEs: Research Thinking Loop and Continuous Learning sections; both
+  shipped as installed shared references.
+
 ## v1.1.0 (2026-07-26)
 
 ### Added

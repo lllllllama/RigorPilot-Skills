@@ -16,13 +16,16 @@ SHARED_REFERENCE_FILES = [
     "deep-learning-experiment-principles.md",
     "explore-variant-spec.md",
     "research-pitfall-checklist.md",
+    "research-thinking-loop.md",
+    "continuous-learning-policy.md",
 ]
 
-# Bundle writers loaded at runtime by skills/*/scripts/write_outputs.py via
-# parents[3]/shared/scripts; they must be installed next to the skills.
+# Runtime modules loaded by installed skills via parents[3]/shared/scripts;
+# they must be installed next to the skills.
 SHARED_SCRIPT_FILES = [
     "write_run_bundle.py",
     "write_explore_bundle.py",
+    "lessons_store.py",
 ]
 
 

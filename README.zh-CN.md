@@ -20,7 +20,7 @@
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
   <img alt="skills" src="https://img.shields.io/badge/skills-11-8b949e?style=flat-square">
   <img alt="public skills" src="https://img.shields.io/badge/public%20skills-9-0969da?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-44%20scripts-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/tests-45%20scripts-8250df?style=flat-square">
   <img alt="clients" src="https://img.shields.io/badge/clients-Agent%20Skills%20%C2%B7%20Codex%20%C2%B7%20Claude%20Code-6f42c1?style=flat-square">
 </p>
 
@@ -32,6 +32,8 @@
 | 🔒 默认原则 | `trusted by default`：模糊请求默认走可信复现、环境准备、运行、训练、分析或安全调试。 |
 | 🧪 探索边界 | 只有研究者明确授权 candidate-only 探索时，才进入 explore lane。 |
 | 📄 主打产物 | 每次复现都以[批注版 README](#-批注版-readme) 收尾：原 README 原样重放，每节附彩色、可下钻证据的完成情况。 |
+| 🧠 思维主循环 | 探索遵循贪心的、证据锚定的科研循环：观察 → 查证 → 假设 → 设计 → 运行 → 公平对比 → 保留或回滚。 |
+| 🌱 持续学习 | 不可变的严谨内核 + 用户自有的经验叠加层，在使用中安全地个性化。 |
 | 📦 证据产物 | 输出写入 `repro_outputs/`、`analysis_outputs/`、`train_outputs/`、`debug_outputs/`、`explore_outputs/` 等目录。 |
 | 🌐 跨代理可用 | 技能遵循 [Agent Skills 开放标准](https://agentskills.io)（Claude Code、Codex、Cursor、VS Code、Gemini CLI 等）；根级 [`AGENTS.md`](AGENTS.md) 为任何 AGENTS.md 感知的代理提供路由。 |
 
@@ -166,29 +168,45 @@ flowchart LR
 
 生命周期帮助 agent 选择正确的 lane 和证据目标，但不会强迫每个仓库都走固定的实现顺序。
 
-## 🧠 Rigor Explore 流程
+## 🧠 科研思维主循环
 
-`ai-research-explore` 适合这样的场景：研究者已经冻结 task family、dataset、evaluation method 和 SOTA 参考，并明确授权 AI 在 `current_research` 上做受约束、可审计、candidate-only 的探索。
+AI 的实现能力已经很强，但"思考"往往还停留在工程步骤上。在研究者冻结评测契约并显式授权探索后，`ai-research-explore` 执行一个成文的**贪心科研循环**——从观察出发，到一次公平的保留/回滚决策（[完整契约](references/research-thinking-loop.md)）：
 
 ```mermaid
 flowchart LR
-    A[current_research + frozen campaign] --> B[理解、查源、门控]
-    B --> C{候选是否值得尝试}
-    C -- 否 --> D[停止并记录 blocker]
-    C -- 是 --> E[有界改动或运行]
-    E --> F[smoke 和证据]
-    F --> G[候选排序]
-    G --> H[explore_outputs]
-    G --> B
+    A[观察运行证据] --> B[查证：论文 · 源码 · 历史运行 · 实验直觉]
+    B --> C[可证伪的假设]
+    C --> D[单变量实验设计]
+    D --> E[有界运行]
+    E --> F{与当前最优公平对比}
+    F -- 更好 --> G[保留为新的候选最优]
+    F -- 更差或不公平 --> H[回滚并记录原因]
+    G --> I[写入 ledger]
+    H --> I
+    I --> A
 ```
 
-当前实现重点：
+- 每个假设必须带**标注来源的证据锚点**——`paper`、`code`、`prior-run` 或
+  `intuition`；无锚点的想法进入 idea bank 排队，绝不直接执行。
+- **贪心作用于选择，不作用于诚实**：保留决策必须基于冻结契约下的可比证据；
+  平局时偏向更简单、更便宜的改动。
+- 底层机制：硬门控的 idea 排序、原子化拆解、planned / heuristic / observed
+  三层实现保真度、以及来自真实 executor 的文件级证据。
+- 思想脉络：吸收 [AIDE](https://arxiv.org/abs/2502.13138) 的贪心解空间搜索与
+  [AI-Scientist-v2](https://arxiv.org/abs/2504.08066) 的受管树搜索，再用
+  RigorPilot 的可比性优先门槛加以约束。
 
-- 保留 researcher ideas，并可补充 bounded synthesized / hybrid seed ideas。
-- 用 hard gates 和 weighted breakdown 排序候选 idea。
-- 将 selected idea 拆成 atomic academic concepts。
-- 将 implementation fidelity 分为 planned / heuristic / observed 三层证据。
-- observed evidence 来自真实 executor 输出的 `changed_files`、`new_files`、`deleted_files`、`touched_paths`。
+## 🌱 持续学习与个性化
+
+发布的技能是**不可变的通用科研素养内核**；个性化在用户自有的叠加层中发生（[策略](references/continuous-learning-policy.md)）：
+
+- 失败的运行——以及后来的修复——会自动记录为单行经验，存入
+  `~/.rigorpilot/lessons.jsonl`（`RIGORPILOT_LESSONS=0` 可关闭）。
+- `python shared/scripts/lessons_store.py summarize` 将其提炼为
+  `~/.rigorpilot/PERSONAL_RIGOR.md`，技能在运行开始时读取，作为研究者的
+  长期偏好与已知坑位。
+- 硬性规则：经验**仅供参考**——永不放松严谨门槛、永不存储密钥、永不修改
+  技能文件。删除该目录即回到通用基础版。
 
 ## 🧾 建议的科研证据体系
 
@@ -352,7 +370,7 @@ python scripts/test_setup_planning.py
 - 共 `11` 个 skill，其中 `9` 个 public skill，`2` 个 helper skill。
 - 共 `6` 个 trusted-lane public skill，`3` 个 explore-lane public skill。
 - `.claude/commands/` 下提供 `4` 个项目级 Claude Code wrappers。
-- 共有 `47` 个 Python 脚本，其中 `44` 个是测试脚本。
+- 共有 `48` 个 Python 脚本，其中 `45` 个是测试脚本。
 - 文档和命令示例兼顾 Windows PowerShell 与 Linux shell。
 
 ## ⚠️ 当前限制

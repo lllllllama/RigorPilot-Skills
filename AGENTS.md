@@ -35,6 +35,12 @@ what the agent did in each section.
 | Diagnose-before-patch debugging | `safe-debug` |
 | Candidate-only exploration (explicit authorization required) | `ai-research-explore` |
 
+- In the explore lane, follow `references/research-thinking-loop.md`: a greedy,
+  evidence-anchored cycle (observe → ground → hypothesize → single-variable
+  design → bounded run → fair compare → keep or roll back → record).
+- Consult `~/.rigorpilot/PERSONAL_RIGOR.md` if present, under
+  `references/continuous-learning-policy.md` — advisory only; it never relaxes
+  rigor gates and the repository always wins on conflict.
 - Write evidence bundles to the documented output directories
   (`repro_outputs/`, `train_outputs/`, `analysis_outputs/`, `debug_outputs/`,
   `explore_outputs/`). Never claim success without recorded evidence.

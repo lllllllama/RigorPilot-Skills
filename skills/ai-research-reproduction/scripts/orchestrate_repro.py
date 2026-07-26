@@ -11,9 +11,64 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from annotate_readme import write_annotated_readme
+
+
+def load_lessons_store():
+    """Load the shared lesson store; return None when unavailable (optional feature)."""
+    import importlib.util
+
+    module_path = Path(__file__).resolve().parents[3] / "shared" / "scripts" / "lessons_store.py"
+    if not module_path.exists():
+        return None
+    spec = importlib.util.spec_from_file_location("lessons_store", module_path)
+    if spec is None or spec.loader is None:
+        return None
+    module = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        return None
+    return module
+
+
+def maybe_record_lesson(repo_path: Path, context: Dict[str, Any]) -> Optional[str]:
+    """Record failure blockers and later resolutions per the continuous-learning policy."""
+    store = load_lessons_store()
+    if store is None or not store.lessons_enabled():
+        return None
+    fingerprint = store.repo_fingerprint(repo_path)
+    status = context.get("status")
+    try:
+        if status in {"partial", "blocked"}:
+            path = store.record_lesson(
+                kind="failure-fix",
+                skill="ai-research-reproduction",
+                summary=f"[{status}] {context.get('main_blocker', 'unrecorded blocker')}",
+                detail=str(context.get("documented_command") or ""),
+                fingerprint=fingerprint,
+            )
+            return str(path) if path else None
+        if status == "success":
+            prior_failures = [
+                item
+                for item in store.load_lessons()
+                if item.get("fingerprint") == fingerprint and str(item.get("summary", "")).startswith("[")
+            ]
+            if prior_failures:
+                path = store.record_lesson(
+                    kind="failure-fix",
+                    skill="ai-research-reproduction",
+                    summary=f"[resolved] {context.get('documented_command')} now succeeds",
+                    detail=f"previous blocker: {prior_failures[-1].get('summary', '')}",
+                    fingerprint=fingerprint,
+                )
+                return str(path) if path else None
+    except Exception:
+        return None
+    return None
 
 
 def locale(user_language: str) -> str:
@@ -775,6 +830,8 @@ def main() -> int:
     write_bundle(repro_write_script, output_dir, context)
     if context["selected_goal"] == "training":
         write_bundle(train_write_script, train_output_dir, context)
+
+    context["lesson_recorded"] = maybe_record_lesson(repo_path, context) if args.run_selected else None
 
     print(json.dumps(context, indent=2, ensure_ascii=False))
     return 0

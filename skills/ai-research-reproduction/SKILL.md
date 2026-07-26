@@ -118,10 +118,10 @@ Use the templates under `assets/` and the field rules in `references/output-spec
 ## Reference Loading
 
 - Load `references/language-policy.md` when writing human-readable outputs.
-- Load `../../references/research-rigor-principles.md` before making
-  comparability, contribution, or research-result claims.
-- Load `../../references/deep-learning-experiment-principles.md` when dataset,
-  split, metric, checkpoint, training, or evaluation details matter.
+- Load `../../references/research-rigor-principles.md` before making comparability, contribution, or research-result claims.
+- Load `../../references/deep-learning-experiment-principles.md` when dataset, split, metric, checkpoint, training, or evaluation details matter.
+- Consult `~/.rigorpilot/PERSONAL_RIGOR.md` if present, under `../../references/continuous-learning-policy.md` (advisory only; core wins).
+- Failed and later-resolved runs are auto-recorded as lessons via `shared/scripts/lessons_store.py` (`RIGORPILOT_LESSONS=0` disables).
 - Load `references/research-safety-principles.md` before protocol-sensitive
   decisions.
 - Load `references/patch-policy.md` before modifying repository files.

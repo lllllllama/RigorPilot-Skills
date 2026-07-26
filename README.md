@@ -22,7 +22,7 @@ reproduces, improves, or explores a research repository.
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
   <img alt="skills" src="https://img.shields.io/badge/skills-11-8b949e?style=flat-square">
   <img alt="public skills" src="https://img.shields.io/badge/public%20skills-9-0969da?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-44%20scripts-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/tests-45%20scripts-8250df?style=flat-square">
   <img alt="clients" src="https://img.shields.io/badge/clients-Agent%20Skills%20%C2%B7%20Codex%20%C2%B7%20Claude%20Code-6f42c1?style=flat-square">
 </p>
 
@@ -34,6 +34,8 @@ reproduces, improves, or explores a research repository.
 | 🔒 Default rule | `trusted by default`: ambiguous requests route to reproduction, setup, run, train, analysis, or safe debugging. |
 | 🧪 Exploration boundary | Explore work starts only when the researcher explicitly authorizes candidate-only exploration. |
 | 📄 Flagship output | Every reproduction ends with an [annotated README](#-annotated-readme): your README replayed verbatim with color-coded, evidence-linked per-section results. |
+| 🧠 Thinking loop | Exploration follows a greedy, evidence-anchored research cycle: observe → ground → hypothesize → design → run → fair compare → keep or roll back. |
+| 🌱 Continuous learning | An immutable rigor core plus a user-owned lessons overlay that personalizes safely with use. |
 | 📦 Evidence outputs | Artifacts are written to `repro_outputs/`, `analysis_outputs/`, `train_outputs/`, `debug_outputs/`, `explore_outputs/`, and related directories. |
 | 🌐 Works across agents | Skills follow the [Agent Skills open standard](https://agentskills.io) (Claude Code, Codex, Cursor, VS Code, Gemini CLI, …); a root [`AGENTS.md`](AGENTS.md) routes any AGENTS.md-aware agent. |
 
@@ -182,32 +184,55 @@ flowchart LR
 The lifecycle helps the agent choose the right lane and evidence target. It
 does not force every repository into a fixed implementation sequence.
 
-## 🧠 Rigor Explore Flow
+## 🧠 Research Thinking Loop
 
-`ai-research-explore` fits cases where the researcher has already frozen the
-task family, dataset, evaluation method, and SOTA references, then explicitly
-authorizes bounded, auditable, candidate-only exploration on top of
-`current_research`.
+Agents implement well but often think in engineering steps. Once the
+researcher freezes the evaluation contract and explicitly authorizes
+exploration, `ai-research-explore` runs a codified **greedy research cycle** —
+from observation to a fair keep-or-rollback decision
+([full contract](references/research-thinking-loop.md)):
 
 ```mermaid
 flowchart LR
-    A[current_research + frozen campaign] --> B[Understand, source, gate]
-    B --> C{Candidate worth trying}
-    C -- No --> D[Stop with blocker]
-    C -- Yes --> E[Bounded change or run]
-    E --> F[Smoke and evidence]
-    F --> G[Rank candidates]
-    G --> H[explore_outputs]
-    G --> B
+    A[Observe run evidence] --> B[Ground: paper · code · prior runs · intuition]
+    B --> C[Falsifiable hypothesis]
+    C --> D[Single-variable design]
+    D --> E[Bounded run]
+    E --> F{Fair comparison vs current best}
+    F -- better --> G[Keep as new candidate best]
+    F -- worse or unfair --> H[Roll back, record why]
+    G --> I[Ledger entry]
+    H --> I
+    I --> A
 ```
 
-Current implementation highlights:
+- Every hypothesis carries a **labeled evidence anchor** — `paper`, `code`,
+  `prior-run`, or `intuition`; unanchored ideas queue in the idea bank and
+  never execute.
+- **Greedy applies to selection, not honesty**: a keep requires comparable
+  evidence under the frozen contract; ties favor the simpler, cheaper change.
+- Underneath: hard-gated idea ranking, atomic idea decomposition, three-layer
+  implementation fidelity (planned / heuristic / observed), and
+  executor-emitted file-level evidence.
+- Lineage: adapts the greedy solution-space search of
+  [AIDE](https://arxiv.org/abs/2502.13138) and the managed agentic tree search
+  of [AI-Scientist-v2](https://arxiv.org/abs/2504.08066), constrained by
+  RigorPilot's comparability-first gates.
 
-- Preserves researcher ideas and can add bounded synthesized or hybrid seed ideas.
-- Ranks candidate ideas with hard gates and weighted breakdowns.
-- Decomposes selected ideas into atomic academic concepts.
-- Splits implementation fidelity into planned, heuristic, and observed evidence.
-- Uses executor-emitted `changed_files`, `new_files`, `deleted_files`, and `touched_paths` as observed evidence.
+## 🌱 Continuous Learning
+
+The shipped skills are an **immutable universal rigor core**; personalization
+lives in a user-owned overlay
+([policy](references/continuous-learning-policy.md)):
+
+- Failed runs — and their later fixes — are auto-recorded as one-line lessons
+  in `~/.rigorpilot/lessons.jsonl` (opt out with `RIGORPILOT_LESSONS=0`).
+- `python shared/scripts/lessons_store.py summarize` distills them into
+  `~/.rigorpilot/PERSONAL_RIGOR.md`, which skills consult at run start as the
+  researcher's standing preferences and known pitfalls.
+- Hard rules: lessons are **advisory only** — they never relax rigor gates,
+  never store secrets, never edit skill files. Delete the folder and the
+  skills return to the universal base.
 
 ## 🧾 Suggested Research Evidence
 
@@ -379,7 +404,7 @@ python scripts/test_setup_planning.py
 - `11` skills total: `9` public skills and `2` helper skills.
 - `6` trusted-lane public skills and `3` explore-lane public skills.
 - `4` project-scoped Claude Code wrappers under `.claude/commands/`.
-- `47` Python scripts, including `44` test scripts.
+- `48` Python scripts, including `45` test scripts.
 - Documentation and command examples are kept usable from both Windows PowerShell and Linux shells.
 
 ## ⚠️ Current Limits
