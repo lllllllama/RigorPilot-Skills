@@ -19,7 +19,7 @@
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
   <img alt="skills" src="https://img.shields.io/badge/skills-11-8b949e?style=flat-square">
   <img alt="public skills" src="https://img.shields.io/badge/public%20skills-9-0969da?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-43%20scripts-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/tests-44%20scripts-8250df?style=flat-square">
   <img alt="clients" src="https://img.shields.io/badge/clients-Agent%20Skills%20%C2%B7%20Codex%20%C2%B7%20Claude%20Code-6f42c1?style=flat-square">
 </p>
 
@@ -131,6 +131,41 @@ flowchart LR
 
 生命周期帮助 agent 选择正确的 lane 和证据目标，但不会强迫每个仓库都走固定的实现顺序。
 
+## 📄 批注版 README
+
+Rigor Reproduce 运行结束后，`repro_outputs/ANNOTATED_README.md` 会原样重放目标仓库的
+README——按标题分块，每一块下面追加一条彩色标注，说明 agent 在这一节实际做了什么。
+一眼就能看清哪些跑了、哪些跳过了、哪里需要你关注；每条标注都链接回证据包
+（`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`），细节随时可查。
+
+颜色图例：🟢 已执行成功 · 🔵 信息性 / 未执行 · ⚪ 仅阅读 · 🟡 部分完成 ·
+🔴 被阻塞 · 🟣 需要决策。
+
+渲染效果预览——原文一字不动，彩色标注追加在下方：
+
+````markdown
+## Evaluation
+
+```bash
+python eval.py --config configs/demo.yaml
+```
+````
+
+> [!TIP]
+> 🟢 **RigorPilot · 已执行且成功 · 低风险**
+> 已完整执行 `python eval.py --config configs/demo.yaml`。观测指标：`miou=79.4`。
+> 证据：`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`
+
+只做了规划或跳过的章节同样一目了然：
+
+> [!NOTE]
+> 🔵 **RigorPilot · 已纳入 setup 计划 · 未直接执行**
+> 2 条命令已记录为环境/资源准备；详见证据包中的 setup 计划。
+
+> [!IMPORTANT]
+> 🟣 **RigorPilot · 启动已验证 · 更完整训练需要你确认**
+> trusted lane 在启动验证后停止；请先检查证据，再显式授权更完整的训练。
+
 ## 🧠 Rigor Explore 流程
 
 `ai-research-explore` 适合这样的场景：研究者已经冻结 task family、dataset、evaluation method 和 SOTA 参考，并明确授权 AI 在 `current_research` 上做受约束、可审计、candidate-only 的探索。
@@ -172,7 +207,7 @@ flowchart LR
 
 | 目录 | 内容 |
 |---|---|
-| `repro_outputs/` | trusted reproduction 输出包 |
+| `repro_outputs/` | trusted reproduction 输出包，含 `ANNOTATED_README.md` |
 | `train_outputs/` | trusted training 输出包 |
 | `analysis_outputs/` | 只读分析、research map、change map、eval contract、idea seeds、atomic idea map、implementation fidelity 等 |
 | `debug_outputs/` | 安全调试诊断和 patch plan |
@@ -267,6 +302,7 @@ python scripts/test_readme_selection.py
 
 ```bash
 python scripts/test_output_rendering.py
+python scripts/test_readme_annotation.py
 python scripts/test_train_output_rendering.py
 python scripts/test_analysis_output_rendering.py
 python scripts/test_safe_debug_output_rendering.py
@@ -293,7 +329,7 @@ python scripts/test_setup_planning.py
 - 共 `11` 个 skill，其中 `9` 个 public skill，`2` 个 helper skill。
 - 共 `6` 个 trusted-lane public skill，`3` 个 explore-lane public skill。
 - `.claude/commands/` 下提供 `4` 个项目级 Claude Code wrappers。
-- 共有 `45` 个 Python 脚本，其中 `43` 个是测试脚本。
+- 共有 `46` 个 Python 脚本，其中 `44` 个是测试脚本。
 - 文档和命令示例兼顾 Windows PowerShell 与 Linux shell。
 
 ## ⚠️ 当前限制

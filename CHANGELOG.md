@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `ai-research-reproduction` now writes `repro_outputs/ANNOTATED_README.md`: the
+  target README replayed verbatim, split into heading blocks, each followed by a
+  color-coded annotation (GitHub admonitions) of what the agent did in that
+  section, linked to the evidence bundle.
+- `scripts/test_readme_annotation.py` regression coverage for the renderer.
+
+### Fixed
+
+- Comprehensive-review fixes across the explore and trusted lanes, the
+  installer, and docs (see commit history for the full list).
+
 ## v1.0.0
 
 Initial public release lineage for what is now `RigorPilot Skills`.

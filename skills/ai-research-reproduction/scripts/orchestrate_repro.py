@@ -13,6 +13,8 @@ import tempfile
 from pathlib import Path
 from typing import Any, Dict, List
 
+from annotate_readme import write_annotated_readme
+
 
 def locale(user_language: str) -> str:
     return "zh" if user_language.lower().startswith("zh") else "en"
@@ -732,6 +734,15 @@ def main() -> int:
     write_bundle(repro_write_script, output_dir, context)
     if context["selected_goal"] == "training":
         write_bundle(train_write_script, train_output_dir, context)
+
+    context["annotated_readme"] = None
+    if readme_path and Path(readme_path).exists():
+        annotated_path = write_annotated_readme(
+            readme_path=Path(readme_path),
+            context={**context, "readme_commands": command_data.get("commands", [])},
+            output_path=output_dir / "ANNOTATED_README.md",
+        )
+        context["annotated_readme"] = str(annotated_path)
 
     print(json.dumps(context, indent=2, ensure_ascii=False))
     return 0

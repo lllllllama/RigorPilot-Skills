@@ -21,7 +21,7 @@ reproduces, improves, or explores a research repository.
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
   <img alt="skills" src="https://img.shields.io/badge/skills-11-8b949e?style=flat-square">
   <img alt="public skills" src="https://img.shields.io/badge/public%20skills-9-0969da?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-43%20scripts-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/tests-44%20scripts-8250df?style=flat-square">
   <img alt="clients" src="https://img.shields.io/badge/clients-Agent%20Skills%20%C2%B7%20Codex%20%C2%B7%20Claude%20Code-6f42c1?style=flat-square">
 </p>
 
@@ -141,6 +141,44 @@ flowchart LR
 The lifecycle helps the agent choose the right lane and evidence target. It
 does not force every repository into a fixed implementation sequence.
 
+## 📄 Annotated README
+
+After a Rigor Reproduce run, `repro_outputs/ANNOTATED_README.md` replays the
+target repository's README verbatim — split into heading blocks, each followed
+by a color-coded annotation of what the agent actually did there. One glance
+shows what ran, what was skipped, and where your attention is needed; every
+annotation links back to the evidence bundle
+(`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`) for details.
+
+Color legend: 🟢 executed successfully · 🔵 informational / not executed ·
+⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision required.
+
+Rendered preview — the original section stays untouched, the colored block is
+appended below it:
+
+````markdown
+## Evaluation
+
+```bash
+python eval.py --config configs/demo.yaml
+```
+````
+
+> [!TIP]
+> 🟢 **RigorPilot · Executed successfully · low risk**
+> Ran `python eval.py --config configs/demo.yaml` to completion. Observed metric: `miou=79.4`.
+> Evidence: `SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`
+
+Sections the run only planned or skipped stay visible at the same glance:
+
+> [!NOTE]
+> 🔵 **RigorPilot · Folded into the setup plan · not executed directly**
+> 2 command(s) recorded as environment/asset preparation; see the setup plan in the evidence bundle.
+
+> [!IMPORTANT]
+> 🟣 **RigorPilot · Startup verified · fuller training needs your approval**
+> Trusted lane stops at startup verification; review the evidence and explicitly authorize fuller training.
+
 ## 🧠 Rigor Explore Flow
 
 `ai-research-explore` fits cases where the researcher has already frozen the
@@ -188,7 +226,7 @@ future-compatible evidence concepts.
 
 | Directory | Contents |
 |---|---|
-| `repro_outputs/` | Trusted reproduction bundle |
+| `repro_outputs/` | Trusted reproduction bundle, including `ANNOTATED_README.md` |
 | `train_outputs/` | Trusted training bundle |
 | `analysis_outputs/` | Read-only analysis, research map, change map, eval contract, idea seeds, atomic idea map, implementation fidelity, and related outputs |
 | `debug_outputs/` | Safe debug diagnosis and patch plan |
@@ -286,6 +324,7 @@ Core output and explore regressions:
 
 ```bash
 python scripts/test_output_rendering.py
+python scripts/test_readme_annotation.py
 python scripts/test_train_output_rendering.py
 python scripts/test_analysis_output_rendering.py
 python scripts/test_safe_debug_output_rendering.py
@@ -312,7 +351,7 @@ python scripts/test_setup_planning.py
 - `11` skills total: `9` public skills and `2` helper skills.
 - `6` trusted-lane public skills and `3` explore-lane public skills.
 - `4` project-scoped Claude Code wrappers under `.claude/commands/`.
-- `45` Python scripts, including `43` test scripts.
+- `46` Python scripts, including `44` test scripts.
 - Documentation and command examples are kept usable from both Windows PowerShell and Linux shells.
 
 ## ⚠️ Current Limits

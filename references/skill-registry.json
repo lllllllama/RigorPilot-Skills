@@ -33,7 +33,8 @@
         "assets/LOG.template.md",
         "assets/PATCHES.template.md",
         "assets/status.template.json",
-        "scripts/orchestrate_repro.py"
+        "scripts/orchestrate_repro.py",
+        "scripts/annotate_readme.py"
       ],
       "output_mode": {
         "kind": "trusted_repro",
@@ -45,6 +46,7 @@
           "SCIENTIFIC_CHANGELOG.md",
           "COMPARABILITY_REPORT.md",
           "status.json",
+          "ANNOTATED_README.md",
           "PATCHES.md"
         ]
       }

@@ -19,6 +19,7 @@ Trusted output traits:
 - concise human-readable summaries
 - assumptions, deviations, and blockers recorded explicitly
 - `SCIENTIFIC_CHANGELOG.md` and `COMPARABILITY_REPORT.md` emitted by the trusted run writers
+- `repro_outputs/ANNOTATED_README.md` emitted by `ai-research-reproduction`: the target README preserved verbatim, split into heading blocks, each annotated with a color-coded per-section status linking to the evidence files
 - next safe action recorded when work is partial or blocked
 
 ## Explore outputs

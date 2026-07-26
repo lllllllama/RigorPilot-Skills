@@ -19,8 +19,7 @@ then recording results and deviations.
 Start from the shared operating principles in
 `../../references/agent-operating-principles.md`, then load
 `../../references/research-rigor-principles.md` and
-`../../references/deep-learning-experiment-principles.md` when scientific
-meaning, comparability, or experiment details are at stake.
+`../../references/deep-learning-experiment-principles.md` when scientific meaning, comparability, or experiment details are at stake.
 
 ## Fit
 
@@ -100,11 +99,11 @@ LOG.md
 SCIENTIFIC_CHANGELOG.md
 COMPARABILITY_REPORT.md
 status.json
+ANNOTATED_README.md   # original README + colored per-section agent-action annotations
 PATCHES.md   # only if patches were applied
 ```
 
-Use the templates under `assets/` and the field rules in
-`references/output-spec.md`.
+Use the templates under `assets/` and the field rules in `references/output-spec.md`.
 
 - Put the shortest high-value summary in `SUMMARY.md`.
 - Put copyable commands in `COMMANDS.md`.
@@ -113,6 +112,7 @@ Use the templates under `assets/` and the field rules in
 - Put comparison anchors and protocol deviations in `COMPARABILITY_REPORT.md`.
 - Put durable machine-readable state in `status.json`.
 - Put branch, commit, validation, and README-fidelity impact in `PATCHES.md` when needed.
+- Put the researcher's at-a-glance view in `ANNOTATED_README.md`: the README replayed verbatim, each section annotated in color with what the agent did there, linked to the evidence files above.
 - Distinguish verified facts from inferred guesses.
 
 ## Reference Loading
