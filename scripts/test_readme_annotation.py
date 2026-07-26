@@ -21,11 +21,23 @@ A small demo repository.
 pip install -r requirements.txt
 ```
 
+## Data Preparation
+
+```bash
+python tools/prepare_data.py --root data/demo
+```
+
 ## Evaluation
 
 ```bash
 # run the documented evaluation
 python eval.py --config configs/demo.yaml
+```
+
+## Training
+
+```bash
+python train.py --config configs/demo.yaml
 ```
 
 ## License
@@ -42,13 +54,19 @@ def build_context(status: str, user_language: str) -> dict:
         "status": status,
         "documented_command": "python eval.py --config configs/demo.yaml",
         "documented_command_section": "Evaluation",
-        "main_blocker": "None.",
+        "main_blocker": "Selected documented command exited with code 1." if status != "success" else "None.",
         "best_metric": {"name": "miou", "value": 79.4},
+        "observed_metrics": {"miou": 79.4, "acc": 93.1},
         "completed_steps": 0,
         "requires_full_training_confirmation": False,
+        "local_dataset_present": False,
+        "execution_log": ["STDERR:\nFileNotFoundError: checkpoint not found: checkpoints/demo.pth"],
+        "next_action": "Prepare environment and assets, then retry the documented command.",
         "readme_commands": [
             {"command": "pip install -r requirements.txt", "section": "Install", "kind": "setup", "category": "env"},
+            {"command": "python tools/prepare_data.py --root data/demo", "section": "Data Preparation", "kind": "asset", "category": "env"},
             {"command": "python eval.py --config configs/demo.yaml", "section": "Evaluation", "kind": "run", "category": "evaluation"},
+            {"command": "python train.py --config configs/demo.yaml", "section": "Training", "kind": "run", "category": "training"},
         ],
     }
 
@@ -101,9 +119,21 @@ def main() -> int:
             checks += 1
 
         annotated = (temp_root / "annotated-success.md").read_text(encoding="utf-8")
-        install_tail = annotated.split("## Install", 1)[1].split("## Evaluation", 1)[0]
-        if "[!NOTE]" not in install_tail:
-            raise AssertionError("setup-only section was not annotated as informational")
+        install_tail = annotated.split("## Install", 1)[1].split("## Data Preparation", 1)[0]
+        if "[!NOTE]" not in install_tail or "pip install -r requirements.txt" not in install_tail:
+            raise AssertionError("setup-only section lost its informational annotation or command list")
+        checks += 1
+        data_tail = annotated.split("## Data Preparation", 1)[1].split("## Evaluation", 1)[0]
+        if "[!WARNING]" not in data_tail:
+            raise AssertionError("missing local dataset did not raise a data-readiness warning")
+        checks += 1
+        training_tail = annotated.split("## Training", 1)[1].split("## License", 1)[0]
+        if "[!IMPORTANT]" not in training_tail:
+            raise AssertionError("trusted-lane training section lost its authorization-required annotation")
+        checks += 1
+        partial = (temp_root / "annotated-partial.md").read_text(encoding="utf-8")
+        if "FileNotFoundError: checkpoint not found" not in partial:
+            raise AssertionError("partial run lost the error excerpt")
         checks += 1
         license_tail = annotated.split("## License", 1)[1]
         if "⚪" not in license_tail:

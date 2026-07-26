@@ -6,10 +6,12 @@ heading-level blocks, and each block is followed by a GitHub-renderable
 annotation describing what the reproduction run did there, colored by risk:
 
 - [!TIP]       green  - executed successfully, low risk
-- [!NOTE]      blue   - informational: read-only, planned, or not executed
-- [!WARNING]   yellow - partial result or conservative assumptions
+- [!NOTE]      blue   - informational: recognized / planned, not executed
+- [!WARNING]   yellow - partial result, missing assets, or assumptions
 - [!CAUTION]   red    - blocked or failed, researcher attention required
 - [!IMPORTANT] purple - an explicit researcher decision is required
+
+Prose-only sections get a single dim line instead of a box.
 """
 
 from __future__ import annotations
@@ -37,6 +39,9 @@ EVIDENCE_LINKS = [
     ("LOG", "LOG.md"),
     ("status.json", "status.json"),
 ]
+
+METRIC_NOISE_TOKENS = {"loss", "lr", "time", "mem", "epoch", "step", "iter"}
+DATA_SECTION_TOKENS = ("data", "dataset", "数据")
 
 
 def locale(user_language: str) -> str:
@@ -94,28 +99,67 @@ def evidence_links(selected_goal: str) -> str:
     return links
 
 
+def risk_label(user_language: str, level: str) -> str:
+    mapping = {
+        "low": ("low risk", "低风险"),
+        "medium": ("medium risk", "中风险"),
+        "high": ("high risk", "高风险"),
+    }
+    en, zh = mapping[level]
+    return text(user_language, en, zh)
+
+
+def command_list_lines(matched: List[Dict[str, Any]], limit: int = 3) -> List[str]:
+    lines = [f"`{item.get('command', '')}`" for item in matched[:limit]]
+    if len(matched) > limit:
+        lines.append(f"… +{len(matched) - limit}")
+    return lines
+
+
+def error_excerpt(context: Dict[str, Any]) -> Optional[str]:
+    for entry in reversed(list(context.get("execution_log") or [])):
+        for line in reversed(str(entry).splitlines()):
+            candidate = line.strip()
+            if "error" in candidate.lower() or "traceback" in candidate.lower():
+                return candidate[:200]
+    return None
+
+
+def observed_metric_parts(context: Dict[str, Any]) -> List[str]:
+    observed = context.get("observed_metrics") or {}
+    shown = [
+        f"`{name}={value}`"
+        for name, value in list(observed.items())[:4]
+        if not any(token in name.lower() for token in METRIC_NOISE_TOKENS)
+    ]
+    best_metric = context.get("best_metric")
+    if not shown and isinstance(best_metric, dict) and best_metric.get("name") is not None:
+        shown = [f"`{best_metric['name']}={best_metric['value']}`"]
+    return shown[:4]
+
+
 def selected_command_annotation(context: Dict[str, Any], user_language: str) -> Dict[str, Any]:
     status = str(context.get("status") or "not_run")
     command = str(context.get("documented_command") or "")
-    lines: List[str] = []
-    parts: List[str] = [f"`{command}`"]
+    lines: List[str] = [text(user_language, f"Command: `{command}`", f"命令：`{command}`")]
 
     if status == "success":
         style = "success"
-        headline = text(user_language, "Executed successfully", "执行成功")
-        observed = context.get("observed_metrics") or {}
-        shown = [
-            f"`{name}={value}`"
-            for name, value in list(observed.items())[:3]
-            if not any(token in name.lower() for token in {"loss", "lr", "time", "mem", "epoch", "step", "iter"})
-        ]
-        best_metric = context.get("best_metric")
-        if not shown and isinstance(best_metric, dict) and best_metric.get("name") is not None:
-            shown = [f"`{best_metric['name']}={best_metric['value']}`"]
-        parts.extend(shown[:3])
-    elif status == "partial":
-        style = "partial"
-        headline = text(user_language, "Partial", "部分完成")
+        headline = text(user_language, "Executed successfully", "执行成功") + f"（{risk_label(user_language, 'low')}）"
+        metrics = observed_metric_parts(context)
+        if metrics:
+            lines.append(text(user_language, "Observed metrics: ", "观测指标：") + " · ".join(metrics))
+        completed_steps = context.get("completed_steps")
+        if completed_steps:
+            lines.append(text(user_language, f"Completed steps: {completed_steps}", f"完成步数：{completed_steps}"))
+    elif status in {"partial", "blocked"}:
+        style = status
+        level = "medium" if status == "partial" else "high"
+        headline = (
+            text(user_language, "Partially completed", "部分完成")
+            if status == "partial"
+            else text(user_language, "Blocked", "被阻塞")
+        ) + f"（{risk_label(user_language, level)}）"
         lines.append(
             text(
                 user_language,
@@ -123,29 +167,74 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
                 f"阻塞项：{context.get('main_blocker', '未记录')}",
             )
         )
-    elif status == "blocked":
-        style = "blocked"
-        headline = text(user_language, "Blocked", "被阻塞")
-        lines.append(
-            text(
-                user_language,
-                f"Blocker: {context.get('main_blocker', 'not recorded')}",
-                f"阻塞项：{context.get('main_blocker', '未记录')}",
-            )
-        )
+        excerpt = error_excerpt(context)
+        if excerpt:
+            lines.append(text(user_language, f"Error excerpt: `{excerpt}`", f"错误摘录：`{excerpt}`"))
+        next_action = str(context.get("next_action") or "").strip()
+        if next_action:
+            lines.append(text(user_language, f"Suggested next: {next_action}", f"建议下一步：{next_action}"))
     else:
         style = "info"
         headline = text(user_language, "Selected target · not executed", "已选为目标 · 未执行")
+        lines.append(
+            text(
+                user_language,
+                "Chosen as the smallest trustworthy target; execution was not requested in this run.",
+                "已选为最小可信目标；本次运行未请求执行。",
+            )
+        )
 
     if context.get("requires_full_training_confirmation"):
         style = "decision"
-        headline = text(user_language, "Startup verified · awaiting your approval for fuller training", "启动已验证 · 等你授权更完整训练")
+        headline = text(
+            user_language,
+            "Startup verified · fuller training needs your explicit approval",
+            "启动已验证 · 更完整训练需要你显式授权",
+        )
 
-    completed_steps = context.get("completed_steps")
-    if completed_steps:
-        parts.append(text(user_language, f"{completed_steps} steps", f"{completed_steps} 步"))
+    return {"style": style, "headline": headline, "lines": lines}
 
-    return {"style": style, "headline": headline, "parts": parts, "lines": lines}
+
+def training_policy_annotation(matched: List[Dict[str, Any]], user_language: str) -> Dict[str, Any]:
+    return {
+        "style": "decision",
+        "headline": text(
+            user_language,
+            "Training not run · requires explicit authorization (high-impact)",
+            "训练未执行 · 需要显式授权（高影响操作）",
+        ),
+        "lines": command_list_lines(matched)
+        + [
+            text(
+                user_language,
+                "The trusted lane never launches training on its own; it starts with startup verification only after you approve.",
+                "trusted lane 不会自行发起训练；获得授权后也只先做启动验证。",
+            )
+        ],
+    }
+
+
+def data_readiness_annotation(matched: List[Dict[str, Any]], user_language: str) -> Dict[str, Any]:
+    return {
+        "style": "partial",
+        "headline": text(user_language, "Data assets not ready", "数据资产未就绪")
+        + f"（{risk_label(user_language, 'medium')}）",
+        "lines": command_list_lines(matched)
+        + [
+            text(
+                user_language,
+                "No local dataset was detected; complete this section before a full evaluation is reproducible.",
+                "本地未检测到数据集；需先完成本节准备，完整评测才可复现。",
+            )
+        ],
+    }
+
+
+def dataset_missing(context: Dict[str, Any]) -> bool:
+    if "local_dataset_present" in context:
+        return not bool(context.get("local_dataset_present"))
+    hint = str(context.get("dataset") or "").strip().lower()
+    return hint in {"", "none", "unknown", "not-found"}
 
 
 def classify_block(block: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
@@ -160,51 +249,50 @@ def classify_block(block: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, 
         and (item.get("section") in set(block["sections"]) or (item.get("section") is None and block["title"] is None))
         for item in matched
     )
+    if not selected_here and selected_section is not None and selected_command:
+        selected_here = selected_section in set(block["sections"])
     if selected_here:
-        return selected_command_annotation(context, user_language)
-    # Fall back to section-name matching when the command text was normalized.
-    if selected_section is not None and selected_section in set(block["sections"]) and selected_command:
         return selected_command_annotation(context, user_language)
 
     if matched:
+        title = str(block["title"] or "").lower()
+        if all(item.get("category") == "training" for item in matched) and context.get("lane") == "trusted":
+            return training_policy_annotation(matched, user_language)
         setup_like = [item for item in matched if item.get("kind") in {"setup", "asset"}]
         if len(setup_like) == len(matched):
+            if any(token in title for token in DATA_SECTION_TOKENS) and dataset_missing(context):
+                return data_readiness_annotation(matched, user_language)
             return {
                 "style": "info",
-                "headline": text(user_language, "Folded into the setup plan", "已纳入 setup 计划"),
-                "parts": [
-                    text(user_language, f"{len(matched)} command(s), not executed directly", f"{len(matched)} 条命令，未直接执行")
-                ],
-                "lines": [],
+                "headline": text(user_language, "Folded into the setup plan · not executed directly", "已纳入 setup 计划 · 未直接执行"),
+                "lines": command_list_lines(matched),
             }
         return {
             "style": "info",
-            "headline": text(user_language, "Commands recognized · not executed", "已识别命令 · 未执行"),
-            "parts": [
-                text(user_language, f"{len(matched)} command(s); only the selected target runs", f"{len(matched)} 条命令；仅执行选定目标")
-            ],
-            "lines": [],
+            "headline": text(
+                user_language,
+                "Commands recognized · not executed (only the selected target runs)",
+                "已识别命令 · 未执行（保守策略仅执行选定目标）",
+            ),
+            "lines": command_list_lines(matched),
         }
 
     return {
         "style": "readonly",
         "headline": text(user_language, "Read only", "仅阅读"),
-        "parts": [],
         "lines": [],
     }
 
 
-def render_annotation(annotation: Dict[str, Any]) -> List[str]:
+def render_annotation(annotation: Dict[str, Any], user_language: str, selected_goal: str) -> List[str]:
     admonition, dot = STYLE_BADGES[annotation["style"]]
     if annotation["style"] == "readonly":
         # Keep prose-only sections almost invisible: one small dim line.
         return [f"<sub>{dot} {annotation['headline']}</sub>"]
-    summary = f"> {dot} **{annotation['headline']}**"
-    if annotation.get("parts"):
-        summary += " · " + " · ".join(annotation["parts"])
-    lines = [f"> [!{admonition}]", summary]
+    lines = [f"> [!{admonition}]", f"> {dot} **{annotation['headline']}**"]
     for detail in annotation["lines"]:
         lines.append(f"> {detail}")
+    lines.append(f"> <sub>{text(user_language, 'Evidence', '证据')}: {evidence_links(selected_goal)}</sub>")
     return lines
 
 
@@ -222,8 +310,8 @@ def render_header(context: Dict[str, Any]) -> List[str]:
         "",
         text(
             user_language,
-            "<sub>🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision needed — original content unchanged; its relative links resolve against the repo root.</sub>",
-            "<sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>",
+            "<sub>🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial / assets missing · 🔴 blocked · 🟣 decision needed — original content unchanged; its relative links resolve against the repo root.</sub>",
+            "<sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 / 资产缺失 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>",
         ),
         "",
         "---",
@@ -232,6 +320,8 @@ def render_header(context: Dict[str, Any]) -> List[str]:
 
 
 def render_annotated_readme(readme_text: str, context: Dict[str, Any]) -> str:
+    user_language = str(context.get("user_language") or "en")
+    selected_goal = str(context.get("selected_goal") or "")
     output: List[str] = render_header(context)
     for block in split_readme_blocks(readme_text):
         block_lines = list(block["lines"])
@@ -240,7 +330,7 @@ def render_annotated_readme(readme_text: str, context: Dict[str, Any]) -> str:
         output.extend(block_lines)
         annotation = classify_block(block, context)
         output.append("")
-        output.extend(render_annotation(annotation))
+        output.extend(render_annotation(annotation, user_language, selected_goal))
         output.append("")
     return "\n".join(output).rstrip() + "\n"
 

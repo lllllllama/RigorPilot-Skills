@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-26T09:19:25.314266+00:00",
-  "user_language": "zh",
+  "generated_at": "2026-07-26T09:27:22.247992+00:00",
+  "user_language": "en",
   "target_repo": "/home/user/demo/miniseg",
   "readme_first": true,
   "selected_goal": "evaluation",
@@ -70,6 +70,6 @@
   "notes": [
     "Detected environment file `requirements.txt`.",
     "Fell back to a virtualenv plus requirements installation plan.",
-    "STDOUT:\n=> loading config configs/miniseg_b0_ade20k.yaml\n=> loading checkpoint checkpoints/miniseg_b0.pth\n[500/2000] batches evaluated\n[1000/2000] batches evaluated\n[1500/2000] batches evaluated\n[2000/2000] batches evaluated\n---- ADE20K val, single-scale ----\nmIoU: 41.18\naAcc: 79.85"
+    "STDOUT:\n=> loading config configs/miniseg_b0_ade20k.yaml\n=> loaded checkpoint checkpoints/miniseg_b0.pth (epoch 160000)\n[500/2000] batches evaluated\n[1000/2000] batches evaluated\n[1500/2000] batches evaluated\n[2000/2000] batches evaluated\n---- ADE20K val, single-scale ----\nmIoU: 41.18\naAcc: 79.85"
   ]
 }

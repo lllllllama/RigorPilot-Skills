@@ -3,7 +3,7 @@
 - Mode: `repro`
 - Target repo: `/home/user/demo/miniseg`
 - Selected goal: `evaluation`
-- Overall status: `success`
+- Overall status: `partial`
 - Comparability status: `preserved`
 
 ## Recorded Changes
@@ -13,7 +13,7 @@
 ## Why The Changes Matter
 
 - README path: /home/user/demo/miniseg/README.md
-- Detected top-level entries: .git, LICENSE, README.md, assets, configs, requirements.txt, tools
+- Detected top-level entries: .git, LICENSE, README.md, assets, configs, miniseg, requirements.txt, tools
 - Environment plan source: requirements.txt
 - Detected environment file `requirements.txt`.
 - Fell back to a virtualenv plus requirements installation plan.
@@ -27,7 +27,7 @@
 ## Evidence
 
 - Detected files: README.md, requirements.txt
-- Command categories: {"other": 4, "evaluation": 1, "training": 1}
+- Command categories: {"other": 6, "evaluation": 2, "training": 2}
 - Selected command kind: run
 - Environment file: requirements.txt
-- Asset hints detected: 5
+- Asset hints detected: 9

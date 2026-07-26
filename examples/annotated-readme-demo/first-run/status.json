@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-26T09:19:24.745640+00:00",
+  "generated_at": "2026-07-26T09:27:21.607996+00:00",
   "user_language": "en",
   "target_repo": "/home/user/demo/miniseg",
   "readme_first": true,
   "selected_goal": "evaluation",
   "goal_priority": "evaluation",
-  "status": "success",
-  "documented_command_status": "success",
+  "status": "partial",
+  "documented_command_status": "partial",
   "documented_command": "python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth",
   "documented_command_kind": "run",
   "documented_command_source": "code_block",
@@ -26,8 +26,10 @@
     "Asset and dataset hints remain conservative until the repo or README confirms the exact path layout."
   ],
   "protocol_deviations": [],
-  "human_decisions_required": [],
-  "next_safe_action": "Review generated outputs and confirm that the next documented verification step preserves experiment meaning.",
+  "human_decisions_required": [
+    "Review the blocker before adapting commands, dependencies, or protocol-sensitive settings."
+  ],
+  "next_safe_action": "Review setup assumptions and confirm the next documented command before making any semantic changes.",
   "artifact_provenance": [
     {
       "artifact": "readme",
@@ -70,6 +72,7 @@
   "notes": [
     "Detected environment file `requirements.txt`.",
     "Fell back to a virtualenv plus requirements installation plan.",
-    "STDOUT:\n=> loading config configs/miniseg_b0_ade20k.yaml\n=> loading checkpoint checkpoints/miniseg_b0.pth\n[500/2000] batches evaluated\n[1000/2000] batches evaluated\n[1500/2000] batches evaluated\n[2000/2000] batches evaluated\n---- ADE20K val, single-scale ----\nmIoU: 41.18\naAcc: 79.85"
+    "STDOUT:\n=> loading config configs/miniseg_b0_ade20k.yaml",
+    "STDERR:\nFileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth\nDownload it from the Model Zoo table in README.md into checkpoints/."
   ]
 }

@@ -151,26 +151,34 @@ python eval.py --config configs/demo.yaml
 ```
 ````
 
+> [!WARNING]
+> 🟡 **部分完成（中风险）**
+> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
+> 阻塞项：选定的文档命令以退出码 1 结束。
+> 错误摘录：`FileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth`
+> 建议下一步：先准备环境与资源，再重试该文档命令。
+
 > [!TIP]
-> 🟢 **执行成功** · `python eval.py --config configs/demo.yaml` · `miou=79.4`
-
-只做了规划或跳过的章节同样一目了然——纯文字章节只留一行浅色小字，不占版面：
-
-> [!NOTE]
-> 🔵 **已纳入 setup 计划** · 2 条命令，未直接执行
+> 🟢 **执行成功（低风险）**
+> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
+> 观测指标：`mIoU=41.18` · `aAcc=79.85`
 
 > [!IMPORTANT]
-> 🟣 **启动已验证 · 等你授权更完整训练** · `python train.py --config configs/demo.yaml`
+> 🟣 **训练未执行 · 需要显式授权（高影响操作）**
+> `torchrun --nproc_per_node=8 tools/train.py --config configs/miniseg_b0_ade20k.yaml`
 
 <sub>⚪ 仅阅读</sub>
 
-**[查看完整真实示例 →](examples/annotated-readme-demo-zh/ANNOTATED_README.md)**——在一个
-仿真实语义分割仓库 README（Model Zoo、安装、数据准备、评测、训练、引用）上真实运行
-`ai-research-reproduction` 生成。示例中的证据链接
-（[SUMMARY](examples/annotated-readme-demo-zh/SUMMARY.md)、
-[COMMANDS](examples/annotated-readme-demo-zh/COMMANDS.md)、
-[LOG](examples/annotated-readme-demo-zh/LOG.md)、
-[status.json](examples/annotated-readme-demo-zh/status.json)）都是真实生成的证据包文件。
+**完整真实示例**——在一个仿真实语义分割仓库 README（徽章、Model Zoo、安装、数据准备、
+评测、训练、FAQ、引用）上真实运行 `ai-research-reproduction` 生成，同一条命令在
+资产准备前后的两幕对照：
+
+| 场景 | 你会看到 |
+|---|---|
+| [首次尝试 →](examples/annotated-readme-demo-zh/first-run/ANNOTATED_README.md) | 🟡 评测失败（checkpoint 缺失，含真实错误摘录）· 🟡 数据未就绪 · 🟣 训练等待授权 |
+| [资产就绪后 →](examples/annotated-readme-demo-zh/after-setup/ANNOTATED_README.md) | 🟢 评测成功，含真实观测指标 `mIoU` / `aAcc` |
+
+两个文件里的证据链接（SUMMARY、COMMANDS、LOG、status.json）都指向随文件一同提交的真实证据包。
 
 ## 🧠 Rigor Explore 流程
 

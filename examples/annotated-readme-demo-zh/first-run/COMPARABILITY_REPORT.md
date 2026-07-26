@@ -24,7 +24,7 @@
 - readme_fidelity=preserved
 - highest_patch_risk=low
 - run_mode=None
-- dataset=unknown
+- dataset=https://www.cityscapes-dataset.com/),
 - checkpoint_source=configs/miniseg_b0_ade20k.yaml, checkpoints/miniseg_b0.pth
 
 ## Assumptions And Gaps

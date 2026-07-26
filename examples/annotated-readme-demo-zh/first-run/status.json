@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-26T09:27:21.914781+00:00",
+  "user_language": "zh",
+  "target_repo": "/home/user/demo/miniseg",
+  "readme_first": true,
+  "selected_goal": "evaluation",
+  "goal_priority": "evaluation",
+  "status": "partial",
+  "documented_command_status": "partial",
+  "documented_command": "python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth",
+  "documented_command_kind": "run",
+  "documented_command_source": "code_block",
+  "documented_command_section": "Evaluation",
+  "patches_applied": false,
+  "patch_branch": null,
+  "readme_fidelity": null,
+  "highest_patch_risk": null,
+  "evidence_level": "direct",
+  "assumptions": [
+    "README remains the primary source of truth.",
+    "Environment creation should prefer isolated setup before any semantic code changes.",
+    "Model architecture should remain unchanged unless the researcher explicitly requests otherwise."
+  ],
+  "unverified_inferences": [
+    "Asset and dataset hints remain conservative until the repo or README confirms the exact path layout."
+  ],
+  "protocol_deviations": [],
+  "human_decisions_required": [
+    "Review the blocker before adapting commands, dependencies, or protocol-sensitive settings."
+  ],
+  "next_safe_action": "Review setup assumptions and confirm the next documented command before making any semantic changes.",
+  "artifact_provenance": [
+    {
+      "artifact": "readme",
+      "source": "/home/user/demo/miniseg/README.md",
+      "kind": "repo_file"
+    },
+    {
+      "artifact": "documented_command",
+      "source": "code_block",
+      "kind": "readme_extraction"
+    },
+    {
+      "artifact": "environment_plan",
+      "source": "requirements.txt",
+      "kind": "setup_plan"
+    },
+    {
+      "artifact": "asset_manifest",
+      "source": "artifacts/assets/asset_manifest.json",
+      "kind": "generated"
+    },
+    {
+      "artifact": "output_dir",
+      "source": "repro_outputs/",
+      "kind": "generated"
+    }
+  ],
+  "full_training_command": null,
+  "training_duration_hint": null,
+  "verified_commit_count": 0,
+  "outputs": {
+    "summary": "repro_outputs/SUMMARY.md",
+    "commands": "repro_outputs/COMMANDS.md",
+    "log": "repro_outputs/LOG.md",
+    "scientific_changelog": "repro_outputs/SCIENTIFIC_CHANGELOG.md",
+    "comparability_report": "repro_outputs/COMPARABILITY_REPORT.md",
+    "status": "repro_outputs/status.json",
+    "patches": null
+  },
+  "notes": [
+    "Detected environment file `requirements.txt`.",
+    "Fell back to a virtualenv plus requirements installation plan.",
+    "STDOUT:\n=> loading config configs/miniseg_b0_ade20k.yaml",
+    "STDERR:\nFileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth\nDownload it from the Model Zoo table in README.md into checkpoints/."
+  ]
+}

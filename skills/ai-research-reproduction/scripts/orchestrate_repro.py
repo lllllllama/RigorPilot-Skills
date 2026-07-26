@@ -761,7 +761,15 @@ def main() -> int:
     if readme_path and Path(readme_path).exists():
         annotated_path = write_annotated_readme(
             readme_path=Path(readme_path),
-            context={**context, "readme_commands": command_data.get("commands", [])},
+            context={
+                **context,
+                "readme_commands": command_data.get("commands", []),
+                "execution_log": run_data.get("execution_log", []),
+                "local_dataset_present": any(
+                    item.get("asset_group") in {"datasets", "data"} and item.get("status") == "present"
+                    for item in asset_data.get("manifest", [])
+                ),
+            },
             output_path=output_dir / "ANNOTATED_README.md",
         )
         context["annotated_readme"] = str(annotated_path)

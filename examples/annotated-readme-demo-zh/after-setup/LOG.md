@@ -28,10 +28,10 @@
 ## Evidence
 
 - 检测到的文件：README.md, requirements.txt
-- 命令分类：{"other": 4, "evaluation": 1, "training": 1}
+- 命令分类：{"other": 6, "evaluation": 2, "training": 2}
 - 已选命令类型：run
 - Environment file: requirements.txt
-- Asset hints detected: 5
+- Asset hints detected: 9
 
 ## Protocol deviations
 

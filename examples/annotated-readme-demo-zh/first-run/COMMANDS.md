@@ -21,23 +21,23 @@ python -m pip install -r requirements.txt
 
 ```bash
 # [inferred]
-# Prepare datasets assets under /home/user/demo/out/artifacts/assets/datasets before the documented run.
+# Prepare datasets assets under /home/user/demo/first-zh/artifacts/assets/datasets before the documented run.
 # [inferred]
-# Prepare data assets under /home/user/demo/out/artifacts/assets/data before the documented run.
+# Prepare data assets under /home/user/demo/first-zh/artifacts/assets/data before the documented run.
 # [inferred]
-# Prepare checkpoints assets under /home/user/demo/out/artifacts/assets/checkpoints before the documented run.
+# Prepare checkpoints assets under /home/user/demo/first-zh/artifacts/assets/checkpoints before the documented run.
 # [inferred]
-# Prepare weights assets under /home/user/demo/out/artifacts/assets/weights before the documented run.
+# Prepare weights assets under /home/user/demo/first-zh/artifacts/assets/weights before the documented run.
 # [inferred]
-# Prepare cache assets under /home/user/demo/out/artifacts/assets/cache before the documented run.
+# Prepare cache assets under /home/user/demo/first-zh/artifacts/assets/cache before the documented run.
 # [inferred]
-# Prepare .cache assets under /home/user/demo/out/artifacts/assets/.cache before the documented run.
+# Prepare .cache assets under /home/user/demo/first-zh/artifacts/assets/.cache before the documented run.
 # [documented]
 # Asset hint from README.md: miniseg_b0.pth, //github.com/miniseg-lab/miniseg/releases/download/v1.0/miniseg_b0.pth
 # [documented]
 # Asset hint from README.md: miniseg_b1.pth, //github.com/miniseg-lab/miniseg/releases/download/v1.0/miniseg_b1.pth
 # [documented]
-# Asset hint from README.md: http://sceneparsing.csail.mit.edu/)
+# Asset hint from README.md: miniseg_b1_city.pth, //github.com/miniseg-lab/miniseg/releases/download/v1.0/miniseg_b1_city.pth
 ```
 
 ## Main run
@@ -56,10 +56,10 @@ python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkp
 
 ## Notes
 
-- README path: /home/user/demo/miniseg/README.md
-- Detected top-level entries: .git, LICENSE, README.md, assets, configs, requirements.txt, tools
+- README 路径：/home/user/demo/miniseg/README.md
+- 检测到的顶层条目：.git, LICENSE, README.md, assets, configs, miniseg, requirements.txt, tools
 - Environment plan source: requirements.txt
 - Detected environment file `requirements.txt`.
 - Fell back to a virtualenv plus requirements installation plan.
-- Main run label: documented from README (code_block), section `Evaluation`
+- 主运行标签：来自 README 的 documented（code_block），章节 `Evaluation`
 - Planned skill chain: repo-intake-and-plan, env-and-assets-bootstrap, minimal-run-and-audit

@@ -12,12 +12,12 @@
 
 ## Why The Changes Matter
 
-- README 路径：/home/user/demo/miniseg/README.md
-- 检测到的顶层条目：.git, LICENSE, README.md, assets, configs, requirements.txt, tools
+- README path: /home/user/demo/miniseg/README.md
+- Detected top-level entries: .git, LICENSE, README.md, assets, checkpoints, configs, data, miniseg, requirements.txt, tools
 - Environment plan source: requirements.txt
 - Detected environment file `requirements.txt`.
 - Fell back to a virtualenv plus requirements installation plan.
-- 主运行标签：来自 README 的 documented（code_block），章节 `Evaluation`
+- Main run label: documented from README (code_block), section `Evaluation`
 - Planned skill chain: repo-intake-and-plan, env-and-assets-bootstrap, minimal-run-and-audit
 
 ## Scientific Meaning
@@ -26,8 +26,8 @@
 
 ## Evidence
 
-- 检测到的文件：README.md, requirements.txt
-- 命令分类：{"other": 4, "evaluation": 1, "training": 1}
-- 已选命令类型：run
+- Detected files: README.md, requirements.txt
+- Command categories: {"other": 6, "evaluation": 2, "training": 2}
+- Selected command kind: run
 - Environment file: requirements.txt
-- Asset hints detected: 5
+- Asset hints detected: 9
