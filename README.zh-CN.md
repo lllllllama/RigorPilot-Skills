@@ -80,33 +80,11 @@ README——按标题分块，每一块下面追加一条彩色标注，说明 a
 [PaperBench](https://arxiv.org/abs/2504.01848) 等复现基准用分层 rubric
 而非单一通过/失败来评判复现的思路。
 
-渲染效果预览——原文一字不动，彩色标注追加在下方：
+实际效果——原文一字不动，彩色、可下钻证据的结论就贴在每节下方：
 
-````markdown
-## Evaluation
-
-```bash
-python eval.py --config configs/demo.yaml
-```
-````
-
-> [!WARNING]
-> 🟡 **部分完成（中风险）**
-> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
-> 阻塞项：选定的文档命令以退出码 1 结束。
-> 错误摘录：`FileNotFoundError: checkpoint not found: checkpoints/miniseg_b0.pth`
-> 建议下一步：先准备环境与资源，再重试该文档命令。
-
-> [!TIP]
-> 🟢 **执行成功（低风险）**
-> 命令：`python tools/eval.py --config configs/miniseg_b0_ade20k.yaml --checkpoint checkpoints/miniseg_b0.pth`
-> 观测指标：`mIoU=41.18` · `aAcc=79.85`
-
-> [!IMPORTANT]
-> 🟣 **训练未执行 · 需要显式授权（高影响操作）**
-> `torchrun --nproc_per_node=8 tools/train.py --config configs/miniseg_b0_ade20k.yaml`
-
-<sub>⚪ 仅阅读</sub>
+<div align="center">
+  <img src="assets/annotated-readme-preview.zh-CN.png" width="840" alt="批注版 README 预览：黄色部分完成（含真实错误摘录）、绿色执行成功（含观测 mIoU/aAcc）、紫色训练待授权"/>
+</div>
 
 **完整真实示例**——在一个仿真实语义分割仓库 README（徽章、Model Zoo、安装、数据准备、
 评测、训练、FAQ、引用）上真实运行 `ai-research-reproduction` 生成，同一条命令在
