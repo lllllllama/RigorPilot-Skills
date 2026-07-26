@@ -1357,12 +1357,21 @@ def build_experiment_ledger(
     }
     metric_goal = normalize_metric_goal(metric_policy.get("metric_goal"))
     per_run_runtime = round(short_run_runtime_seconds / len(executed_runs), 3) if executed_runs else 0.0
+    best_run_id = None
     for item in executed_runs:
         ranking_metric = item.get("ranking_metric") if isinstance(item.get("ranking_metric"), dict) else {}
         ranking_value = safe_float(ranking_metric.get("value"))
+        # AIDE journal semantics: a run with no parsed ranking metric is buggy
+        # and can never be best — only debugged or abandoned.
+        is_buggy = ranking_metric.get("value") is None or item.get("status") not in {"success", "partial"}
+        if best_run_id is None and not is_buggy:
+            best_run_id = item.get("id")
         ledger["candidate_runs"].append(
             {
                 "id": item.get("id"),
+                "parent_run_id": "baseline",
+                "node_state": "debug-needed" if is_buggy else "improve",
+                "is_buggy": is_buggy,
                 "phase": "short-run",
                 "baseline_metric_diff": metric_delta_text(ranking_value, baseline_value, metric_goal),
                 "runtime_seconds": per_run_runtime,
@@ -1372,6 +1381,7 @@ def build_experiment_ledger(
                 "config_diff_summary": item.get("axes", {}),
             }
         )
+    ledger["best_run_id"] = best_run_id
     return ledger
 
 
@@ -1382,10 +1392,25 @@ def short_run_gate(executed_runs: List[Dict[str, Any]], eval_contract_complete: 
         return {"status": "failed", "reason": "Selected idea does not satisfy the single-variable requirement."}
     if not executed_runs:
         return {"status": "not-run", "reason": "No short-run candidates were executed."}
-    best = executed_runs[0]
-    if best.get("status") not in {"success", "partial"}:
-        return {"status": "failed", "reason": f"Best short-run candidate ended in `{best.get('status', 'unknown')}`."}
-    return {"status": "passed", "reason": f"Short-run gate passed with `{best.get('id', 'unknown')}`."}
+    # A run without a parsed ranking metric is buggy and can never pass the
+    # gate as "best" — comparability requires an observed number.
+    metric_backed = [
+        item
+        for item in executed_runs
+        if item.get("status") in {"success", "partial"}
+        and isinstance(item.get("ranking_metric"), dict)
+        and item["ranking_metric"].get("value") is not None
+    ]
+    if not metric_backed:
+        best = executed_runs[0]
+        return {
+            "status": "failed",
+            "reason": (
+                f"No executed run produced a parsed primary metric "
+                f"(best candidate `{best.get('id', 'unknown')}` ended in `{best.get('status', 'unknown')}`)."
+            ),
+        }
+    return {"status": "passed", "reason": f"Short-run gate passed with `{metric_backed[0].get('id', 'unknown')}`."}
 
 
 def eval_contract_complete(eval_contract: Dict[str, Any]) -> bool:

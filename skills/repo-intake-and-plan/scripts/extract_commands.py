@@ -14,6 +14,9 @@ CODE_BLOCK_RE = re.compile(r"```(?P<lang>[^\n`]*)\n(?P<body>.*?)```", re.DOTALL 
 # Bare ">" is deliberately excluded: it marks markdown blockquotes (prose),
 # not shell prompts, and matching it turns README notes into commands.
 INLINE_CMD_RE = re.compile(r"^\s*(?:\$|PS> )\s*(.+)$")
+# Angle-bracket placeholders (<PATH/TO/DATASET>, <NUM_NODES>) mean the command
+# cannot run verbatim: it needs researcher-supplied values first.
+PLACEHOLDER_RE = re.compile(r"<[A-Za-z][A-Za-z0-9 _./:-]*>")
 HEADING_RE = re.compile(r"^(?P<marks>#{1,6})\s+(?P<title>.+?)\s*$")
 COMMAND_PREFIXES = (
     "python ",
@@ -233,6 +236,7 @@ def extract_commands(readme_text: str) -> Dict[str, object]:
                         "kind": command_kind(line, section),
                         "section": section,
                         "source": "code_block",
+                        "needs_substitution": bool(PLACEHOLDER_RE.search(line)),
                     }
                 )
                 seen.add(line)
@@ -256,6 +260,7 @@ def extract_commands(readme_text: str) -> Dict[str, object]:
                     "kind": command_kind(command, section),
                     "section": section,
                     "source": "inline",
+                    "needs_substitution": bool(PLACEHOLDER_RE.search(command)),
                 }
             )
             seen.add(command)

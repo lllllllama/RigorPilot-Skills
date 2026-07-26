@@ -190,7 +190,32 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
             )
         )
 
-    if context.get("requires_full_training_confirmation"):
+    source_file = context.get("documented_command_source_file")
+    if source_file:
+        lines.append(
+            text(user_language, f"Command sourced from linked doc `{source_file}`.", f"命令来自 README 链接的文档 `{source_file}`。")
+        )
+
+    if context.get("requires_substitution"):
+        style = "decision"
+        headline = text(
+            user_language,
+            "Placeholders need your values before execution",
+            "需要你替换占位符后才能执行",
+        )
+        lines = [
+            text(user_language, f"Command: `{command}`", f"命令：`{command}`"),
+            text(
+                user_language,
+                "The documented command contains <...> placeholders; fill them in, then rerun.",
+                "文档命令包含 <...> 占位符；请填入真实值后重跑。",
+            ),
+        ]
+        if source_file:
+            lines.append(
+                text(user_language, f"Command sourced from linked doc `{source_file}`.", f"命令来自 README 链接的文档 `{source_file}`。")
+            )
+    elif context.get("requires_full_training_confirmation"):
         style = "decision"
         headline = text(
             user_language,
