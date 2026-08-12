@@ -1,5 +1,7 @@
 # RigorPilot Skills
 
+[![Skillselion Top 100](https://skillselion.com/badge/skills/lllllllama/rigorpilot-skills/paper-context-resolver.svg?award=1)](https://skillselion.com/skills/lllllllama/rigorpilot-skills/paper-context-resolver)
+
 Research-first Agent Skills for Deep Learning Experiments.
 
 **Main idea:** RigorPilot keeps AI-assisted deep learning research grounded in
