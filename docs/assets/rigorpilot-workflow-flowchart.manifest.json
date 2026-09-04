@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "assets": [
+    {
+      "id": "rigorpilot-workflow-flowchart",
+      "filename": "rigorpilot-workflow-flowchart.png",
+      "absolute_path": "D:\\test_projects\\ai-paper-reproduction-skill\\docs\\assets\\rigorpilot-workflow-flowchart.png",
+      "source_path": "C:\\Users\\17745\\.codex\\generated_images\\019f2213-7e37-77b0-ae32-17f8a2dd7f4c\\ig_0d9b911d6492c5c7016a462a2b6d88819ba1a14acb8680d723.png",
+      "width": 1672,
+      "height": 941,
+      "byte_size": 1089917,
+      "figure_type": "overview workflow diagram",
+      "intended_use": "README or presentation overview of RigorPilot Skills routing and evidence outputs",
+      "caption": "RigorPilot Skills routes research repositories through trusted execution or explicitly authorized exploration, then records auditable evidence outputs."
+    }
+  ]
+}

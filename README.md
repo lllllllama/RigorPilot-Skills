@@ -2,13 +2,9 @@
 
 [![Skillselion Top 100](https://skillselion.com/badge/skills/lllllllama/rigorpilot-skills/paper-context-resolver.svg?award=1)](https://skillselion.com/skills/lllllllama/rigorpilot-skills/paper-context-resolver)
 
-Research-first Agent Skills for Deep Learning Experiments.
-
-**Main idea:** RigorPilot keeps AI-assisted deep learning research grounded in
-comparability, reproducible evidence, and auditable changes while an agent
-reproduces, improves, or explores a research repository.
-
-> Not just higher scores. Meaningful deep learning research progress.
+Research-first Agent Skills for Deep Learning Experiments: a harness that turns README commands into bounded runs and
+auditable evidence for deep-learning repositories. Trusted reproduction is the
+default; exploration requires explicit authorization.
 
 <p>
   <a href="./README.md">English</a> |
@@ -17,99 +13,147 @@ reproduces, improves, or explores a research repository.
 
 <p>
   <a href="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml"><img alt="CI" src="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml/badge.svg"></a>
-  <img alt="research-first" src="https://img.shields.io/badge/research-first-1f6feb?style=flat-square">
-  <img alt="deep learning" src="https://img.shields.io/badge/deep-learning-238636?style=flat-square">
-  <img alt="reproducibility" src="https://img.shields.io/badge/reproducibility-auditable-0a7ea4?style=flat-square">
-  <img alt="explicit exploration" src="https://img.shields.io/badge/exploration-explicit%20only-8250df?style=flat-square">
+  <a href="https://skillselion.com/skills/lllllllama/rigorpilot-skills/ai-research-reproduction"><img alt="Listed on Skillselion" src="https://skillselion.com/badge/skills/lllllllama/rigorpilot-skills/ai-research-reproduction.svg"></a>
+  <a href="https://skills.sh/lllllllama/rigorpilot-skills"><img alt="skills.sh installs" src="https://skills.sh/b/lllllllama/rigorpilot-skills"></a>
+  <a href="https://github.com/lllllllama/RigorPilot-Skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/lllllllama/RigorPilot-Skills?style=flat-square"></a>
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
+  <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="skills" src="https://img.shields.io/badge/skills-11-8b949e?style=flat-square">
-  <img alt="public skills" src="https://img.shields.io/badge/public%20skills-9-0969da?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-45%20scripts-8250df?style=flat-square">
-  <img alt="clients" src="https://img.shields.io/badge/clients-Agent%20Skills%20%C2%B7%20Codex%20%C2%B7%20Claude%20Code-6f42c1?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/regression-56%2F56%20passed-8250df?style=flat-square">
+  <img alt="external benchmark" src="https://img.shields.io/badge/external%20protocols-4%2F4%20passed-238636?style=flat-square">
 </p>
 
-## ⚡ At a Glance
+<p align="center">
+  <a href="#examples"><strong>Examples</strong></a> ·
+  <a href="#evidence"><strong>Real-repo Evidence</strong></a> ·
+  <a href="#quick-start"><strong>Quick Start</strong></a> ·
+  <a href="#-choose-an-entry-point"><strong>Skill Index</strong></a>
+</p>
 
-| Focus | Summary |
+<a id="examples"></a>
+
+## 📄 At a Glance: How RigorPilot Annotates a README
+
+RigorPilot reads the target repository's original README directly. Every word,
+blank line, and line ending stays intact; RigorPilot only inserts a status card
+at the end of each section. You can see what ran, what happened, and why the
+agent stopped before opening the underlying evidence.
+
+| Original README | In-place RigorPilot verdict | Auditable evidence |
+|---|---|---|
+| Commands, prose, badges, images, GIFs, videos, and HTML remain unchanged | Success, partial, blocked, read-only, or authorization required | `SUMMARY.md`, `COMMANDS.md`, `LOG.md`, `status.json` |
+
+🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision required
+
+<div align="center">
+  <img src="assets/annotated-readme-preview.png" width="840" alt="Annotated README showing an error excerpt, observed metrics, evidence links, risk levels, and the training authorization boundary"/>
+  <br/>
+  <sub>The same evaluation command moves from a missing checkpoint to ready assets; training remains untouched without authorization.</sub>
+</div>
+
+| Inspectable demo | What it shows |
 |---|---|
-| 🧭 Purpose | Research-first workflow skills for deep learning experiments, not a generic coding agent or score-chasing framework. |
-| 🔒 Default rule | `trusted by default`: ambiguous requests route to reproduction, setup, run, train, analysis, or safe debugging. |
-| 🧪 Exploration boundary | Explore work starts only when the researcher explicitly authorizes candidate-only exploration. |
-| 📄 Flagship output | Every reproduction ends with an [annotated README](#-annotated-readme): your README replayed verbatim with color-coded, evidence-linked per-section results. |
-| 🧠 Thinking loop | Exploration follows a greedy, evidence-anchored research cycle: observe → ground → hypothesize → design → run → fair compare → keep or roll back. |
-| 🌱 Continuous learning | An immutable rigor core plus a user-owned lessons overlay that personalizes safely with use. |
-| 📦 Evidence outputs | Artifacts are written to `repro_outputs/`, `analysis_outputs/`, `train_outputs/`, `debug_outputs/`, `explore_outputs/`, and related directories. |
-| 🌐 Works across agents | Skills follow the [Agent Skills open standard](https://agentskills.io) (Claude Code, Codex, Cursor, VS Code, Gemini CLI, …); a root [`AGENTS.md`](AGENTS.md) routes any AGENTS.md-aware agent. |
+| [First attempt](examples/annotated-readme-demo/first-run/ANNOTATED_README.md) | 🟡 missing checkpoint with the real error excerpt · 🟡 dataset not ready · 🟣 training awaits authorization |
+| [After assets are ready](examples/annotated-readme-demo/after-setup/ANNOTATED_README.md) | 🟢 the same evaluation command succeeds with observed `mIoU` / `aAcc` |
 
-## 🚀 Start Fast
+### Verified on a Real Public Repository: micrograd
 
-Most users only need one of these commands:
+| Actual execution | README fidelity | Inspect directly |
+|---|---|---|
+| 🟢 `2` tests passed in 7.62 seconds | `8` headings = `8` annotations; stripped SHA-256 exactly matches the original file | [original repository](https://github.com/karpathy/micrograd/tree/7bc720e951fe422b8f8814aa5aa1b64121d26b4c) · [full annotated README with retained repo files](benchmark_outputs/showcases/micrograd/repo/RIGORPILOT_README.md) · [benchmark report](benchmark_outputs/external_micrograd.json) |
 
-| Goal | Command |
-|---|---|
-| Install the full RigorPilot skill set | `npx skills add lllllllama/rigorpilot-skills --all` |
-| Install the trusted reproduction entrypoint | `npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction` |
-| Install the explicit exploration entrypoint | `npx skills add lllllllama/rigorpilot-skills --skill ai-research-explore` |
+<a id="evidence"></a>
 
-Claude Code project commands:
+## 🧪 Reproduced on Real Public Repositories
 
-- `/ai-research-reproduction`
-- `/ai-research-explore`
-- `/analyze-project`
-- `/safe-debug`
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/micrograd/repo/RIGORPILOT_README.md"><img src="assets/showcase/external-micrograd.png" width="100%" alt="RigorPilot micrograd reproduction showing a successful pytest run"/></a><br/>
+      <b>micrograd · correctness</b><br/>
+      <sub>🟢 2 tests passed in 7.62 s · 8 headings = 8 annotations<br/>repository files retained · SHA-256 exact</sub><br/>
+      <a href="benchmark_outputs/showcases/micrograd/repo/RIGORPILOT_README.md">Open RigorPilot README inside the real repo →</a>
+    </td>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/mingpt/repo/RIGORPILOT_README.md"><img src="assets/showcase/external-mingpt.png" width="100%" alt="RigorPilot minGPT reproduction showing selected target and no unrequested execution"/></a><br/>
+      <b>minGPT · risk boundary</b><br/>
+      <sub>🔵 Test selected · no implicit model download<br/>11 headings = 11 annotations · SHA-256 exact</sub><br/>
+      <a href="benchmark_outputs/showcases/mingpt/repo/RIGORPILOT_README.md">Open RigorPilot README inside the real repo →</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/pytorch-mnist/repo/mnist/RIGORPILOT_README.md"><img src="assets/showcase/external-pytorch-mnist.png" width="100%" alt="RigorPilot PyTorch MNIST reproduction showing bounded training startup"/></a><br/>
+      <b>PyTorch MNIST · data and metric capture</b><br/>
+      <sub>🟡 bounded startup · loss 0.038893<br/>1 heading = 1 annotation · SHA-256 exact</sub><br/>
+      <a href="benchmark_outputs/showcases/pytorch-mnist/repo/mnist/RIGORPILOT_README.md">Open RigorPilot README inside the real repo →</a>
+    </td>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/nanogpt-shakespeare/repo/RIGORPILOT_README.md"><img src="assets/showcase/external-nanogpt.png" width="100%" alt="RigorPilot nanoGPT Shakespeare reproduction showing a bounded CPU training run"/></a><br/>
+      <b>nanoGPT Shakespeare · bounded training</b><br/>
+      <sub>🟡 train loss 4.1676 · validation loss 4.1649<br/>11 headings = 11 annotations · SHA-256 exact</sub><br/>
+      <a href="benchmark_outputs/showcases/nanogpt-shakespeare/repo/RIGORPILOT_README.md">Open RigorPilot README inside the real repo →</a>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <a href="benchmark_outputs/EXTERNAL_REPRODUCTIONS.md"><b>Browse all four reproductions in one evidence index →</b></a>
+</p>
+
+**Recorded result:** `56/56` regression scripts and `4/4` external protocols
+passed; the external suite took `251.0 s`, used at most `98.67 MiB` per
+workspace, made `0` API calls, removed every temporary workspace, and retained
+about `17.9 MiB` of tracked repository showcase snapshots.
+
+[Latest suite JSON](benchmark_outputs/external_suite_latest.json) ·
+[history](benchmark_outputs/external_suite_history.jsonl) ·
+[case definitions](benchmarks/external_cases.json) ·
+[methodology and limits](benchmarks/README.md)
+
+> `partial` proves bounded startup, metric capture, timeout handling, source
+> integrity, and cleanup. It does not prove convergence or reproduce a paper score.
+
+<a id="quick-start"></a>
+
+## 🚀 Install
+
+All skills:
+
+```bash
+npx skills add lllllllama/rigorpilot-skills --all
+```
+
+Only the trusted reproduction skill:
+
+```bash
+npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
+```
 
 <details>
-<summary>Brand and migration compatibility</summary>
+<summary>Other install paths, agent commands, and runtime controls</summary>
 
-The project brand is `RigorPilot Skills`; the recommended GitHub repository
-slug is `rigorpilot-skills`.
+Claude Code commands: `/ai-research-reproduction`, `/ai-research-explore`,
+`/analyze-project`, `/safe-debug`.
 
-- Preferred install source: `lllllllama/rigorpilot-skills`
-- Compatibility fallback: `lllllllama/ai-paper-reproduction-skills`
-- `ai-paper-reproduction` migrated to `ai-research-reproduction`
-- `research-explore` migrated to `ai-research-explore`
-- Existing compatible skill slugs remain supported; `rigor-*` names are display modes today, not install aliases.
+Each executed command receives a run ID and writes atomic state, append-only
+events, resource samples, and complete stdout/stderr under
+`<output-dir>/_runtime/<run_id>/`. Cancellation, restart recovery, and explicit
+retry preserve process and attempt lineage. Model profiles record identity and
+capabilities without credentials.
+
+The preferred source is `lllllllama/rigorpilot-skills`; the legacy
+`lllllllama/ai-paper-reproduction-skills` slug remains a compatibility fallback.
 
 </details>
 
-## 📄 Annotated README
+## 📄 Output Bundle
 
-After a Rigor Reproduce run, `repro_outputs/ANNOTATED_README.md` replays the
-target repository's README verbatim — split into heading blocks, each followed
-by a color-coded annotation of what the agent actually did there. One glance
-shows what ran, what was skipped, and where your attention is needed; every
-annotation links back to the evidence bundle
-(`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`) for details.
-
-Color legend: 🟢 executed successfully · 🔵 informational / not executed ·
-⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision required.
-
-The header carries a rubric-style **section-coverage scoreboard**
-(e.g. `🟢 1 · 🟡 2 · 🟣 1 · 🔵 1 · ⚪ 8 (13 sections)`), also recorded
-machine-readably as `readme_section_coverage` in `status.json` — inspired by
-how replication benchmarks such as
-[PaperBench](https://arxiv.org/abs/2504.01848) grade reproduction attempts
-with hierarchical rubrics rather than a single pass/fail.
-
-What it looks like — the original section stays untouched, the colored,
-evidence-linked verdicts sit right below it:
-
-<div align="center">
-  <img src="assets/annotated-readme-preview.png" width="840" alt="Annotated README preview: yellow partial verdict with real error excerpt, green success verdict with observed mIoU/aAcc, purple training-authorization verdict"/>
-</div>
-
-**Full real example, generated by actually running `ai-research-reproduction`
-on a realistic segmentation-repo README** (badges, model zoo, installation,
-data prep, evaluation, training, FAQ, citation) — two scenarios, told by the
-same command before and after asset preparation:
-
-| Scenario | What you see |
-|---|---|
-| [First attempt →](examples/annotated-readme-demo/first-run/ANNOTATED_README.md) | 🟡 evaluation fails (checkpoint missing, real error excerpt) · 🟡 dataset not ready · 🟣 training awaits authorization |
-| [After assets are ready →](examples/annotated-readme-demo/after-setup/ANNOTATED_README.md) | 🟢 evaluation succeeds with observed `mIoU` / `aAcc` |
-
-The evidence links inside both files (SUMMARY, COMMANDS, LOG, status.json)
-resolve to the real generated bundle committed next to them.
+Every run writes the original README plus section-level verdicts to
+`repro_outputs/ANNOTATED_README.md`. Each verdict links to `SUMMARY.md`,
+`COMMANDS.md`, `LOG.md`, and `status.json`; the header records a rubric-style
+coverage score. 🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial ·
+🔴 blocked · 🟣 decision required.
 
 ## 🎯 Choose an Entry Point
 
@@ -406,12 +450,18 @@ python scripts/test_setup_planning.py
 - `11` skills total: `9` public skills and `2` helper skills.
 - `6` trusted-lane public skills and `3` explore-lane public skills.
 - `4` project-scoped Claude Code wrappers under `.claude/commands/`.
-- `48` Python scripts, including `45` test scripts.
+- `59` root Python scripts, including `55` test scripts.
 - Documentation and command examples are kept usable from both Windows PowerShell and Linux shells.
 
 ## ⚠️ Current Limits
 
-- `run-train` is a bounded training monitor, not a long-running training scheduler.
+- The persistent queue is a single-host, single-writer scheduler; resource
+  requests provide admission control, not OS-level CPU, RAM, or GPU isolation.
+- The external suite covers four repositories, but minGPT is selection-only
+  and the two training cases prove bounded startup rather than convergence or
+  paper-result reproduction.
+- `run-train` remains a bounded training monitor; long runs must be submitted
+  deliberately through the queue or an external scheduler.
 - Trusted reproduction avoids silent semantic changes.
 - Helper skills stay narrow and are not public catch-all entrypoints.
 - Exploratory work must stay isolated from trusted baselines.

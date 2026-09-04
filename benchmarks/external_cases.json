@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "cases": {
+    "micrograd": {
+      "status": "ready",
+      "repository": "https://github.com/karpathy/micrograd.git",
+      "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+      "target_subdir": ".",
+      "tier": "correctness-canary",
+      "rationale": "Small classic autograd repository with a README-documented PyTorch-reference test command.",
+      "environment": {
+        "system_site_packages": true,
+        "dependency_mode": "fresh-venv-with-host-torch-and-pytest",
+        "dependency_probes": ["torch", "pytest"],
+        "cache_policy": "fresh-checkout-and-venv; host package and network caches retained"
+      },
+      "setup_steps": [
+        {
+          "name": "readme-install",
+          "argv": ["{python}", "-m", "pip", "install", "--disable-pip-version-check", "micrograd"],
+          "timeout_seconds": 180,
+          "source": "README Installation",
+          "environment": {"PYTHONUTF8": "1"}
+        }
+      ],
+      "known_adaptations": [
+        {
+          "name": "windows-utf8-mode",
+          "environment": {"PYTHONUTF8": "1"},
+          "reason": "Observed GBK UnicodeDecodeError when setup.py read the UTF-8 README on Chinese Windows.",
+          "scientific_semantics_changed": false
+        }
+      ],
+      "limits": {"max_workspace_mb": 256, "min_free_disk_gb": 5},
+      "orchestrator": {
+        "expected_command": "python -m pytest",
+        "expected_goal": "evaluation",
+        "expected_status": "success",
+        "expected_stdout_contains": "2 passed",
+        "timeout_seconds": 180,
+        "include_analysis_pass": true,
+        "expected_metrics": []
+      }
+    },
+    "mingpt": {
+      "status": "ready",
+      "repository": "https://github.com/karpathy/minGPT.git",
+      "commit": "37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+      "target_subdir": ".",
+      "tier": "selection-and-risk-canary",
+      "rationale": "Classic GPT implementation with a README-documented unittest command whose test downloads GPT-2 weights; selection is evaluated without executing the expensive external asset path.",
+      "network_required": true,
+      "environment": {
+        "system_site_packages": true,
+        "dependency_mode": "fresh-venv-with-host-torch",
+        "dependency_probes": ["torch", "transformers"],
+        "cache_policy": "fresh checkout and venv; execution intentionally disabled to avoid an unbounded GPT-2 download"
+      },
+      "setup_steps": [],
+      "known_adaptations": [],
+      "limits": {"max_workspace_mb": 128, "min_free_disk_gb": 5},
+      "orchestrator": {
+        "execute": false,
+        "expected_command": "python -m unittest discover tests",
+        "expected_goal": "evaluation",
+        "expected_status": "not_run",
+        "expected_stdout_contains": "",
+        "timeout_seconds": 60,
+        "include_analysis_pass": true,
+        "expected_metrics": []
+      }
+    },
+    "pytorch-mnist": {
+      "status": "ready",
+      "repository": "https://github.com/pytorch/examples.git",
+      "commit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
+      "target_subdir": "mnist",
+      "tier": "data-and-evaluation-canary",
+      "rationale": "Classic image-classification data and training-startup canary. The documented 14-epoch command is bounded by the trusted-lane monitoring timeout and must report partial startup evidence, not full reproduction.",
+      "environment": {
+        "system_site_packages": true,
+        "dependency_mode": "fresh-venv-with-host-torch-and-torchvision",
+        "dependency_probes": ["torch", "torchvision"],
+        "cache_policy": "fresh checkout and venv; MNIST data is disposable with the workspace"
+      },
+      "setup_steps": [
+        {
+          "name": "readme-requirements",
+          "argv": ["{python}", "-m", "pip", "install", "--disable-pip-version-check", "-r", "{repo}/mnist/requirements.txt"],
+          "timeout_seconds": 180,
+          "source": "mnist/README.md"
+        }
+      ],
+      "known_adaptations": [],
+      "limits": {"max_workspace_mb": 256, "min_free_disk_gb": 5},
+      "orchestrator": {
+        "expected_command": "python main.py",
+        "expected_goal": "training",
+        "expected_status": "partial",
+        "expected_stdout_contains": "Train Epoch:",
+        "timeout_seconds": 60,
+        "train_timeout_seconds": 60,
+        "include_analysis_pass": true,
+        "expected_metrics": []
+      }
+    },
+    "nanogpt-shakespeare": {
+      "status": "ready",
+      "repository": "https://github.com/karpathy/nanoGPT.git",
+      "commit": "3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+      "target_subdir": ".",
+      "tier": "bounded-training-canary",
+      "rationale": "README-documented CPU Shakespeare path that tests prerequisite-aware command selection, data preparation, bounded training startup, and progress capture.",
+      "environment": {
+        "system_site_packages": true,
+        "dependency_mode": "fresh-venv-with-host-torch-numpy-tiktoken",
+        "dependency_probes": ["torch", "numpy", "tiktoken"],
+        "cache_policy": "fresh checkout and venv; Tiny Shakespeare data and any checkpoint are disposable with the workspace"
+      },
+      "setup_steps": [
+        {
+          "name": "readme-shakespeare-prepare",
+          "argv": ["{python}", "data/shakespeare_char/prepare.py"],
+          "timeout_seconds": 120,
+          "source": "README quick start"
+        }
+      ],
+      "known_adaptations": [],
+      "limits": {"max_workspace_mb": 256, "min_free_disk_gb": 5},
+      "orchestrator": {
+        "expected_command": "python train.py config/train_shakespeare_char.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0",
+        "expected_goal": "training",
+        "expected_status": "partial",
+        "expected_stdout_contains": "step 0:",
+        "timeout_seconds": 45,
+        "train_timeout_seconds": 45,
+        "include_analysis_pass": true,
+        "expected_metrics": []
+      }
+    }
+  }
+}

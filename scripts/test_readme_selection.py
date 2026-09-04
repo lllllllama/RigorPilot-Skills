@@ -11,10 +11,18 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
-def run_extract(script: Path, readme_text: str) -> Dict[str, Any]:
+def run_extract(script: Path, readme_text: str, companion_files: Dict[str, str] | None = None) -> Dict[str, Any]:
     temp_path = script.parent / ".tmp_readme_selection.md"
     temp_path.write_text(readme_text, encoding="utf-8")
+    written: List[Path] = []
     try:
+        for relative, content in (companion_files or {}).items():
+            companion = script.parent / relative
+            if companion.exists():
+                raise AssertionError(f"refusing to overwrite test companion: {companion}")
+            companion.parent.mkdir(parents=True, exist_ok=True)
+            companion.write_text(content, encoding="utf-8")
+            written.append(companion)
         result = subprocess.run(
             [sys.executable, str(script), "--readme", str(temp_path), "--json"],
             check=True,
@@ -25,6 +33,8 @@ def run_extract(script: Path, readme_text: str) -> Dict[str, Any]:
     finally:
         if temp_path.exists():
             temp_path.unlink()
+        for companion in written:
+            companion.unlink()
 
 
 def command_score(command: Dict[str, Any]) -> int:
@@ -87,6 +97,46 @@ def main() -> int:
     extracted = run_extract(extract_script, nanogpt_readme)
     if not extracted["commands"] or extracted["commands"][0]["category"] != "training":
         failures.append("nanogpt-pattern: train.py with --eval_iters must classify as training, not evaluation")
+
+    micrograd_readme = (
+        "# micrograd\n\n## Running tests\n\n```bash\n"
+        "python -m pytest\n"
+        "```\n"
+    )
+    extracted = run_extract(extract_script, micrograd_readme)
+    if not extracted["commands"] or extracted["commands"][0]["category"] != "evaluation":
+        failures.append("micrograd-pattern: pytest under Running tests must classify as evaluation")
+
+    ambiguous_training_readme = (
+        "# Basic Example\n\n```bash\n"
+        "pip install -r requirements.txt\n"
+        "python main.py\n"
+        "```\n"
+    )
+    ambiguous_training_script = (
+        "def train(model, optimizer, train_loader):\n"
+        "    model.train()\n"
+        "    for data, target in train_loader:\n"
+        "        loss = model(data).sum()\n"
+        "        loss.backward()\n"
+        "        optimizer.step()\n"
+    )
+    extracted = run_extract(
+        extract_script,
+        ambiguous_training_readme,
+        {"main.py": ambiguous_training_script},
+    )
+    main_command = next((item for item in extracted["commands"] if item["command"] == "python main.py"), None)
+    setup_command = next(
+        (item for item in extracted["commands"] if item["command"] == "pip install -r requirements.txt"),
+        None,
+    )
+    if not setup_command or setup_command["kind"] != "setup" or setup_command["category"] != "other":
+        failures.append("command-syntax: pip install under a generic Example heading must remain setup/other")
+    if not main_command or main_command["category"] != "training":
+        failures.append("entrypoint-structure: ambiguous main.py with optimizer/backward must classify as training")
+    elif main_command.get("classification_source") != "entrypoint-structure":
+        failures.append("entrypoint-structure: training promotion must expose its evidence source")
 
     dinov2_readme = (
         "# Demo\n\n## Evaluation\n\n```bash\n"

@@ -19,8 +19,13 @@ Trusted output traits:
 - concise human-readable summaries
 - assumptions, deviations, and blockers recorded explicitly
 - `SCIENTIFIC_CHANGELOG.md` and `COMPARABILITY_REPORT.md` emitted by the trusted run writers
-- `repro_outputs/ANNOTATED_README.md` emitted by `ai-research-reproduction`: the target README preserved verbatim, split into heading blocks, each annotated with a color-coded per-section status linking to the evidence files
+- `repro_outputs/ANNOTATED_README.md` emitted by `ai-research-reproduction`: the target README preserved byte-for-byte inside mechanically strippable marker blocks, with exactly one color-coded status after every ATX heading block and SHA-256 round-trip proof in `status.json`
 - next safe action recorded when work is partial or blocked
+- executed commands persist immutable per-attempt runtime evidence under
+  `<output-dir>/_runtime/<run-id>/`, including state, events, stdout/stderr,
+  scoped resource samples, retry lineage, and a normalized model profile
+- controller recovery must not auto-replay commands: dead runs become
+  `interrupted`, while stale live processes become `orphaned`
 
 ## Explore outputs
 
@@ -50,6 +55,8 @@ Explore output traits:
 - human-checkpoint state recorded when the flow should stop for researcher confirmation
 - SOTA claim state recorded only against the user-provided frozen comparison table
 - enough context for a human to decide whether to continue
+- executed baseline and candidate runs retain runtime/resource/model evidence
+  in `best_runs` or the baseline payload
 - no implicit claim that exploratory gains are trusted baselines
 - isolated branch or worktree context recorded
 

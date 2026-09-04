@@ -46,6 +46,7 @@ def main() -> int:
                 "--output-dir",
                 str(output_dir),
                 "--include-analysis-pass",
+                "--include-paper-gap",
             ],
             check=True,
             capture_output=True,
@@ -58,6 +59,7 @@ def main() -> int:
             "env-and-assets-bootstrap",
             "analyze-project",
             "run-train",
+            "paper-context-resolver",
         ]
 
         if payload["selected_goal"] != "training":
@@ -66,6 +68,18 @@ def main() -> int:
             raise AssertionError("orchestrator failed to switch execution_skill to run-train")
         if payload["planned_skill_chain"] != expected_chain:
             raise AssertionError("orchestrator failed to emit the expected planned skill chain")
+        stages = {item["stage"]: item for item in payload["stage_results"]}
+        if stages.get("analyze-project", {}).get("status") != "success":
+            raise AssertionError("orchestrator did not actually execute the requested analysis pass")
+        if stages.get("run-train", {}).get("status") != "not_requested":
+            raise AssertionError("orchestrator stage ledger confused a dry run with command execution")
+        if stages.get("paper-context-resolver", {}).get("status") != "blocked":
+            raise AssertionError("orchestrator did not expose the unresolved paper-context prerequisite")
+        if not any("narrow paper question" in item for item in payload["human_decisions_required"]):
+            raise AssertionError("orchestrator omitted the paper-context human review checkpoint")
+        analysis_status = temp_root / "analysis_outputs" / "status.json"
+        if not analysis_status.exists():
+            raise AssertionError("orchestrator did not emit analysis_outputs/status.json")
         if "Planned skill chain" not in "\n".join(payload["command_notes"]):
             raise AssertionError("orchestrator command notes lost the planned chain trace")
         for rel in ["SUMMARY.md", "COMMANDS.md", "LOG.md", "status.json"]:
@@ -86,8 +100,46 @@ def main() -> int:
         if "Planned command:" not in payload["next_action"]:
             raise AssertionError("orchestrator failed to mention the fuller training command in next_action")
 
+        prerequisite_repo = temp_root / "prerequisite_repo"
+        prerequisite_repo.mkdir()
+        cpu_command = (
+            "python train.py config/train.py --device=cpu --compile=False "
+            "--max_iters=20"
+        )
+        (prerequisite_repo / "README.md").write_text(
+            "# GPT canary\n\n## Quick start\n\n```bash\n"
+            "python sample.py --out_dir=out-trained\n"
+            "python sample.py --init_from=gpt2-xl\n"
+            "python train.py config/train.py\n"
+            f"{cpu_command}\n"
+            "```\n",
+            encoding="utf-8",
+        )
+        (prerequisite_repo / "sample.py").write_text("print('sample')\n", encoding="utf-8")
+        (prerequisite_repo / "train.py").write_text("print('train')\n", encoding="utf-8")
+        (prerequisite_repo / "config").mkdir()
+        (prerequisite_repo / "config" / "train.py").write_text("max_iters = 20\n", encoding="utf-8")
+        prerequisite_result = subprocess.run(
+            [
+                sys.executable,
+                str(orchestrator),
+                "--repo",
+                str(prerequisite_repo),
+                "--output-dir",
+                str(temp_root / "prerequisite_outputs"),
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        prerequisite_payload = json.loads(prerequisite_result.stdout)
+        if prerequisite_payload["selected_goal"] != "training" or prerequisite_payload["documented_command"] != cpu_command:
+            raise AssertionError(
+                "orchestrator selected missing-checkpoint or large-download inference instead of bounded CPU training"
+            )
+
         print("ok: True")
-        print("checks: 11")
+        print("checks: 17")
         print("failures: 0")
         return 0
     finally:

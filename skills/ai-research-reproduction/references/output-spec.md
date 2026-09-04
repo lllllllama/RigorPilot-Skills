@@ -75,6 +75,12 @@ Suggested top-level keys:
 - `documented_command_kind`
 - `documented_command_source`
 - `documented_command_section`
+- `execution_mode`
+- `runtime`
+- `stage_results`
+- `observed_metrics`
+- `best_metric`
+- `result_match`
 - `patches_applied`
 - `patch_branch`
 - `readme_fidelity`
@@ -117,6 +123,39 @@ Field intent:
   - the lowest-risk next step a researcher can review or run
 - `artifact_provenance`
   - where key inputs or outputs came from, such as README, repo path, paper, dataset root, checkpoint, or generated logs
+- `stage_results`
+  - a machine-readable ledger that separates `success`, `blocked`, and `not_requested` stages
+  - planning a skill does not count as executing it; optional stages must record their actual outcome
+- `result_match`
+  - an independent comparison object with `status` set to `matched`, `mismatched`, or `not_evaluated`
+  - `matched` requires explicit expected metrics and a recorded tolerance; observed metrics alone remain `not_evaluated`
+- `runtime`
+  - identifies the durable `_runtime/<run_id>/` directory, terminal state, event stream, full stdout/stderr logs, truncation flags, cancellation state, and duration
+  - summary fields may contain only a bounded log tail; the referenced log files remain complete
+
+## Runtime evidence
+
+Every executed command should persist under the active evidence output directory:
+
+```text
+<output-dir>/_runtime/<run_id>/
+├── spec.json
+├── state.json
+├── events.jsonl
+├── resources.jsonl
+├── stdout.log
+└── stderr.log
+```
+
+The state lifecycle is `created -> running -> success|failed|timed_out|cancelled|blocked`.
+Create an empty `CANCEL` file inside the active run directory to request cancellation.
+Timeout and cancellation must terminate the child process tree before the terminal state is written.
+Recovery may add `interrupted` or `orphaned`; retries create a new run with
+`retry_of` and an incremented `attempt` rather than overwriting prior evidence.
+
+The status bundle should also expose the normalized `model_adapter` snapshot
+and its fingerprint. `resource_summary` must retain measurement scope so
+device-global GPU data is not misrepresented as per-process attribution.
 
 ## `PATCHES.md`
 

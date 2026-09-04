@@ -10,6 +10,9 @@ from pathlib import Path
 PUBLIC_PRINCIPLES_REF = "../../references/agent-operating-principles.md"
 RESEARCH_RIGOR_REF = "../../references/research-rigor-principles.md"
 DL_EXPERIMENT_REF = "../../references/deep-learning-experiment-principles.md"
+SELF_CONTAINED_PRINCIPLES_REF = "references/agent-operating-principles.md"
+SELF_CONTAINED_RESEARCH_RIGOR_REF = "references/research-rigor-principles.md"
+SELF_CONTAINED_DL_EXPERIMENT_REF = "references/deep-learning-experiment-principles.md"
 MAIN_SKILL_LIMITS = {
     "ai-research-reproduction": 130,
     "ai-research-explore": 125,
@@ -64,7 +67,10 @@ def main() -> int:
 
     for name in public_names:
         skill_text = (repo_root / "skills" / name / "SKILL.md").read_text(encoding="utf-8")
-        if PUBLIC_PRINCIPLES_REF not in skill_text:
+        valid_refs = [PUBLIC_PRINCIPLES_REF]
+        if name == "ai-research-reproduction":
+            valid_refs.append(SELF_CONTAINED_PRINCIPLES_REF)
+        if not any(ref in skill_text for ref in valid_refs):
             failures.append(f"{name} does not link to the shared operating principles")
 
     for name, limit in MAIN_SKILL_LIMITS.items():
@@ -75,9 +81,14 @@ def main() -> int:
 
     for name in ["ai-research-reproduction", "ai-research-explore"]:
         skill_text = (repo_root / "skills" / name / "SKILL.md").read_text(encoding="utf-8")
-        for ref in [RESEARCH_RIGOR_REF, DL_EXPERIMENT_REF]:
-            if ref not in skill_text:
-                failures.append(f"{name} does not link to {ref}")
+        required_refs = [
+            (RESEARCH_RIGOR_REF, SELF_CONTAINED_RESEARCH_RIGOR_REF),
+            (DL_EXPERIMENT_REF, SELF_CONTAINED_DL_EXPERIMENT_REF),
+        ]
+        for shared_ref, local_ref in required_refs:
+            accepted = [shared_ref, local_ref] if name == "ai-research-reproduction" else [shared_ref]
+            if not any(ref in skill_text for ref in accepted):
+                failures.append(f"{name} does not link to {shared_ref}")
 
     explore_text = (repo_root / "skills" / "ai-research-explore" / "SKILL.md").read_text(encoding="utf-8")
     for overfit_heading in ["## Variant Spec Hints", "## Ranking Semantics"]:

@@ -1,0 +1,55 @@
+name: Run CPP Examples
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Every day at 3:00am
+    - cron: '0 3 * * *'
+
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+        
+    - name: Install Cmake, Make, g++, MKL
+      run: |
+        sudo apt update && sudo apt upgrade
+        sudo apt install cmake g++ make
+        sudo apt-get -y install intel-mkl
+    - name: Install OpenCV
+      run: |
+        sudo apt -y install libtbb-dev
+        sudo apt install libopencv-dev
+    - name: Install argparse
+      run: |
+        git clone https://github.com/p-ranav/argparse
+        cd argparse
+        mkdir build
+        cd build
+        cmake -DARGPARSE_BUILD_SAMPLES=off -DARGPARSE_BUILD_TESTS=off ..
+        sudo make install
+    # Alternatively, you can install OpenCV from source
+    # - name: Install OpenCV from source
+    #   run: |
+        # wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
+        # unzip opencv.zip
+        # mkdir -p build && cd build
+        # cmake  ../opencv-4.x
+        # cmake --build .
+        # sudo make install    
+    
+    - name: Run Cpp Tests
+      run: |
+        chmod +x ./run_cpp_examples.sh
+        ./run_cpp_examples.sh "get_libtorch,run_all,clean"

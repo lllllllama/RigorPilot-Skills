@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
+import os
 import re
 import shlex
 import subprocess
@@ -16,11 +18,26 @@ from typing import Any, Dict, List, Optional
 from annotate_readme import write_annotated_readme
 
 
+SKILL_ROOT = Path(__file__).resolve().parents[1]
+SOURCE_SHARED_SCRIPTS = Path(__file__).resolve().parents[3] / "shared" / "scripts"
+BUNDLED_SHARED_SCRIPTS = SKILL_ROOT / "_bundled" / "shared" / "scripts"
+SHARED_SCRIPTS = (
+    SOURCE_SHARED_SCRIPTS
+    if (SOURCE_SHARED_SCRIPTS / "command_utils.py").is_file()
+    else BUNDLED_SHARED_SCRIPTS
+)
+if str(SHARED_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SHARED_SCRIPTS))
+
+from runtime_runner import run_persistent_command
+from model_adapter import ModelAdapterError, load_model_profile, missing_capabilities
+
+
 def load_lessons_store():
     """Load the shared lesson store; return None when unavailable (optional feature)."""
     import importlib.util
 
-    module_path = Path(__file__).resolve().parents[3] / "shared" / "scripts" / "lessons_store.py"
+    module_path = SHARED_SCRIPTS / "lessons_store.py"
     if not module_path.exists():
         return None
     spec = importlib.util.spec_from_file_location("lessons_store", module_path)
@@ -81,7 +98,16 @@ def text(user_language: str, en: str, zh: str) -> str:
 
 def run_json(script: Path, args: List[str]) -> Dict[str, Any]:
     command = [sys.executable, str(script), *args]
-    result = subprocess.run(command, check=True, capture_output=True, text=True)
+    child_env = os.environ.copy()
+    child_env["PYTHONIOENCODING"] = "utf-8"
+    result = subprocess.run(
+        command,
+        check=True,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        env=child_env,
+    )
     return json.loads(result.stdout)
 
 
@@ -219,10 +245,35 @@ def command_score(command: Dict[str, Any], produced_out_dirs: frozenset = frozen
         score -= 10
     if text_value.startswith(("pip install", "conda install", "conda env create", "conda activate", "git clone", "cd ")):
         score -= 12
+    if command.get("category") == "training":
+        if "--device=cpu" in text_value:
+            score += 6
+        if re.search(r"--(?:max_iters|max-steps|max_steps|epochs?)[= ]\d+|--dry-run\b", text_value):
+            score += 6
+        if text_value.startswith(("torchrun ", "deepspeed ")) or "--nproc_per_node" in text_value:
+            score -= 12
     return score
 
 
-def choose_goal(commands: List[Dict[str, Any]]) -> Dict[str, Any]:
+LARGE_REMOTE_MODEL_RE = re.compile(
+    r"--init_from=(?:gpt2-(?:medium|large|xl)|[^\s]*(?:large|xl))\b",
+    re.IGNORECASE,
+)
+
+
+def command_feasibility(command: Dict[str, Any], repo_path: Optional[Path]) -> tuple[bool, str]:
+    text_value = str(command.get("command", ""))
+    if command.get("category") != "inference":
+        return True, "no static prerequisite blocker detected"
+    out_match = OUT_DIR_RE.search(text_value)
+    if out_match and repo_path is not None and not (repo_path / out_match.group(1)).exists():
+        return False, f"required local output directory is absent: {out_match.group(1)}"
+    if LARGE_REMOTE_MODEL_RE.search(text_value):
+        return False, "command implies a large remote pretrained-model download"
+    return True, "no static prerequisite blocker detected"
+
+
+def choose_goal(commands: List[Dict[str, Any]], repo_path: Optional[Path] = None) -> Dict[str, Any]:
     produced_out_dirs = frozenset(
         match.group(1)
         for item in commands
@@ -237,6 +288,8 @@ def choose_goal(commands: List[Dict[str, Any]]) -> Dict[str, Any]:
             "category": item.get("category"),
             "score": command_score(item, produced_out_dirs),
             "needs_substitution": bool(item.get("needs_substitution")),
+            "feasible": command_feasibility(item, repo_path)[0],
+            "feasibility_reason": command_feasibility(item, repo_path)[1],
         }
         for item in ranked[:3]
     ]
@@ -245,8 +298,14 @@ def choose_goal(commands: List[Dict[str, Any]]) -> Dict[str, Any]:
         candidates = [item for item in commands if item.get("category") == category]
         if not candidates:
             continue
-        runnable = [item for item in candidates if not item.get("needs_substitution")]
-        best = max(runnable or candidates, key=lambda item: command_score(item, produced_out_dirs))
+        runnable = [
+            item
+            for item in candidates
+            if not item.get("needs_substitution") and command_feasibility(item, repo_path)[0]
+        ]
+        if not runnable:
+            continue
+        best = max(runnable, key=lambda item: command_score(item, produced_out_dirs))
         return {
             "selected_goal": category,
             "goal_priority": category,
@@ -340,7 +399,99 @@ def parse_observed_metrics(output_text: str) -> Dict[str, Any]:
     }
 
 
-def maybe_run_command(repo_path: Path, command: str, timeout: int, user_language: str) -> Dict[str, Any]:
+def parse_expected_metrics(values: List[str]) -> Dict[str, float]:
+    expected: Dict[str, float] = {}
+    for raw in values:
+        name, separator, value_text = raw.partition("=")
+        name = name.strip()
+        if not separator or not name:
+            raise ValueError(f"Expected metric must use NAME=VALUE syntax: {raw!r}")
+        try:
+            value = float(value_text.strip())
+        except ValueError as exc:
+            raise ValueError(f"Expected metric value is not numeric: {raw!r}") from exc
+        if not math.isfinite(value):
+            raise ValueError(f"Expected metric value must be finite: {raw!r}")
+        expected[name] = value
+    return expected
+
+
+def compare_expected_metrics(
+    observed: Dict[str, Any],
+    expected: Dict[str, float],
+    absolute_tolerance: float,
+) -> Dict[str, Any]:
+    if not expected:
+        return {
+            "status": "not_evaluated",
+            "reason": "No explicit expected metrics were supplied.",
+            "absolute_tolerance": absolute_tolerance,
+            "comparisons": [],
+        }
+
+    observed_by_key = {str(name).lower(): (str(name), value) for name, value in observed.items()}
+    comparisons: List[Dict[str, Any]] = []
+    for expected_name, expected_value in expected.items():
+        matched_observed = observed_by_key.get(expected_name.lower())
+        if matched_observed is None:
+            comparisons.append(
+                {
+                    "metric": expected_name,
+                    "expected": expected_value,
+                    "observed": None,
+                    "absolute_error": None,
+                    "within_tolerance": False,
+                    "reason": "metric_not_observed",
+                }
+            )
+            continue
+        observed_name, raw_observed_value = matched_observed
+        try:
+            observed_value = float(raw_observed_value)
+        except (TypeError, ValueError):
+            comparisons.append(
+                {
+                    "metric": expected_name,
+                    "observed_name": observed_name,
+                    "expected": expected_value,
+                    "observed": raw_observed_value,
+                    "absolute_error": None,
+                    "within_tolerance": False,
+                    "reason": "observed_value_not_numeric",
+                }
+            )
+            continue
+        absolute_error = abs(observed_value - expected_value)
+        comparisons.append(
+            {
+                "metric": expected_name,
+                "observed_name": observed_name,
+                "expected": expected_value,
+                "observed": observed_value,
+                "absolute_error": absolute_error,
+                "within_tolerance": absolute_error <= absolute_tolerance,
+            }
+        )
+
+    matched = bool(comparisons) and all(item["within_tolerance"] for item in comparisons)
+    return {
+        "status": "matched" if matched else "mismatched",
+        "reason": "All expected metrics are within tolerance." if matched else "At least one expected metric is missing or outside tolerance.",
+        "absolute_tolerance": absolute_tolerance,
+        "comparisons": comparisons,
+    }
+
+
+def maybe_run_command(
+    repo_path: Path,
+    command: str,
+    timeout: int,
+    user_language: str,
+    shell_mode: str = "direct",
+    runtime_root: Optional[Path] = None,
+    model_adapter: Optional[Dict[str, Any]] = None,
+    monitor_gpu: bool = False,
+) -> Dict[str, Any]:
     if not command:
         return {
             "status": "not_run",
@@ -353,16 +504,18 @@ def maybe_run_command(repo_path: Path, command: str, timeout: int, user_language
             ),
         }
 
-    try:
-        result = subprocess.run(
-            shlex.split(command, posix=True),
-            cwd=repo_path,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            check=False,
-        )
-    except FileNotFoundError as exc:
+    selected_runtime_root = (runtime_root or (repo_path / "repro_outputs" / "_runtime")).resolve()
+    result = run_persistent_command(
+        repo=repo_path,
+        command=command,
+        timeout=timeout,
+        runtime_root=selected_runtime_root,
+        shell_mode=shell_mode,
+        model_adapter=model_adapter,
+        monitor_gpu=monitor_gpu,
+    )
+    if result.get("launch_error"):
+        exc = result["launch_error"]
         return {
             "status": "blocked",
             "documented_command_status": "blocked",
@@ -372,33 +525,58 @@ def maybe_run_command(repo_path: Path, command: str, timeout: int, user_language
                 f"Executable not found for documented command: {exc}",
                 f"文档命令缺少可执行程序：{exc}",
             ),
+            "execution_mode": shell_mode,
+            **runtime_metadata(result),
         }
-    except subprocess.TimeoutExpired:
+    if result.get("cancelled"):
         return {
             "status": "partial",
             "documented_command_status": "partial",
-            "execution_log": [f"Command timed out after {timeout} seconds."],
+            "execution_log": ["Command cancelled through the runtime control file."],
+            "main_blocker": text(
+                user_language,
+                "The selected documented command was cancelled.",
+                "选定的文档命令已取消。",
+            ),
+            "execution_mode": shell_mode,
+            **runtime_metadata(result),
+        }
+    if result.get("timed_out"):
+        return {
+            "status": "partial",
+            "documented_command_status": "partial",
+            "execution_log": [
+                item for item in [
+                    f"STDOUT:\n{result.get('stdout', '').strip()}" if result.get("stdout", "").strip() else "",
+                    f"STDERR:\n{result.get('stderr', '').strip()}" if result.get("stderr", "").strip() else "",
+                    f"Command timed out after {timeout} seconds.",
+                ] if item
+            ],
             "main_blocker": text(
                 user_language,
                 f"Selected documented command did not finish within {timeout} seconds.",
                 f"选定的文档命令未在 {timeout} 秒内完成。",
             ),
+            "execution_mode": shell_mode,
+            **runtime_metadata(result),
         }
 
     combined: List[str] = []
-    if result.stdout.strip():
-        combined.append("STDOUT:\n" + result.stdout.strip())
-    if result.stderr.strip():
-        combined.append("STDERR:\n" + result.stderr.strip())
+    if result.get("stdout", "").strip():
+        combined.append("STDOUT:\n" + result["stdout"].strip())
+    if result.get("stderr", "").strip():
+        combined.append("STDERR:\n" + result["stderr"].strip())
 
-    metric_data = parse_observed_metrics("\n".join([result.stdout or "", result.stderr or ""]))
+    metric_data = parse_observed_metrics("\n".join([result.get("stdout", ""), result.get("stderr", "")]))
 
-    if result.returncode == 0:
+    if result.get("returncode") == 0:
         return {
             "status": "success",
             "documented_command_status": "success",
             "execution_log": combined,
             "main_blocker": text(user_language, "None.", "无。"),
+            "execution_mode": shell_mode,
+            **runtime_metadata(result),
             **metric_data,
         }
 
@@ -407,12 +585,36 @@ def maybe_run_command(repo_path: Path, command: str, timeout: int, user_language
         "documented_command_status": "partial",
         "execution_log": combined,
         **metric_data,
+        "execution_mode": shell_mode,
+        **runtime_metadata(result),
         "main_blocker": text(
             user_language,
-            f"Selected documented command exited with code {result.returncode}.",
-            f"选定的文档命令以退出码 {result.returncode} 结束。",
+            f"Selected documented command exited with code {result.get('returncode')}.",
+            f"选定的文档命令以退出码 {result.get('returncode')} 结束。",
         ),
     }
+
+
+def runtime_metadata(result: Dict[str, Any]) -> Dict[str, Any]:
+    keys = [
+        "runtime_run_id",
+        "runtime_dir",
+        "runtime_status",
+        "runtime_state_path",
+        "runtime_events_path",
+        "stdout_log_path",
+        "stderr_log_path",
+        "stdout_truncated",
+        "stderr_truncated",
+        "cancelled",
+        "duration_seconds",
+        "runtime_attempt",
+        "runtime_retry_of",
+        "resources_log_path",
+        "resource_summary",
+        "model_adapter",
+    ]
+    return {key: result.get(key) for key in keys}
 
 
 def maybe_run_training(
@@ -428,6 +630,11 @@ def maybe_run_training(
     checkpoint_hint: str,
     resume_from: str,
     max_train_steps: int,
+    shell_mode: str,
+    runtime_root: Path,
+    model_profile_json: str,
+    required_model_capabilities: List[str],
+    gpu_monitor_enabled: bool,
 ) -> Dict[str, Any]:
     if not command:
         return {
@@ -454,6 +661,7 @@ def maybe_run_training(
             "observed_metrics": {},
             "checkpoint_candidates": [],
             "monitoring_scope": "not_run",
+            "execution_mode": shell_mode,
         }
 
     if resume_from:
@@ -463,9 +671,7 @@ def maybe_run_training(
     else:
         run_mode = "full_kickoff"
 
-    return run_json(
-        train_script,
-        [
+    training_args = [
             "--repo",
             str(repo_path),
             "--command",
@@ -484,12 +690,23 @@ def maybe_run_training(
             resume_from,
             "--max-steps",
             str(max_train_steps),
-        ],
-    )
+            "--shell-mode",
+            shell_mode,
+            "--runtime-root",
+            str(runtime_root),
+        ]
+    if model_profile_json:
+        training_args.extend(["--model-profile-json", model_profile_json])
+    for capability in required_model_capabilities:
+        training_args.extend(["--require-model-capability", capability])
+    if not gpu_monitor_enabled:
+        training_args.append("--no-gpu-monitor")
+    return run_json(train_script, training_args)
 
 
 def build_context(
     *,
+    chosen: Dict[str, Any],
     repo_path: Path,
     scan_data: Dict[str, Any],
     command_data: Dict[str, Any],
@@ -502,8 +719,8 @@ def build_context(
     include_paper_gap: bool,
     lane: str,
     full_training_authorized: bool,
+    stage_results: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
-    chosen = choose_goal(command_data.get("commands", []))
     skill_chain = plan_skill_chain(chosen["selected_goal"], include_analysis_pass, include_paper_gap)
     execution_skill = "run-train" if chosen["selected_goal"] == "training" else "minimal-run-and-audit"
     status = run_data["status"] if run_selected else "not_run"
@@ -626,6 +843,10 @@ def build_context(
         human_decisions_required.append("Review the startup verification evidence and confirm whether to continue with a fuller training reproduction run.")
     if run_selected and status in {"partial", "blocked"}:
         human_decisions_required.append("Review the blocker before adapting commands, dependencies, or protocol-sensitive settings.")
+    if include_paper_gap:
+        human_decisions_required.append(
+            "Provide a narrow paper question and an authoritative paper source before running paper-context-resolver."
+        )
 
     if chosen["selected_goal"] == "training":
         if lane == "trusted" and not full_training_authorized:
@@ -723,6 +944,7 @@ def build_context(
         "goal_priority": chosen["goal_priority"],
         "execution_skill": execution_skill,
         "planned_skill_chain": skill_chain,
+        "stage_results": stage_results,
         "status": status,
         "documented_command_status": documented_status,
         "documented_command": chosen["documented_command"] or "None extracted",
@@ -774,30 +996,104 @@ def build_context(
         "last_epoch": run_data.get("last_epoch"),
         "last_step": run_data.get("last_step"),
         "observed_metrics": run_data.get("observed_metrics", {}),
+        "result_match": run_data.get("result_match", {"status": "not_evaluated"}),
         "checkpoint_candidates": run_data.get("checkpoint_candidates", []),
         "monitoring_scope": run_data.get("monitoring_scope"),
+        "execution_mode": run_data.get("execution_mode", "direct"),
+        "runtime_run_id": run_data.get("runtime_run_id"),
+        "runtime_dir": run_data.get("runtime_dir"),
+        "runtime_status": run_data.get("runtime_status"),
+        "runtime_state_path": run_data.get("runtime_state_path"),
+        "runtime_events_path": run_data.get("runtime_events_path"),
+        "stdout_log_path": run_data.get("stdout_log_path"),
+        "stderr_log_path": run_data.get("stderr_log_path"),
+        "stdout_truncated": run_data.get("stdout_truncated", False),
+        "stderr_truncated": run_data.get("stderr_truncated", False),
+        "cancelled": run_data.get("cancelled", False),
+        "duration_seconds": run_data.get("duration_seconds"),
+        "runtime_attempt": run_data.get("runtime_attempt"),
+        "runtime_retry_of": run_data.get("runtime_retry_of"),
+        "resources_log_path": run_data.get("resources_log_path"),
+        "resource_summary": run_data.get("resource_summary", {}),
+        "model_adapter": run_data.get("model_adapter"),
     }
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Run a minimal README-first reproduction orchestration.")
     parser.add_argument("--repo", required=True, help="Path to the target repository.")
     parser.add_argument("--output-dir", default="repro_outputs", help="Directory to write standardized outputs into.")
     parser.add_argument("--train-output-dir", default="", help="Optional override for the supplemental training output directory.")
+    parser.add_argument(
+        "--runtime-root",
+        default="",
+        help="Optional runtime state root (default: <output-dir>/_runtime).",
+    )
+    parser.add_argument("--model-profile-json", default="", help="Optional provider-neutral model identity/capability profile.")
+    parser.add_argument(
+        "--require-model-capability",
+        action="append",
+        default=[],
+        help="Required model capability; repeat as needed.",
+    )
+    parser.add_argument("--monitor-gpu", action="store_true", help="Sample NVIDIA telemetry for non-training commands too.")
+    parser.add_argument("--no-gpu-monitor", action="store_true", help="Disable NVIDIA telemetry for training commands.")
     parser.add_argument("--user-language", default="en", help="Language tag for human-readable reports.")
     parser.add_argument("--run-selected", action="store_true", help="Execute the selected documented command.")
-    parser.add_argument("--include-analysis-pass", action="store_true", help="Include analyze-project in the planned skill chain.")
-    parser.add_argument("--include-paper-gap", action="store_true", help="Include paper-context-resolver in the planned skill chain.")
+    parser.add_argument("--include-analysis-pass", action="store_true", help="Run analyze-project and record its outputs in the stage ledger.")
+    parser.add_argument(
+        "--include-paper-gap",
+        action="store_true",
+        help="Request paper-context-resolver; records a blocked stage until a narrow question and source are supplied.",
+    )
     parser.add_argument("--timeout", type=int, default=120, help="Execution timeout in seconds for non-training documented commands.")
     parser.add_argument("--train-timeout", type=int, default=120, help="Monitoring timeout in seconds for training commands.")
     parser.add_argument("--lane", choices=["trusted", "explore"], default="trusted", help="Execution lane policy.")
     parser.add_argument("--full-training-authorized", action="store_true", help="Allow the orchestrator to proceed beyond startup verification for training.")
     parser.add_argument("--resume-from", default="", help="Optional checkpoint path to pass through to run-train.")
     parser.add_argument("--max-train-steps", type=int, default=0, help="Optional expected max train steps for reporting.")
+    parser.add_argument(
+        "--expected-metric",
+        action="append",
+        default=[],
+        metavar="NAME=VALUE",
+        help="Explicit expected metric for result matching. Repeat for multiple metrics.",
+    )
+    parser.add_argument(
+        "--metric-absolute-tolerance",
+        type=float,
+        default=0.0,
+        help="Maximum absolute error allowed for every --expected-metric value.",
+    )
+    parser.add_argument(
+        "--shell-mode",
+        choices=["direct", "native"],
+        default="direct",
+        help="Use direct argv execution by default; native shell execution requires explicit opt-in after review.",
+    )
     args = parser.parse_args()
 
+    if args.timeout <= 0 or args.train_timeout <= 0:
+        parser.error("--timeout and --train-timeout must be greater than zero")
+    if args.metric_absolute_tolerance < 0 or not math.isfinite(args.metric_absolute_tolerance):
+        parser.error("--metric-absolute-tolerance must be a finite non-negative number")
+    try:
+        expected_metrics = parse_expected_metrics(args.expected_metric)
+    except ValueError as exc:
+        parser.error(str(exc))
+
     repo_path = Path(args.repo).resolve()
-    base_dir = Path(__file__).resolve().parents[2]
+    source_skills_dir = Path(__file__).resolve().parents[2]
+    bundled_skills_dir = SKILL_ROOT / "_bundled" / "skills"
+    base_dir = (
+        source_skills_dir
+        if (source_skills_dir / "repo-intake-and-plan" / "scripts" / "scan_repo.py").is_file()
+        else bundled_skills_dir
+    )
     scan_script = base_dir / "repo-intake-and-plan" / "scripts" / "scan_repo.py"
     extract_script = base_dir / "repo-intake-and-plan" / "scripts" / "extract_commands.py"
     setup_script = base_dir / "env-and-assets-bootstrap" / "scripts" / "plan_setup.py"
@@ -805,6 +1101,7 @@ def main() -> int:
     repro_write_script = base_dir / "minimal-run-and-audit" / "scripts" / "write_outputs.py"
     train_write_script = base_dir / "run-train" / "scripts" / "write_outputs.py"
     train_execute_script = base_dir / "run-train" / "scripts" / "run_training.py"
+    analyze_script = base_dir / "analyze-project" / "scripts" / "analyze_project.py"
 
     scan_data = run_json(scan_script, ["--repo", str(repo_path), "--json"])
     readme_path = scan_data.get("readme_path")
@@ -815,6 +1112,14 @@ def main() -> int:
 
     output_dir = Path(args.output_dir).resolve()
     train_output_dir = Path(args.train_output_dir).resolve() if args.train_output_dir else output_dir.parent / "train_outputs"
+    runtime_root = Path(args.runtime_root).resolve() if args.runtime_root else output_dir / "_runtime"
+    try:
+        model_adapter = load_model_profile(Path(args.model_profile_json) if args.model_profile_json else None)
+        missing_model_capabilities = missing_capabilities(model_adapter, args.require_model_capability)
+    except ModelAdapterError as exc:
+        parser.error(str(exc))
+    if missing_model_capabilities:
+        parser.error(f"model profile is missing required capabilities: {', '.join(missing_model_capabilities)}")
     assets_root = output_dir.parent / "artifacts" / "assets"
     asset_manifest_path = assets_root / "asset_manifest.json"
 
@@ -831,7 +1136,44 @@ def main() -> int:
         ],
     )
 
-    chosen = choose_goal(command_data.get("commands", []))
+    stage_results: List[Dict[str, Any]] = [
+        {
+            "stage": "repo-intake-and-plan",
+            "status": "success",
+            "detail": "Repository metadata and README commands were inspected.",
+        },
+        {
+            "stage": "env-and-assets-bootstrap",
+            "status": "success",
+            "detail": "Setup plan and asset manifest were generated without installing dependencies.",
+            "outputs": [str(asset_manifest_path)],
+        },
+    ]
+    if args.include_analysis_pass:
+        analysis_output_dir = output_dir.parent / "analysis_outputs"
+        try:
+            run_json(
+                analyze_script,
+                ["--repo", str(repo_path), "--output-dir", str(analysis_output_dir)],
+            )
+            stage_results.append(
+                {
+                    "stage": "analyze-project",
+                    "status": "success",
+                    "detail": "Read-only project analysis completed.",
+                    "outputs": [str(analysis_output_dir / "status.json")],
+                }
+            )
+        except (OSError, subprocess.CalledProcessError, json.JSONDecodeError) as exc:
+            stage_results.append(
+                {
+                    "stage": "analyze-project",
+                    "status": "blocked",
+                    "detail": f"Read-only project analysis failed: {type(exc).__name__}: {exc}",
+                }
+            )
+
+    chosen = choose_goal(command_data.get("commands", []), repo_path)
     dataset_hint = derive_dataset_hint(asset_data)
     checkpoint_hint = derive_checkpoint_hint(asset_data)
     run_data: Dict[str, Any] = {
@@ -852,8 +1194,11 @@ def main() -> int:
         "last_epoch": None,
         "last_step": None,
         "observed_metrics": {},
+        "result_match": {"status": "not_evaluated", "reason": "Execution was not requested.", "comparisons": []},
         "checkpoint_candidates": [],
         "monitoring_scope": "not_run",
+        "execution_mode": args.shell_mode,
+        "model_adapter": model_adapter,
     }
     if args.run_selected and chosen.get("requires_substitution"):
         run_data["status"] = "not_run"
@@ -877,11 +1222,53 @@ def main() -> int:
                 checkpoint_hint=checkpoint_hint,
                 resume_from=args.resume_from,
                 max_train_steps=args.max_train_steps,
+                shell_mode=args.shell_mode,
+                runtime_root=runtime_root,
+                model_profile_json=args.model_profile_json,
+                required_model_capabilities=args.require_model_capability,
+                gpu_monitor_enabled=not args.no_gpu_monitor,
             )
         else:
-            run_data = maybe_run_command(repo_path, chosen["documented_command"], args.timeout, args.user_language)
+            run_data = maybe_run_command(
+                repo_path,
+                chosen["documented_command"],
+                args.timeout,
+                args.user_language,
+                args.shell_mode,
+                runtime_root,
+                model_adapter,
+                args.monitor_gpu,
+            )
+
+    run_data["result_match"] = compare_expected_metrics(
+        run_data.get("observed_metrics", {}),
+        expected_metrics,
+        args.metric_absolute_tolerance,
+    )
+
+    execution_stage = "run-train" if chosen["selected_goal"] == "training" else "minimal-run-and-audit"
+    stage_results.append(
+        {
+            "stage": execution_stage,
+            "status": run_data["status"] if args.run_selected else "not_requested",
+            "detail": (
+                "Selected documented command was attempted."
+                if args.run_selected
+                else "Execution was not requested; no command was run."
+            ),
+        }
+    )
+    if args.include_paper_gap:
+        stage_results.append(
+            {
+                "stage": "paper-context-resolver",
+                "status": "blocked",
+                "detail": "A narrow paper question and authoritative paper source were not supplied.",
+            }
+        )
 
     context = build_context(
+        chosen=chosen,
         repo_path=repo_path,
         scan_data=scan_data,
         command_data=command_data,
@@ -894,6 +1281,7 @@ def main() -> int:
         include_paper_gap=args.include_paper_gap,
         lane=args.lane,
         full_training_authorized=args.full_training_authorized,
+        stage_results=stage_results,
     )
 
     context["annotated_readme"] = None

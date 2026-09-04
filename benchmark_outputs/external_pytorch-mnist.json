@@ -1,0 +1,327 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-external-reproduction",
+  "case": "pytorch-mnist",
+  "case_manifest_schema_version": "1.0",
+  "generated_at": "2026-09-04T18:00:18.531613Z",
+  "status": "passed",
+  "source": {
+    "repository": "https://github.com/pytorch/examples.git",
+    "expected_commit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
+    "actual_commit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
+    "target_subdir": "mnist",
+    "fresh_checkout": true
+  },
+  "identity": {
+    "harness_sha256": "3357a14ad2d039572b1db5eceda93810c48dd0ee6c523d88540a98eac7dbc86a",
+    "harness_file_count": 50,
+    "case_sha256": "9cd73300380b9d0972f29d4e22f285d1c95a4e4084691907fb3bc402521dad8b"
+  },
+  "scope": {
+    "tier": "data-and-evaluation-canary",
+    "dependency_mode": "fresh-venv-with-host-torch-and-torchvision",
+    "cache_policy": "fresh checkout and venv; MNIST data is disposable with the workspace",
+    "api_calls": 0,
+    "gpu_required": false,
+    "network_required": true,
+    "workspace": "tmp/external-benchmark-runs/pytorch-mnist-20260904T180018Z-44808",
+    "workspace_retained": false,
+    "evidence_retained": true,
+    "verification_mode": "execution",
+    "workspace_cleanup": "removed"
+  },
+  "limits": {
+    "max_workspace_mb": 256,
+    "min_free_disk_gb": 5.0,
+    "initial_free_disk_bytes": 131012706304,
+    "peak_workspace_bytes": 103460452,
+    "final_free_disk_bytes": 130906013696
+  },
+  "known_adaptations": [],
+  "environment": {
+    "base_python": "3.12.7",
+    "system_site_packages": true,
+    "dependency_versions": {
+      "torch": "2.12.1+cu126",
+      "torchvision": "0.27.1+cu126"
+    },
+    "inheritance_policy": "strip-secret-named-variables",
+    "secret_environment_variables_stripped": 6,
+    "venv_python": "3.12.7"
+  },
+  "phases": [
+    {
+      "name": "init-repository",
+      "source": "benchmark isolation policy",
+      "command": "git init D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.187,
+      "runtime_dir": "phase_runtime/20260904T180018Z-eca0bcf5",
+      "stdout_tail": "Initialized empty Git repository in D:/test_projects/ai-paper-reproduction-skill/tmp/external-benchmark-runs/pytorch-mnist-20260904T180018Z-44808/repo/.git/\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 2682880,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "fetch-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo fetch --depth 1 https://github.com/pytorch/examples.git acc295dc7b90714f1bf47f06004fc19a7fe235c4",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 3.156,
+      "runtime_dir": "phase_runtime/20260904T180018Z-2b821dc8",
+      "stdout_tail": "",
+      "stderr_tail": "From https://github.com/pytorch/examples\n * branch            acc295dc7b90714f1bf47f06004fc19a7fe235c4 -> FETCH_HEAD\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 4,
+        "max_root_process_rss_bytes": 6701056,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "checkout-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo checkout --detach FETCH_HEAD",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.579,
+      "runtime_dir": "phase_runtime/20260904T180021Z-9e973646",
+      "stdout_tail": "",
+      "stderr_tail": "HEAD is now at acc295d Clean up README.md by removing badge and whitespace\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 4771840,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "create-venv",
+      "source": "benchmark isolation policy",
+      "command": "D:\\Anaconda3\\python.exe -m venv --system-site-packages D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\.venv",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 17.093,
+      "runtime_dir": "phase_runtime/20260904T180022Z-8d6d85ee",
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 17,
+        "max_root_process_rss_bytes": 16547840,
+        "max_root_process_cpu_seconds": 0.15625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "dependency-probe",
+      "source": "case manifest",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\.venv\\Scripts\\python.exe -c \"import importlib.metadata as m,json,sys; names=[\\\"torch\\\", \\\"torchvision\\\"]; print(json.dumps({'python':sys.version.split()[0],'packages':{name:m.version(name) for name in names}},sort_keys=True))\"",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.39,
+      "runtime_dir": "phase_runtime/20260904T180040Z-554bcfa2",
+      "stdout_tail": "{\"packages\": {\"torch\": \"2.12.1+cu126\", \"torchvision\": \"0.27.1+cu126\"}, \"python\": \"3.12.7\"}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 4005888,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "readme-requirements",
+      "source": "mnist/README.md",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\.venv\\Scripts\\python.exe -m pip install --disable-pip-version-check -r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 7.625,
+      "runtime_dir": "phase_runtime/20260904T180041Z-b046125b",
+      "stdout_tail": "Requirement already satisfied: torch in d:\\anaconda3\\lib\\site-packages (from -r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (2.12.1+cu126)\nRequirement already satisfied: torchvision in d:\\anaconda3\\lib\\site-packages (from -r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 2)) (0.27.1+cu126)\nRequirement already satisfied: filelock in d:\\anaconda3\\lib\\site-packages (from torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (3.29.0)\nRequirement already satisfied: typing-extensions>=4.10.0 in d:\\anaconda3\\lib\\site-packages (from torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (4.15.0)\nRequirement already satisfied: setuptools<82 in d:\\anaconda3\\lib\\site-packages (from torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (70.2.0)\nRequirement already satisfied: sympy>=1.13.3 in d:\\anaconda3\\lib\\site-packages (from torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (1.14.0)\nRequirement already satisfied: networkx>=2.5.1 in d:\\anaconda3\\lib\\site-packages (from torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (3.6.1)\nRequirement already satisfied: jinja2 in d:\\anaconda3\\lib\\site-packages (from torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (3.1.6)\nRequirement already satisfied: fsspec>=0.8.5 in d:\\anaconda3\\lib\\site-packages (from torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (2024.6.1)\nRequirement already satisfied: numpy in d:\\anaconda3\\lib\\site-packages (from torchvision->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 2)) (1.26.4)\nRequirement already satisfied: pillow!=8.3.*,>=5.3.0 in d:\\anaconda3\\lib\\site-packages (from torchvision->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 2)) (12.0.0)\nRequirement already satisfied: mpmath<1.4,>=1.1.0 in d:\\anaconda3\\lib\\site-packages (from sympy>=1.13.3->torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (1.3.0)\nRequirement already satisfied: MarkupSafe>=2.0 in d:\\anaconda3\\lib\\site-packages (from jinja2->torch->-r D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo/mnist/requirements.txt (line 1)) (3.0.3)\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 8,
+        "max_root_process_rss_bytes": 4354048,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      },
+      "environment_overrides": []
+    },
+    {
+      "name": "rigorpilot-orchestrator",
+      "source": "RigorPilot ai-research-reproduction",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\.venv\\Scripts\\python.exe D:\\test_projects\\ai-paper-reproduction-skill\\skills\\ai-research-reproduction\\scripts\\orchestrate_repro.py --repo D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repo\\mnist --output-dir D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\pytorch-mnist-20260904T180018Z-44808\\repro_outputs --timeout 60 --train-timeout 60 --user-language en --run-selected --include-analysis-pass",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 63.938,
+      "runtime_dir": "phase_runtime/20260904T180051Z-ab6c3d6c",
+      "stdout_tail": "orized\": false,\n  \"requires_full_training_confirmation\": true,\n  \"run_mode\": \"startup_verification\",\n  \"resume_from\": null,\n  \"dataset\": \"unknown\",\n  \"checkpoint_source\": \"none\",\n  \"full_training_command\": \"python main.py\",\n  \"training_duration_hint\": \"unknown; likely hours to multi-day on the full dataset until a bounded schedule is confirmed\",\n  \"max_steps\": 0,\n  \"completed_steps\": 0,\n  \"best_metric\": {\n    \"name\": \"loss\",\n    \"value\": 0.038893\n  },\n  \"best_checkpoint\": null,\n  \"stop_reason\": \"monitoring_window_elapsed\",\n  \"last_epoch\": 1,\n  \"last_step\": null,\n  \"observed_metrics\": {\n    \"loss\": 0.038893\n  },\n  \"result_match\": {\n    \"status\": \"not_evaluated\",\n    \"reason\": \"No explicit expected metrics were supplied.\",\n    \"absolute_tolerance\": 0.0,\n    \"comparisons\": []\n  },\n  \"checkpoint_candidates\": [],\n  \"monitoring_scope\": \"timeout:60s\",\n  \"execution_mode\": \"direct\",\n  \"runtime_run_id\": \"20260904T180053Z-47819df9\",\n  \"runtime_dir\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repro_outputs\\\\_runtime\\\\20260904T180053Z-47819df9\",\n  \"runtime_status\": \"timed_out\",\n  \"runtime_state_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repro_outputs\\\\_runtime\\\\20260904T180053Z-47819df9\\\\state.json\",\n  \"runtime_events_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repro_outputs\\\\_runtime\\\\20260904T180053Z-47819df9\\\\events.jsonl\",\n  \"stdout_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repro_outputs\\\\_runtime\\\\20260904T180053Z-47819df9\\\\stdout.log\",\n  \"stderr_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repro_outputs\\\\_runtime\\\\20260904T180053Z-47819df9\\\\stderr.log\",\n  \"stdout_truncated\": false,\n  \"stderr_truncated\": false,\n  \"cancelled\": false,\n  \"duration_seconds\": 60.938,\n  \"runtime_attempt\": 1,\n  \"runtime_retry_of\": null,\n  \"resources_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repro_outputs\\\\_runtime\\\\20260904T180053Z-47819df9\\\\resources.jsonl\",\n  \"resource_summary\": {\n    \"scope\": \"root_process_and_optional_device_global\",\n    \"samples\": 59,\n    \"max_root_process_rss_bytes\": 1201283072,\n    \"max_root_process_cpu_seconds\": 23.953125,\n    \"gpu_sampling_available\": true,\n    \"max_device_gpu_memory_used_mib\": {\n      \"GPU-482d3b15-cbe3-6eeb-08aa-4867d7c951ff\": 482.0\n    }\n  },\n  \"model_adapter\": {\n    \"schema_version\": \"1.0\",\n    \"status\": \"unconfigured\",\n    \"adapter_id\": \"external-agent\",\n    \"provider\": \"host\",\n    \"model\": \"unspecified\",\n    \"revision\": null,\n    \"capabilities\": [],\n    \"endpoint\": null,\n    \"credential_env\": null,\n    \"parameters\": {},\n    \"metadata\": {},\n    \"fingerprint\": \"ad285507d7850f1f8108ddd22e965d9fbe8980e71ce91b1769c859a6d733da62\"\n  },\n  \"annotated_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repro_outputs\\\\ANNOTATED_README.md\",\n  \"readme_section_coverage\": {\n    \"success\": 0,\n    \"partial\": 0,\n    \"blocked\": 0,\n    \"decision\": 1,\n    \"info\": 0,\n    \"readonly\": 0,\n    \"total_sections\": 1,\n    \"tiers\": {\n      \"execution\": 1\n    },\n    \"reproduction_score\": 0.25,\n    \"annotation_count\": 1,\n    \"original_sha256\": \"21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6\",\n    \"stripped_sha256\": \"21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6\",\n    \"round_trip_verified\": true,\n    \"source_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\pytorch-mnist-20260904T180018Z-44808\\\\repo\\\\mnist\\\\README.md\",\n    \"source_bytes\": 159\n  },\n  \"lesson_recorded\": \"C:\\\\Users\\\\17745\\\\.rigorpilot\\\\lessons.jsonl\"\n}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 62,
+        "max_root_process_rss_bytes": 4427776,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      },
+      "environment_overrides": [
+        "PATH-prepend",
+        "PYTHONUTF8",
+        "PYTHONUNBUFFERED",
+        "VIRTUAL_ENV"
+      ]
+    }
+  ],
+  "selection": {
+    "expected_command": "python main.py",
+    "actual_command": "python main.py",
+    "command_match": true,
+    "expected_goal": "training",
+    "actual_goal": "training",
+    "goal_match": true
+  },
+  "execution": {
+    "requested": true,
+    "expected_status": "partial",
+    "actual_status": "partial",
+    "status_match": true,
+    "expected_stdout_contains": "Train Epoch:",
+    "stdout_match": true,
+    "result_match": {
+      "status": "not_evaluated",
+      "reason": "No explicit expected metrics were supplied.",
+      "absolute_tolerance": 0.0,
+      "comparisons": []
+    },
+    "runtime_status": "timed_out",
+    "runtime_duration_seconds": 60.938,
+    "resource_summary": {
+      "scope": "root_process_and_optional_device_global",
+      "samples": 59,
+      "max_root_process_rss_bytes": 1201283072,
+      "max_root_process_cpu_seconds": 23.953125,
+      "gpu_sampling_available": true,
+      "max_device_gpu_memory_used_mib": {
+        "GPU-482d3b15-cbe3-6eeb-08aa-4867d7c951ff": 482.0
+      }
+    }
+  },
+  "evidence": {
+    "complete": true,
+    "missing": [],
+    "output_dir": "repro_outputs",
+    "runtime_dir": "repro_outputs/_runtime/20260904T180053Z-47819df9",
+    "readme_fidelity": {
+      "source_readme": "repo/mnist/README.md",
+      "annotated_readme": "repro_outputs/ANNOTATED_README.md",
+      "round_trip_verified": true,
+      "one_annotation_per_heading": true,
+      "original_bytes": 159,
+      "original_sha256": "21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6",
+      "stripped_sha256": "21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6",
+      "marker_blocks": 2,
+      "section_markers": 1,
+      "atx_heading_blocks": 1
+    },
+    "archive": {
+      "directory": "benchmark_outputs/evidence/pytorch-mnist",
+      "files": [
+        {
+          "name": "ANNOTATED_README.md",
+          "bytes": 1782,
+          "sha256": "2b9877ef17ac077e6bf7f450d074c857a5b6ebb70d7501d332e15a10b046569e"
+        },
+        {
+          "name": "COMMANDS.md",
+          "bytes": 2395,
+          "sha256": "e374613cddc323e4cf1234cd7a2c3e706f7c2b6755b4755f59146cf8c1afc30b"
+        },
+        {
+          "name": "COMPARABILITY_REPORT.md",
+          "bytes": 1313,
+          "sha256": "883f4bd6f2007cda19c4848ac9cb4cbefd1e645ffd187e9045347b6a8e70ac1b"
+        },
+        {
+          "name": "LOG.md",
+          "bytes": 5587,
+          "sha256": "3364b4c58c1d84bc7ede2e97d292884c4fbf803cd77c98dd80486e0e33f8877b"
+        },
+        {
+          "name": "SCIENTIFIC_CHANGELOG.md",
+          "bytes": 1279,
+          "sha256": "e34e9d06fba2dc4200e92f49b80d450bbb620adf37f32c02fd9a9269e6c221d1"
+        },
+        {
+          "name": "SUMMARY.md",
+          "bytes": 883,
+          "sha256": "0d1981fa67e35ae89d367ae53981d9d3ebd8dbc4f6a318d3cbfd1b4defdaa6ea"
+        },
+        {
+          "name": "status.json",
+          "bytes": 12556,
+          "sha256": "1f5fcd022d0e83ae34ebfdf58401458d7939f6506d2af3154fda9c9973c11260"
+        }
+      ],
+      "total_bytes": 25795
+    }
+  },
+  "target_repo_changes": {
+    "tracked_before": [],
+    "tracked_after": [],
+    "untracked_after": [],
+    "tracked_source_unchanged": true
+  },
+  "dimensions": {
+    "source_pinned": true,
+    "command_selected": true,
+    "goal_classified": true,
+    "execution_expectation_met": true,
+    "evidence_complete": true,
+    "readme_round_trip": true,
+    "one_annotation_per_heading": true,
+    "showcase_snapshot_complete": true,
+    "tracked_source_unchanged": true
+  },
+  "limitations": [
+    "One repository case does not establish broad paper-reproduction generalization.",
+    "Host package and network caches are retained unless the case says otherwise.",
+    "A host-reuse dependency mode is not a fully cold dependency installation."
+  ],
+  "showcase": {
+    "schema_version": "1.0",
+    "repository": "https://github.com/pytorch/examples.git",
+    "commit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
+    "tracked_files_retained": 238,
+    "original_readme": "mnist/README.md",
+    "annotated_readme": "repo/mnist/RIGORPILOT_README.md",
+    "original_sha256": "21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6",
+    "stripped_sha256": "21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6",
+    "retained_content_bytes": 17608939
+  },
+  "intervention_accounting": {
+    "discovery_adaptations_recorded": 0,
+    "manual_interventions_during_final_run": 0,
+    "autonomous_after_manifest": true
+  },
+  "main_blocker": null,
+  "wall_duration_seconds": 100.844
+}

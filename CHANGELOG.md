@@ -17,12 +17,82 @@
   evidence tiers (code-development / execution / result-match) and a
   weighted 0-1 reproduction score in the header and
   `readme_section_coverage`.
+- Annotated README generation now reads the checked-out repository README as
+  immutable bytes and inserts marker-delimited evidence at computed offsets.
+  Built-in `strip` / `check` commands prove byte-for-byte round trips (including
+  UTF-8 BOM, line endings, blank lines, and final-newline state), while the
+  external benchmark independently verifies one annotation per ATX heading.
 - Lessons store lifecycle: `touch` (usage tracking) and `prune`
   (kind-specific staleness windows, doubled for proven-useful lessons),
   broader credential-shape blocklist, and policy additions (what NOT to
   record; human-reviewed promotion flow).
 
 ### Added
+
+- README credibility showcase in both English and Chinese: a full annotated
+  README preview, a two-by-two gallery of four fixed-commit public-repository
+  reproductions, per-case deep links into a shared evidence index, direct links
+  to each complete RigorPilot README, Skillselion and skills.sh discovery
+  badges, and two minimal install commands.
+- A sequential, explicit external benchmark suite with per-case workspace
+  ceilings, free-disk and total-time gates, default cleanup, compact SHA-256
+  evidence archives, append-only history, and harness/case/commit identities.
+- Optional durable showcase snapshots retain every tracked file from the pinned
+  upstream checkout plus reproduction evidence, while excluding `.git`, venvs,
+  caches, and untracked runtime residue. A source-adjacent
+  `RIGORPILOT_README.md` keeps original relative images and repository links
+  functional without changing the upstream `README.md`.
+- Fixed-commit micrograd, minGPT, PyTorch MNIST, and nanoGPT Shakespeare lanes;
+  execution, selection-only, and bounded-startup evidence remain distinct.
+- Prerequisite-aware selection rejects missing local checkpoint outputs and
+  obvious large-model downloads, then prefers explicitly bounded CPU training
+  commands when no cheaper runnable target exists.
+- Training metrics are allowlisted and normalized case-insensitively; fraction
+  accuracy is converted to a ratio, while configuration values are excluded.
+
+- A shared persistent command Runtime with per-run IDs, atomic lifecycle state,
+  append-only events, streamed full logs, bounded in-memory log tails,
+  heartbeats, timeouts, cancellation files, and process-tree termination.
+  Trusted reproduction, training, and exploratory execution now use the same
+  runtime contract.
+- Restart reconciliation marks dead runs `interrupted` and stale live runs
+  `orphaned`; explicit retries preserve immutable attempt lineage instead of
+  silently replaying commands.
+- Dependency-free root-process CPU/RSS sampling, optional device-global NVIDIA
+  telemetry, and a provider-neutral model identity/capability profile with
+  stable fingerprints and inline-secret rejection.
+- A durable single-host task queue with dependency gates, deterministic
+  priority/FIFO selection, bounded concurrency, request-based CPU/GPU/RAM
+  admission, failure isolation, cancellation markers, restart reconciliation,
+  and explicit job retry lineage.
+- Deterministic `benchmarks/run_queue_smoke.py` proof for concurrent admission,
+  dependency ordering, failure isolation, over-budget blocking, and complete
+  per-job runtime evidence without API or GPU use.
+- A commit-pinned external reproduction runner and low-cost micrograd case. It
+  records fresh-workspace scope, exact dependency versions, every setup/runtime
+  phase, README command and goal selection, tracked-source integrity, evidence
+  completeness, intervention accounting, and secret-environment stripping
+  before external code executes.
+- README test sections and `pytest` commands now classify as evaluation after
+  the micrograd canary exposed the previous generic `other` classification.
+- Setup and asset command syntax now outranks generic README headings, and a
+  referenced local Python entrypoint with strong training-loop evidence is
+  promoted to `training`. A pinned PyTorch MNIST preflight therefore keeps
+  `pip install` as setup while routing `python main.py` through the training
+  authorization gate.
+
+- Deterministic `benchmarks/run_golden_smoke.py` coverage for explicit metric
+  matching, mismatch detection, blocked commands, complete evidence bundles,
+  and shell-authorization boundaries without API or GPU usage.
+- CI regression coverage for the golden smoke benchmark through the existing
+  auto-discovered test entrypoint.
+- Explicit `--expected-metric NAME=VALUE` and
+  `--metric-absolute-tolerance` controls for trustworthy result comparison.
+- A persisted stage ledger; `--include-analysis-pass` now performs the
+  read-only analysis, while unresolved paper-context requests are reported as
+  blocked instead of implied to have run.
+- Cross-platform shared command construction with Windows-native quoting and
+  an explicit `--shell-mode native` opt-in for shell syntax.
 
 - `references/research-thinking-loop.md`: the greedy, evidence-anchored
   research cycle (observe → ground → hypothesize → design → run → fair
@@ -37,6 +107,18 @@
   skill files. `RIGORPILOT_LESSONS=0` opts out.
 - READMEs: Research Thinking Loop and Continuous Learning sections; both
   shipped as installed shared references.
+
+### Fixed
+
+- Single-skill installations of `ai-research-reproduction` now include a
+  synchronized runtime bundle and local policy references, so the documented
+  `npx skills add ... --skill ai-research-reproduction` path works outside the
+  source checkout.
+- Non-training reproduction status now preserves `observed_metrics`,
+  `best_metric`, and the independent `result_match` decision.
+- Observed metrics alone no longer earn the `result-match` evidence tier.
+- Windows symlink installs fall back to portable copies when the OS denies
+  symlink creation with error 1314.
 
 ## v1.1.0 (2026-07-26)
 

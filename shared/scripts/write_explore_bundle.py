@@ -728,6 +728,7 @@ def write_status(output_dir: Path, context: Dict[str, Any], mode: str) -> None:
         "resource_recommendations": context.get("resource_recommendations", {}),
         "static_smoke": context.get("static_smoke", {}),
         "runtime_smoke": context.get("runtime_smoke", {}),
+        "model_adapter": context.get("model_adapter"),
         "smoke_report": context.get("smoke_report", {}),
         "planned_skill_chain": context.get("planned_skill_chain", []),
         "helper_stage_trace": context.get("helper_stage_trace", []),

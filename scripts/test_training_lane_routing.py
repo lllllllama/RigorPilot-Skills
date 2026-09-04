@@ -12,8 +12,12 @@ from pathlib import Path
 
 
 TRAIN_SCRIPT = """\
+from pathlib import Path
 import time
 
+Path("out-trained").mkdir(exist_ok=True)
+print("batch_size=12 n_embd=128 train.py=196", flush=True)
+print("Accuracy: 87/100 (87%)", flush=True)
 for step in range(1, 9):
     loss = 1.0 / step
     acc = 0.70 + step * 0.01
@@ -27,6 +31,10 @@ for step in range(1, 9):
 def write_repo(root: Path) -> None:
     (root / "README.md").write_text(
         "# Demo Research Repo\n\n"
+        "## Sampling\n\n"
+        "```bash\n"
+        "python sample.py --out_dir=out-trained\n"
+        "```\n\n"
         "## Training\n\n"
         "```bash\n"
         "python train.py --config configs/demo.yaml\n"
@@ -35,6 +43,7 @@ def write_repo(root: Path) -> None:
     )
     (root / "environment.yml").write_text("name: demo-env\ndependencies:\n  - python=3.10\n", encoding="utf-8")
     (root / "train.py").write_text(TRAIN_SCRIPT, encoding="utf-8")
+    (root / "sample.py").write_text("print('sample')\n", encoding="utf-8")
     (root / "configs").mkdir()
     (root / "configs" / "demo.yaml").write_text("model: demo\n", encoding="utf-8")
     (root / "datasets").mkdir()
@@ -72,6 +81,10 @@ def run_case(orchestrator: Path, sample_repo: Path, temp_root: Path, lane: str) 
         raise AssertionError(f"{lane} case failed to preserve the lane in train_outputs/status.json")
     if train_status["completed_steps"] < 1:
         raise AssertionError(f"{lane} case failed to parse any completed steps from the training log")
+    if any(name in train_status["observed_metrics"] for name in {"batch_size", "n_embd", "train.py"}):
+        raise AssertionError(f"{lane} case treated configuration values as scientific metrics")
+    if train_status["observed_metrics"].get("accuracy") != 0.87:
+        raise AssertionError(f"{lane} case failed to normalize a fraction accuracy metric")
     if train_status["full_training_command"] != "python train.py --config configs/demo.yaml":
         raise AssertionError(f"{lane} case failed to preserve the fuller training command")
     if "likely" not in (train_status["training_duration_hint"] or "") and "hours" not in (train_status["training_duration_hint"] or ""):
@@ -106,6 +119,7 @@ def main() -> int:
         write_repo(sample_repo)
 
         run_case(orchestrator, sample_repo, temp_root, "trusted")
+        shutil.rmtree(sample_repo / "out-trained")
         run_case(orchestrator, sample_repo, temp_root, "explore")
 
         print("ok: True")

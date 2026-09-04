@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "repository": "https://github.com/pytorch/examples.git",
+  "commit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
+  "tracked_files_retained": 238,
+  "original_readme": "mnist/README.md",
+  "annotated_readme": "repo/mnist/RIGORPILOT_README.md",
+  "original_sha256": "21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6",
+  "stripped_sha256": "21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6",
+  "retained_content_bytes": 17608939
+}

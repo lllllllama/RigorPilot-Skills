@@ -1,0 +1,298 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-external-reproduction",
+  "case": "mingpt",
+  "case_manifest_schema_version": "1.0",
+  "generated_at": "2026-09-04T17:59:52.664500Z",
+  "status": "passed",
+  "source": {
+    "repository": "https://github.com/karpathy/minGPT.git",
+    "expected_commit": "37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+    "actual_commit": "37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+    "target_subdir": ".",
+    "fresh_checkout": true
+  },
+  "identity": {
+    "harness_sha256": "3357a14ad2d039572b1db5eceda93810c48dd0ee6c523d88540a98eac7dbc86a",
+    "harness_file_count": 50,
+    "case_sha256": "c4db3cc79eab2cd5a16dcfff654d99767606ed481947eb8da6e99ad7c8804bfb"
+  },
+  "scope": {
+    "tier": "selection-and-risk-canary",
+    "dependency_mode": "fresh-venv-with-host-torch",
+    "cache_policy": "fresh checkout and venv; execution intentionally disabled to avoid an unbounded GPT-2 download",
+    "api_calls": 0,
+    "gpu_required": false,
+    "network_required": true,
+    "workspace": "tmp/external-benchmark-runs/mingpt-20260904T175952Z-47668",
+    "workspace_retained": false,
+    "evidence_retained": true,
+    "verification_mode": "selection-only",
+    "workspace_cleanup": "removed"
+  },
+  "limits": {
+    "max_workspace_mb": 128,
+    "min_free_disk_gb": 5.0,
+    "initial_free_disk_bytes": 131014045696,
+    "peak_workspace_bytes": 12237468,
+    "final_free_disk_bytes": 130998571008
+  },
+  "known_adaptations": [],
+  "environment": {
+    "base_python": "3.12.7",
+    "system_site_packages": true,
+    "dependency_versions": {
+      "torch": "2.12.1+cu126",
+      "transformers": "4.57.3"
+    },
+    "inheritance_policy": "strip-secret-named-variables",
+    "secret_environment_variables_stripped": 6,
+    "venv_python": "3.12.7"
+  },
+  "phases": [
+    {
+      "name": "init-repository",
+      "source": "benchmark isolation policy",
+      "command": "git init D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\repo",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.187,
+      "runtime_dir": "phase_runtime/20260904T175952Z-a35345c2",
+      "stdout_tail": "Initialized empty Git repository in D:/test_projects/ai-paper-reproduction-skill/tmp/external-benchmark-runs/mingpt-20260904T175952Z-47668/repo/.git/\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 2994176,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "fetch-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\repo fetch --depth 1 https://github.com/karpathy/minGPT.git 37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 2.016,
+      "runtime_dir": "phase_runtime/20260904T175952Z-ad8d065d",
+      "stdout_tail": "",
+      "stderr_tail": "From https://github.com/karpathy/minGPT\n * branch            37baab71b9abea1b76ab957409a1cc2fbfba8a26 -> FETCH_HEAD\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 2,
+        "max_root_process_rss_bytes": 6705152,
+        "max_root_process_cpu_seconds": 0.03125,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "checkout-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\repo checkout --detach FETCH_HEAD",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.297,
+      "runtime_dir": "phase_runtime/20260904T175954Z-610abe93",
+      "stdout_tail": "",
+      "stderr_tail": "HEAD is now at 37baab7 Update README.md\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 2797568,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "create-venv",
+      "source": "benchmark isolation policy",
+      "command": "D:\\Anaconda3\\python.exe -m venv --system-site-packages D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\.venv",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 17.031,
+      "runtime_dir": "phase_runtime/20260904T175955Z-2dec2071",
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 17,
+        "max_root_process_rss_bytes": 16433152,
+        "max_root_process_cpu_seconds": 0.109375,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "dependency-probe",
+      "source": "case manifest",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\.venv\\Scripts\\python.exe -c \"import importlib.metadata as m,json,sys; names=[\\\"torch\\\", \\\"transformers\\\"]; print(json.dumps({'python':sys.version.split()[0],'packages':{name:m.version(name) for name in names}},sort_keys=True))\"",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.375,
+      "runtime_dir": "phase_runtime/20260904T180012Z-4a31004b",
+      "stdout_tail": "{\"packages\": {\"torch\": \"2.12.1+cu126\", \"transformers\": \"4.57.3\"}, \"python\": \"3.12.7\"}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 3403776,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "rigorpilot-orchestrator",
+      "source": "RigorPilot ai-research-reproduction",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\.venv\\Scripts\\python.exe D:\\test_projects\\ai-paper-reproduction-skill\\skills\\ai-research-reproduction\\scripts\\orchestrate_repro.py --repo D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\repo --output-dir D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\mingpt-20260904T175952Z-47668\\repro_outputs --timeout 60 --train-timeout 60 --user-language en --include-analysis-pass",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 2.016,
+      "runtime_dir": "phase_runtime/20260904T180013Z-7a71bf66",
+      "stdout_tail": "ain unchanged unless the researcher explicitly requests otherwise.\"\n  ],\n  \"unverified_inferences\": [\n    \"Asset and dataset hints remain conservative until the repo or README confirms the exact path layout.\"\n  ],\n  \"evidence\": [\n    \"Detected files: README.md, setup.py\",\n    \"Command categories: {\\\"other\\\": 3, \\\"evaluation\\\": 1}\",\n    \"Selected command kind: run\",\n    \"Environment file: setup.py\",\n    \"Asset hints detected: 4\"\n  ],\n  \"blockers\": [\n    \"Execution was not requested.\"\n  ],\n  \"protocol_deviations\": [],\n  \"human_decisions_required\": [],\n  \"artifact_provenance\": [\n    {\n      \"artifact\": \"readme\",\n      \"source\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\mingpt-20260904T175952Z-47668\\\\repo\\\\README.md\",\n      \"kind\": \"repo_file\"\n    },\n    {\n      \"artifact\": \"documented_command\",\n      \"source\": \"code_block\",\n      \"kind\": \"readme_extraction\"\n    },\n    {\n      \"artifact\": \"environment_plan\",\n      \"source\": \"setup.py\",\n      \"kind\": \"setup_plan\"\n    },\n    {\n      \"artifact\": \"asset_manifest\",\n      \"source\": \"artifacts/assets/asset_manifest.json\",\n      \"kind\": \"generated\"\n    },\n    {\n      \"artifact\": \"output_dir\",\n      \"source\": \"repro_outputs/\",\n      \"kind\": \"generated\"\n    }\n  ],\n  \"notes\": [\n    \"Detected environment file `setup.py`.\",\n    \"Detected a setup.py-based editable install flow.\"\n  ],\n  \"patches_applied\": false,\n  \"patch_branch\": \"\",\n  \"readme_fidelity\": \"preserved\",\n  \"highest_patch_risk\": \"low\",\n  \"verified_commits\": [],\n  \"validation_summary\": \"\",\n  \"patch_notes\": [],\n  \"full_training_authorized\": false,\n  \"requires_full_training_confirmation\": false,\n  \"run_mode\": null,\n  \"resume_from\": null,\n  \"dataset\": \"unknown\",\n  \"checkpoint_source\": \"https://github.com/openai/gpt-2),, https://arxiv.org/abs/1706.03762),\",\n  \"full_training_command\": null,\n  \"training_duration_hint\": null,\n  \"max_steps\": 0,\n  \"completed_steps\": 0,\n  \"best_metric\": null,\n  \"best_checkpoint\": null,\n  \"stop_reason\": null,\n  \"last_epoch\": null,\n  \"last_step\": null,\n  \"observed_metrics\": {},\n  \"result_match\": {\n    \"status\": \"not_evaluated\",\n    \"reason\": \"No explicit expected metrics were supplied.\",\n    \"absolute_tolerance\": 0.0,\n    \"comparisons\": []\n  },\n  \"checkpoint_candidates\": [],\n  \"monitoring_scope\": \"not_run\",\n  \"execution_mode\": \"direct\",\n  \"runtime_run_id\": null,\n  \"runtime_dir\": null,\n  \"runtime_status\": null,\n  \"runtime_state_path\": null,\n  \"runtime_events_path\": null,\n  \"stdout_log_path\": null,\n  \"stderr_log_path\": null,\n  \"stdout_truncated\": false,\n  \"stderr_truncated\": false,\n  \"cancelled\": false,\n  \"duration_seconds\": null,\n  \"runtime_attempt\": null,\n  \"runtime_retry_of\": null,\n  \"resources_log_path\": null,\n  \"resource_summary\": {},\n  \"model_adapter\": {\n    \"schema_version\": \"1.0\",\n    \"status\": \"unconfigured\",\n    \"adapter_id\": \"external-agent\",\n    \"provider\": \"host\",\n    \"model\": \"unspecified\",\n    \"revision\": null,\n    \"capabilities\": [],\n    \"endpoint\": null,\n    \"credential_env\": null,\n    \"parameters\": {},\n    \"metadata\": {},\n    \"fingerprint\": \"ad285507d7850f1f8108ddd22e965d9fbe8980e71ce91b1769c859a6d733da62\"\n  },\n  \"annotated_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\mingpt-20260904T175952Z-47668\\\\repro_outputs\\\\ANNOTATED_README.md\",\n  \"readme_section_coverage\": {\n    \"success\": 0,\n    \"partial\": 0,\n    \"blocked\": 0,\n    \"decision\": 0,\n    \"info\": 2,\n    \"readonly\": 9,\n    \"total_sections\": 11,\n    \"tiers\": {\n      \"code-development\": 2\n    },\n    \"reproduction_score\": 0.25,\n    \"annotation_count\": 11,\n    \"original_sha256\": \"7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e\",\n    \"stripped_sha256\": \"7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e\",\n    \"round_trip_verified\": true,\n    \"source_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\mingpt-20260904T175952Z-47668\\\\repo\\\\README.md\",\n    \"source_bytes\": 10016\n  },\n  \"lesson_recorded\": null\n}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 2,
+        "max_root_process_rss_bytes": 4358144,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      },
+      "environment_overrides": [
+        "PATH-prepend",
+        "PYTHONUTF8",
+        "PYTHONUNBUFFERED",
+        "VIRTUAL_ENV"
+      ]
+    }
+  ],
+  "selection": {
+    "expected_command": "python -m unittest discover tests",
+    "actual_command": "python -m unittest discover tests",
+    "command_match": true,
+    "expected_goal": "evaluation",
+    "actual_goal": "evaluation",
+    "goal_match": true
+  },
+  "execution": {
+    "requested": false,
+    "expected_status": "not_run",
+    "actual_status": "not_run",
+    "status_match": true,
+    "expected_stdout_contains": "",
+    "stdout_match": true,
+    "result_match": {
+      "status": "not_evaluated",
+      "reason": "No explicit expected metrics were supplied.",
+      "absolute_tolerance": 0.0,
+      "comparisons": []
+    },
+    "runtime_status": null,
+    "runtime_duration_seconds": null,
+    "resource_summary": {}
+  },
+  "evidence": {
+    "complete": true,
+    "missing": [],
+    "output_dir": "repro_outputs",
+    "runtime_dir": null,
+    "readme_fidelity": {
+      "source_readme": "repo/README.md",
+      "annotated_readme": "repro_outputs/ANNOTATED_README.md",
+      "round_trip_verified": true,
+      "one_annotation_per_heading": true,
+      "original_bytes": 10016,
+      "original_sha256": "7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e",
+      "stripped_sha256": "7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e",
+      "marker_blocks": 12,
+      "section_markers": 11,
+      "atx_heading_blocks": 11
+    },
+    "archive": {
+      "directory": "benchmark_outputs/evidence/mingpt",
+      "files": [
+        {
+          "name": "ANNOTATED_README.md",
+          "bytes": 13445,
+          "sha256": "fa0aaa7f52760ef0c77504e1b7d280115e49752bef6ffc08047427ab4b8eaf22"
+        },
+        {
+          "name": "COMMANDS.md",
+          "bytes": 2749,
+          "sha256": "b3eb4616343ffca89eb01b3877b4a65f83e1d77e4b72f8a3dee7bb957e9d2036"
+        },
+        {
+          "name": "COMPARABILITY_REPORT.md",
+          "bytes": 1239,
+          "sha256": "60fd1aad178a1bfcf4fe4ba4c61c5d752678ecbc421e051e8503bfbdab40ee30"
+        },
+        {
+          "name": "LOG.md",
+          "bytes": 2811,
+          "sha256": "cb0823350536d2f575cd4a9c0f7ea5289a759a0755f7fb758c2800bbbb9cf348"
+        },
+        {
+          "name": "SCIENTIFIC_CHANGELOG.md",
+          "bytes": 1316,
+          "sha256": "ed67504db4e45efa4db9e46821251dcefb18e4046838668f132ef51d4a39afd6"
+        },
+        {
+          "name": "SUMMARY.md",
+          "bytes": 628,
+          "sha256": "358b2bb8c80ad2a0875aab20ed28e6186d7fd745c40017c229a304da2997daa9"
+        },
+        {
+          "name": "status.json",
+          "bytes": 5128,
+          "sha256": "62e82bb0f349115b6fe73059afd74e185d50528560428c868ef4212358186e72"
+        }
+      ],
+      "total_bytes": 27316
+    }
+  },
+  "target_repo_changes": {
+    "tracked_before": [],
+    "tracked_after": [],
+    "untracked_after": [],
+    "tracked_source_unchanged": true
+  },
+  "dimensions": {
+    "source_pinned": true,
+    "command_selected": true,
+    "goal_classified": true,
+    "execution_expectation_met": true,
+    "evidence_complete": true,
+    "readme_round_trip": true,
+    "one_annotation_per_heading": true,
+    "showcase_snapshot_complete": true,
+    "tracked_source_unchanged": true
+  },
+  "limitations": [
+    "One repository case does not establish broad paper-reproduction generalization.",
+    "Host package and network caches are retained unless the case says otherwise.",
+    "A host-reuse dependency mode is not a fully cold dependency installation."
+  ],
+  "showcase": {
+    "schema_version": "1.0",
+    "repository": "https://github.com/karpathy/minGPT.git",
+    "commit": "37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+    "tracked_files_retained": 18,
+    "original_readme": "README.md",
+    "annotated_readme": "repo/RIGORPILOT_README.md",
+    "original_sha256": "7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e",
+    "stripped_sha256": "7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e",
+    "retained_content_bytes": 242922
+  },
+  "intervention_accounting": {
+    "discovery_adaptations_recorded": 0,
+    "manual_interventions_during_final_run": 0,
+    "autonomous_after_manifest": true
+  },
+  "main_blocker": null,
+  "wall_duration_seconds": 24.188
+}

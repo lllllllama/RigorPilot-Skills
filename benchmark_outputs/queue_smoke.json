@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-queue-smoke",
+  "generated_at": "2026-09-03T14:06:01.073498Z",
+  "api_calls": 0,
+  "gpu_required": false,
+  "resource_budget_semantics": "request-based-admission-not-os-enforcement",
+  "scheduler": {
+    "status": "degraded",
+    "counts": {
+      "success": 3,
+      "failed": 1,
+      "skipped": 1,
+      "blocked": 1
+    },
+    "jobs_total": 6,
+    "peak_running_jobs": 2
+  },
+  "summary": {
+    "cases_total": 5,
+    "cases_passed": 5,
+    "launched_jobs": 4,
+    "complete_runtime_bundles": 4
+  },
+  "cases": [
+    {
+      "name": "concurrency_admission",
+      "passed": true,
+      "observed_peak_running_jobs": 2
+    },
+    {
+      "name": "dependency_gate",
+      "passed": true,
+      "status": "success"
+    },
+    {
+      "name": "failure_isolation",
+      "passed": true,
+      "failure_status": "failed",
+      "dependent_status": "skipped"
+    },
+    {
+      "name": "resource_admission",
+      "passed": true,
+      "status": "blocked",
+      "reason": "resource-request-exceeds-budget"
+    },
+    {
+      "name": "durable_runtime_evidence",
+      "passed": true,
+      "launched_jobs": 4,
+      "complete_runtime_bundles": 4
+    }
+  ]
+}

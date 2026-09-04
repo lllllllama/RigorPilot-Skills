@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "files": [
+    {
+      "source": "references/agent-operating-principles.md",
+      "target": "references/agent-operating-principles.md",
+      "sha256": "5b111a17e6493eeac6074f5e815acc6854b15c3a8a5b17563471c059b91915a4"
+    },
+    {
+      "source": "references/continuous-learning-policy.md",
+      "target": "references/continuous-learning-policy.md",
+      "sha256": "0c200dcf20be032814af7e73700bd05bdb82fe4a77c93f7d24e826d835bbb399"
+    },
+    {
+      "source": "references/deep-learning-experiment-principles.md",
+      "target": "references/deep-learning-experiment-principles.md",
+      "sha256": "9696c3c81ed96ee3fa319eeb0eac4eb25a8df8292de85a758408c8056edd9ec1"
+    },
+    {
+      "source": "references/research-rigor-principles.md",
+      "target": "references/research-rigor-principles.md",
+      "sha256": "b78bb786bbc43c12910d3ac389c25cd3bd3bb1ef12fdbda42a85fbac5d7aadf4"
+    },
+    {
+      "source": "shared/scripts/command_utils.py",
+      "target": "_bundled/shared/scripts/command_utils.py",
+      "sha256": "a0bfc2c0826c3096ff50c2006a8466bbd61fd3a29a48843bab8a53d9b1814e52"
+    },
+    {
+      "source": "shared/scripts/lessons_store.py",
+      "target": "_bundled/shared/scripts/lessons_store.py",
+      "sha256": "ea07151a4d48476940a0ef0ab25b8684859e785cce1c5dbb815f0113cd42a4da"
+    },
+    {
+      "source": "shared/scripts/model_adapter.py",
+      "target": "_bundled/shared/scripts/model_adapter.py",
+      "sha256": "2b1c0ba43616897eddd3049a4f8aa5fc3e887e5a8a309b29921b3e678baaacec"
+    },
+    {
+      "source": "shared/scripts/resource_monitor.py",
+      "target": "_bundled/shared/scripts/resource_monitor.py",
+      "sha256": "9c5b5b3d6f14af5ae3adea068cb106dffa9f2021f2e19ac166d2cc314c10df8f"
+    },
+    {
+      "source": "shared/scripts/runtime_runner.py",
+      "target": "_bundled/shared/scripts/runtime_runner.py",
+      "sha256": "37ef01a1dc15f77e6b88a24b0ee0c8489f7ed539218b83630277b6f7cd700ce6"
+    },
+    {
+      "source": "shared/scripts/task_queue.py",
+      "target": "_bundled/shared/scripts/task_queue.py",
+      "sha256": "57593f71a05c28958178e8d9ae238181542f704c2026b2e4fea55ff915bc19a8"
+    },
+    {
+      "source": "shared/scripts/write_run_bundle.py",
+      "target": "_bundled/shared/scripts/write_run_bundle.py",
+      "sha256": "b195427dcdf157815b31ac2af6e6623f5e0f647c51cc4d6586ee68c6be47c682"
+    },
+    {
+      "source": "skills/analyze-project/scripts/analyze_project.py",
+      "target": "_bundled/skills/analyze-project/scripts/analyze_project.py",
+      "sha256": "0d8c85bc927c818ed5d6109c3b0ecc7438265f52afce717d65d35dc3981aff77"
+    },
+    {
+      "source": "skills/env-and-assets-bootstrap/scripts/plan_setup.py",
+      "target": "_bundled/skills/env-and-assets-bootstrap/scripts/plan_setup.py",
+      "sha256": "3b0b0299aa291987ef56a2fbd1172c9ed3bab61384bc94e8e0bf807e173d6e68"
+    },
+    {
+      "source": "skills/env-and-assets-bootstrap/scripts/prepare_assets.py",
+      "target": "_bundled/skills/env-and-assets-bootstrap/scripts/prepare_assets.py",
+      "sha256": "d8f31846396dc8f1806dac9269054834f5cc5689246b044a6fff5eaaf6ce962f"
+    },
+    {
+      "source": "skills/minimal-run-and-audit/scripts/write_outputs.py",
+      "target": "_bundled/skills/minimal-run-and-audit/scripts/write_outputs.py",
+      "sha256": "1fed1438c23766724ad1bc23dd65b3781dbe5e2ceea0bcf8f2472128c773cc68"
+    },
+    {
+      "source": "skills/repo-intake-and-plan/scripts/extract_commands.py",
+      "target": "_bundled/skills/repo-intake-and-plan/scripts/extract_commands.py",
+      "sha256": "fdb6faa954cccb2527d042aa66566ae2f16b4b06a46250f65e2f7e410423ef62"
+    },
+    {
+      "source": "skills/repo-intake-and-plan/scripts/scan_repo.py",
+      "target": "_bundled/skills/repo-intake-and-plan/scripts/scan_repo.py",
+      "sha256": "31632b909d7e1f522a8cb5b11ec998ea536327c8a7a3a54743d214c68c6a26ac"
+    },
+    {
+      "source": "skills/run-train/scripts/run_training.py",
+      "target": "_bundled/skills/run-train/scripts/run_training.py",
+      "sha256": "3d104c3ba837197c4f2c7d8313934d121dc3ba7641dfa103c9da27db4aae1f6b"
+    },
+    {
+      "source": "skills/run-train/scripts/write_outputs.py",
+      "target": "_bundled/skills/run-train/scripts/write_outputs.py",
+      "sha256": "5f9db39358855382b08bb95f9f6b1ae94b65c7951f7539fd5237d56c3911fa7d"
+    }
+  ]
+}

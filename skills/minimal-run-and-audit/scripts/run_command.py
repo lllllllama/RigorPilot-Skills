@@ -6,10 +6,18 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import shlex
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
+
+
+SHARED_SCRIPTS = Path(__file__).resolve().parents[3] / "shared" / "scripts"
+if str(SHARED_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SHARED_SCRIPTS))
+
+from runtime_runner import run_persistent_command
+from model_adapter import ModelAdapterError, load_model_profile, missing_capabilities
 
 
 METRIC_RE = re.compile(
@@ -53,10 +61,6 @@ def parse_metrics(text: str) -> Dict[str, Any]:
         "observed_metrics": observed_metrics,
         "best_metric": best_metric,
     }
-
-
-def split_command(command: str) -> List[str]:
-    return shlex.split(command, posix=True)
 
 
 def run_git(repo: Path, args: List[str]) -> subprocess.CompletedProcess[str]:
@@ -155,58 +159,51 @@ def diff_status_snapshots(
     }
 
 
-def execute_command(repo: Path, command: str, timeout: int) -> Dict[str, Any]:
-    before_status, before_capture = git_status_snapshot(repo)
+def exclude_runtime_snapshot(
+    repo: Path,
+    runtime_dir: Path,
+    snapshot: Optional[Dict[str, str]],
+) -> Optional[Dict[str, str]]:
+    if snapshot is None:
+        return None
     try:
-        result = subprocess.run(
-            split_command(command),
-            cwd=repo,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            check=False,
-        )
-        execution = {
-            "returncode": result.returncode,
-            "timed_out": False,
-            "stdout": result.stdout or "",
-            "stderr": result.stderr or "",
-        }
-        after_status, after_capture = git_status_snapshot(repo)
-        execution.update(diff_status_snapshots(before_status, after_status))
-        execution["evidence_capture"] = {
-            **after_capture,
-            "before_status_entries": before_capture.get("status_entries"),
-        }
-        return execution
-    except FileNotFoundError as exc:
-        return {
-            "returncode": None,
-            "timed_out": False,
-            "launch_error": str(exc),
-            "stdout": "",
-            "stderr": "",
-            "changed_files": [],
-            "new_files": [],
-            "deleted_files": [],
-            "touched_paths": [],
-            "touched_symbols": [],
-            "evidence_capture": before_capture,
-        }
-    except subprocess.TimeoutExpired as exc:
-        after_status, after_capture = git_status_snapshot(repo)
-        execution = {
-            "returncode": None,
-            "timed_out": True,
-            "stdout": decode_stream(exc.stdout),
-            "stderr": decode_stream(exc.stderr),
-        }
-        execution.update(diff_status_snapshots(before_status, after_status))
-        execution["evidence_capture"] = {
-            **after_capture,
-            "before_status_entries": before_capture.get("status_entries"),
-        }
-        return execution
+        prefix = runtime_dir.resolve().relative_to(repo.resolve()).as_posix().rstrip("/") + "/"
+    except ValueError:
+        return snapshot
+    return {path: status for path, status in snapshot.items() if not path.startswith(prefix)}
+
+
+def execute_command(
+    repo: Path,
+    command: str,
+    timeout: int,
+    shell_mode: str = "direct",
+    runtime_root: Optional[Path] = None,
+    model_adapter: Optional[Dict[str, Any]] = None,
+    monitor_gpu: bool = False,
+) -> Dict[str, Any]:
+    before_status, before_capture = git_status_snapshot(repo)
+    selected_runtime_root = (runtime_root or (repo / "repro_outputs" / "_runtime")).resolve()
+    execution = run_persistent_command(
+        repo=repo,
+        command=command,
+        timeout=timeout,
+        runtime_root=selected_runtime_root,
+        shell_mode=shell_mode,
+        model_adapter=model_adapter,
+        monitor_gpu=monitor_gpu,
+    )
+    after_status, after_capture = git_status_snapshot(repo)
+    after_status = exclude_runtime_snapshot(repo, Path(execution["runtime_dir"]), after_status)
+    if after_status is not None:
+        after_capture["status_entries"] = len(after_status)
+        after_capture["runtime_artifacts_excluded"] = True
+    execution.update(diff_status_snapshots(before_status, after_status))
+    execution["evidence_capture"] = {
+        **after_capture,
+        "before_status_entries": before_capture.get("status_entries"),
+    }
+    return execution
 
 
 def decide_outcome(command: str, timeout: int, execution: Dict[str, Any], metric_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -224,6 +221,15 @@ def decide_outcome(command: str, timeout: int, execution: Dict[str, Any], metric
             "main_blocker": f"Executable not found for command: {execution['launch_error']}",
             "execution_log": [f"Command failed before launch: {execution['launch_error']}"],
             "monitoring_scope": "no_run",
+        }
+
+    if execution.get("cancelled"):
+        return {
+            "status": "partial",
+            "documented_command_status": "partial",
+            "main_blocker": "The selected command was cancelled through the runtime control file.",
+            "execution_log": [combined_text] if combined_text else ["Command cancelled."],
+            "monitoring_scope": "runtime_cancel",
         }
 
     if execution.get("timed_out"):
@@ -258,10 +264,47 @@ def main() -> int:
     parser.add_argument("--repo", required=True, help="Path to the target repository.")
     parser.add_argument("--command", required=True, help="Command to execute.")
     parser.add_argument("--timeout", type=int, default=60, help="Execution timeout in seconds.")
+    parser.add_argument(
+        "--shell-mode",
+        choices=["direct", "native"],
+        default="direct",
+        help="Use direct argv execution by default; native shell execution requires explicit opt-in.",
+    )
+    parser.add_argument(
+        "--runtime-root",
+        default="",
+        help="Directory for persistent runtime state and streamed logs (default: <repo>/repro_outputs/_runtime).",
+    )
+    parser.add_argument("--model-profile-json", default="", help="Optional provider-neutral model identity/capability profile.")
+    parser.add_argument(
+        "--require-model-capability",
+        action="append",
+        default=[],
+        help="Required model capability; repeat as needed.",
+    )
+    parser.add_argument("--monitor-gpu", action="store_true", help="Sample NVIDIA device-level telemetry when available.")
     args = parser.parse_args()
+    if args.timeout <= 0:
+        parser.error("--timeout must be greater than zero")
 
     repo = Path(args.repo).resolve()
-    execution = execute_command(repo, args.command, args.timeout)
+    runtime_root = Path(args.runtime_root).resolve() if args.runtime_root else None
+    try:
+        model_adapter = load_model_profile(Path(args.model_profile_json) if args.model_profile_json else None)
+        missing = missing_capabilities(model_adapter, args.require_model_capability)
+    except ModelAdapterError as exc:
+        parser.error(str(exc))
+    if missing:
+        parser.error(f"model profile is missing required capabilities: {', '.join(missing)}")
+    execution = execute_command(
+        repo,
+        args.command,
+        args.timeout,
+        args.shell_mode,
+        runtime_root,
+        model_adapter,
+        args.monitor_gpu,
+    )
     metric_data = parse_metrics(combine_logs([execution.get("stdout", ""), execution.get("stderr", "")]))
     outcome = decide_outcome(args.command, args.timeout, execution, metric_data)
 
@@ -271,6 +314,23 @@ def main() -> int:
         "main_blocker": outcome["main_blocker"],
         "execution_log": outcome["execution_log"],
         "monitoring_scope": outcome["monitoring_scope"],
+        "execution_mode": execution.get("execution_mode", args.shell_mode),
+        "runtime_run_id": execution.get("runtime_run_id"),
+        "runtime_dir": execution.get("runtime_dir"),
+        "runtime_status": execution.get("runtime_status"),
+        "runtime_state_path": execution.get("runtime_state_path"),
+        "runtime_events_path": execution.get("runtime_events_path"),
+        "stdout_log_path": execution.get("stdout_log_path"),
+        "stderr_log_path": execution.get("stderr_log_path"),
+        "stdout_truncated": execution.get("stdout_truncated", False),
+        "stderr_truncated": execution.get("stderr_truncated", False),
+        "cancelled": execution.get("cancelled", False),
+        "duration_seconds": execution.get("duration_seconds"),
+        "runtime_attempt": execution.get("runtime_attempt", 1),
+        "runtime_retry_of": execution.get("runtime_retry_of"),
+        "resources_log_path": execution.get("resources_log_path"),
+        "resource_summary": execution.get("resource_summary", {}),
+        "model_adapter": execution.get("model_adapter"),
         "best_metric": metric_data["best_metric"],
         "observed_metrics": metric_data["observed_metrics"],
         "changed_files": execution.get("changed_files", []),

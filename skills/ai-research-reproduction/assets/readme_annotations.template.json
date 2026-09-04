@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "user_language": "zh",
+  "banner": true,
+  "summary_link": "repro_outputs/SUMMARY.md",
+  "annotations": [
+    {
+      "anchor": "## Installation",
+      "occurrence": 1,
+      "placement": "after_heading",
+      "status": "reproduced",
+      "risk": "low",
+      "note": "依赖按文档安装成功；仅将 torch 固定到兼容版本，属环境层修复，不影响语义。",
+      "details": [
+        "详见 repro_outputs/COMMANDS.md 的 setup 分节。"
+      ]
+    },
+    {
+      "anchor": "## Inference",
+      "occurrence": 1,
+      "placement": "end_of_section",
+      "status": "partial",
+      "risk": "medium",
+      "note": "文档推理命令可启动，但示例权重链接失效，改用镜像地址下载后输出与 README 示例一致。",
+      "details": []
+    },
+    {
+      "anchor": "## Training",
+      "occurrence": 1,
+      "placement": "after_heading",
+      "status": "not_attempted",
+      "risk": "none",
+      "note": "训练未尝试：本次目标为最小可信推理复现，完整训练需研究者显式授权。"
+    }
+  ]
+}

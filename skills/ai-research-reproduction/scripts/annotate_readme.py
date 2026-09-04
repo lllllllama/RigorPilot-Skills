@@ -17,12 +17,23 @@ Prose-only sections get a single dim line instead of a box.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import html
 import json
+import re
+import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 
-BLOCK_SPLIT_MAX_LEVEL = 2
+MARKER_BEGIN = "<!-- rigorpilot:repro:begin"
+MARKER_END = "<!-- rigorpilot:repro:end -->"
+MARKER_BLOCK_RE = re.compile(
+    r"<!-- rigorpilot:repro:begin\b[^>]*-->.*?<!-- rigorpilot:repro:end -->\r?\n?",
+    re.DOTALL,
+)
+ATX_HEADING_RE = re.compile(r"^ {0,3}(#{1,6})(?:[ \t]+|$)(.*?)(?:[ \t]+#+[ \t]*)?$")
+FENCE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
 
 STYLE_BADGES = {
     "success": ("TIP", "🟢"),
@@ -40,7 +51,7 @@ EVIDENCE_LINKS = [
     ("status.json", "status.json"),
 ]
 
-METRIC_NOISE_TOKENS = {"loss", "lr", "time", "mem", "epoch", "step", "iter"}
+METRIC_NOISE_TOKENS = {"lr", "time", "mem", "epoch", "step", "iter"}
 DATA_SECTION_TOKENS = ("data", "dataset", "数据")
 
 # Evidence tiers follow PaperBench's grading ladder: recognizing/planning work
@@ -59,32 +70,62 @@ def text(user_language: str, en: str, zh: str) -> str:
 
 
 def split_readme_blocks(readme_text: str) -> List[Dict[str, Any]]:
-    """Split README into blocks at level-1/2 headings, ignoring fenced code lines.
+    """Split README at every ATX heading while retaining original text exactly.
 
-    Each block keeps its original lines verbatim and records every heading
-    title it contains (including deeper subheadings) for section matching.
+    Lines keep their original line endings. A preamble before the first heading
+    is returned as an unheaded block but is not counted as a README section.
     """
-    blocks: List[Dict[str, Any]] = [{"title": None, "lines": [], "sections": []}]
-    inside_fence = False
-    for line in readme_text.splitlines():
-        stripped = line.strip()
-        if stripped.startswith("```"):
-            inside_fence = not inside_fence
-            blocks[-1]["lines"].append(line)
+    blocks: List[Dict[str, Any]] = []
+    current: Dict[str, Any] = {
+        "title": None,
+        "lines": [],
+        "sections": [],
+        "level": None,
+        "occurrence": 0,
+        "start": 0,
+        "end": 0,
+    }
+    occurrences: Dict[str, int] = {}
+    fence_char: Optional[str] = None
+    fence_length = 0
+    offset = 0
+    for line in readme_text.splitlines(keepends=True):
+        line_start = offset
+        offset += len(line)
+        logical_line = line.rstrip("\r\n")
+        fence = FENCE_RE.match(logical_line)
+        if fence_char is not None:
+            current["lines"].append(line)
+            if fence and fence.group(1)[0] == fence_char and len(fence.group(1)) >= fence_length:
+                fence_char = None
+                fence_length = 0
             continue
-        if not inside_fence and stripped.startswith("#"):
-            marks = len(stripped) - len(stripped.lstrip("#"))
-            title = stripped[marks:].strip()
-            if 1 <= marks <= 6 and title:
-                if marks <= BLOCK_SPLIT_MAX_LEVEL:
-                    blocks.append({"title": title, "lines": [line], "sections": [title]})
-                else:
-                    blocks[-1]["lines"].append(line)
-                    blocks[-1]["sections"].append(title)
-                continue
-        blocks[-1]["lines"].append(line)
-    if not blocks[0]["lines"]:
-        blocks.pop(0)
+        if fence:
+            fence_char = fence.group(1)[0]
+            fence_length = len(fence.group(1))
+            current["lines"].append(line)
+            continue
+        heading = ATX_HEADING_RE.match(logical_line)
+        if heading:
+            title = heading.group(2).strip()
+            if current["lines"] or current["title"] is not None:
+                current["end"] = line_start
+                blocks.append(current)
+            occurrences[title] = occurrences.get(title, 0) + 1
+            current = {
+                "title": title,
+                "lines": [line],
+                "sections": [title],
+                "level": len(heading.group(1)),
+                "occurrence": occurrences[title],
+                "start": line_start,
+                "end": offset,
+            }
+            continue
+        current["lines"].append(line)
+    if current["lines"] or current["title"] is not None:
+        current["end"] = len(readme_text)
+        blocks.append(current)
     return blocks
 
 
@@ -144,6 +185,14 @@ def observed_metric_parts(context: Dict[str, Any]) -> List[str]:
     return shown[:4]
 
 
+def result_match_status(context: Dict[str, Any]) -> str:
+    comparison = context.get("result_match")
+    if not isinstance(comparison, dict):
+        return "not_evaluated"
+    status = str(comparison.get("status") or "not_evaluated")
+    return status if status in {"matched", "mismatched", "not_evaluated"} else "not_evaluated"
+
+
 def selected_command_annotation(context: Dict[str, Any], user_language: str) -> Dict[str, Any]:
     status = str(context.get("status") or "not_run")
     command = str(context.get("documented_command") or "")
@@ -155,6 +204,15 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
         metrics = observed_metric_parts(context)
         if metrics:
             lines.append(text(user_language, "Observed metrics: ", "观测指标：") + " · ".join(metrics))
+        match_status = result_match_status(context)
+        if match_status == "matched":
+            lines.append(text(user_language, "Result comparison: matched the explicit expected metrics.", "结果比较：已匹配显式提供的期望指标。"))
+        elif match_status == "mismatched":
+            style = "partial"
+            headline = text(user_language, "Executed, but expected metrics did not match", "已执行，但期望指标未匹配") + f"（{risk_label(user_language, 'medium')}）"
+            lines.append(text(user_language, "Result comparison: at least one expected metric was missing or outside tolerance.", "结果比较：至少一个期望指标缺失或超出容差。"))
+        else:
+            lines.append(text(user_language, "Result comparison: not evaluated because no explicit expected metrics were supplied.", "结果比较：未提供显式期望指标，因此尚未评估是否匹配。"))
         completed_steps = context.get("completed_steps")
         if completed_steps:
             lines.append(text(user_language, f"Completed steps: {completed_steps}", f"完成步数：{completed_steps}"))
@@ -173,6 +231,9 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
                 f"阻塞项：{context.get('main_blocker', '未记录')}",
             )
         )
+        metrics = observed_metric_parts(context)
+        if metrics:
+            lines.append(text(user_language, "Observed metrics: ", "观测指标：") + " · ".join(metrics))
         excerpt = error_excerpt(context)
         if excerpt:
             lines.append(text(user_language, f"Error excerpt: `{excerpt}`", f"错误摘录：`{excerpt}`"))
@@ -223,8 +284,8 @@ def selected_command_annotation(context: Dict[str, Any], user_language: str) -> 
             "启动已验证 · 更完整训练需要你显式授权",
         )
 
-    metrics_present = bool(observed_metric_parts(context)) and status == "success"
-    tier = "result-match" if metrics_present else ("execution" if status in {"success", "partial", "blocked"} else "code-development")
+    result_matched = result_match_status(context) == "matched" and status == "success"
+    tier = "result-match" if result_matched else ("execution" if status in {"success", "partial", "blocked"} else "code-development")
     return {"style": style, "headline": headline, "lines": lines, "tier": tier, "weight": 3}
 
 
@@ -340,6 +401,53 @@ def render_annotation(annotation: Dict[str, Any], user_language: str, selected_g
     return lines
 
 
+def _marker_attribute(value: Any) -> str:
+    return html.escape(str(value), quote=True).replace("--", "&#45;&#45;")
+
+
+def render_marker_block(
+    lines: List[str],
+    *,
+    kind: str,
+    section: str,
+    occurrence: int,
+    status: str,
+    risk: str,
+    newline: str,
+) -> str:
+    begin = (
+        f'{MARKER_BEGIN} kind="{_marker_attribute(kind)}" '
+        f'section="{_marker_attribute(section)}" occurrence="{occurrence}" '
+        f'status="{_marker_attribute(status)}" risk="{_marker_attribute(risk)}" -->'
+    )
+    return newline.join([begin, "", *lines, "", MARKER_END, ""])
+
+
+def strip_annotations(annotated_text: str) -> str:
+    """Remove only complete RigorPilot marker blocks from an annotated README."""
+    begin_count = annotated_text.count(MARKER_BEGIN)
+    end_count = annotated_text.count(MARKER_END)
+    if begin_count != end_count:
+        raise ValueError(f"unbalanced RigorPilot markers: begin={begin_count}, end={end_count}")
+    stripped, removed = MARKER_BLOCK_RE.subn("", annotated_text)
+    if removed != begin_count or MARKER_BEGIN in stripped or MARKER_END in stripped:
+        raise ValueError("malformed or nested RigorPilot annotation markers")
+    return stripped
+
+
+def _dominant_newline(value: str) -> str:
+    crlf = value.count("\r\n")
+    lf = value.count("\n") - crlf
+    return "\r\n" if crlf > lf else "\n"
+
+
+def _sha256_text(value: str, include_utf8_bom: bool = False) -> str:
+    payload = value.encode("utf-8", errors="surrogateescape")
+    if include_utf8_bom:
+        payload = b"\xef\xbb\xbf" + payload
+    return hashlib.sha256(payload).hexdigest()
+
+
 COVERAGE_ORDER = ["success", "partial", "blocked", "decision", "info", "readonly"]
 
 
@@ -361,14 +469,12 @@ def coverage_line(coverage: Dict[str, Any], user_language: str) -> str:
     )
 
 
-def render_header(context: Dict[str, Any], coverage: Dict[str, int]) -> List[str]:
+def render_header(context: Dict[str, Any], coverage: Dict[str, int], original_sha256: str) -> List[str]:
     user_language = str(context.get("user_language") or "en")
     status = str(context.get("status") or "not_run")
     selected_goal = str(context.get("selected_goal") or "")
     status_style = {"success": "🟢", "partial": "🟡", "blocked": "🔴"}.get(status, "🔵")
     return [
-        "<!-- RigorPilot annotated README: original content preserved verbatim; annotations added below each section. -->",
-        "",
         text(user_language, "# 📄 README · RigorPilot annotations", "# 📄 README · RigorPilot 复现批注"),
         "",
         f"{status_style} `{status}` · `{selected_goal}` · `{context.get('lane')}` · {evidence_links(selected_goal)}",
@@ -381,23 +487,29 @@ def render_header(context: Dict[str, Any], coverage: Dict[str, int]) -> List[str
             "<sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 / 资产缺失 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>",
         ),
         "",
-        "---",
+        f"<sub>original_sha256: `{original_sha256}` · round-trip: verified</sub>",
         "",
+        "---",
     ]
 
 
 def build_annotated_readme(readme_text: str, context: Dict[str, Any]) -> Tuple[str, Dict[str, Any]]:
+    if MARKER_BEGIN in readme_text or MARKER_END in readme_text:
+        raise ValueError("source README already contains reserved RigorPilot markers")
     user_language = str(context.get("user_language") or "en")
     selected_goal = str(context.get("selected_goal") or "")
-    annotated_blocks: List[Tuple[List[str], Dict[str, Any]]] = []
+    newline = _dominant_newline(readme_text)
+    include_utf8_bom = bool(context.get("_source_utf8_bom"))
+    original_sha256 = _sha256_text(readme_text, include_utf8_bom)
+    annotated_blocks: List[Tuple[Dict[str, Any], Optional[Dict[str, Any]]]] = []
     coverage: Dict[str, Any] = {style: 0 for style in COVERAGE_ORDER}
     tiers: Dict[str, int] = {}
     weight_total = 0.0
     weight_earned = 0.0
     for block in split_readme_blocks(readme_text):
-        block_lines = list(block["lines"])
-        while block_lines and not block_lines[-1].strip():
-            block_lines.pop()
+        if block["title"] is None:
+            annotated_blocks.append((block, None))
+            continue
         annotation = classify_block(block, context)
         coverage[annotation["style"]] += 1
         tier = annotation.get("tier")
@@ -406,45 +518,146 @@ def build_annotated_readme(readme_text: str, context: Dict[str, Any]) -> Tuple[s
         weight = float(annotation.get("weight") or 0)
         weight_total += weight
         weight_earned += weight * STYLE_EARNED.get(annotation["style"], 0.0)
-        annotated_blocks.append((block_lines, annotation))
-    coverage["total_sections"] = len(annotated_blocks)
+        annotated_blocks.append((block, annotation))
+    coverage["total_sections"] = sum(1 for _, annotation in annotated_blocks if annotation is not None)
     coverage["tiers"] = tiers
     coverage["reproduction_score"] = round(weight_earned / weight_total, 3) if weight_total else None
+    coverage["annotation_count"] = coverage["total_sections"]
+    coverage["original_sha256"] = original_sha256
 
-    output: List[str] = render_header(context, coverage)
-    for block_lines, annotation in annotated_blocks:
-        output.extend(block_lines)
-        output.append("")
-        output.extend(render_annotation(annotation, user_language, selected_goal))
-        output.append("")
-    return "\n".join(output).rstrip() + "\n", coverage
+    rendered = render_marker_block(
+        render_header(context, coverage, original_sha256),
+        kind="banner",
+        section="__banner__",
+        occurrence=1,
+        status=str(context.get("status") or "not_run"),
+        risk="none",
+        newline=newline,
+    )
+    risk_by_style = {
+        "success": "low",
+        "info": "low",
+        "readonly": "none",
+        "partial": "medium",
+        "blocked": "high",
+        "decision": "high",
+    }
+    source_cursor = 0
+    for block, annotation in annotated_blocks:
+        start = int(block["start"])
+        end = int(block["end"])
+        if start != source_cursor or end < start:
+            raise RuntimeError("README block offsets are not contiguous")
+        # Copy an immutable slice of the original README. Parsing only decides
+        # insertion offsets; it never reconstructs, trims, or rewrites source.
+        rendered += readme_text[start:end]
+        source_cursor = end
+        if annotation is None:
+            continue
+        rendered += render_marker_block(
+            render_annotation(annotation, user_language, selected_goal),
+            kind="section",
+            section=str(block["title"]),
+            occurrence=int(block.get("occurrence") or 1),
+            status=str(annotation["style"]),
+            risk=risk_by_style[str(annotation["style"])],
+            newline=newline,
+        )
+
+    if source_cursor != len(readme_text):
+        raise RuntimeError("README block offsets did not cover the complete source")
+
+    stripped = strip_annotations(rendered)
+    if stripped != readme_text:
+        raise RuntimeError("annotated README failed the exact round-trip fidelity check")
+    coverage["stripped_sha256"] = _sha256_text(stripped, include_utf8_bom)
+    coverage["round_trip_verified"] = True
+    return rendered, coverage
 
 
 def render_annotated_readme(readme_text: str, context: Dict[str, Any]) -> str:
     return build_annotated_readme(readme_text, context)[0]
 
 
-def write_annotated_readme(readme_path: Path, context: Dict[str, Any], output_path: Path) -> Tuple[Path, Dict[str, int]]:
-    readme_text = readme_path.read_text(encoding="utf-8-sig", errors="replace")
-    rendered, coverage = build_annotated_readme(readme_text, context)
+def write_annotated_readme(readme_path: Path, context: Dict[str, Any], output_path: Path) -> Tuple[Path, Dict[str, Any]]:
+    source_bytes = readme_path.read_bytes()
+    bom = source_bytes.startswith(b"\xef\xbb\xbf")
+    payload = source_bytes[3:] if bom else source_bytes
+    readme_text = payload.decode("utf-8", errors="surrogateescape")
+    rendered, coverage = build_annotated_readme(
+        readme_text,
+        {**context, "_source_utf8_bom": bom},
+    )
+    coverage["source_readme"] = str(readme_path.resolve())
+    coverage["source_bytes"] = len(source_bytes)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(rendered, encoding="utf-8")
+    rendered_bytes = rendered.encode("utf-8", errors="surrogateescape")
+    output_path.write_bytes((b"\xef\xbb\xbf" if bom else b"") + rendered_bytes)
+    if strip_annotated_bytes(output_path.read_bytes()) != source_bytes:
+        output_path.unlink(missing_ok=True)
+        raise RuntimeError("annotated README failed the byte-for-byte round-trip fidelity check")
     return output_path, coverage
 
 
-def main() -> int:
+def strip_annotated_bytes(value: bytes) -> bytes:
+    bom = value.startswith(b"\xef\xbb\xbf")
+    payload = value[3:] if bom else value
+    text_value = payload.decode("utf-8", errors="surrogateescape")
+    stripped = strip_annotations(text_value).encode("utf-8", errors="surrogateescape")
+    return (b"\xef\xbb\xbf" if bom else b"") + stripped
+
+
+def _run_legacy_annotate(argv: List[str]) -> int:
     parser = argparse.ArgumentParser(description="Render an annotated README from reproduction evidence.")
     parser.add_argument("--readme", required=True, help="Path to the original README file.")
     parser.add_argument("--context-json", required=True, help="Path to the reproduction context JSON (orchestrator payload).")
     parser.add_argument("--output", required=True, help="Path to write the annotated README to.")
-    args = parser.parse_args()
-
+    args = parser.parse_args(argv)
     context = json.loads(Path(args.context_json).read_text(encoding="utf-8-sig"))
     if not isinstance(context, dict):
         raise SystemExit("Context JSON must contain a top-level object.")
     written, coverage = write_annotated_readme(Path(args.readme), context, Path(args.output))
     print(json.dumps({"annotated_readme": str(written), "readme_section_coverage": coverage}, ensure_ascii=False))
     return 0
+
+
+def _run_strip_or_check(command: str, argv: List[str]) -> int:
+    parser = argparse.ArgumentParser(description=f"{command} RigorPilot README annotations.")
+    parser.add_argument("--input", required=True, help="Annotated README path.")
+    parser.add_argument("--output", help="Where to write the exact stripped README (strip only).")
+    parser.add_argument("--against", help="Original README to compare byte-for-byte.")
+    args = parser.parse_args(argv)
+    annotated_path = Path(args.input)
+    annotated_bytes = annotated_path.read_bytes()
+    stripped_bytes = strip_annotated_bytes(annotated_bytes)
+    if args.against:
+        original_bytes = Path(args.against).read_bytes()
+        if stripped_bytes != original_bytes:
+            print("round_trip_verified: false", file=sys.stderr)
+            return 1
+    if command == "strip":
+        if not args.output:
+            parser.error("--output is required for strip")
+        Path(args.output).write_bytes(stripped_bytes)
+    print(
+        json.dumps(
+            {
+                "round_trip_verified": True,
+                "stripped_sha256": hashlib.sha256(stripped_bytes).hexdigest(),
+                "marker_blocks": annotated_bytes.count(MARKER_BEGIN.encode("ascii")),
+            }
+        )
+    )
+    return 0
+
+
+def main() -> int:
+    argv = sys.argv[1:]
+    if argv and argv[0] in {"strip", "check"}:
+        return _run_strip_or_check(argv[0], argv[1:])
+    if argv and argv[0] == "annotate":
+        argv = argv[1:]
+    return _run_legacy_annotate(argv)
 
 
 if __name__ == "__main__":

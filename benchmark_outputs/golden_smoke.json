@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-golden-smoke",
+  "generated_at": "2026-09-03T13:16:12.958610+00:00",
+  "repo_commit": "3ab505258a8b16f95f5d1bee4101adbbf3a469ea",
+  "working_tree_dirty": true,
+  "python": "3.12.7",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "api_calls": 0,
+  "gpu_required": false,
+  "duration_seconds": 4.75,
+  "summary": {
+    "cases_total": 5,
+    "cases_passed": 5,
+    "false_result_matches": 0,
+    "complete_evidence_bundles": 5,
+    "complete_runtime_bundles": 5
+  },
+  "cases": [
+    {
+      "name": "metric_match",
+      "passed": true,
+      "duration_seconds": 0.922,
+      "expected": {
+        "status": "success",
+        "result_match": "matched"
+      },
+      "actual": {
+        "status": "success",
+        "result_match": "matched"
+      },
+      "observed_metrics": {
+        "accuracy": 0.875
+      },
+      "missing_outputs": [],
+      "false_result_match": false,
+      "runtime_status": "success",
+      "runtime_evidence_complete": true,
+      "model_adapter_recorded": "unspecified",
+      "process_returncode": 0,
+      "parse_error": null,
+      "stderr_excerpt": ""
+    },
+    {
+      "name": "metric_mismatch",
+      "passed": true,
+      "duration_seconds": 0.86,
+      "expected": {
+        "status": "success",
+        "result_match": "mismatched"
+      },
+      "actual": {
+        "status": "success",
+        "result_match": "mismatched"
+      },
+      "observed_metrics": {
+        "accuracy": 0.875
+      },
+      "missing_outputs": [],
+      "false_result_match": false,
+      "runtime_status": "success",
+      "runtime_evidence_complete": true,
+      "model_adapter_recorded": "unspecified",
+      "process_returncode": 0,
+      "parse_error": null,
+      "stderr_excerpt": ""
+    },
+    {
+      "name": "missing_executable",
+      "passed": true,
+      "duration_seconds": 0.907,
+      "expected": {
+        "status": "blocked",
+        "result_match": "not_evaluated"
+      },
+      "actual": {
+        "status": "blocked",
+        "result_match": "not_evaluated"
+      },
+      "observed_metrics": {},
+      "missing_outputs": [],
+      "false_result_match": false,
+      "runtime_status": "blocked",
+      "runtime_evidence_complete": true,
+      "model_adapter_recorded": "unspecified",
+      "process_returncode": 0,
+      "parse_error": null,
+      "stderr_excerpt": ""
+    },
+    {
+      "name": "model_adapter_snapshot",
+      "passed": true,
+      "duration_seconds": 1.266,
+      "expected": {
+        "status": "success",
+        "result_match": "not_evaluated"
+      },
+      "actual": {
+        "status": "success",
+        "result_match": "not_evaluated"
+      },
+      "observed_metrics": {
+        "accuracy": 0.875
+      },
+      "missing_outputs": [],
+      "false_result_match": false,
+      "runtime_status": "success",
+      "runtime_evidence_complete": true,
+      "model_adapter_recorded": "golden-test-model",
+      "process_returncode": 0,
+      "parse_error": null,
+      "stderr_excerpt": ""
+    },
+    {
+      "name": "shell_requires_opt_in",
+      "passed": true,
+      "duration_seconds": 0.734,
+      "expected": {
+        "status": "blocked",
+        "result_match": "not_evaluated"
+      },
+      "actual": {
+        "status": "blocked",
+        "result_match": "not_evaluated"
+      },
+      "observed_metrics": {},
+      "missing_outputs": [],
+      "false_result_match": false,
+      "runtime_status": "blocked",
+      "runtime_evidence_complete": true,
+      "model_adapter_recorded": "unspecified",
+      "process_returncode": 0,
+      "parse_error": null,
+      "stderr_excerpt": ""
+    }
+  ]
+}

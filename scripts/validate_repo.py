@@ -26,7 +26,16 @@ ROOT_REQUIRED_FILES = [
     ".claude/commands/safe-debug.md",
     "shared/scripts/write_explore_bundle.py",
     "shared/scripts/write_run_bundle.py",
+    "shared/scripts/model_adapter.py",
+    "shared/scripts/resource_monitor.py",
+    "shared/scripts/runtime_runner.py",
+    "shared/scripts/task_queue.py",
+    "benchmarks/external_cases.json",
+    "benchmarks/run_external_reproduction.py",
+    "benchmarks/run_external_suite.py",
+    "benchmarks/run_queue_smoke.py",
     "scripts/install_skills.py",
+    "scripts/sync_reproduction_bundle.py",
     "scripts/validate_repo.py",
     "scripts/test_skill_registry.py",
     "references/agent-operating-principles.md",
@@ -39,10 +48,18 @@ ROOT_REQUIRED_FILES = [
     "references/research-pitfall-checklist.md",
     "references/branch-and-commit-policy.md",
     "references/output-contract.md",
+    "skills/ai-research-reproduction/_bundled/MANIFEST.json",
 ]
 ROOT_REQUIRED_TESTS = [
     "scripts/test_bootstrap_env.py",
     "scripts/test_install_targets.py",
+    "scripts/test_single_skill_install.py",
+    "scripts/test_runtime_runner.py",
+    "scripts/test_runtime_recovery.py",
+    "scripts/test_model_adapter.py",
+    "scripts/test_task_queue.py",
+    "scripts/test_queue_smoke_benchmark.py",
+    "scripts/test_external_reproduction_benchmark.py",
     "scripts/test_trigger_boundaries.py",
     "scripts/test_readme_selection.py",
     "scripts/test_output_rendering.py",
@@ -70,7 +87,7 @@ ROOT_REQUIRED_TESTS = [
     "tests/trigger_cases.json",
     "tests/readme_selection_cases.json",
 ]
-IGNORED_PATH_PARTS = {"tmp", "artifacts", "repro_outputs", "__pycache__", ".git", ".claude", ".codex"}
+IGNORED_PATH_PARTS = {"tmp", "artifacts", "repro_outputs", "benchmark_outputs", "_bundled", "__pycache__", ".git", ".claude", ".codex"}
 
 
 def parse_front_matter(skill_md: Path) -> Dict[str, str]:

@@ -43,6 +43,22 @@ Why this trial mattered:
 - The README contains install commands, export commands, and a runnable inference script.
 - The skill should select the documented inference entrypoint, then report missing install state as a run blocker.
 
+### `karpathy/micrograd` pinned external canary
+
+- Repository: [https://github.com/karpathy/micrograd](https://github.com/karpathy/micrograd)
+- Commit: `7bc720e951fe422b8f8814aa5aa1b64121d26b4c`
+- README-selected goal: evaluation
+- README-selected command: `python -m pytest`
+- Outcome: `success` (`2 passed`)
+- Stable report: [`benchmark_outputs/external_micrograd.json`](../benchmark_outputs/external_micrograd.json)
+
+This is the first trial run through the durable external benchmark runner. It
+used a fresh checkout and venv while reusing host PyTorch and pytest, recorded
+all setup and execution phases, and verified that tracked source files remained
+unchanged. The initial Windows setup canary exposed a GBK decode failure and a
+missing pytest classification; the final automated run records the UTF-8
+environment adaptation and validates the generic classifier correction.
+
 ## Validation results
 
 What these trials confirmed:

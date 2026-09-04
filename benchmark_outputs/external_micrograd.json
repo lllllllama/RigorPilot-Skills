@@ -1,0 +1,340 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-external-reproduction",
+  "case": "micrograd",
+  "case_manifest_schema_version": "1.0",
+  "generated_at": "2026-09-04T17:59:07.500521Z",
+  "status": "passed",
+  "source": {
+    "repository": "https://github.com/karpathy/micrograd.git",
+    "expected_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+    "actual_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+    "target_subdir": ".",
+    "fresh_checkout": true
+  },
+  "identity": {
+    "harness_sha256": "3357a14ad2d039572b1db5eceda93810c48dd0ee6c523d88540a98eac7dbc86a",
+    "harness_file_count": 50,
+    "case_sha256": "a3113b4322010e23c4087c8296ac91ce77c7753af23103a4e4e3a231c3659d2c"
+  },
+  "scope": {
+    "tier": "correctness-canary",
+    "dependency_mode": "fresh-venv-with-host-torch-and-pytest",
+    "cache_policy": "fresh-checkout-and-venv; host package and network caches retained",
+    "api_calls": 0,
+    "gpu_required": false,
+    "network_required": true,
+    "workspace": "tmp/external-benchmark-runs/micrograd-20260904T175907Z-50148",
+    "workspace_retained": false,
+    "evidence_retained": true,
+    "verification_mode": "execution",
+    "workspace_cleanup": "removed"
+  },
+  "limits": {
+    "max_workspace_mb": 256,
+    "min_free_disk_gb": 5.0,
+    "initial_free_disk_bytes": 131014569984,
+    "peak_workspace_bytes": 12203075,
+    "final_free_disk_bytes": 130999595008
+  },
+  "known_adaptations": [
+    {
+      "name": "windows-utf8-mode",
+      "environment": {
+        "PYTHONUTF8": "1"
+      },
+      "reason": "Observed GBK UnicodeDecodeError when setup.py read the UTF-8 README on Chinese Windows.",
+      "scientific_semantics_changed": false
+    }
+  ],
+  "environment": {
+    "base_python": "3.12.7",
+    "system_site_packages": true,
+    "dependency_versions": {
+      "pytest": "7.4.4",
+      "torch": "2.12.1+cu126"
+    },
+    "inheritance_policy": "strip-secret-named-variables",
+    "secret_environment_variables_stripped": 6,
+    "venv_python": "3.12.7"
+  },
+  "phases": [
+    {
+      "name": "init-repository",
+      "source": "benchmark isolation policy",
+      "command": "git init D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\repo",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.187,
+      "runtime_dir": "phase_runtime/20260904T175907Z-fb23e865",
+      "stdout_tail": "Initialized empty Git repository in D:/test_projects/ai-paper-reproduction-skill/tmp/external-benchmark-runs/micrograd-20260904T175907Z-50148/repo/.git/\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 2682880,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "fetch-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\repo fetch --depth 1 https://github.com/karpathy/micrograd.git 7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 1.968,
+      "runtime_dir": "phase_runtime/20260904T175907Z-7007ec4f",
+      "stdout_tail": "",
+      "stderr_tail": "From https://github.com/karpathy/micrograd\n * branch            7bc720e951fe422b8f8814aa5aa1b64121d26b4c -> FETCH_HEAD\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 2,
+        "max_root_process_rss_bytes": 6709248,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "checkout-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\repo checkout --detach FETCH_HEAD",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.234,
+      "runtime_dir": "phase_runtime/20260904T175909Z-0983ed32",
+      "stdout_tail": "",
+      "stderr_tail": "HEAD is now at 7bc720e link to microgpt\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 2682880,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "create-venv",
+      "source": "benchmark isolation policy",
+      "command": "D:\\Anaconda3\\python.exe -m venv --system-site-packages D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\.venv",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 17.015,
+      "runtime_dir": "phase_runtime/20260904T175910Z-648a7378",
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 17,
+        "max_root_process_rss_bytes": 16273408,
+        "max_root_process_cpu_seconds": 0.140625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "dependency-probe",
+      "source": "case manifest",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\.venv\\Scripts\\python.exe -c \"import importlib.metadata as m,json,sys; names=[\\\"torch\\\", \\\"pytest\\\"]; print(json.dumps({'python':sys.version.split()[0],'packages':{name:m.version(name) for name in names}},sort_keys=True))\"",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.375,
+      "runtime_dir": "phase_runtime/20260904T175927Z-5e7a5eed",
+      "stdout_tail": "{\"packages\": {\"pytest\": \"7.4.4\", \"torch\": \"2.12.1+cu126\"}, \"python\": \"3.12.7\"}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 3952640,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "readme-install",
+      "source": "README Installation",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\.venv\\Scripts\\python.exe -m pip install --disable-pip-version-check micrograd",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 8.734,
+      "runtime_dir": "phase_runtime/20260904T175928Z-85cb1519",
+      "stdout_tail": "Collecting micrograd\n  Using cached micrograd-0.1.0-py3-none-any.whl.metadata (2.6 kB)\nUsing cached micrograd-0.1.0-py3-none-any.whl (4.9 kB)\nInstalling collected packages: micrograd\nSuccessfully installed micrograd-0.1.0\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 9,
+        "max_root_process_rss_bytes": 4354048,
+        "max_root_process_cpu_seconds": 0.03125,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      },
+      "environment_overrides": [
+        "PYTHONUTF8"
+      ]
+    },
+    {
+      "name": "rigorpilot-orchestrator",
+      "source": "RigorPilot ai-research-reproduction",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\.venv\\Scripts\\python.exe D:\\test_projects\\ai-paper-reproduction-skill\\skills\\ai-research-reproduction\\scripts\\orchestrate_repro.py --repo D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\repo --output-dir D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\micrograd-20260904T175907Z-50148\\repro_outputs --timeout 180 --train-timeout 180 --user-language en --run-selected --include-analysis-pass",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 12.5,
+      "runtime_dir": "phase_runtime/20260904T175937Z-b2b922d0",
+      "stdout_tail": "                 [100%]\\n\\n============================== 2 passed in 7.62s ==============================\"\n  ],\n  \"patches_applied\": false,\n  \"patch_branch\": \"\",\n  \"readme_fidelity\": \"preserved\",\n  \"highest_patch_risk\": \"low\",\n  \"verified_commits\": [],\n  \"validation_summary\": \"\",\n  \"patch_notes\": [],\n  \"full_training_authorized\": false,\n  \"requires_full_training_confirmation\": false,\n  \"run_mode\": null,\n  \"resume_from\": null,\n  \"dataset\": \"unknown\",\n  \"checkpoint_source\": \"none\",\n  \"full_training_command\": null,\n  \"training_duration_hint\": null,\n  \"max_steps\": null,\n  \"completed_steps\": null,\n  \"best_metric\": null,\n  \"best_checkpoint\": null,\n  \"stop_reason\": null,\n  \"last_epoch\": null,\n  \"last_step\": null,\n  \"observed_metrics\": {},\n  \"result_match\": {\n    \"status\": \"not_evaluated\",\n    \"reason\": \"No explicit expected metrics were supplied.\",\n    \"absolute_tolerance\": 0.0,\n    \"comparisons\": []\n  },\n  \"checkpoint_candidates\": [],\n  \"monitoring_scope\": null,\n  \"execution_mode\": \"direct\",\n  \"runtime_run_id\": \"20260904T175938Z-e8094907\",\n  \"runtime_dir\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repro_outputs\\\\_runtime\\\\20260904T175938Z-e8094907\",\n  \"runtime_status\": \"success\",\n  \"runtime_state_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repro_outputs\\\\_runtime\\\\20260904T175938Z-e8094907\\\\state.json\",\n  \"runtime_events_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repro_outputs\\\\_runtime\\\\20260904T175938Z-e8094907\\\\events.jsonl\",\n  \"stdout_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repro_outputs\\\\_runtime\\\\20260904T175938Z-e8094907\\\\stdout.log\",\n  \"stderr_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repro_outputs\\\\_runtime\\\\20260904T175938Z-e8094907\\\\stderr.log\",\n  \"stdout_truncated\": false,\n  \"stderr_truncated\": false,\n  \"cancelled\": false,\n  \"duration_seconds\": 10.578,\n  \"runtime_attempt\": 1,\n  \"runtime_retry_of\": null,\n  \"resources_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repro_outputs\\\\_runtime\\\\20260904T175938Z-e8094907\\\\resources.jsonl\",\n  \"resource_summary\": {\n    \"scope\": \"root_process_and_optional_device_global\",\n    \"samples\": 11,\n    \"max_root_process_rss_bytes\": 544595968,\n    \"max_root_process_cpu_seconds\": 9.34375,\n    \"gpu_sampling_available\": false,\n    \"max_device_gpu_memory_used_mib\": {}\n  },\n  \"model_adapter\": {\n    \"schema_version\": \"1.0\",\n    \"status\": \"unconfigured\",\n    \"adapter_id\": \"external-agent\",\n    \"provider\": \"host\",\n    \"model\": \"unspecified\",\n    \"revision\": null,\n    \"capabilities\": [],\n    \"endpoint\": null,\n    \"credential_env\": null,\n    \"parameters\": {},\n    \"metadata\": {},\n    \"fingerprint\": \"ad285507d7850f1f8108ddd22e965d9fbe8980e71ce91b1769c859a6d733da62\"\n  },\n  \"annotated_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repro_outputs\\\\ANNOTATED_README.md\",\n  \"readme_section_coverage\": {\n    \"success\": 1,\n    \"partial\": 0,\n    \"blocked\": 0,\n    \"decision\": 0,\n    \"info\": 1,\n    \"readonly\": 6,\n    \"total_sections\": 8,\n    \"tiers\": {\n      \"code-development\": 1,\n      \"execution\": 1\n    },\n    \"reproduction_score\": 0.812,\n    \"annotation_count\": 8,\n    \"original_sha256\": \"e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5\",\n    \"stripped_sha256\": \"e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5\",\n    \"round_trip_verified\": true,\n    \"source_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\micrograd-20260904T175907Z-50148\\\\repo\\\\README.md\",\n    \"source_bytes\": 3082\n  },\n  \"lesson_recorded\": null\n}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 13,
+        "max_root_process_rss_bytes": 4608000,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      },
+      "environment_overrides": [
+        "PATH-prepend",
+        "PYTHONUTF8",
+        "PYTHONUNBUFFERED",
+        "VIRTUAL_ENV"
+      ]
+    }
+  ],
+  "selection": {
+    "expected_command": "python -m pytest",
+    "actual_command": "python -m pytest",
+    "command_match": true,
+    "expected_goal": "evaluation",
+    "actual_goal": "evaluation",
+    "goal_match": true
+  },
+  "execution": {
+    "requested": true,
+    "expected_status": "success",
+    "actual_status": "success",
+    "status_match": true,
+    "expected_stdout_contains": "2 passed",
+    "stdout_match": true,
+    "result_match": {
+      "status": "not_evaluated",
+      "reason": "No explicit expected metrics were supplied.",
+      "absolute_tolerance": 0.0,
+      "comparisons": []
+    },
+    "runtime_status": "success",
+    "runtime_duration_seconds": 10.578,
+    "resource_summary": {
+      "scope": "root_process_and_optional_device_global",
+      "samples": 11,
+      "max_root_process_rss_bytes": 544595968,
+      "max_root_process_cpu_seconds": 9.34375,
+      "gpu_sampling_available": false,
+      "max_device_gpu_memory_used_mib": {}
+    }
+  },
+  "evidence": {
+    "complete": true,
+    "missing": [],
+    "output_dir": "repro_outputs",
+    "runtime_dir": "repro_outputs/_runtime/20260904T175938Z-e8094907",
+    "readme_fidelity": {
+      "source_readme": "repo/README.md",
+      "annotated_readme": "repro_outputs/ANNOTATED_README.md",
+      "round_trip_verified": true,
+      "one_annotation_per_heading": true,
+      "original_bytes": 3082,
+      "original_sha256": "e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5",
+      "stripped_sha256": "e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5",
+      "marker_blocks": 9,
+      "section_markers": 8,
+      "atx_heading_blocks": 8
+    },
+    "archive": {
+      "directory": "benchmark_outputs/evidence/micrograd",
+      "files": [
+        {
+          "name": "ANNOTATED_README.md",
+          "bytes": 5777,
+          "sha256": "7ec73ec76f1364f6c9c132e88283fb9158fc02d46f7d8ee6dd36d841bc5232e6"
+        },
+        {
+          "name": "COMMANDS.md",
+          "bytes": 2394,
+          "sha256": "8598bf76711e6b4e8575177edcdabf987c8cdbdc9057aed07197d823d2fb754a"
+        },
+        {
+          "name": "COMPARABILITY_REPORT.md",
+          "bytes": 1163,
+          "sha256": "86860519c2d5ba204ae92aede4d70eef29bcd25b74fc93c2dbaa84a725a987f5"
+        },
+        {
+          "name": "LOG.md",
+          "bytes": 4879,
+          "sha256": "5976b043f4a78b8cc74d0561f4731fbfe3a53f98404e0609f28c3e09d9c9c80e"
+        },
+        {
+          "name": "SCIENTIFIC_CHANGELOG.md",
+          "bytes": 1316,
+          "sha256": "3812b5eb7555f318f625658c99514d911c1d33212881e2f1a86bb9e869ba9778"
+        },
+        {
+          "name": "SUMMARY.md",
+          "bytes": 601,
+          "sha256": "7527a141446aedf6943e25d3d262767bb548c3527e5aafc6a20248e6fe8a18ce"
+        },
+        {
+          "name": "status.json",
+          "bytes": 7849,
+          "sha256": "f2dbfe4fb6971539d5e8c6d00776f3dd61de5b70d482fd7fdac98b94615207b3"
+        }
+      ],
+      "total_bytes": 23979
+    }
+  },
+  "target_repo_changes": {
+    "tracked_before": [],
+    "tracked_after": [],
+    "untracked_after": [
+      "micrograd/__pycache__/__init__.cpython-312.pyc",
+      "micrograd/__pycache__/engine.cpython-312.pyc",
+      "test/__pycache__/test_engine.cpython-312-pytest-7.4.4.pyc"
+    ],
+    "tracked_source_unchanged": true
+  },
+  "dimensions": {
+    "source_pinned": true,
+    "command_selected": true,
+    "goal_classified": true,
+    "execution_expectation_met": true,
+    "evidence_complete": true,
+    "readme_round_trip": true,
+    "one_annotation_per_heading": true,
+    "showcase_snapshot_complete": true,
+    "tracked_source_unchanged": true
+  },
+  "limitations": [
+    "One repository case does not establish broad paper-reproduction generalization.",
+    "Host package and network caches are retained unless the case says otherwise.",
+    "A host-reuse dependency mode is not a fully cold dependency installation."
+  ],
+  "showcase": {
+    "schema_version": "1.0",
+    "repository": "https://github.com/karpathy/micrograd.git",
+    "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+    "tracked_files_retained": 13,
+    "original_readme": "README.md",
+    "annotated_readme": "repo/RIGORPILOT_README.md",
+    "original_sha256": "e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5",
+    "stripped_sha256": "e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5",
+    "retained_content_bytes": 190642
+  },
+  "intervention_accounting": {
+    "discovery_adaptations_recorded": 1,
+    "manual_interventions_during_final_run": 0,
+    "autonomous_after_manifest": true
+  },
+  "main_blocker": null,
+  "wall_duration_seconds": 43.5
+}

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import os
 import shutil
+import sys
 from pathlib import Path
 from typing import Iterable, List, Mapping
 
@@ -23,6 +24,11 @@ SHARED_REFERENCE_FILES = [
 # Runtime modules loaded by installed skills via parents[3]/shared/scripts;
 # they must be installed next to the skills.
 SHARED_SCRIPT_FILES = [
+    "command_utils.py",
+    "model_adapter.py",
+    "resource_monitor.py",
+    "runtime_runner.py",
+    "task_queue.py",
     "write_run_bundle.py",
     "write_explore_bundle.py",
     "lessons_store.py",
@@ -160,7 +166,15 @@ def install_skills(
         if mode == "copy":
             copy_skill(skill_dir, target_path)
         else:
-            target_path.symlink_to(skill_dir.resolve(), target_is_directory=True)
+            try:
+                target_path.symlink_to(skill_dir.resolve(), target_is_directory=True)
+            except OSError as exc:
+                # Windows commonly denies symlink creation unless Developer Mode
+                # or elevated privileges are enabled. A portable copy is safer
+                # than failing an otherwise valid local installation.
+                if os.name != "nt" or getattr(exc, "winerror", None) != 1314:
+                    raise
+                copy_skill(skill_dir, target_path)
 
         installed.append(target_path)
 
@@ -206,6 +220,13 @@ def main() -> int:
     installed = install_skills(repo_root, target_root, args.mode, args.force)
 
     print(f"Installed {len(installed)} skills to {target_root} for {args.client}")
+    if args.mode == "symlink":
+        copied = [path for path in installed if not path.is_symlink()]
+        if copied:
+            print(
+                f"Warning: symlink permission was unavailable; installed {len(copied)} skill(s) as copies instead.",
+                file=sys.stderr,
+            )
     print(format_paths(installed))
     return 0
 

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "repository": "https://github.com/karpathy/nanoGPT.git",
+  "commit": "3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+  "tracked_files_retained": 26,
+  "original_readme": "README.md",
+  "annotated_readme": "repo/RIGORPILOT_README.md",
+  "original_sha256": "664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271",
+  "stripped_sha256": "664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271",
+  "retained_content_bytes": 739986
+}

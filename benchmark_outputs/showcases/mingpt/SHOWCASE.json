@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "repository": "https://github.com/karpathy/minGPT.git",
+  "commit": "37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+  "tracked_files_retained": 18,
+  "original_readme": "README.md",
+  "annotated_readme": "repo/RIGORPILOT_README.md",
+  "original_sha256": "7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e",
+  "stripped_sha256": "7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e",
+  "retained_content_bytes": 242922
+}

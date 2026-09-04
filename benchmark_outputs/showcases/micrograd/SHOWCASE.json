@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "repository": "https://github.com/karpathy/micrograd.git",
+  "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "tracked_files_retained": 13,
+  "original_readme": "README.md",
+  "annotated_readme": "repo/RIGORPILOT_README.md",
+  "original_sha256": "e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5",
+  "stripped_sha256": "e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5",
+  "retained_content_bytes": 190642
+}

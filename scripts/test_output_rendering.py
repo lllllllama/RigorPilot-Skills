@@ -46,6 +46,13 @@ def write_context(path: Path) -> Dict[str, object]:
         "evidence": ["Detected files: README.md"],
         "protocol_deviations": ["No protocol deviation was applied during this run."],
         "human_decisions_required": ["Confirm whether the documented command should be retried after the path fix."],
+        "observed_metrics": {"miou": 79.4},
+        "best_metric": {"name": "miou", "value": 79.4},
+        "result_match": {
+            "status": "not_evaluated",
+            "reason": "No explicit expected metrics were supplied.",
+            "comparisons": [],
+        },
         "artifact_provenance": [
             {"artifact": "readme", "source": "D:/demo/repo/README.md", "kind": "repo_file"},
             {"artifact": "output_dir", "source": "repro_outputs/", "kind": "generated"},
@@ -116,6 +123,8 @@ def main() -> int:
         assert_contains(log, "## Command provenance", "LOG.md")
         assert_contains(log, "## Unverified inferences", "LOG.md")
         assert_contains(log, "## Human review checkpoints", "LOG.md")
+        assert_contains(log, "## Observed metrics", "LOG.md")
+        assert_contains(log, "## Result comparison", "LOG.md")
         assert_contains(log, "## Next safe action", "LOG.md")
         assert_contains(patches, "# Patch Record", "PATCHES.md")
         assert_contains(patches, "Highest patch risk", "PATCHES.md")
@@ -142,6 +151,12 @@ def main() -> int:
             raise AssertionError("status.json lost the expected highest_patch_risk value")
         if status["evidence_level"] != "mixed":
             raise AssertionError("status.json lost the expected evidence_level value")
+        if status["observed_metrics"] != {"miou": 79.4}:
+            raise AssertionError("status.json lost non-training observed metrics")
+        if status["best_metric"] != {"name": "miou", "value": 79.4}:
+            raise AssertionError("status.json lost the non-training best metric")
+        if status["result_match"]["status"] != "not_evaluated":
+            raise AssertionError("status.json lost the result-match evaluation state")
         if status["next_safe_action"] != "Review the blocker and confirm the next documented verification step.":
             raise AssertionError("status.json lost the expected next_safe_action value")
         if len(status["human_decisions_required"]) != 1:

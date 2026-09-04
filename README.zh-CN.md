@@ -1,10 +1,7 @@
 # RigorPilot Skills
 
-面向深度学习实验的科研优先 Agent Skills。
-
-**一句话主旨：** RigorPilot 让 AI agent 在复现、改进、探索深度学习研究仓库时，始终保留可比性、可复现实验证据和可审计的改动边界。
-
-> 不只是更高分数，而是有意义的深度学习科研推进。
+把研究仓库的 README 命令转化为有界执行和可审计证据的科研 Harness。
+默认走可信复现；只在显式授权后进入探索。不只是更高分数，而是可验证的研究进展。
 
 <p>
   <a href="./README.md">English</a> |
@@ -13,92 +10,144 @@
 
 <p>
   <a href="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml"><img alt="CI" src="https://github.com/lllllllama/RigorPilot-Skills/actions/workflows/validate.yml/badge.svg"></a>
-  <img alt="research-first" src="https://img.shields.io/badge/research-first-1f6feb?style=flat-square">
-  <img alt="deep learning" src="https://img.shields.io/badge/deep-learning-238636?style=flat-square">
-  <img alt="reproducibility" src="https://img.shields.io/badge/reproducibility-auditable-0a7ea4?style=flat-square">
-  <img alt="explicit exploration" src="https://img.shields.io/badge/exploration-explicit%20only-8250df?style=flat-square">
+  <a href="https://skillselion.com/skills/lllllllama/rigorpilot-skills/ai-research-reproduction"><img alt="Listed on Skillselion" src="https://skillselion.com/badge/skills/lllllllama/rigorpilot-skills/ai-research-reproduction.svg"></a>
+  <a href="https://skills.sh/lllllllama/rigorpilot-skills"><img alt="skills.sh installs" src="https://skills.sh/b/lllllllama/rigorpilot-skills"></a>
+  <a href="https://github.com/lllllllama/RigorPilot-Skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/lllllllama/RigorPilot-Skills?style=flat-square"></a>
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
+  <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="skills" src="https://img.shields.io/badge/skills-11-8b949e?style=flat-square">
-  <img alt="public skills" src="https://img.shields.io/badge/public%20skills-9-0969da?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-45%20scripts-8250df?style=flat-square">
-  <img alt="clients" src="https://img.shields.io/badge/clients-Agent%20Skills%20%C2%B7%20Codex%20%C2%B7%20Claude%20Code-6f42c1?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/regression-56%2F56%20passed-8250df?style=flat-square">
+  <img alt="external benchmark" src="https://img.shields.io/badge/external%20protocols-4%2F4%20passed-238636?style=flat-square">
 </p>
 
-## ⚡ 一眼看懂
+<p align="center">
+  <a href="#examples"><strong>效果示例</strong></a> ·
+  <a href="#evidence"><strong>真实仓库证据</strong></a> ·
+  <a href="#quick-start"><strong>快速安装</strong></a> ·
+  <a href="#-该用哪个入口"><strong>技能索引</strong></a>
+</p>
 
-| 重点 | 说明 |
+<a id="examples"></a>
+
+## 📄 一眼看懂：RigorPilot 如何批注 README
+
+RigorPilot 直接读取目标仓库的原始 README，保留其中每一个字、空行和换行符，
+只在各章节末尾插入状态卡片。你无需翻日志，就能先看清“做了什么、结果如何、
+为什么停下”；需要核查时，再点击卡片里的证据链接下钻。
+
+| 原始 README | RigorPilot 就地批注 | 可核查证据 |
+|---|---|---|
+| 命令、正文、徽章、图片、GIF、视频和 HTML 保持原样 | 成功、部分完成、阻塞、仅阅读或等待授权 | `SUMMARY.md`、`COMMANDS.md`、`LOG.md`、`status.json` |
+
+🟢 执行成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 阻塞 · 🟣 需要决策
+
+<div align="center">
+  <img src="assets/annotated-readme-preview.zh-CN.png" width="840" alt="批注版 README：同时展示错误摘录、观测指标、证据链接、风险级别与训练授权边界"/>
+  <br/>
+  <sub>同一条评测命令从 checkpoint 缺失到资产就绪；训练没有授权时保持不执行。</sub>
+</div>
+
+| 可复核演示 | 你会看到 |
 |---|---|
-| 🧭 项目定位 | 面向深度学习实验的科研 workflow skills，不是普通 coding agent，也不是刷分自动化框架。 |
-| 🔒 默认原则 | `trusted by default`：模糊请求默认走可信复现、环境准备、运行、训练、分析或安全调试。 |
-| 🧪 探索边界 | 只有研究者明确授权 candidate-only 探索时，才进入 explore lane。 |
-| 📄 主打产物 | 每次复现都以[批注版 README](#-批注版-readme) 收尾：原 README 原样重放，每节附彩色、可下钻证据的完成情况。 |
-| 🧠 思维主循环 | 探索遵循贪心的、证据锚定的科研循环：观察 → 查证 → 假设 → 设计 → 运行 → 公平对比 → 保留或回滚。 |
-| 🌱 持续学习 | 不可变的严谨内核 + 用户自有的经验叠加层，在使用中安全地个性化。 |
-| 📦 证据产物 | 输出写入 `repro_outputs/`、`analysis_outputs/`、`train_outputs/`、`debug_outputs/`、`explore_outputs/` 等目录。 |
-| 🌐 跨代理可用 | 技能遵循 [Agent Skills 开放标准](https://agentskills.io)（Claude Code、Codex、Cursor、VS Code、Gemini CLI 等）；根级 [`AGENTS.md`](AGENTS.md) 为任何 AGENTS.md 感知的代理提供路由。 |
+| [首次尝试](examples/annotated-readme-demo-zh/first-run/ANNOTATED_README.md) | 🟡 checkpoint 缺失与真实错误摘录 · 🟡 数据未就绪 · 🟣 训练等待授权 |
+| [资产就绪后](examples/annotated-readme-demo-zh/after-setup/ANNOTATED_README.md) | 🟢 同一评测命令成功，并记录实际观测的 `mIoU` / `aAcc` |
 
-## 🚀 快速开始
+### 真实公开仓库验证：micrograd
 
-大多数用户只需要下面三条之一：
+| 实际执行 | 原文完整性 | 直接查看 |
+|---|---|---|
+| 🟢 `2` 项测试通过（7.62 秒） | `8` 个标题 = `8` 条批注；剥离批注后 SHA-256 与原文件完全相同 | [原始仓库](https://github.com/karpathy/micrograd/tree/7bc720e951fe422b8f8814aa5aa1b64121d26b4c) · [保留原仓库文件的完整批注 README](benchmark_outputs/showcases/micrograd/repo/RIGORPILOT_README.md) · [benchmark 报告](benchmark_outputs/external_micrograd.json) |
 
-| 目标 | 命令 |
-|---|---|
-| 安装整套 RigorPilot skills | `npx skills add lllllllama/rigorpilot-skills --all` |
-| 安装可信复现主入口 | `npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction` |
-| 安装显式探索主入口 | `npx skills add lllllllama/rigorpilot-skills --skill ai-research-explore` |
+<a id="evidence"></a>
 
-Claude Code 可直接使用项目级命令：
+## 🧪 已完成的真实公开仓库复现
 
-- `/ai-research-reproduction`
-- `/ai-research-explore`
-- `/analyze-project`
-- `/safe-debug`
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/micrograd/repo/RIGORPILOT_README.md"><img src="assets/showcase/external-micrograd.png" width="100%" alt="RigorPilot micrograd 复现，展示 pytest 成功执行"/></a><br/>
+      <b>micrograd · 正确性验证</b><br/>
+      <sub>🟢 2 项测试在 7.62 秒内通过 · 8 个标题 = 8 条批注<br/>原仓库文件保留 · SHA-256 完全一致</sub><br/>
+      <a href="benchmark_outputs/showcases/micrograd/repo/RIGORPILOT_README.md">打开真实仓库内的 RigorPilot README →</a>
+    </td>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/mingpt/repo/RIGORPILOT_README.md"><img src="assets/showcase/external-mingpt.png" width="100%" alt="RigorPilot minGPT 复现，展示目标选择与未授权不执行"/></a><br/>
+      <b>minGPT · 风险边界</b><br/>
+      <sub>🔵 已选定测试 · 未隐式下载模型<br/>11 个标题 = 11 条批注 · SHA-256 完全一致</sub><br/>
+      <a href="benchmark_outputs/showcases/mingpt/repo/RIGORPILOT_README.md">打开真实仓库内的 RigorPilot README →</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/pytorch-mnist/repo/mnist/RIGORPILOT_README.md"><img src="assets/showcase/external-pytorch-mnist.png" width="100%" alt="RigorPilot PyTorch MNIST 复现，展示有界训练启动"/></a><br/>
+      <b>PyTorch MNIST · 数据与指标捕获</b><br/>
+      <sub>🟡 有界启动 · 损失 0.038893<br/>1 个标题 = 1 条批注 · SHA-256 完全一致</sub><br/>
+      <a href="benchmark_outputs/showcases/pytorch-mnist/repo/mnist/RIGORPILOT_README.md">打开真实仓库内的 RigorPilot README →</a>
+    </td>
+    <td align="center" width="50%">
+      <a href="benchmark_outputs/showcases/nanogpt-shakespeare/repo/RIGORPILOT_README.md"><img src="assets/showcase/external-nanogpt.png" width="100%" alt="RigorPilot nanoGPT Shakespeare 复现，展示有界 CPU 训练"/></a><br/>
+      <b>nanoGPT Shakespeare · 有界训练</b><br/>
+      <sub>🟡 训练损失 4.1676 · 验证损失 4.1649<br/>11 个标题 = 11 条批注 · SHA-256 完全一致</sub><br/>
+      <a href="benchmark_outputs/showcases/nanogpt-shakespeare/repo/RIGORPILOT_README.md">打开真实仓库内的 RigorPilot README →</a>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <a href="benchmark_outputs/EXTERNAL_REPRODUCTIONS.zh-CN.md"><b>在一个证据索引中查看全部四项复现 →</b></a>
+</p>
+
+<sub>卡片内的英语来自外部仓库原始 README 与实际生成的英文证据文件；页面说明统一使用中文。</sub>
+
+**已记录结果：** `56/56` 回归脚本、`4/4` 外部用例协议通过；
+外部测试套件用时 `251.0 s`，单工作区最高 `98.67 MiB`，`0` 次 API 调用；
+临时工作区全部删除，另保留约 `17.9 MiB` 的四个 tracked 仓库展示快照。
+
+[最新测试套件 JSON](benchmark_outputs/external_suite_latest.json) ·
+[历史记录](benchmark_outputs/external_suite_history.jsonl) ·
+[用例定义](benchmarks/external_cases.json) ·
+[方法与限制](benchmarks/README.md)
+
+> `partial` 只证明有界启动、指标捕获、超时处理、源码完整性与清理能力；
+> 不证明训练收敛，也不等于论文分数复现。
+
+<a id="quick-start"></a>
+
+## 🚀 安装
+
+安装全部技能：
+
+```bash
+npx skills add lllllllama/rigorpilot-skills --all
+```
+
+只安装可信复现技能：
+
+```bash
+npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
+```
 
 <details>
-<summary>品牌与迁移兼容</summary>
+<summary>其他安装方式、代理命令与运行时控制</summary>
 
-项目品牌已经收敛为 `RigorPilot Skills`，推荐 GitHub 仓库 slug 为 `rigorpilot-skills`。
+Claude Code 命令：`/ai-research-reproduction`、`/ai-research-explore`、
+`/analyze-project`、`/safe-debug`。
 
-- 推荐安装源：`lllllllama/rigorpilot-skills`
-- 兼容 fallback：`lllllllama/ai-paper-reproduction-skills`
-- `ai-paper-reproduction` 已迁移为 `ai-research-reproduction`
-- `research-explore` 已迁移为 `ai-research-explore`
-- 现有兼容 skill slug 会继续保留；`rigor-*` 当前主要是 display mode，不是安装 alias。
+每条实际命令都有 run ID，并在 `<output-dir>/_runtime/<run_id>/` 下记录
+原子状态、追加式事件、资源采样和完整 stdout/stderr。取消、重启恢复和
+显式重试保留进程及 attempt 谱系；模型 profile 记录身份和能力，不记录凭据。
+
+推荐源为 `lllllllama/rigorpilot-skills`；
+`lllllllama/ai-paper-reproduction-skills` 仅作兼容 fallback。
 
 </details>
 
-## 📄 批注版 README
+## 📄 输出证据包
 
-Rigor Reproduce 运行结束后，`repro_outputs/ANNOTATED_README.md` 会原样重放目标仓库的
-README——按标题分块，每一块下面追加一条彩色标注，说明 agent 在这一节实际做了什么。
-一眼就能看清哪些跑了、哪些跳过了、哪里需要你关注；每条标注都链接回证据包
-（`SUMMARY.md` · `COMMANDS.md` · `LOG.md` · `status.json`），细节随时可查。
-
-颜色图例：🟢 已执行成功 · 🔵 信息性 / 未执行 · ⚪ 仅阅读 · 🟡 部分完成 ·
-🔴 被阻塞 · 🟣 需要决策。
-
-文件头部带有 rubric 式的**章节覆盖计分板**
-（如 `🟢 1 · 🟡 2 · 🟣 1 · 🔵 1 · ⚪ 8（共 13 节）`），并以
-`readme_section_coverage` 字段机器可读地写入 `status.json`——借鉴
-[PaperBench](https://arxiv.org/abs/2504.01848) 等复现基准用分层 rubric
-而非单一通过/失败来评判复现的思路。
-
-实际效果——原文一字不动，彩色、可下钻证据的结论就贴在每节下方：
-
-<div align="center">
-  <img src="assets/annotated-readme-preview.zh-CN.png" width="840" alt="批注版 README 预览：黄色部分完成（含真实错误摘录）、绿色执行成功（含观测 mIoU/aAcc）、紫色训练待授权"/>
-</div>
-
-**完整真实示例**——在一个仿真实语义分割仓库 README（徽章、Model Zoo、安装、数据准备、
-评测、训练、FAQ、引用）上真实运行 `ai-research-reproduction` 生成，同一条命令在
-资产准备前后的两幕对照：
-
-| 场景 | 你会看到 |
-|---|---|
-| [首次尝试 →](examples/annotated-readme-demo-zh/first-run/ANNOTATED_README.md) | 🟡 评测失败（checkpoint 缺失，含真实错误摘录）· 🟡 数据未就绪 · 🟣 训练等待授权 |
-| [资产就绪后 →](examples/annotated-readme-demo-zh/after-setup/ANNOTATED_README.md) | 🟢 评测成功，含真实观测指标 `mIoU` / `aAcc` |
-
-两个文件里的证据链接（SUMMARY、COMMANDS、LOG、status.json）都指向随文件一同提交的真实证据包。
+每次运行都会把原 README 和逐节结论写入
+`repro_outputs/ANNOTATED_README.md`。每条结论都可直达 `SUMMARY.md`、
+`COMMANDS.md`、`LOG.md` 和 `status.json`；文件头记录 rubric 式覆盖分。
+🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 阻塞 · 🟣 需要决策。
 
 ## 🎯 该用哪个入口
 
@@ -370,12 +419,14 @@ python scripts/test_setup_planning.py
 - 共 `11` 个 skill，其中 `9` 个 public skill，`2` 个 helper skill。
 - 共 `6` 个 trusted-lane public skill，`3` 个 explore-lane public skill。
 - `.claude/commands/` 下提供 `4` 个项目级 Claude Code wrappers。
-- 共有 `48` 个 Python 脚本，其中 `45` 个是测试脚本。
+- 根目录 `scripts/` 下共有 `59` 个 Python 脚本，其中 `55` 个是测试脚本。
 - 文档和命令示例兼顾 Windows PowerShell 与 Linux shell。
 
 ## ⚠️ 当前限制
 
-- `run-train` 是受限训练监控器，不是长时间训练调度器。
+- 持久任务队列是单机、单写入者调度器；资源请求用于准入控制，不等于操作系统级 CPU、内存或 GPU 隔离。
+- 外部 suite 覆盖四个仓库，但 minGPT 仅做选择验证，两个训练用例只证明有界启动，不证明收敛或论文结果复现。
+- `run-train` 仍是受限训练监控器；长任务必须显式提交到该队列或外部调度器。
 - trusted reproduction 避免静默语义改动。
 - helper skills 保持窄职责，不作为公共兜底入口。
 - exploratory work 必须与 trusted baseline 隔离。

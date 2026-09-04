@@ -7,19 +7,22 @@ description: Rigor Reproduce compatible skill slug for README-first deep learnin
 
 ## Purpose
 
-Use this as the Rigor Reproduce compatible skill slug for README-first deep
-learning repository reproduction. The installed slug remains
-`ai-research-reproduction` for compatibility. The skill guides the agent toward
-a minimal trustworthy run with auditable evidence; it should not micromanage
-implementation details that the model can infer from the repository.
-Reproduction is not "make it run by changing anything"; it means faithfully
-reading the README, environment, weights, datasets, and documented commands,
-then recording results and deviations.
+Guide README-first deep learning reproduction toward a minimal trustworthy run
+with auditable evidence. Reproduction is not "make it run by changing
+anything"; faithfully read the README, environment, weights, datasets, and
+documented commands, then record results and deviations. Start with
+`references/agent-operating-principles.md`; load
+`references/research-rigor-principles.md` and
+`references/deep-learning-experiment-principles.md` when scientific meaning or
+experiment details are at stake.
 
-Start from the shared operating principles in
-`../../references/agent-operating-principles.md`, then load
-`../../references/research-rigor-principles.md` and
-`../../references/deep-learning-experiment-principles.md` when scientific meaning, comparability, or experiment details are at stake.
+The deterministic entrypoint is `scripts/orchestrate_repro.py`. It includes a
+self-contained `_bundled/` runtime, so this skill works when installed alone;
+separately installed companion skills remain optional reusable entrypoints.
+Executed commands persist lifecycle state, append-only events, and full streamed
+stdout/stderr under `repro_outputs/_runtime/<run_id>/`. A `CANCEL` file in the
+active run directory requests process-tree cancellation.
+For recovery, queue scheduling, retry lineage, resources, or model gates, read `references/runtime-and-model-adapter.md`.
 
 ## Fit
 
@@ -53,22 +56,19 @@ narrow reproduction-critical gap.
 ## Workflow
 
 1. Read the README and nearby repo signals.
-2. Use `repo-intake-and-plan` to extract documented commands and candidate
-   targets.
+2. Run the bundled `repo-intake-and-plan` stage to extract commands and targets.
 3. Select and justify the minimum trustworthy target.
-4. Use `env-and-assets-bootstrap` only for target-specific environment,
+4. Run `env-and-assets-bootstrap` only for target-specific environment,
    checkpoint, dataset, and cache assumptions.
-5. Use `analyze-project` only when structure, insertion points, or suspicious
+5. Run `analyze-project` only when structure, insertion points, or suspicious
    implementation patterns need read-only clarification.
-6. Use `minimal-run-and-audit` for documented inference, evaluation, smoke, or
-   sanity execution.
+6. Use `minimal-run-and-audit` for documented inference, evaluation, smoke, or sanity execution. Keep direct execution as the default; native shell syntax requires explicit review and authorization.
 7. Use `run-train` instead when the selected trusted target is training startup,
    short-run verification, full kickoff, or resume.
 8. Pause for human review before fuller training claims or any change that could
    alter dataset, split, checkpoint, preprocessing, metric, loss, model
    semantics, or result interpretation.
-9. Write the standardized outputs and give a concise final note in the user's
-   language when practical.
+9. Award `result-match` only when explicit expected metrics are compared under a recorded tolerance; observed metrics alone prove execution, not reproduction. Then write the standardized outputs and a concise final note in the user's language when practical.
 
 ## Patch Boundary
 
@@ -112,15 +112,15 @@ Use the templates under `assets/` and the field rules in `references/output-spec
 - Put comparison anchors and protocol deviations in `COMPARABILITY_REPORT.md`.
 - Put durable machine-readable state in `status.json`.
 - Put branch, commit, validation, and README-fidelity impact in `PATCHES.md` when needed.
-- Put the researcher's at-a-glance view in `ANNOTATED_README.md`: the README replayed verbatim, each section annotated in color with what the agent did there, linked to the evidence files above.
+- Put the researcher's at-a-glance view in `ANNOTATED_README.md`: the README replayed byte-for-byte—including its image, GIF, video, and HTML markup—with exactly one marked color annotation after every heading block. Never extract a text-only surrogate. Generation must pass the built-in strip/check round trip before the file is kept.
 - Distinguish verified facts from inferred guesses.
 
 ## Reference Loading
 
 - Load `references/language-policy.md` when writing human-readable outputs.
-- Load `../../references/research-rigor-principles.md` before making comparability, contribution, or research-result claims.
-- Load `../../references/deep-learning-experiment-principles.md` when dataset, split, metric, checkpoint, training, or evaluation details matter.
-- Consult `~/.rigorpilot/PERSONAL_RIGOR.md` if present, under `../../references/continuous-learning-policy.md` (advisory only; core wins).
+- Load `references/research-rigor-principles.md` before making comparability, contribution, or research-result claims.
+- Load `references/deep-learning-experiment-principles.md` when dataset, split, metric, checkpoint, training, or evaluation details matter.
+- Consult `~/.rigorpilot/PERSONAL_RIGOR.md` if present, under `references/continuous-learning-policy.md` (advisory only; core wins).
 - Failed and later-resolved runs are auto-recorded as lessons via `shared/scripts/lessons_store.py` (`RIGORPILOT_LESSONS=0` disables).
 - Load `references/research-safety-principles.md` before protocol-sensitive
   decisions.

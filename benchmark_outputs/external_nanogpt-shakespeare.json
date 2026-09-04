@@ -1,0 +1,328 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-external-reproduction",
+  "case": "nanogpt-shakespeare",
+  "case_manifest_schema_version": "1.0",
+  "generated_at": "2026-09-04T18:02:01.343056Z",
+  "status": "passed",
+  "source": {
+    "repository": "https://github.com/karpathy/nanoGPT.git",
+    "expected_commit": "3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+    "actual_commit": "3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+    "target_subdir": ".",
+    "fresh_checkout": true
+  },
+  "identity": {
+    "harness_sha256": "3357a14ad2d039572b1db5eceda93810c48dd0ee6c523d88540a98eac7dbc86a",
+    "harness_file_count": 50,
+    "case_sha256": "5bfc9b6db99a156e2cfe8774e4d12dff26f3275e2c9fd5c3b97f34f8398305d9"
+  },
+  "scope": {
+    "tier": "bounded-training-canary",
+    "dependency_mode": "fresh-venv-with-host-torch-numpy-tiktoken",
+    "cache_policy": "fresh checkout and venv; Tiny Shakespeare data and any checkpoint are disposable with the workspace",
+    "api_calls": 0,
+    "gpu_required": false,
+    "network_required": true,
+    "workspace": "tmp/external-benchmark-runs/nanogpt-shakespeare-20260904T180201Z-30204",
+    "workspace_retained": false,
+    "evidence_retained": true,
+    "verification_mode": "execution",
+    "workspace_cleanup": "removed"
+  },
+  "limits": {
+    "max_workspace_mb": 256,
+    "min_free_disk_gb": 5.0,
+    "initial_free_disk_bytes": 130993512448,
+    "peak_workspace_bytes": 16502742,
+    "final_free_disk_bytes": 130974212096
+  },
+  "known_adaptations": [],
+  "environment": {
+    "base_python": "3.12.7",
+    "system_site_packages": true,
+    "dependency_versions": {
+      "numpy": "1.26.4",
+      "tiktoken": "0.12.0",
+      "torch": "2.12.1+cu126"
+    },
+    "inheritance_policy": "strip-secret-named-variables",
+    "secret_environment_variables_stripped": 6,
+    "venv_python": "3.12.7"
+  },
+  "phases": [
+    {
+      "name": "init-repository",
+      "source": "benchmark isolation policy",
+      "command": "git init D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repo",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.188,
+      "runtime_dir": "phase_runtime/20260904T180201Z-81661058",
+      "stdout_tail": "Initialized empty Git repository in D:/test_projects/ai-paper-reproduction-skill/tmp/external-benchmark-runs/nanogpt-shakespeare-20260904T180201Z-30204/repo/.git/\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 2682880,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "fetch-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repo fetch --depth 1 https://github.com/karpathy/nanoGPT.git 3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 3.157,
+      "runtime_dir": "phase_runtime/20260904T180201Z-d9478cb9",
+      "stdout_tail": "",
+      "stderr_tail": "From https://github.com/karpathy/nanoGPT\n * branch            3adf61e154c3fe3fca428ad6bc3818b27a3b8291 -> FETCH_HEAD\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 4,
+        "max_root_process_rss_bytes": 6701056,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "checkout-pinned-commit",
+      "source": "case manifest pinned commit",
+      "command": "git -C D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repo checkout --detach FETCH_HEAD",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.672,
+      "runtime_dir": "phase_runtime/20260904T180204Z-020b8b75",
+      "stdout_tail": "",
+      "stderr_tail": "HEAD is now at 3adf61e Update README to mention nanochat and deprecation\n",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 2682880,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "create-venv",
+      "source": "benchmark isolation policy",
+      "command": "D:\\Anaconda3\\python.exe -m venv --system-site-packages D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\.venv",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 17.141,
+      "runtime_dir": "phase_runtime/20260904T180205Z-efd52734",
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 17,
+        "max_root_process_rss_bytes": 16695296,
+        "max_root_process_cpu_seconds": 0.140625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "dependency-probe",
+      "source": "case manifest",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\.venv\\Scripts\\python.exe -c \"import importlib.metadata as m,json,sys; names=[\\\"torch\\\", \\\"numpy\\\", \\\"tiktoken\\\"]; print(json.dumps({'python':sys.version.split()[0],'packages':{name:m.version(name) for name in names}},sort_keys=True))\"",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 0.375,
+      "runtime_dir": "phase_runtime/20260904T180223Z-d9082f18",
+      "stdout_tail": "{\"packages\": {\"numpy\": \"1.26.4\", \"tiktoken\": \"0.12.0\", \"torch\": \"2.12.1+cu126\"}, \"python\": \"3.12.7\"}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 1,
+        "max_root_process_rss_bytes": 3940352,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      }
+    },
+    {
+      "name": "readme-shakespeare-prepare",
+      "source": "README quick start",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\.venv\\Scripts\\python.exe data/shakespeare_char/prepare.py",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 1.766,
+      "runtime_dir": "phase_runtime/20260904T180223Z-597496ef",
+      "stdout_tail": "length of dataset in characters: 1,115,394\nall the unique characters: \n !$&',-.3:;?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\nvocab size: 65\ntrain has 1,003,854 tokens\nval has 111,540 tokens\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 2,
+        "max_root_process_rss_bytes": 4354048,
+        "max_root_process_cpu_seconds": 0.015625,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      },
+      "environment_overrides": []
+    },
+    {
+      "name": "rigorpilot-orchestrator",
+      "source": "RigorPilot ai-research-reproduction",
+      "command": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\.venv\\Scripts\\python.exe D:\\test_projects\\ai-paper-reproduction-skill\\skills\\ai-research-reproduction\\scripts\\orchestrate_repro.py --repo D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repo --output-dir D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repro_outputs --timeout 45 --train-timeout 45 --user-language en --run-selected --include-analysis-pass",
+      "status": "success",
+      "returncode": 0,
+      "duration_seconds": 48.984,
+      "runtime_dir": "phase_runtime/20260904T180226Z-b12102ce",
+      "stdout_tail": "-batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0\",\n  \"training_duration_hint\": \"unknown; likely hours to multi-day on the full dataset until a bounded schedule is confirmed\",\n  \"max_steps\": 0,\n  \"completed_steps\": 215,\n  \"best_metric\": {\n    \"name\": \"val_loss\",\n    \"value\": 4.1649\n  },\n  \"best_checkpoint\": null,\n  \"stop_reason\": \"startup_verification_window_elapsed\",\n  \"last_epoch\": null,\n  \"last_step\": 215,\n  \"observed_metrics\": {\n    \"train_loss\": 4.1676,\n    \"val_loss\": 4.1649\n  },\n  \"result_match\": {\n    \"status\": \"not_evaluated\",\n    \"reason\": \"No explicit expected metrics were supplied.\",\n    \"absolute_tolerance\": 0.0,\n    \"comparisons\": []\n  },\n  \"checkpoint_candidates\": [],\n  \"monitoring_scope\": \"timeout:45s\",\n  \"execution_mode\": \"direct\",\n  \"runtime_run_id\": \"20260904T180228Z-96563a32\",\n  \"runtime_dir\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repro_outputs\\\\_runtime\\\\20260904T180228Z-96563a32\",\n  \"runtime_status\": \"timed_out\",\n  \"runtime_state_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repro_outputs\\\\_runtime\\\\20260904T180228Z-96563a32\\\\state.json\",\n  \"runtime_events_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repro_outputs\\\\_runtime\\\\20260904T180228Z-96563a32\\\\events.jsonl\",\n  \"stdout_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repro_outputs\\\\_runtime\\\\20260904T180228Z-96563a32\\\\stdout.log\",\n  \"stderr_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repro_outputs\\\\_runtime\\\\20260904T180228Z-96563a32\\\\stderr.log\",\n  \"stdout_truncated\": false,\n  \"stderr_truncated\": false,\n  \"cancelled\": false,\n  \"duration_seconds\": 45.844,\n  \"runtime_attempt\": 1,\n  \"runtime_retry_of\": null,\n  \"resources_log_path\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repro_outputs\\\\_runtime\\\\20260904T180228Z-96563a32\\\\resources.jsonl\",\n  \"resource_summary\": {\n    \"scope\": \"root_process_and_optional_device_global\",\n    \"samples\": 44,\n    \"max_root_process_rss_bytes\": 676593664,\n    \"max_root_process_cpu_seconds\": 265.828125,\n    \"gpu_sampling_available\": true,\n    \"max_device_gpu_memory_used_mib\": {\n      \"GPU-482d3b15-cbe3-6eeb-08aa-4867d7c951ff\": 250.0\n    }\n  },\n  \"model_adapter\": {\n    \"schema_version\": \"1.0\",\n    \"status\": \"unconfigured\",\n    \"adapter_id\": \"external-agent\",\n    \"provider\": \"host\",\n    \"model\": \"unspecified\",\n    \"revision\": null,\n    \"capabilities\": [],\n    \"endpoint\": null,\n    \"credential_env\": null,\n    \"parameters\": {},\n    \"metadata\": {},\n    \"fingerprint\": \"ad285507d7850f1f8108ddd22e965d9fbe8980e71ce91b1769c859a6d733da62\"\n  },\n  \"annotated_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repro_outputs\\\\ANNOTATED_README.md\",\n  \"readme_section_coverage\": {\n    \"success\": 0,\n    \"partial\": 0,\n    \"blocked\": 0,\n    \"decision\": 3,\n    \"info\": 3,\n    \"readonly\": 5,\n    \"total_sections\": 11,\n    \"tiers\": {\n      \"code-development\": 5,\n      \"execution\": 1\n    },\n    \"reproduction_score\": 0.25,\n    \"annotation_count\": 11,\n    \"original_sha256\": \"664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271\",\n    \"stripped_sha256\": \"664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271\",\n    \"round_trip_verified\": true,\n    \"source_readme\": \"D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\tmp\\\\external-benchmark-runs\\\\nanogpt-shakespeare-20260904T180201Z-30204\\\\repo\\\\README.md\",\n    \"source_bytes\": 14084\n  },\n  \"lesson_recorded\": \"C:\\\\Users\\\\17745\\\\.rigorpilot\\\\lessons.jsonl\"\n}\n",
+      "stderr_tail": "",
+      "resource_summary": {
+        "scope": "root_process_and_optional_device_global",
+        "samples": 48,
+        "max_root_process_rss_bytes": 4358144,
+        "max_root_process_cpu_seconds": 0.0,
+        "gpu_sampling_available": false,
+        "max_device_gpu_memory_used_mib": {}
+      },
+      "environment_overrides": [
+        "PATH-prepend",
+        "PYTHONUTF8",
+        "PYTHONUNBUFFERED",
+        "VIRTUAL_ENV"
+      ]
+    }
+  ],
+  "selection": {
+    "expected_command": "python train.py config/train_shakespeare_char.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0",
+    "actual_command": "python train.py config/train_shakespeare_char.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0",
+    "command_match": true,
+    "expected_goal": "training",
+    "actual_goal": "training",
+    "goal_match": true
+  },
+  "execution": {
+    "requested": true,
+    "expected_status": "partial",
+    "actual_status": "partial",
+    "status_match": true,
+    "expected_stdout_contains": "step 0:",
+    "stdout_match": true,
+    "result_match": {
+      "status": "not_evaluated",
+      "reason": "No explicit expected metrics were supplied.",
+      "absolute_tolerance": 0.0,
+      "comparisons": []
+    },
+    "runtime_status": "timed_out",
+    "runtime_duration_seconds": 45.844,
+    "resource_summary": {
+      "scope": "root_process_and_optional_device_global",
+      "samples": 44,
+      "max_root_process_rss_bytes": 676593664,
+      "max_root_process_cpu_seconds": 265.828125,
+      "gpu_sampling_available": true,
+      "max_device_gpu_memory_used_mib": {
+        "GPU-482d3b15-cbe3-6eeb-08aa-4867d7c951ff": 250.0
+      }
+    }
+  },
+  "evidence": {
+    "complete": true,
+    "missing": [],
+    "output_dir": "repro_outputs",
+    "runtime_dir": "repro_outputs/_runtime/20260904T180228Z-96563a32",
+    "readme_fidelity": {
+      "source_readme": "repo/README.md",
+      "annotated_readme": "repro_outputs/ANNOTATED_README.md",
+      "round_trip_verified": true,
+      "one_annotation_per_heading": true,
+      "original_bytes": 14084,
+      "original_sha256": "664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271",
+      "stripped_sha256": "664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271",
+      "marker_blocks": 12,
+      "section_markers": 11,
+      "atx_heading_blocks": 11
+    },
+    "archive": {
+      "directory": "benchmark_outputs/evidence/nanogpt-shakespeare",
+      "files": [
+        {
+          "name": "ANNOTATED_README.md",
+          "bytes": 20123,
+          "sha256": "bc9f18fe360671dc5994d25a6b4667a57aa0082a0e3c02c6af741ee5a424e346"
+        },
+        {
+          "name": "COMMANDS.md",
+          "bytes": 2822,
+          "sha256": "55e4723400d69c5334d11b142e69b68e194ee3e9d31cd5897d3ccc049f03b4f5"
+        },
+        {
+          "name": "COMPARABILITY_REPORT.md",
+          "bytes": 1594,
+          "sha256": "a11c044db9f2ae5d24b761cdbac6d805898d6720c52c047d84b6c7c363a1ab7e"
+        },
+        {
+          "name": "LOG.md",
+          "bytes": 5927,
+          "sha256": "d5d9b8af4fd86de2e88bee907d974934a88c970a6912285345f231b385d20666"
+        },
+        {
+          "name": "SCIENTIFIC_CHANGELOG.md",
+          "bytes": 1321,
+          "sha256": "9da959e6d7323990c5d620846040ea5876569241e3e314eba9733021fc3c3df9"
+        },
+        {
+          "name": "SUMMARY.md",
+          "bytes": 1322,
+          "sha256": "54e2d2452d4c88ddc21c6dc197cbf2c312e8197654a65edec63f0dffa56d6941"
+        },
+        {
+          "name": "status.json",
+          "bytes": 21417,
+          "sha256": "97feb68df1958bafbb200349304f8d1e7622ab768f0845bd63f8866704ba83aa"
+        }
+      ],
+      "total_bytes": 54526
+    }
+  },
+  "target_repo_changes": {
+    "tracked_before": [],
+    "tracked_after": [],
+    "untracked_after": [],
+    "tracked_source_unchanged": true
+  },
+  "dimensions": {
+    "source_pinned": true,
+    "command_selected": true,
+    "goal_classified": true,
+    "execution_expectation_met": true,
+    "evidence_complete": true,
+    "readme_round_trip": true,
+    "one_annotation_per_heading": true,
+    "showcase_snapshot_complete": true,
+    "tracked_source_unchanged": true
+  },
+  "limitations": [
+    "One repository case does not establish broad paper-reproduction generalization.",
+    "Host package and network caches are retained unless the case says otherwise.",
+    "A host-reuse dependency mode is not a fully cold dependency installation."
+  ],
+  "showcase": {
+    "schema_version": "1.0",
+    "repository": "https://github.com/karpathy/nanoGPT.git",
+    "commit": "3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+    "tracked_files_retained": 26,
+    "original_readme": "README.md",
+    "annotated_readme": "repo/RIGORPILOT_README.md",
+    "original_sha256": "664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271",
+    "stripped_sha256": "664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271",
+    "retained_content_bytes": 739986
+  },
+  "intervention_accounting": {
+    "discovery_adaptations_recorded": 0,
+    "manual_interventions_during_final_run": 0,
+    "autonomous_after_manifest": true
+  },
+  "main_blocker": null,
+  "wall_duration_seconds": 75.453
+}

@@ -8,9 +8,18 @@ Keep changes small, lane-aware, and easy to validate.
 2. Run the full validation set:
 
 ```bash
+python scripts/sync_reproduction_bundle.py
+python scripts/sync_reproduction_bundle.py --check
 python scripts/validate_repo.py
 python scripts/test_bootstrap_env.py
 python scripts/test_install_targets.py
+python scripts/test_single_skill_install.py
+python scripts/test_runtime_runner.py
+python scripts/test_runtime_recovery.py
+python scripts/test_model_adapter.py
+python scripts/test_task_queue.py
+python scripts/test_queue_smoke_benchmark.py
+python scripts/test_external_reproduction_benchmark.py
 python scripts/test_skill_registry.py
 python scripts/test_trigger_boundaries.py
 python scripts/test_claude_command_wrappers.py
@@ -45,10 +54,14 @@ python scripts/install_skills.py --client claude --target ./tmp/claude-skills --
 - Treat `SKILL.md` as the canonical cross-client skill contract.
 - Put detailed policy in `references/`.
 - Put reusable writers and shared helpers in `shared/`.
+- After changing a bundled reproduction dependency, run
+  `python scripts/sync_reproduction_bundle.py`; CI rejects stale copies.
 - Keep helper skills narrow.
 - Preserve trusted-lane defaults unless the change intentionally introduces or updates an explore-lane capability.
 - Do not make skill behavior depend on client-specific metadata such as `agents/openai.yaml`.
 - Keep `.claude/commands/` wrappers aligned with the corresponding skill boundaries and entrypoints.
+- External benchmark changes must keep cases commit-pinned, explicit, serial,
+  disposable by default, and distinguish selection-only from executed evidence.
 
 ## Lane rules
 

@@ -26,6 +26,12 @@ from passes import (
     run_source_mapping_pass,
 )
 
+SHARED_SCRIPTS = Path(__file__).resolve().parents[3] / "shared" / "scripts"
+if str(SHARED_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SHARED_SCRIPTS))
+
+from model_adapter import ModelAdapterError, load_model_profile, missing_capabilities
+
 
 DURABLE_ANCHOR_HASH_RE = re.compile(r"^[0-9a-fA-F]{7,40}$")
 EXTERNAL_REFERENCE_PREFIXES = ("run:", "checkpoint:", "branch:", "commit:", "model:", "state:")
@@ -49,6 +55,15 @@ DEFAULT_IDEA_GENERATION_POLICY = {
 def run_json(script: Path, args: List[str]) -> Dict[str, Any]:
     result = subprocess.run([sys.executable, str(script), *args], check=True, capture_output=True, text=True)
     return json.loads(result.stdout)
+
+
+def add_model_profile_args(args: List[str], profile_json: str, required_capabilities: List[str]) -> List[str]:
+    rendered = list(args)
+    if profile_json:
+        rendered.extend(["--model-profile-json", profile_json])
+    for capability in required_capabilities:
+        rendered.extend(["--require-model-capability", capability])
+    return rendered
 
 
 def run_text(command: List[str], cwd: Optional[Path] = None) -> str:
@@ -773,6 +788,10 @@ def execute_variant_candidates(
     current_research: str,
     timeout: int,
     max_executed_variants: int,
+    runtime_root: Path,
+    model_profile_json: str,
+    required_model_capabilities: List[str],
+    gpu_monitor_enabled: bool,
     campaign: Optional[Dict[str, Any]] = None,
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     base_command = variant_matrix.get("base_command")
@@ -788,9 +807,7 @@ def execute_variant_candidates(
         command = compose_variant_command(base_command, variant, variant_spec)
         if execution_kind == "training":
             run_mode = "short_run_verification" if variant.get("short_run_steps") is not None else "startup_verification"
-            payload = run_json(
-                train_execute_script,
-                [
+            run_args = [
                     "--repo",
                     str(repo_path),
                     "--command",
@@ -807,22 +824,26 @@ def execute_variant_candidates(
                     current_research,
                     "--max-steps",
                     str(variant.get("short_run_steps") or 0),
-                ],
-            )
+                    "--runtime-root",
+                    str(runtime_root),
+                ]
+            if not gpu_monitor_enabled:
+                run_args.append("--no-gpu-monitor")
+            payload = run_json(train_execute_script, add_model_profile_args(run_args, model_profile_json, required_model_capabilities))
             tool_name = "run-train/scripts/run_training.py"
         else:
             run_mode = "candidate_verify"
-            payload = run_json(
-                run_execute_script,
-                [
+            run_args = [
                     "--repo",
                     str(repo_path),
                     "--command",
                     command,
                     "--timeout",
                     str(timeout),
-                ],
-            )
+                    "--runtime-root",
+                    str(runtime_root),
+                ]
+            payload = run_json(run_execute_script, add_model_profile_args(run_args, model_profile_json, required_model_capabilities))
             payload.setdefault("stop_reason", "command_completed" if payload.get("status") == "success" else "command_checked")
             tool_name = "minimal-run-and-audit/scripts/run_command.py"
         summary = summarize_variant_result(payload)
@@ -834,6 +855,18 @@ def execute_variant_candidates(
                 "summary": summary,
                 "status": payload.get("status", "unknown"),
                 "stop_reason": payload.get("stop_reason", "unknown"),
+                "runtime": {
+                    "run_id": payload.get("runtime_run_id"),
+                    "status": payload.get("runtime_status"),
+                    "run_dir": payload.get("runtime_dir"),
+                    "state_path": payload.get("runtime_state_path"),
+                    "events_path": payload.get("runtime_events_path"),
+                    "stdout_log_path": payload.get("stdout_log_path"),
+                    "stderr_log_path": payload.get("stderr_log_path"),
+                    "resources_log_path": payload.get("resources_log_path"),
+                    "resource_summary": payload.get("resource_summary", {}),
+                    "model_adapter": payload.get("model_adapter"),
+                },
                 "command": command,
                 "axes": variant.get("axes", {}),
                 "subset_size": variant.get("subset_size"),
@@ -976,6 +1009,10 @@ def run_baseline_evaluation(
     current_research: str,
     evaluation_source: Dict[str, Any],
     baseline_gate_cfg: Dict[str, Any],
+    runtime_root: Path,
+    model_profile_json: str,
+    required_model_capabilities: List[str],
+    gpu_monitor_enabled: bool,
 ) -> Tuple[Dict[str, Any], Dict[str, Any], float]:
     command = str(evaluation_source.get("command") or "").strip()
     if not command:
@@ -996,9 +1033,7 @@ def run_baseline_evaluation(
     if execution_kind == "training":
         max_steps = int(baseline_gate_cfg.get("max_steps") or 0)
         run_mode = "short_run_verification" if max_steps > 0 else "startup_verification"
-        payload = run_json(
-            train_execute_script,
-            [
+        run_args = [
                 "--repo",
                 str(repo_path),
                 "--command",
@@ -1015,20 +1050,24 @@ def run_baseline_evaluation(
                 current_research,
                 "--max-steps",
                 str(max_steps),
-            ],
-        )
+                "--runtime-root",
+                str(runtime_root),
+            ]
+        if not gpu_monitor_enabled:
+            run_args.append("--no-gpu-monitor")
+        payload = run_json(train_execute_script, add_model_profile_args(run_args, model_profile_json, required_model_capabilities))
     else:
-        payload = run_json(
-            run_execute_script,
-            [
+        run_args = [
                 "--repo",
                 str(repo_path),
                 "--command",
                 command,
                 "--timeout",
                 str(int(baseline_gate_cfg.get("timeout") or 60)),
-            ],
-        )
+                "--runtime-root",
+                str(runtime_root),
+            ]
+        payload = run_json(run_execute_script, add_model_profile_args(run_args, model_profile_json, required_model_capabilities))
         payload.setdefault("stop_reason", "command_completed" if payload.get("status") == "success" else "command_checked")
     runtime_seconds = round(time.perf_counter() - start, 3)
 
@@ -1771,6 +1810,7 @@ def build_context(
     config_diff_summary: List[str],
     human_checkpoint: str,
     human_checkpoint_reasons: List[str],
+    model_adapter: Dict[str, Any],
 ) -> Dict[str, Any]:
     explore_context = {
         "context_id": context_id,
@@ -1785,6 +1825,7 @@ def build_context(
     comparison_metric_policy = extract_comparison_metric_policy(campaign, metric_policy)
     return {
         "schema_version": "1.0",
+        "model_adapter": model_adapter,
         "context_id": context_id,
         "status": "completed" if executed_runs else "planned",
         "explore_context": explore_context,
@@ -1929,6 +1970,10 @@ def main() -> int:
     parser.add_argument("--current-research", default="", help="Durable identifier for the current research context.")
     parser.add_argument("--research-campaign-json", default="", help="Optional path to a high-level research_campaign JSON or YAML file.")
     parser.add_argument("--output-dir", default="explore_outputs", help="Directory to write exploratory outputs into.")
+    parser.add_argument("--runtime-root", default="", help="Optional runtime state root (default: <output-dir>/_runtime).")
+    parser.add_argument("--model-profile-json", default="", help="Optional provider-neutral model identity/capability profile.")
+    parser.add_argument("--require-model-capability", action="append", default=[], help="Required model capability; repeat as needed.")
+    parser.add_argument("--no-gpu-monitor", action="store_true", help="Disable NVIDIA telemetry for training commands.")
     parser.add_argument("--experiment-branch", default="", help="Optional experiment branch or worktree label.")
     parser.add_argument("--variant-spec-json", default="", help="Optional path to a variant-spec JSON file.")
     parser.add_argument("--include-analysis-pass", action="store_true", help="Include analyze-project in the planned chain.")
@@ -1940,6 +1985,14 @@ def main() -> int:
 
     repo_path = Path(args.repo).resolve()
     output_dir = Path(args.output_dir).resolve()
+    runtime_root = Path(args.runtime_root).resolve() if args.runtime_root else output_dir / "_runtime"
+    try:
+        model_adapter = load_model_profile(Path(args.model_profile_json) if args.model_profile_json else None)
+        missing_model_capabilities = missing_capabilities(model_adapter, args.require_model_capability)
+    except ModelAdapterError as exc:
+        parser.error(str(exc))
+    if missing_model_capabilities:
+        parser.error(f"model profile is missing required capabilities: {', '.join(missing_model_capabilities)}")
     analysis_output_dir = output_dir.parent / "analysis_outputs"
     analysis_output_dir.mkdir(parents=True, exist_ok=True)
     sources_dir = output_dir.parent / "sources"
@@ -2010,6 +2063,10 @@ def main() -> int:
             current_research=current_research,
             evaluation_source=campaign["evaluation_source"],
             baseline_gate_cfg=campaign["baseline_gate"],
+            runtime_root=runtime_root,
+            model_profile_json=args.model_profile_json,
+            required_model_capabilities=args.require_model_capability,
+            gpu_monitor_enabled=not args.no_gpu_monitor,
         )
         baseline_gate = compare_baseline_to_sota(
             baseline_gate,
@@ -2261,6 +2318,10 @@ def main() -> int:
             current_research=current_research,
             timeout=campaign["execution_policy"]["variant_timeout"],
             max_executed_variants=campaign["execution_policy"]["max_executed_variants"],
+            runtime_root=runtime_root,
+            model_profile_json=args.model_profile_json,
+            required_model_capabilities=args.require_model_capability,
+            gpu_monitor_enabled=not args.no_gpu_monitor,
             campaign=campaign,
         )
         short_run_runtime_seconds = round(time.perf_counter() - started, 3)
@@ -2377,6 +2438,7 @@ def main() -> int:
         config_diff_summary=config_diff_summary,
         human_checkpoint=checkpoint_state,
         human_checkpoint_reasons=checkpoint_reasons,
+        model_adapter=model_adapter,
     )
     write_bundle(writer_script, output_dir, context)
 
@@ -2433,6 +2495,7 @@ def main() -> int:
         "minimal_patch_plan": context.get("minimal_patch_plan", []),
         "static_smoke": context.get("static_smoke", {}),
         "runtime_smoke": context.get("runtime_smoke", {}),
+        "model_adapter": model_adapter,
         "smoke_report": context.get("smoke_report", {}),
         "resource_plan": context.get("resource_plan", {}),
         "invoked_stage_trace": helper_stage_trace,
