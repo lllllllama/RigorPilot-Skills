@@ -1,0 +1,1810 @@
+{
+  "schema_version": "1.0",
+  "files": [
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/.gitignore",
+      "bytes": 21,
+      "sha256": "a4e97f92728e43e555cf82bb57e201ba5e3a4f1d7c51675d4836230c5ee9e62f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/demo.ipynb",
+      "bytes": 57903,
+      "sha256": "af97d4627e503d63ac8e3658bdf8d64c3cae620325b5318add3e6d59a60c62bd"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/gout.svg",
+      "bytes": 11567,
+      "sha256": "b0ba0e328743ae4092559f2ebb7f1eadef4bf85ab347a5119cda658a3bfbf480"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/LICENSE",
+      "bytes": 1088,
+      "sha256": "b482f0f356cb0476fff2e8625d9025028e50ae5c8c482247df795bec6629cfa1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/micrograd/engine.py",
+      "bytes": 2824,
+      "sha256": "1af9687af825bccb3e3359b7621e0da8af38c1a90cc977f6c878a6b8b09eb91a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/micrograd/nn.py",
+      "bytes": 1673,
+      "sha256": "e5f95338cc4176fb2b6872f969805ece9af79e5f320d32c00ca3d57ae0d4d3ef"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/README.md",
+      "bytes": 3082,
+      "sha256": "e89ba299fe3c5ec40febf03d9a0f7522e341a1ab9226ffee5e453272afdfaaf5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/_runtime/20260904T175938Z-e8094907/events.jsonl",
+      "bytes": 4911,
+      "sha256": "f2ec872fc581130bedd6cb859f9c90e27227861ca22375d889eebb89b6bd42ac"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/_runtime/20260904T175938Z-e8094907/resources.jsonl",
+      "bytes": 4632,
+      "sha256": "4cd95f4c9f5afc455f41520fba79e20f9ed85cf694db7f0df505b3c5a30771ba"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/_runtime/20260904T175938Z-e8094907/spec.json",
+      "bytes": 926,
+      "sha256": "9fcbf1b610ca324d686a9be51900dde144607f4007c996250e1daec9f51a4ddc"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/_runtime/20260904T175938Z-e8094907/state.json",
+      "bytes": 1193,
+      "sha256": "96a6237497ce6cf8d4dabb8b3e0db4c42a178fd68fee64dd720696f0718a9b5d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/_runtime/20260904T175938Z-e8094907/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/_runtime/20260904T175938Z-e8094907/stdout.log",
+      "bytes": 488,
+      "sha256": "6d672e9cab01589ff3b40696064fd707e479499af3eda10cb2b2656687fcf935"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5777,
+      "sha256": "7ec73ec76f1364f6c9c132e88283fb9158fc02d46f7d8ee6dd36d841bc5232e6"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2394,
+      "sha256": "8598bf76711e6b4e8575177edcdabf987c8cdbdc9057aed07197d823d2fb754a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1163,
+      "sha256": "86860519c2d5ba204ae92aede4d70eef29bcd25b74fc93c2dbaa84a725a987f5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/LOG.md",
+      "bytes": 4879,
+      "sha256": "5976b043f4a78b8cc74d0561f4731fbfe3a53f98404e0609f28c3e09d9c9c80e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1316,
+      "sha256": "3812b5eb7555f318f625658c99514d911c1d33212881e2f1a86bb9e869ba9778"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/status.json",
+      "bytes": 7849,
+      "sha256": "f2dbfe4fb6971539d5e8c6d00776f3dd61de5b70d482fd7fdac98b94615207b3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/repro_outputs/SUMMARY.md",
+      "bytes": 601,
+      "sha256": "7527a141446aedf6943e25d3d262767bb548c3527e5aafc6a20248e6fe8a18ce"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/RIGORPILOT_README.md",
+      "bytes": 5945,
+      "sha256": "c902682e15f5ebd1f9cae6478e752d0ebd6819ff3b8983991f4f9a69c24d4084"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/setup.py",
+      "bytes": 739,
+      "sha256": "95dd4a2e7c14097ab37f233ff5a662b4c68eb8f7a45d32c6c4fe1424f4bc660b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/test/test_engine.py",
+      "bytes": 1537,
+      "sha256": "75036a6aa211d4d5bb284dc2ceaa753576b766d133a39142af3441eba2b4cc1d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/repo/trace_graph.ipynb",
+      "bytes": 3059,
+      "sha256": "876b9b95f649c621c16e08f734883746bf5236cdafb0968edb146f53cc0b0e19"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd/SHOWCASE.json",
+      "bytes": 489,
+      "sha256": "065a8eca0e7729be2d26002467b5718bc07f8ae848948eaa76ac9e3fe42395a3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/.gitignore",
+      "bytes": 59,
+      "sha256": "ed52d461a246355350f23b4e0f32b07a3641ebfcf475a8c9af09dba670313b9b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/demo.ipynb",
+      "bytes": 11597,
+      "sha256": "a3734e0dd97055e52c879873d6d4e7d8ccb58718f9472a81edf3d4925b459865"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/generate.ipynb",
+      "bytes": 6532,
+      "sha256": "c40eca0ac6b9bfc5639afa977479a88c30986cfdbbfef86c571b466dd6b2fa0b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/LICENSE",
+      "bytes": 1088,
+      "sha256": "b482f0f356cb0476fff2e8625d9025028e50ae5c8c482247df795bec6629cfa1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/mingpt/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/mingpt/bpe.py",
+      "bytes": 16207,
+      "sha256": "459b2c58b63f7a800aa3e0547243c9d6274b9b8d448c5dbc0a472486a48b64fe"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/mingpt/model.py",
+      "bytes": 14996,
+      "sha256": "4bdac8b5c1d84765a8f3b69eac2f79ae8537c80721877be4241374ca3c2e9b26"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/mingpt/trainer.py",
+      "bytes": 3575,
+      "sha256": "015f01b4facd5d77b095e329a9f6a80d5ab52b8007f5205baa71e6549d196be0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/mingpt/utils.py",
+      "bytes": 3699,
+      "sha256": "e62d688403eb1c25af17e27e1e841878afdc0de9625e9ab09cf0777c66c60e63"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/mingpt.jpg",
+      "bytes": 118276,
+      "sha256": "15db1bd892b665710e856f18bbe9588f09a628b261d6e70febdf714aa99b7838"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/projects/adder/adder.py",
+      "bytes": 8494,
+      "sha256": "171a1c083387c6ce4633ccd42497556621933fa4307ca8dd87ae0493d025e698"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/projects/adder/readme.md",
+      "bytes": 57,
+      "sha256": "4290375ea6b2ddb613c5e3f822b1b949b01e1411b6f5931088be7c82a0fe5949"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/projects/chargpt/chargpt.py",
+      "bytes": 4212,
+      "sha256": "c51ceca6501a26d432f3803f4925dec93cb9cf3876a6e55d417bc8fe6589d4a5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/projects/chargpt/readme.md",
+      "bytes": 696,
+      "sha256": "57e93c4205a455d1bded2237bcb05148fc5c3b823005bb6194d47a69570c0727"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/projects/readme.md",
+      "bytes": 96,
+      "sha256": "351fe4ad1640d289591233af35282d2c1df7c938de397eb9530b79dbedc10636"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/README.md",
+      "bytes": 10016,
+      "sha256": "7a572ea09843c50a83ea2c0638fa3cb98f86af2b6b8d9f1074f6d880f396439e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 13445,
+      "sha256": "fa0aaa7f52760ef0c77504e1b7d280115e49752bef6ffc08047427ab4b8eaf22"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2749,
+      "sha256": "b3eb4616343ffca89eb01b3877b4a65f83e1d77e4b72f8a3dee7bb957e9d2036"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1239,
+      "sha256": "60fd1aad178a1bfcf4fe4ba4c61c5d752678ecbc421e051e8503bfbdab40ee30"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/repro_outputs/LOG.md",
+      "bytes": 2811,
+      "sha256": "cb0823350536d2f575cd4a9c0f7ea5289a759a0755f7fb758c2800bbbb9cf348"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1316,
+      "sha256": "ed67504db4e45efa4db9e46821251dcefb18e4046838668f132ef51d4a39afd6"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/repro_outputs/status.json",
+      "bytes": 5128,
+      "sha256": "62e82bb0f349115b6fe73059afd74e185d50528560428c868ef4212358186e72"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/repro_outputs/SUMMARY.md",
+      "bytes": 628,
+      "sha256": "358b2bb8c80ad2a0875aab20ed28e6186d7fd745c40017c229a304da2997daa9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/RIGORPILOT_README.md",
+      "bytes": 13613,
+      "sha256": "a79228996a5fcced039a3b53daeddae57dc68fa9a1bdeba772a84c3b8ebb9c75"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/setup.py",
+      "bytes": 279,
+      "sha256": "5708c03d55747a4a17d6587b7cd1a1816c90083cb1795e4295edf2804164f6db"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/repo/tests/test_huggingface_import.py",
+      "bytes": 2114,
+      "sha256": "718aa456735f5409e60b0df74943b455d7b1bb3710f182a27a615f88956816e7"
+    },
+    {
+      "path": "benchmark_outputs/showcases/mingpt/SHOWCASE.json",
+      "bytes": 486,
+      "sha256": "eea6fefac255b635cceade6efeccc70aaf4b47785395a43fe3999c0cb1a5b069"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/.gitattributes",
+      "bytes": 217,
+      "sha256": "f8f4e0c6aeab35ba9e73acea6a2a4db6d9171110f2fedbd9b998b349b7865200"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/.gitignore",
+      "bytes": 111,
+      "sha256": "cdffcbfb8cb8282073451b45a1d405a64db98773d50a75f29051060c9f5d4a24"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/assets/gpt2_124M_loss.png",
+      "bytes": 110433,
+      "sha256": "50bb25d32eea8873f6fac6955366a2be607af6ac051972be2c84646a7eff83ae"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/assets/nanogpt.jpg",
+      "bytes": 118621,
+      "sha256": "c8058f86460c0f1ebcc6282fc8e9363dbd4e9e01df6904bcc476d68e1ba60d7e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/bench.py",
+      "bytes": 4932,
+      "sha256": "119053247f9c60a15234ad79f9aaaafa5b9af0753b6c5f7bcf53e9046b4d5d9b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/config/eval_gpt2.py",
+      "bytes": 216,
+      "sha256": "6243ce36ab4a92a94cb7d012a200e11b087640b0209ba108311bf9753f07b9d4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/config/eval_gpt2_large.py",
+      "bytes": 223,
+      "sha256": "0d340bb0f97a404d97a86368076c985ac717bbf9ee1e00ddb6eea5c3c55a207b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/config/eval_gpt2_medium.py",
+      "bytes": 224,
+      "sha256": "9da2927e00020407ec77a3b44c831029db3d6df7d323c2ecd9e77bb276b33371"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/config/eval_gpt2_xl.py",
+      "bytes": 221,
+      "sha256": "77398c5692b6fd59fcd425d7f22b6426023691627d5055ca406d100784382410"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/config/finetune_shakespeare.py",
+      "bytes": 670,
+      "sha256": "8343dede4693d62a1a46b3ae4fcc2605387cf59f61b953186eb788ea4d5dfbcf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/config/train_gpt2.py",
+      "bytes": 706,
+      "sha256": "52cfcc43d8aae0c59f81403a3c9781be6fb6e5896641ef32d2229dfa19843289"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/config/train_shakespeare_char.py",
+      "bytes": 1169,
+      "sha256": "7519e224add25711548da2d2019968b5314ffbc34f93ba7725c2681ad0381409"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/configurator.py",
+      "bytes": 1805,
+      "sha256": "af3b3d8207aa0d5984b361c8132cd393b956ef5045eb7da7c6c58ecc86158e02"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/data/openwebtext/prepare.py",
+      "bytes": 3248,
+      "sha256": "258e32427f68956aeee6ac732364c59eb7c03b0ce17e8d9eb041634b970a9c32"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/data/openwebtext/readme.md",
+      "bytes": 504,
+      "sha256": "830c66e940d51e2eaaba1967cc9871a7ff1769eab6f92cc8281a23e68ba21c9b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/data/shakespeare/prepare.py",
+      "bytes": 1165,
+      "sha256": "64b86e44e743c2b396ea4262f81baa4fdaa9e31d2b03176ebb1e5255a96e3e7a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/data/shakespeare/readme.md",
+      "bytes": 170,
+      "sha256": "99e3540fe358c1f0792f4e61adb8c6111b900dcd8bf458b10738b46d75596866"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/data/shakespeare_char/prepare.py",
+      "bytes": 2412,
+      "sha256": "645b353d17d1c43a15e20487aefabf8410b1e52e3f7aa1fffcfaa12b7e7ae48e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/data/shakespeare_char/readme.md",
+      "bytes": 218,
+      "sha256": "b9c6c0729bba3605e5f674d68c146d92b38f71ca216b7ea950b51ed8054ca651"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/LICENSE",
+      "bytes": 1093,
+      "sha256": "ad41926956dc821115c9cb50d6b17353d921d62a3a9fe133034b206033e2e96d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/model.py",
+      "bytes": 16675,
+      "sha256": "63d46bccd28157de4ae3d4e714f3945370be708852d2f411e0d017a7da5f8d39"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/README.md",
+      "bytes": 14084,
+      "sha256": "664ba6f596c529ed571e288cc162201d7f160d636ccfa502c488dc293a548271"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/_runtime/20260904T180228Z-96563a32/events.jsonl",
+      "bytes": 18421,
+      "sha256": "141d1fe18aadb8b1dbcd020f0b00f98beaee679664f61175783a2f9d2ed111fe"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/_runtime/20260904T180228Z-96563a32/resources.jsonl",
+      "bytes": 19807,
+      "sha256": "dd8ee4dd26c9f1698d212197cee12f6949cc3872785832960cb21e0855172ed9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/_runtime/20260904T180228Z-96563a32/spec.json",
+      "bytes": 1149,
+      "sha256": "3e788911a342bb1edb0db555dd161437e440a4c6d84673ec103d1845306a35b6"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/_runtime/20260904T180228Z-96563a32/state.json",
+      "bytes": 1259,
+      "sha256": "86a0ce75151d69ec401f4fd50438772fa05c10dfcb64a872fb572cae3f1ed5bc"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/_runtime/20260904T180228Z-96563a32/stderr.log",
+      "bytes": 329,
+      "sha256": "56da5ab81ceec60985205ed6ef0cfba4f118647b43e9f9f2e907934d44ff8ea4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/_runtime/20260904T180228Z-96563a32/stdout.log",
+      "bytes": 12140,
+      "sha256": "b6b61fa1516de15d0d51c4df0e3024d0a99a63054675250ee4689bf778eb03ea"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 20123,
+      "sha256": "bc9f18fe360671dc5994d25a6b4667a57aa0082a0e3c02c6af741ee5a424e346"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2822,
+      "sha256": "55e4723400d69c5334d11b142e69b68e194ee3e9d31cd5897d3ccc049f03b4f5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1594,
+      "sha256": "a11c044db9f2ae5d24b761cdbac6d805898d6720c52c047d84b6c7c363a1ab7e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/LOG.md",
+      "bytes": 5927,
+      "sha256": "d5d9b8af4fd86de2e88bee907d974934a88c970a6912285345f231b385d20666"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1321,
+      "sha256": "9da959e6d7323990c5d620846040ea5876569241e3e314eba9733021fc3c3df9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/status.json",
+      "bytes": 21417,
+      "sha256": "97feb68df1958bafbb200349304f8d1e7622ab768f0845bd63f8866704ba83aa"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/repro_outputs/SUMMARY.md",
+      "bytes": 1322,
+      "sha256": "54e2d2452d4c88ddc21c6dc197cbf2c312e8197654a65edec63f0dffa56d6941"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/RIGORPILOT_README.md",
+      "bytes": 20494,
+      "sha256": "edecf11f66a9003b7b39d4a5df4c9973b82fb9bce50afc5aa1fb2fa080b422ed"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/sample.py",
+      "bytes": 4031,
+      "sha256": "7114e16320aa0db4f85b046b43dad9924cc9d9a8aed8c0c7cd677c5f542740ef"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/scaling_laws.ipynb",
+      "bytes": 269311,
+      "sha256": "80411f3567e7de6cf3cf77bb2404d570959ef0cdc1c7327bbec444c9ba013066"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/train.py",
+      "bytes": 15193,
+      "sha256": "5bf6d2fd907c0f86849eb24a2b13d704304adedd4eba8cf0ac81259c8bae64dc"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/train_outputs/COMMANDS.md",
+      "bytes": 2835,
+      "sha256": "cb320c50c7d6e2aadf0ae1ba569cc448653ba92576edad9c124bc5b41dbe129b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/train_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1594,
+      "sha256": "6e4a394159cd01d32a9af80eee1e75b57286480cd87b24b9a888ae299c869268"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/train_outputs/LOG.md",
+      "bytes": 2084,
+      "sha256": "0c0418e4e3c37dc5ec9bb5d55733bf5748b6605c186b60d08de9d8b7681d7a93"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/train_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1525,
+      "sha256": "f5ba0813c68261b87555d17762010d0e423792fa7be7d9a78eddfdfb066e8baf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/train_outputs/status.json",
+      "bytes": 19570,
+      "sha256": "70c3920cfc80a7683460043fe0dbc30f652e089d6ea515193ea36e1e3e645e94"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/train_outputs/SUMMARY.md",
+      "bytes": 1620,
+      "sha256": "3ae167fb3489842af7af091f883120bead24f9e809f8fa78c1a2d4815e7105cd"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/repo/transformer_sizing.ipynb",
+      "bytes": 14981,
+      "sha256": "665f36ea75eacea1b9ae85acd861ba9e5478264e88d09edce33326ac5d828b55"
+    },
+    {
+      "path": "benchmark_outputs/showcases/nanogpt-shakespeare/SHOWCASE.json",
+      "bytes": 487,
+      "sha256": "284a9b6b933e96405856110b08baf27db18c12121c73020e46150e36b5804874"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/ISSUE_TEMPLATE/bug_template.md",
+      "bytes": 1369,
+      "sha256": "f937d9fda1a519ae092beddf6ee58fb57238fcfd5c1ded43c37a0f263c7679d9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/ISSUE_TEMPLATE/doc_template.md",
+      "bytes": 215,
+      "sha256": "067404fbbbe9b3d4e17cbd69735b679421972b23bc74394223fff05d8713ae46"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/ISSUE_TEMPLATE/feature_template.md",
+      "bytes": 573,
+      "sha256": "d12ebe52f35474f2b14503ee9cbb50b6b42c745fb0299c75c833f33bff16f3b2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md",
+      "bytes": 1446,
+      "sha256": "396c46726e20f5898fdfbdd71de09f998a32b0f6a88f97be4499fd051a28f965"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/workflows/doc-build.yml",
+      "bytes": 929,
+      "sha256": "5dfa114c05ae3d8cfc4ad742e2eaefac764ef89326584a037bb928a7ea96e653"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/workflows/main_cpp.yml",
+      "bytes": 1456,
+      "sha256": "4f60037fe6e6ec8dbec57dab529ab7b66c0da75eb720dff44d15d50036fc4faa"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/workflows/main_distributed.yaml",
+      "bytes": 1135,
+      "sha256": "00fbd922a6ac0d4112c753f35f31643a6b2c1432d7531e26354b7016d16b21a3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.github/workflows/main_python.yml",
+      "bytes": 1084,
+      "sha256": "e99b2e773ef5f299ed43a75dbe4be86a16253e39e82cbadc4ef3cfa5c3efa5a4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/.gitignore",
+      "bytes": 348,
+      "sha256": "3b831e00cc8c015707d13803dde9042d579421857d8f6349c4c82505c1af6da1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/CODE_OF_CONDUCT.md",
+      "bytes": 3429,
+      "sha256": "14c073553dbeb4a32a6309e7d401cb62516314f7e1889b490a851e2b01d86dc1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/CODEOWNERS",
+      "bytes": 678,
+      "sha256": "1a8d92e22e528d6847fa95f144c65b30faa55f943a130a5b25afd3b9d364d1eb"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/CONTRIBUTING.md",
+      "bytes": 2458,
+      "sha256": "17cd518f723ce0865ccc96bcff7e49fc131efa408d6887d2658ab934c13eb55b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/.clang-format",
+      "bytes": 2657,
+      "sha256": "4ad8f94f5a78b467f9fd2a7c93bcf77241667ddbd8ce618467113650f85444fa"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/autograd/autograd.cpp",
+      "bytes": 6194,
+      "sha256": "cace3022de813b4ccd2a7b88c606422f2b9f54981b2e023409d5302ea3bb9eae"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/autograd/CMakeLists.txt",
+      "bytes": 740,
+      "sha256": "6cef8979af5b3b1191bfd65923e1f85e6103a369646558c0e662d0c9818267e4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/autograd/README.md",
+      "bytes": 1520,
+      "sha256": "d470ccfb252aaffbc7221ff83f82bfbafe2ee9cd060f19e34e44a703609aa708"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/custom-dataset/CMakeLists.txt",
+      "bytes": 1088,
+      "sha256": "69e70e1d39db8bb101b2b4cc7c015673c6edf9898d0e629af6dd544250a61be1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/custom-dataset/custom-dataset.cpp",
+      "bytes": 7180,
+      "sha256": "8ec1ed72e06903961ace58146db61ae053dab18908806d810de93efe2b5a1206"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/custom-dataset/info.txt",
+      "bytes": 311505,
+      "sha256": "432915c76f23873d6bfb4b5aab58e86ca52e75521ca8417cd57e41bffb88a804"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/custom-dataset/README.md",
+      "bytes": 2282,
+      "sha256": "02443703604f522a64c84f63b7362f6a38947e1bc283602f8835207490074053"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/dcgan/CMakeLists.txt",
+      "bytes": 962,
+      "sha256": "2490115d179e58b1e7f8cb00df198cc95057ae2525919b3711166b83ea9c5f38"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/dcgan/dcgan.cpp",
+      "bytes": 8217,
+      "sha256": "07923e70a2d4660932560f616c83247b158ac43100724f00c8ff84b4ffaba15f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/dcgan/display_samples.py",
+      "bytes": 919,
+      "sha256": "0b44138aaa9c92cc0c9f421c894fb47e1cac5f59444bfafc624a1b448c8d622e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/dcgan/README.md",
+      "bytes": 1937,
+      "sha256": "629f6723c3ae4132b799099e3dea7ee25146621d13ed4feb17f834a7eb18f56d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/distributed/CMakeLists.txt",
+      "bytes": 657,
+      "sha256": "564cfc446740e6e02182301ac1118235c1edae103a02712994c762b36bf396f9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/distributed/dist-mnist.cpp",
+      "bytes": 5781,
+      "sha256": "50aa3803742b2b6aca12067f080dbbfc568e81df8e9db24ad3e1c7367de1dcbb"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/distributed/README.md",
+      "bytes": 1228,
+      "sha256": "2e0805f5c33ba70adcaaed943eef5aa0119b6a7abe65f74c3d06359bbe22ea67"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/mnist/CMakeLists.txt",
+      "bytes": 988,
+      "sha256": "51eccd705f84670b53eefca652cc037d2a8c06055c7075c693d09cbca39275b5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/mnist/mnist.cpp",
+      "bytes": 4900,
+      "sha256": "8868f49ef9754ea652c08f6df5634f6c960744f3a69bef33f7f4f909927fc599"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/mnist/README.md",
+      "bytes": 1081,
+      "sha256": "12679811f1c521c210f2b2c8bea50bf20e787b9d61001db53a0986aee731d620"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/regression/CMakeLists.txt",
+      "bytes": 744,
+      "sha256": "6d938a79f5275d3061ecf27a1388132a61196cb2889407afc1bb329850ca63c7"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/regression/README.md",
+      "bytes": 756,
+      "sha256": "7929180231a7f5b8a8b310c09466fcdad8ba2863f3c23fe02fdd43f0b14ddf97"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/regression/regression.cpp",
+      "bytes": 2412,
+      "sha256": "074203f82af9185892cddb8f6c57dbe889631ff2ab02bcec73b023b03a25e91d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/tools/download_mnist.py",
+      "bytes": 2812,
+      "sha256": "717fa0c0699e1db43ccae80cbf3481cc79b70bf423031a460f6d47142e25753d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/tools/InstallingOpenCV.md",
+      "bytes": 1003,
+      "sha256": "f403f7ad8011702a3581df761eae64b59c1615e6c85577eb58e48eae099e8216"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/transfer-learning/classify.cpp",
+      "bytes": 2754,
+      "sha256": "d1db4e63e1edf0557e9b8179ef4c324087f8b6c8af0b1e7b67e2a2188402b333"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/transfer-learning/CMakeLists.txt",
+      "bytes": 570,
+      "sha256": "7b873638c465aaa19106c1a4a5341a3ef718e4fdc4969dd0b2d98461276805f5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/transfer-learning/convert.py",
+      "bytes": 605,
+      "sha256": "753502fde93339ce0d904a627b7e3b160c9f7b96c3732cae06bb1bc6b4c33b05"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/transfer-learning/main.cpp",
+      "bytes": 9980,
+      "sha256": "2d26044b15e8b3996303bc0aca7890bf1c02bf7d879db40de672118570a49dff"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/transfer-learning/main.h",
+      "bytes": 2480,
+      "sha256": "59869f00d17c996d1ba4519d128c810c4b6ee8416198e9f2c269ad0beee38fab"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/cpp/transfer-learning/README.md",
+      "bytes": 818,
+      "sha256": "b8880e9a03e706c8ffa9e1e8118db63d667b202f888776b0dafacdbd722d93d1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/dcgan/main.py",
+      "bytes": 10930,
+      "sha256": "b4f0bc963a1809026e5a45bf6d97ea8572169c6a734c493489ce9fedc5b056d9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/dcgan/README.md",
+      "bytes": 2413,
+      "sha256": "14aa8d86a6ce8a668b9d1a81678209bdfa7be7723c685b70d5865cce2407f622"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/dcgan/requirements.txt",
+      "bytes": 26,
+      "sha256": "0db4588dbba3599b431ecb67914eb4f6d8331a74cdf96e9841955d3ec04fed59"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp/example.py",
+      "bytes": 3582,
+      "sha256": "8393be70664a92bb71bbf57fb5a1bc3ee6e1fada2a2a615afd4daa81df941099"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp/README.md",
+      "bytes": 7442,
+      "sha256": "0c09b102a179b2e8fbe848b790151fcb7681a8341eb03d7c08b5c2b7610ef865"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp/requirements.txt",
+      "bytes": 12,
+      "sha256": "768403640c943caedbf2b5b9ce1576cd540bc33793ed387082a7787e66ba6da4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp/run_example.sh",
+      "bytes": 404,
+      "sha256": "fc2decb8c486f69e90fc503861d73463964062d4339fdbf83fd2ec8691d8b26c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/datautils.py",
+      "bytes": 343,
+      "sha256": "095b95282aea6ecde625982c69497669651550b6e5c57885fa0b601ec331bc56"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/multigpu.py",
+      "bytes": 3778,
+      "sha256": "c881af17bfdd3f030fca42e1dcf5599fede76bc31bf1e5dc30519633ca082a96"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/multigpu_torchrun.py",
+      "bytes": 4132,
+      "sha256": "57a9e54aa877207d52b0821807d3ea588ebb22087a677aa742b9a722d461b707"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/multinode.py",
+      "bytes": 4218,
+      "sha256": "51a6ce917c26adfb886ff0579350befe2ab5b5b60092b85d808aff58575ba490"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/README.md",
+      "bytes": 950,
+      "sha256": "06dc0bda40182764d9e9080d7d62c67f70b7d7876ee2487b271049af0834e202"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/requirements.txt",
+      "bytes": 13,
+      "sha256": "85be0498abf3a5e9e9668e26e78bdc5540a7d9fcb51e6588d26f1957b0554f48"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/single_gpu.py",
+      "bytes": 2866,
+      "sha256": "5d71d1cb261c42710949def47bb1e715553ca1d85b7c84da3b631a99420d8aaf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/slurm/config.yaml.template",
+      "bytes": 615,
+      "sha256": "25a420556ba50718e5d7bee4b2cf69776365fa87d5f5e2b2ca565ecb30b9ea8c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/slurm/sbatch_run.sh",
+      "bytes": 575,
+      "sha256": "54dd2e963d39ef4e825712703f8fffaff38578c83174c52d24483a28876839c0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/ddp-tutorial-series/slurm/setup_pcluster_slurm.md",
+      "bytes": 1164,
+      "sha256": "8ec3398a4f44f8446ff3ccf718b3bbd955c4ddb3270e324f451e7c3e08f60828"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/.gitignore",
+      "bytes": 25,
+      "sha256": "ecda12509cc32ba2b5d2471d72ad4250b0210552292937d1adaab4b2d1b9da9b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/configs/__init__.py",
+      "bytes": 67,
+      "sha256": "4793cd14afb724a4fc696e6129f980c72ed23b618428d4a8ee076ea5cbd788b2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/configs/fsdp.py",
+      "bytes": 672,
+      "sha256": "d1004238bf6f791e4e518455cfced56e2e06e4ca0b7e4447bbd47f3abad191f5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/configs/training.py",
+      "bytes": 406,
+      "sha256": "408106f3809d0c69bab85ec60bc3c6c69c1afa8cdd5a9fab0f557c8f225cdec0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/download_dataset.sh",
+      "bytes": 293,
+      "sha256": "178480a8f7cf52a6bd6157f72e94b6bbeb5882005fe7231852a54b07f5a92cd2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/model_checkpointing/__init__.py",
+      "bytes": 302,
+      "sha256": "51a118c226e887bd94c964e072b76813c4d5753c3de25226d2a8eb30a7350a8a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/model_checkpointing/checkpoint_handler.py",
+      "bytes": 9170,
+      "sha256": "22c3e09a9488772234206e3186b23ad8540ec72f45d0eec4762436b70454d2c8"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/policies/__init__.py",
+      "bytes": 131,
+      "sha256": "08f4125b3fd5962e1a2d4e04a641cc2469b16a8a2b34ac78effef56b64dabfc4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/policies/activation_checkpointing_functions.py",
+      "bytes": 847,
+      "sha256": "e91b1fbb780644b882308a64747f3b7cb459eb88764f6db61c37c37c491cd14a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/policies/mixed_precision.py",
+      "bytes": 900,
+      "sha256": "8eb2b5ea9ba1179303b3770e5969ba367796a5094924538d764cd18bd635d4c0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/policies/wrapping.py",
+      "bytes": 1199,
+      "sha256": "8e53f25decf78729eb3f61a4e4b32656062ab04c79722bfb7c73ddef8b1c1d8d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/README.md",
+      "bytes": 732,
+      "sha256": "d4742c37d8ebb6c6853957285e591bedfce0d28d5b8b1e5b67040fea1f7c155f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/requirements.txt",
+      "bytes": 60,
+      "sha256": "94dc0ac4243b113189e26d6fd662bbfeff8c42568545b1c116d81bad4113f0bd"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/summarization_dataset.py",
+      "bytes": 2917,
+      "sha256": "7737b7fb79f03a18b349be33099332c3d5958d9b9c0222e0eb84d56c61b467ab"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/T5_training.py",
+      "bytes": 8074,
+      "sha256": "0c578d13e4637f444a457286c1e4e617f250ad16c49cf1971ab720a88edc114e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/utils/__init__.py",
+      "bytes": 206,
+      "sha256": "1c6ecd339454f3a63901c768d2d3933add7fabf3c538987d4ba25bd0a4045091"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/utils/environment.py",
+      "bytes": 1009,
+      "sha256": "b76a8f98a9f136a1362acb1245e20be6b9fa1cc1d989e73e95824bfd21f98b7f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP/utils/train_utils.py",
+      "bytes": 3289,
+      "sha256": "b99145c44e4302b45eaafda201cc54d98e5429e0dc8e951259290e418d7abf40"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP2/checkpoint.py",
+      "bytes": 7916,
+      "sha256": "d9600676690587d70b147b5cfa6f788fa87cf1e940dc3ec1a9b2bc701a11900d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP2/example.py",
+      "bytes": 4254,
+      "sha256": "14aded96832bb09200ad2d1658ebc9656025364af11d80ba73f896591a132b56"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP2/model.py",
+      "bytes": 4738,
+      "sha256": "f6d47715b7a26b6d4442c9d529d77e71eb717d346b0f2167e1a886e07436fa68"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP2/README.md",
+      "bytes": 733,
+      "sha256": "c76defd229cf4e8ef21d2f08fdf61ae680e6fd17ceef05234b1f83abcea7e423"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP2/requirements.txt",
+      "bytes": 19,
+      "sha256": "f83287f2b8a861add1d4ce22a70e329487689b0b199de0367c100797952a4479"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP2/run_example.sh",
+      "bytes": 359,
+      "sha256": "7226391d79f2a4c71acb0299441d4fe17c68246178690911bdb18cd8293c076d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/FSDP2/utils.py",
+      "bytes": 699,
+      "sha256": "e7490700eb491f803c4d0f4f399801270cbdc82926abbae730867eb72ce2c2bf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/char_dataset.py",
+      "bytes": 1453,
+      "sha256": "6d4f7190db2ae233d8bc0e81b1ed11ae17d884528f6c316e3223e71b1f7f2ca5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/data/input.txt",
+      "bytes": 1155394,
+      "sha256": "a29d649defa42cc30feade39d794c74a4f54c23e7dac87b44ed9b9e3f20da95b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/gpt2_train_cfg.yaml",
+      "bytes": 492,
+      "sha256": "73f481932d5a65e646eea4f4cd9cdf9859aced7196e1e82610c339d5ffb99646"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/main.py",
+      "bytes": 2196,
+      "sha256": "f6de10b6046fd0c61ed1cc69b862bd33fc127b6df81efe4ca8d57c84d9e49a45"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/model.py",
+      "bytes": 11379,
+      "sha256": "86e6ef1b0082237c3f8274ee906d46d156103b1cf475c774eaa46df5d3891b44"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/slurm/config.yaml.template",
+      "bytes": 615,
+      "sha256": "25a420556ba50718e5d7bee4b2cf69776365fa87d5f5e2b2ca565ecb30b9ea8c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/slurm/sbatch_run.sh",
+      "bytes": 568,
+      "sha256": "592f53bfa81247e16fc64908dcd985890aeaa43fda095f63571e2622e0c15750"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/slurm/setup_pcluster_slurm.md",
+      "bytes": 1257,
+      "sha256": "6b5e1e01c465a621a2b89618c8ef3b4d546094ca258ca381ccbb3c64a6ba7f97"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/mingpt/trainer.py",
+      "bytes": 6147,
+      "sha256": "d6997276375e249a696adcaef129ade5da617ef39b247005973cfa4280a43ee5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/README.md",
+      "bytes": 1028,
+      "sha256": "54b96bdcceaf7910627a0d671e8cf58e3cb60d3e4c86774b240518e83f096c11"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/requirements.txt",
+      "bytes": 50,
+      "sha256": "09fe9edb38b2a446f44acd3eca7406d3354a9ebc3be8360dce7d9f96c8388bfb"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/minGPT-ddp/run_example.sh",
+      "bytes": 336,
+      "sha256": "e2e3f3cf1063d729b9338bc81473dbe3a316e939c74291e5cffaf3ee6bdd9016"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/batch/parameter_server.py",
+      "bytes": 4863,
+      "sha256": "2bcaf935e5a18e2fad783ad3a52ad116b27ee2fcb350176c879466d751a8007f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/batch/README.md",
+      "bytes": 719,
+      "sha256": "72ee9af4876004a7f14eee2ac1632c51d5f70ebe37b91655cd9408f07f58b0cf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/batch/reinforce.py",
+      "bytes": 10154,
+      "sha256": "ba8db469bec5e3a684de8c2a3f412e11b968fcf4c1118bcfcd3139d5f703f933"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/batch/requirements.txt",
+      "bytes": 38,
+      "sha256": "d5f9744da47d331f076390b48af28808bab308fa3c59edb61497746db7492231"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/ddp_rpc/main.py",
+      "bytes": 7120,
+      "sha256": "2795bf0c972e8f067af83af7ae9499c3be0d31a162146aa308a79be8ce05337b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/ddp_rpc/README.md",
+      "bytes": 974,
+      "sha256": "4baeb108c108f57030f51698cb714fa8bf4b2b6dcdd65e913ce54efe47817243"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/ddp_rpc/requirements.txt",
+      "bytes": 21,
+      "sha256": "094c292da4b54ecd2deec32054484ca544778e8548041d03c409fdc6e541a896"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/parameter_server/README.md",
+      "bytes": 1254,
+      "sha256": "0e80f0f547a5ffe27b4a8a8c19008c81d4a57e29321c2bff357beeff3a9bbb48"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/parameter_server/requirements.txt",
+      "bytes": 21,
+      "sha256": "14b292a7c572377fd14757e82513b4b2fad2bf5e6142c26b88e9402acc74cd6d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/parameter_server/rpc_parameter_server.py",
+      "bytes": 11940,
+      "sha256": "f3ff45f3af1334ff021d42368e699d668f2087915aa76b3c28f0ae2652ba5dee"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/pipeline/main.py",
+      "bytes": 9963,
+      "sha256": "3dcc52e634b60d1032d7ec054e503e891a7062685f19fa9469a03dcf2708d6e8"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/pipeline/README.md",
+      "bytes": 700,
+      "sha256": "0edd701bdfa98539641d1156aa45c93b809a486615467d5fae0b26a3966a8b4b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/pipeline/requirements.txt",
+      "bytes": 18,
+      "sha256": "a2b24eade5870258abc36a5785e88c461bb204c3e0157ccfa2699aba5a081d00"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/rl/main.py",
+      "bytes": 9383,
+      "sha256": "80feadfc90d712e02680163b13c285e79cd89256d12d14cf660c00bb1401d957"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/rl/README.md",
+      "bytes": 340,
+      "sha256": "307d1866c121ab456a93d28d67d83fcfa96c87be38fd52ef103b283bc2995ea7"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/rl/requirements.txt",
+      "bytes": 25,
+      "sha256": "a440c71fe119956c21dcc9c60cb748180b2176594fbdb118b0c4e46041933eb1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/rnn/main.py",
+      "bytes": 2571,
+      "sha256": "1ec6f3954c3efcbec9d3e73ae45cd44b03404cadd00c5d288890ce1953c19cc5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/rnn/README.md",
+      "bytes": 240,
+      "sha256": "2cc4d8caba1d4cef1bfd6854cb06d3f40606644ca391d301b539fe796778454f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/rnn/requirements.txt",
+      "bytes": 21,
+      "sha256": "14b292a7c572377fd14757e82513b4b2fad2bf5e6142c26b88e9402acc74cd6d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/rpc/rnn/rnn.py",
+      "bytes": 3798,
+      "sha256": "9fad1cc3f18641911f02940fd0c56df5177577abe9dde14c8abcdbc66827bf86"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/fsdp_tp_example.py",
+      "bytes": 6292,
+      "sha256": "ce24f5884324f5bcdc5d0da7b3b3f2d8a7b7f50cdda398ad7cf471a04a77e245"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/llama2_model.py",
+      "bytes": 17047,
+      "sha256": "fe9a515d8971a369770b4c2dd26934a288881c5b95e7482fc00819d4ded6b7ed"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/log_utils.py",
+      "bytes": 633,
+      "sha256": "a587b634be91edc501dee7439957e58375ed9421cc04b4dbc1c183b3510e6f12"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/README.md",
+      "bytes": 1189,
+      "sha256": "7068efed2a1ab0c0e4fde1792f90c5b0a2c13632738661bf3bb1ab3111e8386a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/requirements.txt",
+      "bytes": 99,
+      "sha256": "2206c75e23b21ba3b655542cfb4bb0bf42be40622518b5f194f83e7af7610f4c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/run_example.sh",
+      "bytes": 510,
+      "sha256": "eae4687e4e8d52d2934ef99019b4e41ac349026c72c336e9238f9a9abc5d5bfd"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/sequence_parallel_example.py",
+      "bytes": 3437,
+      "sha256": "9b1aaf9acb1fcf85fe091ab620e93f5428fbffac0798e8507fe2ed785be59017"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/distributed/tensor_parallelism/tensor_parallel_example.py",
+      "bytes": 4102,
+      "sha256": "066a75d67a32f610ee73ae6a6d6266b5d1430c915d65d1d8b54e842d35d68557"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/docs/make.bat",
+      "bytes": 804,
+      "sha256": "f5480a19be1274fd34ebadb67c9885c5e153d417b271802cea10db575c703f2f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/docs/Makefile",
+      "bytes": 658,
+      "sha256": "554110c9af787d94b1985e0c6dbe3228d75cbf551765023bd91a547790d71e9e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/docs/requirements.txt",
+      "bytes": 142,
+      "sha256": "ce38fd5731e6839dc9e72695083b3d798c5e5ec0ad4f585632195c1f1ba8d7f3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/docs/source/_static/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/docs/source/conf.py",
+      "bytes": 2707,
+      "sha256": "7cfb0f34c462a5bb82e50f834d19bc671486fc76be018283a12961300a3c4bf2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/docs/source/index.rst",
+      "bytes": 7515,
+      "sha256": "62191c54bfd3fce9238b1b3cb95d0cc6fe320e71b24b1668d71c6ba498cb39d8"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/download_saved_models.py",
+      "bytes": 959,
+      "sha256": "5510a4e2feb2ec7fc58637bd17739c9bea1afaa64877a381c89780682309d608"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/content-images/amber.jpg",
+      "bytes": 108086,
+      "sha256": "f1d583fd322c68de4d116408dcfcee3a137b53206fe7251313ec02ca8aa6d27c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/output-images/amber-candy.jpg",
+      "bytes": 326685,
+      "sha256": "21fcb07230b7661d1d23feb822b715b48855cf867cd5f0adfe2103a43fdb7b6a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/output-images/amber-mosaic.jpg",
+      "bytes": 372909,
+      "sha256": "81e5f7b567cd2a0e2443f78bd735d98d696dac5f57413f1a553dda647a1c9935"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/output-images/amber-rain-princess.jpg",
+      "bytes": 306482,
+      "sha256": "07688baea0bca3a2375580498da13f41bbc4e5da1f3a803405615d58c5ec0456"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/output-images/amber-udnie.jpg",
+      "bytes": 164104,
+      "sha256": "ad21fdcb217b354078f1716cc4e60630eb26b28afbf450800763d49462cf2b00"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/style-images/candy.jpg",
+      "bytes": 376101,
+      "sha256": "1af09b2c18a6674b7d88849cb87564dd77e1ce04d1517bb085449b614cc0c8d8"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/style-images/mosaic.jpg",
+      "bytes": 77378,
+      "sha256": "17698add60e1ce8618103c04e6cdddc5ac21b82181a37b7517413f36a5b785a4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/style-images/rain-princess-cropped.jpg",
+      "bytes": 140682,
+      "sha256": "60192c2cb0eefc036ecc5bf04810f3155ec30239608b6ebefa4ae3ea96864ed2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/style-images/rain-princess.jpg",
+      "bytes": 286356,
+      "sha256": "edc860681275f663ff23b28ade7436b34bf8ea28ae60be773f3e1c39b938e5d3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/images/style-images/udnie.jpg",
+      "bytes": 39795,
+      "sha256": "270be68e7c6c282c9edb62ab7bcd345b1fb6b6cebb5d1f10d9a2d21915f69a8a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/neural_style/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/neural_style/neural_style.py",
+      "bytes": 11150,
+      "sha256": "dcc1f113259bab41c0ec871b3494aa688a21b9b88c593bb4e703359c56d9e301"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/neural_style/transformer_net.py",
+      "bytes": 3881,
+      "sha256": "05e77d03a2583892a3c1c584486e621e7290984a339bf0c8ec8dea6b475ccf49"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/neural_style/utils.py",
+      "bytes": 1031,
+      "sha256": "a1f05ae149628601763d908a4fa46e8200bef7b16e1dcbec4c71834607ad954c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/neural_style/vgg.py",
+      "bytes": 1436,
+      "sha256": "f2a3477e85d8cb465e2a7d184f67f15253a680e8d1d61d8fcb5785e4942ac2e2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/README.md",
+      "bytes": 3969,
+      "sha256": "81fcfa567bc8ecdd8725f756b5f07180774ed97be5ef280918971877f68335f0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fast_neural_style/requirements.txt",
+      "bytes": 32,
+      "sha256": "f0e98cbe08c0137ce3dc82a0367f185c5ca05fe2d2e2c20206ea3d90c54670ec"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/custom_tracer.py",
+      "bytes": 4294,
+      "sha256": "25443131b399f04123f8e9a935b3ab8e3bc37bd523aff4d6216b3968c817f0ae"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/inline_function.py",
+      "bytes": 3265,
+      "sha256": "ccb76746fbc6605601a48816daba220273e202ced38ab2469773559f2acbdf65"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/invert.py",
+      "bytes": 2202,
+      "sha256": "110d15eb18b634e2ccc13c3e78c69885c4ae0f13a647e1ba4f8c004d9d4a77c6"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/module_tracer.py",
+      "bytes": 6796,
+      "sha256": "6d80762c925ba3d8b5654a058c2681f1831c930d238c3ac875ff60a07653228b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/native_interpreter/CMakeLists.txt",
+      "bytes": 293,
+      "sha256": "c9eb1c8a5f1dd5d9bf5304d0ef2d77420b67cee731b4d29879d32a5183b1fa62"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/native_interpreter/interpreter.cpp",
+      "bytes": 7522,
+      "sha256": "94869e7085110af6c223b52b66f891d4d90b66958c1778958e862c640c3afd9b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/native_interpreter/README.md",
+      "bytes": 2539,
+      "sha256": "c0764b60c74eba8d45886aaee7a85698908b86f6f650f05548207c828bb85cf9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/native_interpreter/use_interpreter.py",
+      "bytes": 5263,
+      "sha256": "7bc21610b1fe12e1fef079c37636be67a33f8e7d5471206bf6812f7d6d4edbea"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/primitive_library.py",
+      "bytes": 6531,
+      "sha256": "c3101e0235dacae8c7b29b4ffc2b77665041aba766ac8b5eb8bbcdada5783f16"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/profiling_tracer.py",
+      "bytes": 6085,
+      "sha256": "932c8548a5f4ec1b35198aa8d1e7c6c3e1cccdc402601c95a3e7c99ba688eea0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/proxy_based_graph_creation.py",
+      "bytes": 2180,
+      "sha256": "8a954ca402184a486c726dc63087a7ba976e62d06c416743d63304a0a63b0b32"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/README.md",
+      "bytes": 507,
+      "sha256": "78d60f6c0c1f6b416f2d439b6a3b9deede66c7dd0e468af415f91497c68bc9bf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/replace_op.py",
+      "bytes": 2497,
+      "sha256": "3dc4fdc9f26045a98efb970fac3d3a6674028ae322f8f44585724d2646165b35"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/requirements.txt",
+      "bytes": 20,
+      "sha256": "6de770d3b791d21805e55118145d9e4733a317f1b0f7fdc186c43b6c7f9e9465"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/subgraph_rewriter_basic_use.py",
+      "bytes": 2558,
+      "sha256": "22188429799b3fb6c4c7baabb2034275c1dea15da2beeea5c29543ed473c3bf0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/fx/wrap_output_dynamically.py",
+      "bytes": 2738,
+      "sha256": "e3f256717af1d6453b1e5b9b119819b726b9980ea22313a6b091ef42b8de81fc"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/gat/main.py",
+      "bytes": 16486,
+      "sha256": "d835b44f9223e68d9afe45b5b4ebc44fcb5afe1ddfb4fa026f9fd048d481e633"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/gat/README.md",
+      "bytes": 7040,
+      "sha256": "52b703c6159204f756307d65b302752480ae057961319958348b9e5ec83affee"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/gat/requirements.txt",
+      "bytes": 24,
+      "sha256": "370220a560ceb81ba488f5f85614029c084018e7c4a5c1292e06c1ad20bd6475"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/gcn/main.py",
+      "bytes": 12015,
+      "sha256": "df58441a7f45a01c2c56b771139ae80af3901abab2163f85b5606b9edc4dd5ea"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/gcn/README.md",
+      "bytes": 2091,
+      "sha256": "d12e7d8707e590c1be6346371dda6968c80be5051c8c9b9c322debc288967c2e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/gcn/requirements.txt",
+      "bytes": 42,
+      "sha256": "879c9b72b4030a09a6c9722f62963f11f68fd046f3085f7943377df3c374d75e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/imagenet/extract_ILSVRC.sh",
+      "bytes": 2734,
+      "sha256": "288945c0c085abe932ec72add5b825166f200a963ce1b2a69a6276df63967c06"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/imagenet/main.py",
+      "bytes": 21489,
+      "sha256": "6641d9f2bbc7298f4d4508ecfd622bc02f5e727b876b994574cdc50d9816baf1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/imagenet/README.md",
+      "bytes": 5680,
+      "sha256": "0241e75de792f137f9c20f9953bbabc1df40d2d835f9eeece7d48f4aeb6b4e67"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/imagenet/requirements.txt",
+      "bytes": 25,
+      "sha256": "4cf1cbdc435515ab081457c7a1b21d63cf5485fa8c8bfe73f3efea4d89679478"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/language_translation/main.py",
+      "bytes": 11115,
+      "sha256": "b9069fc767c09d33fe7b64748f42c7b231e48e861d105ed249b3590fcf0cbdef"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/language_translation/README.md",
+      "bytes": 1789,
+      "sha256": "d30eb3abbcf926c1097d137c936e2878040809ecacaedd03a8327c963552ea5f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/language_translation/requirements.txt",
+      "bytes": 56,
+      "sha256": "ffffcec0a335ca8119a32181eea1b432902829bc81ba87357ca8eea79acb7bc3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/language_translation/src/data.py",
+      "bytes": 5217,
+      "sha256": "27dab2a7af95d7e472bfb7832bd53498b5f2afc7497f20acb9030dc5d848e999"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/language_translation/src/model.py",
+      "bytes": 2957,
+      "sha256": "61641e949d5bf4756ea71df59c63104ca6a06c0d0d1d12283203147c34ec4425"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/legacy/snli/model.py",
+      "bytes": 2731,
+      "sha256": "00fd8e7946e612642555a4be6a5d0821f61fa04ea8c375e6d4cad3e2606abd59"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/legacy/snli/README.md",
+      "bytes": 1381,
+      "sha256": "196e2f6b42fd68ec4449f2bb4356458a93a3e3beee46dcd8ed6ec5c59b722d55"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/legacy/snli/requirements.txt",
+      "bytes": 25,
+      "sha256": "aff09f5faa71fc315aadeefec00043e931fa6ec1f98bf188e88151703ba7d3d7"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/legacy/snli/train.py",
+      "bytes": 5500,
+      "sha256": "ba1c0539504084a8c77c70f44a4aad20df115c90ef9b396f7d16a53c78b287e3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/legacy/snli/util.py",
+      "bytes": 3956,
+      "sha256": "031a5b5c66f4b0437dde8fac14ca93d3320c93c424cef56ca1dc14eb9bc562c9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/LICENSE",
+      "bytes": 1549,
+      "sha256": "d57c9e197084542195f98441d1e5dbfcde2a803709821b37445318e9587d5cbc"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist/main.py",
+      "bytes": 5533,
+      "sha256": "3341acc9d4ec6b07843f7614a7e97afea7a4696ed2d30372be7454bbcef27fae"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist/README.md",
+      "bytes": 159,
+      "sha256": "21c0721b44a37f18277d655d91a087e81651dc4a1849fc778b91075b741d32f6"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist/requirements.txt",
+      "bytes": 20,
+      "sha256": "6de770d3b791d21805e55118145d9e4733a317f1b0f7fdc186c43b6c7f9e9465"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist/RIGORPILOT_README.md",
+      "bytes": 1918,
+      "sha256": "f2b44fe18436ca7df7c2c0d2642cdfa36b0b4eb136bd42314dd8da256457de86"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_forward_forward/main.py",
+      "bytes": 6007,
+      "sha256": "7c132a7b3c9a01c8ce2496d57f5ee4eecb877b234be57476677e8f0f897b8581"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_forward_forward/README.md",
+      "bytes": 1192,
+      "sha256": "1ada673438a11a76e7f5d41ef2e2d33c3996a77bb36c6878bdd4c67dc579d4d1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_forward_forward/requirements.txt",
+      "bytes": 20,
+      "sha256": "6de770d3b791d21805e55118145d9e4733a317f1b0f7fdc186c43b6c7f9e9465"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_hogwild/main.py",
+      "bytes": 4310,
+      "sha256": "7b55c451481dea3bd35ee1facd7aff8fc79a52caf8b2f135b294d0c622ef1fee"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_hogwild/README.md",
+      "bytes": 983,
+      "sha256": "ebc95a9000628dbf136be7bf16f0e58204a60bb48b081fb074781b56397c3d06"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_hogwild/requirements.txt",
+      "bytes": 28,
+      "sha256": "df576c0f38484385a911bed444953c9fd207d6b13249762fc740a736b3067b6e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_hogwild/train.py",
+      "bytes": 2094,
+      "sha256": "7bfd23f00b3b55d13d723b5693f45bc8331b8b1c4babaa65abfb40b12bba4536"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_rnn/main.py",
+      "bytes": 5800,
+      "sha256": "90cc5658050295d1b0e0f78427cc65a47036db985ebb47b06de98b2b75ce69b5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_rnn/README.md",
+      "bytes": 1017,
+      "sha256": "6f000602b2f03c9d1e3d064ee71aa06f60cb2a6e5162ef01ffb87135dec551f3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/mnist_rnn/requirements.txt",
+      "bytes": 20,
+      "sha256": "6de770d3b791d21805e55118145d9e4733a317f1b0f7fdc186c43b6c7f9e9465"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/README.md",
+      "bytes": 2542,
+      "sha256": "82cbd54219011695e957d4c3b792e5cdbf1c8323e8e7872648fa15da8d6b9278"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/regression/main.py",
+      "bytes": 1663,
+      "sha256": "33a5c99e75950d915e680ac2015d1a873998563ee05d021d4751cfad7a36949a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/regression/README.md",
+      "bytes": 102,
+      "sha256": "6a39d885df1ba258542a85edb06e2dfa949855bd0497e8593cb0973c218414e4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/regression/requirements.txt",
+      "bytes": 7,
+      "sha256": "75e3dbb44022efac931fe6262974777680de817d20e40c12e04671f359c19a9e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/reinforcement_learning/actor_critic.py",
+      "bytes": 5551,
+      "sha256": "244f24ea903df093e8b560708af6ab6461daedf61885c2f3348708235f4198b2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/reinforcement_learning/README.md",
+      "bytes": 176,
+      "sha256": "b74f11b06e27fb394f89ec0dc400dbcaa0340465299e2e1806f16f37599c261b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/reinforcement_learning/reinforce.py",
+      "bytes": 3491,
+      "sha256": "d14017e8170d4ceb7851000000c4d3cb0ccdb3741b93a9a51c90b6ee2eb0339f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/reinforcement_learning/requirements.txt",
+      "bytes": 42,
+      "sha256": "4b4e76c86766607b83a63d719cd75339ae0cdccc6dff854b09e80e173cfc9f10"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/_runtime/20260904T180053Z-47819df9/events.jsonl",
+      "bytes": 23794,
+      "sha256": "3a51e05db6c4e37644e4e3afc868307f2e76e40e53744d88780fe071d342f866"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/_runtime/20260904T180053Z-47819df9/resources.jsonl",
+      "bytes": 26528,
+      "sha256": "aaa0372dc0c5e93a21028f300254d2dd13e63ce6671aecb449ce423793938573"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/_runtime/20260904T180053Z-47819df9/spec.json",
+      "bytes": 933,
+      "sha256": "ae57fcfafe42b006b3456dc0fc0359c879fa11d43c5119c1dec768cb63342d4e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/_runtime/20260904T180053Z-47819df9/state.json",
+      "bytes": 1259,
+      "sha256": "bf6e1906372d7626722df6daf4e159b4d3dc3a80721024f5339f8f7404334d52"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/_runtime/20260904T180053Z-47819df9/stderr.log",
+      "bytes": 663,
+      "sha256": "8d1ad77e6cdc8fa4472f01d8a53f1f8a1928607dbbe0ef8e04e89412bbc4cd49"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/_runtime/20260904T180053Z-47819df9/stdout.log",
+      "bytes": 3621,
+      "sha256": "814ab213e4828711d6ee148b5a4618bdf31664f936be81aabe135999892903d0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 1782,
+      "sha256": "2b9877ef17ac077e6bf7f450d074c857a5b6ebb70d7501d332e15a10b046569e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2395,
+      "sha256": "e374613cddc323e4cf1234cd7a2c3e706f7c2b6755b4755f59146cf8c1afc30b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1313,
+      "sha256": "883f4bd6f2007cda19c4848ac9cb4cbefd1e645ffd187e9045347b6a8e70ac1b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/LOG.md",
+      "bytes": 5587,
+      "sha256": "3364b4c58c1d84bc7ede2e97d292884c4fbf803cd77c98dd80486e0e33f8877b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1279,
+      "sha256": "e34e9d06fba2dc4200e92f49b80d450bbb620adf37f32c02fd9a9269e6c221d1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/status.json",
+      "bytes": 12556,
+      "sha256": "1f5fcd022d0e83ae34ebfdf58401458d7939f6506d2af3154fda9c9973c11260"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/repro_outputs/SUMMARY.md",
+      "bytes": 883,
+      "sha256": "0d1981fa67e35ae89d367ae53981d9d3ebd8dbc4f6a318d3cbfd1b4defdaa6ea"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/run_cpp_examples.sh",
+      "bytes": 4299,
+      "sha256": "5ff0b80d7b34f0e39f5786e5e1e62029d6ae25a005487cf1013d60b6c57ab04d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/run_distributed_examples.sh",
+      "bytes": 3130,
+      "sha256": "5978bde4a93a0e7018afac3a08202b6bd3b0d157cfc2982658d554ac9ff3b285"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/run_python_examples.sh",
+      "bytes": 8895,
+      "sha256": "747c41e1febb76883ce30d82d5139ec91144c617d175fcd266542a9eac48e8a7"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/runtime.txt",
+      "bytes": 5,
+      "sha256": "2bcfbf5c53fe2a6b998f3d2991102af9c5c09a0b940f2e2a7ef7b7655855c832"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/siamese_network/main.py",
+      "bytes": 13240,
+      "sha256": "0dc1a64a277f4ff3278f7fb211dfcd5941e076a7f354d52de08d0c3f547787e9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/siamese_network/README.md",
+      "bytes": 1849,
+      "sha256": "3ca359db444e9cb1bec712a1405bc1297d6c527caaa80a4f7e7264712a63028f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/siamese_network/requirements.txt",
+      "bytes": 20,
+      "sha256": "6de770d3b791d21805e55118145d9e4733a317f1b0f7fdc186c43b6c7f9e9465"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/super_resolution/data.py",
+      "bytes": 2114,
+      "sha256": "d5bdeda9d75f5fead7f79a514bffdbbcc4c17a66b12305069e6286ea0f53895e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/super_resolution/dataset.py",
+      "bytes": 1120,
+      "sha256": "5b2d3e42df3e9e29691e4f18cac7abab48981bc71cea41caba727e2ff8015b57"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/super_resolution/main.py",
+      "bytes": 3178,
+      "sha256": "de0d0875b84740184e3c7bb6a043d65acd75006b12f1b9e5a26f067eb31df386"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/super_resolution/model.py",
+      "bytes": 1090,
+      "sha256": "f2dcf678ddbf2e0cb29a8d6f4b689c99618777b2e1e16de4e76c1129792e247a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/super_resolution/README.md",
+      "bytes": 1831,
+      "sha256": "680f98d215f2654e8d5c8fe5f8f0237048e90bdbb8d8670f787e04647004c2bf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/super_resolution/requirements.txt",
+      "bytes": 25,
+      "sha256": "9e46522206604555d28b842c27db60326a9b2292caf6f686d71d19929f5a3634"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/super_resolution/super_resolve.py",
+      "bytes": 1772,
+      "sha256": "1ceb2d986960875661302d3251b74bae5d3a859fcad6829984d3aeaa8a2044ba"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/time_sequence_prediction/generate_sine_wave.py",
+      "bytes": 288,
+      "sha256": "27a558ff07d2bd64dc33fb1f1b0448b569d758e66b923983517d3c89faad3902"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/time_sequence_prediction/README.md",
+      "bytes": 836,
+      "sha256": "74635a4b8aac01165edd5470cb5f187af9923b6496ec43e3fc9f63a880ee91b0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/time_sequence_prediction/requirements.txt",
+      "bytes": 23,
+      "sha256": "4c8f9bf2e18307a36c0a913a3a615e0aaee02867581767bfa8954c603ef88499"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/time_sequence_prediction/train.py",
+      "bytes": 3423,
+      "sha256": "e8ad27c45628b521299ec905de765f79a3a6685eab3e3dcd45bfd11ff9d310ac"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/train_outputs/COMMANDS.md",
+      "bytes": 2408,
+      "sha256": "26c488544be4f773ea12aac2139a75c949310af755d5517a2bdc465fff963f76"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/train_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1313,
+      "sha256": "59484635b84ce6c5e4dc10fc232045014bed8cff50349ef60dfd110fe26e00df"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/train_outputs/LOG.md",
+      "bytes": 1929,
+      "sha256": "9bbb05a72ccf5bec804810ab96bf60a1b7c73fe1435d3e1dcb2cde143a4bcf5d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/train_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1411,
+      "sha256": "1e6a406f3b86c25b2864502d1397411ac5a772e259af6019762b666763bcc5c8"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/train_outputs/status.json",
+      "bytes": 10668,
+      "sha256": "d36db8f8f46edf079dab3579515468392ee4e1ed12787d67e032fd5bc038dbb6"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/train_outputs/SUMMARY.md",
+      "bytes": 1085,
+      "sha256": "ce839a463888cc9d107be995c827559e6d687fc5444338d4aac1f6fd9b048518"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/utils.sh",
+      "bytes": 1652,
+      "sha256": "9e5909c3ff3c277ad6149c9990cb89733967466148b38bf72e659cafe517ca88"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/vae/main.py",
+      "bytes": 5038,
+      "sha256": "d11afa0c4c67a47ae981d022b7e1f40ccfcd5362dfd21c0b2069f90112845163"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/vae/README.md",
+      "bytes": 1083,
+      "sha256": "79a719d56a43472bbfaa81478392adad75badbe62118c1232d4ed2b060543997"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/vae/requirements.txt",
+      "bytes": 31,
+      "sha256": "020875cc5b3ecabae8d794b386408ba01b982619cdb098e6f145e4f8a4a525de"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/vae/results/.gitignore",
+      "bytes": 7,
+      "sha256": "82f5f560414c52b9d6b81c1a561963e35e17bdf8f744e40b5fee32c905cd615a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/data/wikitext-2/README",
+      "bytes": 162,
+      "sha256": "fba23f4ac2d2e2b78b8ceb18cfbbb3eec1bc7a6a81a1b65757646dc609866f41"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/data/wikitext-2/test.txt",
+      "bytes": 1260807,
+      "sha256": "b5cf2acde102a35c58826f93008cec5ad6e7922fec4fe9b5b8812030c85bc4db"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/data/wikitext-2/train.txt",
+      "bytes": 10833866,
+      "sha256": "c77a0ee200edce4da20466d8073f1b6c39c271ab2f264204e53ca28f68e35940"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/data/wikitext-2/valid.txt",
+      "bytes": 1125441,
+      "sha256": "995f31679b11ba920fc5a365330cda80c8fcb9158db382015c75fcc704883239"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/data.py",
+      "bytes": 1530,
+      "sha256": "583d41c1420ef8c32aeb80cccd95d648199578f204924305dd81a727efbcb327"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/generate.py",
+      "bytes": 3982,
+      "sha256": "880d988835ce80b8a8d025876de61eff79d86c9b9b79ad8e5dad4a0bbb0993d4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/main.py",
+      "bytes": 11959,
+      "sha256": "3a0425de7f097b845a540bc4760a039db83352d1131e029ea55964a947a7f3d5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/model.py",
+      "bytes": 6095,
+      "sha256": "f0d94e1856fcd66e93191e6fe30a9ccd48927a804e5e86bce6f7d85b4c66b8c0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/README.md",
+      "bytes": 3243,
+      "sha256": "226b0078dced003f2d3eeaab6f9cc0b76b4610092bffd53f9a3eec8188006adc"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/repo/word_language_model/requirements.txt",
+      "bytes": 12,
+      "sha256": "0a3eb267ff39d919991cea133f6116e65f2fffbd23e74f23a6439810845f8f2b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/pytorch-mnist/SHOWCASE.json",
+      "bytes": 502,
+      "sha256": "8a596269c746f3da1f06813badbec2a1e134aafc0bf1eb1b20d9bfc824ab1121"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-09-04T18:02:26.950480+00:00",
+  "user_language": "en",
+  "target_repo": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repo",
+  "selected_goal": "training",
+  "status": "partial",
+  "documented_command_status": "partial",
+  "documented_command": "python train.py config/train_shakespeare_char.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0",
+  "documented_command_kind": "run",
+  "documented_command_source": "code_block",
+  "documented_command_section": "quick start",
+  "lane": "trusted",
+  "run_mode": "startup_verification",
+  "full_training_authorized": false,
+  "requires_full_training_confirmation": true,
+  "resume_from": null,
+  "dataset": "https://openwebtext2.readthedocs.io/en/latest/),",
+  "checkpoint_source": "https://github.com/karpathy/minGPT)",
+  "full_training_command": "python train.py config/train_shakespeare_char.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0",
+  "training_duration_hint": "unknown; likely hours to multi-day on the full dataset until a bounded schedule is confirmed",
+  "max_steps": 0,
+  "completed_steps": 215,
+  "last_epoch": null,
+  "last_step": 215,
+  "best_metric": {
+    "name": "val_loss",
+    "value": 4.1649
+  },
+  "best_checkpoint": null,
+  "stop_reason": "startup_verification_window_elapsed",
+  "observed_metrics": {
+    "train_loss": 4.1676,
+    "val_loss": 4.1649
+  },
+  "checkpoint_candidates": [],
+  "monitoring_scope": "timeout:45s",
+  "execution_mode": "direct",
+  "runtime": {
+    "run_id": "20260904T180228Z-96563a32",
+    "status": "timed_out",
+    "run_dir": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repro_outputs\\_runtime\\20260904T180228Z-96563a32",
+    "state_path": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repro_outputs\\_runtime\\20260904T180228Z-96563a32\\state.json",
+    "events_path": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repro_outputs\\_runtime\\20260904T180228Z-96563a32\\events.jsonl",
+    "stdout_log_path": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repro_outputs\\_runtime\\20260904T180228Z-96563a32\\stdout.log",
+    "stderr_log_path": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repro_outputs\\_runtime\\20260904T180228Z-96563a32\\stderr.log",
+    "stdout_truncated_in_summary": false,
+    "stderr_truncated_in_summary": false,
+    "cancelled": false,
+    "duration_seconds": 45.844,
+    "attempt": 1,
+    "retry_of": null,
+    "resources_log_path": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repro_outputs\\_runtime\\20260904T180228Z-96563a32\\resources.jsonl",
+    "resource_summary": {
+      "scope": "root_process_and_optional_device_global",
+      "samples": 44,
+      "max_root_process_rss_bytes": 676593664,
+      "max_root_process_cpu_seconds": 265.828125,
+      "gpu_sampling_available": true,
+      "max_device_gpu_memory_used_mib": {
+        "GPU-482d3b15-cbe3-6eeb-08aa-4867d7c951ff": 250.0
+      }
+    },
+    "model_adapter": {
+      "schema_version": "1.0",
+      "status": "unconfigured",
+      "adapter_id": "external-agent",
+      "provider": "host",
+      "model": "unspecified",
+      "revision": null,
+      "capabilities": [],
+      "endpoint": null,
+      "credential_env": null,
+      "parameters": {},
+      "metadata": {},
+      "fingerprint": "ad285507d7850f1f8108ddd22e965d9fbe8980e71ce91b1769c859a6d733da62"
+    }
+  },
+  "model_adapter": {
+    "schema_version": "1.0",
+    "status": "unconfigured",
+    "adapter_id": "external-agent",
+    "provider": "host",
+    "model": "unspecified",
+    "revision": null,
+    "capabilities": [],
+    "endpoint": null,
+    "credential_env": null,
+    "parameters": {},
+    "metadata": {},
+    "fingerprint": "ad285507d7850f1f8108ddd22e965d9fbe8980e71ce91b1769c859a6d733da62"
+  },
+  "evidence_level": "direct",
+  "human_decisions_required": [
+    "No top-level environment specification file was found.",
+    "Review the startup verification evidence and confirm whether to continue with a fuller training reproduction run.",
+    "Review the blocker before adapting commands, dependencies, or protocol-sensitive settings."
+  ],
+  "next_safe_action": "Keep the repo unchanged, review startup evidence, and only continue with fuller training after explicit researcher approval.",
+  "assumptions": [
+    "README remains the primary source of truth.",
+    "Environment creation should prefer isolated setup before any semantic code changes.",
+    "Model architecture should remain unchanged unless the researcher explicitly requests otherwise.",
+    "Only startup verification is allowed before the researcher explicitly authorizes a fuller training reproduction run."
+  ],
+  "artifact_provenance": [
+    {
+      "artifact": "readme",
+      "source": "D:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repo\\README.md",
+      "kind": "repo_file"
+    },
+    {
+      "artifact": "documented_command",
+      "source": "code_block",
+      "kind": "readme_extraction"
+    },
+    {
+      "artifact": "environment_plan",
+      "source": "inferred",
+      "kind": "setup_plan"
+    },
+    {
+      "artifact": "asset_manifest",
+      "source": "artifacts/assets/asset_manifest.json",
+      "kind": "generated"
+    },
+    {
+      "artifact": "output_dir",
+      "source": "repro_outputs/",
+      "kind": "generated"
+    },
+    {
+      "artifact": "train_outputs",
+      "source": "train_outputs/",
+      "kind": "generated"
+    }
+  ],
+  "outputs": {
+    "summary": "train_outputs/SUMMARY.md",
+    "commands": "train_outputs/COMMANDS.md",
+    "log": "train_outputs/LOG.md",
+    "scientific_changelog": "train_outputs/SCIENTIFIC_CHANGELOG.md",
+    "comparability_report": "train_outputs/COMPARABILITY_REPORT.md",
+    "status": "train_outputs/status.json"
+  },
+  "notes": [
+    "Defaulted to a virtualenv fallback because no environment file was detected.",
+    "Overriding config with config/train_shakespeare_char.py:\n# train a miniature character-level shakespeare model\n# good for debugging and playing on macbooks and such\n\nout_dir = 'out-shakespeare-char'\neval_interval = 250 # keep frequent because we'll overfit\neval_iters = 200\nlog_interval = 10 # don't print too too often\n\n# we expect to overfit on this small dataset, so only save when val improves\nalways_save_checkpoint = False\n\nwandb_log = False # override via command line if you like\nwandb_project = 'shakespeare-char'\nwandb_run_name = 'mini-gpt'\n\ndataset = 'shakespeare_char'\ngradient_accumulation_steps = 1\nbatch_size = 64\nblock_size = 256 # context of up to 256 previous characters\n\n# baby GPT model :)\nn_layer = 6\nn_head = 6\nn_embd = 384\ndropout = 0.2\n\nlearning_rate = 1e-3 # with baby networks can afford to go a bit higher\nmax_iters = 5000\nlr_decay_iters = 5000 # make equal to max_iters usually\nmin_lr = 1e-4 # learning_rate / 10 usually\nbeta2 = 0.99 # make a bit bigger because number of tokens per iter is small\n\nwarmup_iters = 100 # not super necessary potentially\n\n# on macbook also add\n# device = 'cpu'  # run on cpu only\n# compile = False # do not torch compile the model\n\nOverriding: device = cpu\nOverriding: compile = False\nOverriding: eval_iters = 20\nOverriding: log_interval = 1\nOverriding: block_size = 64\nOverriding: batch_size = 12\nOverriding: n_layer = 4\nOverriding: n_head = 4\nOverriding: n_embd = 128\nOverriding: max_iters = 2000\nOverriding: lr_decay_iters = 2000\nOverriding: dropout = 0.0\ntokens per iteration will be: 768\nfound vocab_size = 65 (inside data\\shakespeare_char\\meta.pkl)\nInitializing a new model from scratch\nnumber of parameters: 0.80M\nnum decayed parameter tensors: 18, with 802,944 parameters\nnum non-decayed parameter tensors: 9, with 1,152 parameters\nusing fused AdamW: False\nstep 0: train loss 4.1676, val loss 4.1649\niter 0: loss 4.1828, time 1662.99ms, mfu -100.00%\niter 1: loss 4.1373, time 166.82ms, mfu -100.00%\niter 2: loss 4.1347, time 224.98ms, mfu -100.00%\niter 3: loss 4.0995, time 122.79ms, mfu -100.00%\niter 4: loss 4.0387, time 146.24ms, mfu -100.00%\niter 5: loss 3.9758, time 132.55ms, mfu 0.01%\niter 6: loss 3.9126, time 127.68ms, mfu 0.01%\niter 7: loss 3.8463, time 143.92ms, mfu 0.01%\niter 8: loss 3.8169, time 144.50ms, mfu 0.01%\niter 9: loss 3.7311, time 211.42ms, mfu 0.01%\niter 10: loss 3.7366, time 188.01ms, mfu 0.01%\niter 11: loss 3.7234, time 260.18ms, mfu 0.01%\niter 12: loss 3.7059, time 158.22ms, mfu 0.01%\niter 13: loss 3.6791, time 130.28ms, mfu 0.01%\niter 14: loss 3.6453, time 159.45ms, mfu 0.01%\niter 15: loss 3.6266, time 138.50ms, mfu 0.01%\niter 16: loss 3.6050, time 123.77ms, mfu 0.01%\niter 17: loss 3.6008, time 132.15ms, mfu 0.01%\niter 18: loss 3.6244, time 227.24ms, mfu 0.01%\niter 19: loss 3.6423, time 131.25ms, mfu 0.01%\niter 20: loss 3.5233, time 124.75ms, mfu 0.01%\niter 21: loss 3.5387, time 130.41ms, mfu 0.01%\niter 22: loss 3.4933, time 157.30ms, mfu 0.01%\niter 23: loss 3.4671, time 144.58ms, mfu 0.01%\niter 24: loss 3.4993, time 150.81ms, mfu 0.01%\niter 25: loss 3.3414, time 128.85ms, mfu 0.01%\niter 26: loss 3.3209, time 160.18ms, mfu 0.01%\niter 27: loss 3.3452, time 195.55ms, mfu 0.01%\niter 28: loss 3.2668, time 154.89ms, mfu 0.01%\niter 29: loss 3.2942, time 143.65ms, mfu 0.01%\niter 30: loss 3.3294, time 141.55ms, mfu 0.01%\niter 31: loss 3.2203, time 145.38ms, mfu 0.01%\niter 32: loss 3.1959, time 126.95ms, mfu 0.01%\niter 33: loss 3.2006, time 175.23ms, mfu 0.01%\niter 34: loss 3.1428, time 151.40ms, mfu 0.01%\niter 35: loss 3.2393, time 213.14ms, mfu 0.01%\niter 36: loss 3.1355, time 124.35ms, mfu 0.01%\niter 37: loss 3.1533, time 339.19ms, mfu 0.01%\niter 38: loss 3.0117, time 122.04ms, mfu 0.01%\niter 39: loss 3.0625, time 145.84ms, mfu 0.01%\niter 40: loss 3.0920, time 151.59ms, mfu 0.01%\niter 41: loss 3.0309, time 126.06ms, mfu 0.01%\niter 42: loss 2.9807, time 118.25ms, mfu 0.01%\niter 43: loss 2.9671, time 132.38ms, mfu 0.01%\niter 44: loss 3.0005, time 145.16ms, mfu 0.01%\niter 45: loss 2.9795, time 149.31ms, mfu 0.01%\niter 46: loss 2.9250, time 191.45ms, mfu 0.01%\niter 47: loss 3.0510, time 156.45ms, mfu 0.01%\niter 48: loss 2.9333, time 137.33ms, mfu 0.01%\niter 49: loss 2.9340, time 131.33ms, mfu 0.01%\niter 50: loss 2.9336, time 133.09ms, mfu 0.01%\niter 51: loss 2.9030, time 138.39ms, mfu 0.01%\niter 52: loss 2.9111, time 195.21ms, mfu 0.01%\niter 53: loss 2.8949, time 141.75ms, mfu 0.01%\niter 54: loss 2.8129, time 127.74ms, mfu 0.01%\niter 55: loss 2.8076, time 128.12ms, mfu 0.01%\niter 56: loss 2.7797, time 133.41ms, mfu 0.01%\niter 57: loss 2.8472, time 115.41ms, mfu 0.01%\niter 58: loss 2.8127, time 125.49ms, mfu 0.01%\niter 59: loss 2.8339, time 124.96ms, mfu 0.01%\niter 60: loss 2.7890, time 147.88ms, mfu 0.01%\niter 61: loss 2.8220, time 127.15ms, mfu 0.01%\niter 62: loss 2.7516, time 113.16ms, mfu 0.01%\niter 63: loss 2.7931, time 130.39ms, mfu 0.01%\niter 64: loss 2.7913, time 144.53ms, mfu 0.01%\niter 65: loss 2.7310, time 137.25ms, mfu 0.01%\niter 66: loss 2.7577, time 135.35ms, mfu 0.01%\niter 67: loss 2.7374, time 134.25ms, mfu 0.01%\niter 68: loss 2.7673, time 140.32ms, mfu 0.01%\niter 69: loss 2.7820, time 127.53ms, mfu 0.01%\niter 70: loss 2.7069, time 249.16ms, mfu 0.01%\niter 71: loss 2.7687, time 189.56ms, mfu 0.01%\niter 72: loss 2.6593, time 147.32ms, mfu 0.01%\niter 73: loss 2.7034, time 133.62ms, mfu 0.01%\niter 74: loss 2.6512, time 223.00ms, mfu 0.01%\niter 75: loss 2.7666, time 140.27ms, mfu 0.01%\niter 76: loss 2.6618, time 120.49ms, mfu 0.01%\niter 77: loss 2.7576, time 122.23ms, mfu 0.01%\niter 78: loss 2.6682, time 131.53ms, mfu 0.01%\niter 79: loss 2.6772, time 124.36ms, mfu 0.01%\niter 80: loss 2.6128, time 122.59ms, mfu 0.01%\niter 81: loss 2.6870, time 133.36ms, mfu 0.01%\niter 82: loss 2.6893, time 141.36ms, mfu 0.01%\niter 83: loss 2.6264, time 135.83ms, mfu 0.01%\niter 84: loss 2.7267, time 127.34ms, mfu 0.01%\niter 85: loss 2.6810, time 162.26ms, mfu 0.01%\niter 86: loss 2.5991, time 157.45ms, mfu 0.01%\niter 87: loss 2.6400, time 189.12ms, mfu 0.01%\niter 88: loss 2.6090, time 154.63ms, mfu 0.01%\niter 89: loss 2.7311, time 151.18ms, mfu 0.01%\niter 90: loss 2.6146, time 146.06ms, mfu 0.01%\niter 91: loss 2.6667, time 178.39ms, mfu 0.01%\niter 92: loss 2.6025, time 172.25ms, mfu 0.01%\niter 93: loss 2.5399, time 147.75ms, mfu 0.01%\niter 94: loss 2.7116, time 143.27ms, mfu 0.01%\niter 95: loss 2.6400, time 129.14ms, mfu 0.01%\niter 96: loss 2.6739, time 134.96ms, mfu 0.01%\niter 97: loss 2.5839, time 196.08ms, mfu 0.01%\niter 98: loss 2.5320, time 145.01ms, mfu 0.01%\niter 99: loss 2.6740, time 129.74ms, mfu 0.01%\niter 100: loss 2.6635, time 143.77ms, mfu 0.01%\niter 101: loss 2.6532, time 309.54ms, mfu 0.01%\niter 102: loss 2.5912, time 188.86ms, mfu 0.01%\niter 103: loss 2.6308, time 146.95ms, mfu 0.01%\niter 104: loss 2.5048, time 171.31ms, mfu 0.01%\niter 105: loss 2.5748, time 181.93ms, mfu 0.01%\niter 106: loss 2.5280, time 130.45ms, mfu 0.01%\niter 107: loss 2.5885, time 126.33ms, mfu 0.01%\niter 108: loss 2.5621, time 143.04ms, mfu 0.01%\niter 109: loss 2.5919, time 154.68ms, mfu 0.01%\niter 110: loss 2.5880, time 166.03ms, mfu 0.01%\niter 111: loss 2.5341, time 147.59ms, mfu 0.01%\niter 112: loss 2.5389, time 143.10ms, mfu 0.01%\niter 113: loss 2.5485, time 204.41ms, mfu 0.01%\niter 114: loss 2.6036, time 128.77ms, mfu 0.01%\niter 115: loss 2.5520, time 154.21ms, mfu 0.01%\niter 116: loss 2.5809, time 147.98ms, mfu 0.01%\niter 117: loss 2.5443, time 154.62ms, mfu 0.01%\niter 118: loss 2.5850, time 146.74ms, mfu 0.01%\niter 119: loss 2.6244, time 133.80ms, mfu 0.01%\niter 120: loss 2.6186, time 137.24ms, mfu 0.01%\niter 121: loss 2.7192, time 132.44ms, mfu 0.01%\niter 122: loss 2.6091, time 141.21ms, mfu 0.01%\niter 123: loss 2.5891, time 150.50ms, mfu 0.01%\niter 124: loss 2.6232, time 148.35ms, mfu 0.01%\niter 125: loss 2.5940, time 179.51ms, mfu 0.01%\niter 126: loss 2.6158, time 146.30ms, mfu 0.01%\niter 127: loss 2.6776, time 133.24ms, mfu 0.01%\niter 128: loss 2.5884, time 130.00ms, mfu 0.01%\niter 129: loss 2.5599, time 423.79ms, mfu 0.01%\niter 130: loss 2.5422, time 134.78ms, mfu 0.01%\niter 131: loss 2.6984, time 125.21ms, mfu 0.01%\niter 132: loss 2.5189, time 124.47ms, mfu 0.01%\niter 133: loss 2.5712, time 122.85ms, mfu 0.01%\niter 134: loss 2.4379, time 137.08ms, mfu 0.01%\niter 135: loss 2.5714, time 132.55ms, mfu 0.01%\niter 136: loss 2.5871, time 133.36ms, mfu 0.01%\niter 137: loss 2.5021, time 140.84ms, mfu 0.01%\niter 138: loss 2.5119, time 127.32ms, mfu 0.01%\niter 139: loss 2.5801, time 120.54ms, mfu 0.01%\niter 140: loss 2.4921, time 133.90ms, mfu 0.01%\niter 141: loss 2.5164, time 150.90ms, mfu 0.01%\niter 142: loss 2.5426, time 145.25ms, mfu 0.01%\niter 143: loss 2.5652, time 165.33ms, mfu 0.01%\niter 144: loss 2.5373, time 147.83ms, mfu 0.01%\niter 145: loss 2.5433, time 168.31ms, mfu 0.01%\niter 146: loss 2.5070, time 143.32ms, mfu 0.01%\niter 147: loss 2.5597, time 140.34ms, mfu 0.01%\niter 148: loss 2.4607, time 127.29ms, mfu 0.01%\niter 149: loss 2.5515, time 135.49ms, mfu 0.01%\niter 150: loss 2.5425, time 186.43ms, mfu 0.01%\niter 151: loss 2.5234, time 134.11ms, mfu 0.01%\niter 152: loss 2.5735, time 126.12ms, mfu 0.01%\niter 153: loss 2.4897, time 149.22ms, mfu 0.01%\niter 154: loss 2.4569, time 132.08ms, mfu 0.01%\niter 155: loss 2.4786, time 125.49ms, mfu 0.01%\niter 156: loss 2.5061, time 137.96ms, mfu 0.01%\niter 157: loss 2.5567, time 142.33ms, mfu 0.01%\niter 158: loss 2.5771, time 160.45ms, mfu 0.01%\niter 159: loss 2.5045, time 152.60ms, mfu 0.01%\niter 160: loss 2.5243, time 140.30ms, mfu 0.01%\niter 161: loss 2.4993, time 153.00ms, mfu 0.01%\niter 162: loss 2.4630, time 132.09ms, mfu 0.01%\niter 163: loss 2.4979, time 199.04ms, mfu 0.01%\niter 164: loss 2.5054, time 157.56ms, mfu 0.01%\niter 165: loss 2.6246, time 158.11ms, mfu 0.01%\niter 166: loss 2.5134, time 155.26ms, mfu 0.01%\niter 167: loss 2.4725, time 154.97ms, mfu 0.01%\niter 168: loss 2.5520, time 151.02ms, mfu 0.01%\niter 169: loss 2.4899, time 137.35ms, mfu 0.01%\niter 170: loss 2.4741, time 167.51ms, mfu 0.01%\niter 171: loss 2.3834, time 142.12ms, mfu 0.01%\niter 172: loss 2.5202, time 144.53ms, mfu 0.01%\niter 173: loss 2.5233, time 134.68ms, mfu 0.01%\niter 174: loss 2.4690, time 124.58ms, mfu 0.01%\niter 175: loss 2.4643, time 282.67ms, mfu 0.01%\niter 176: loss 2.4494, time 178.46ms, mfu 0.01%\niter 177: loss 2.4908, time 127.33ms, mfu 0.01%\niter 178: loss 2.4802, time 138.67ms, mfu 0.01%\niter 179: loss 2.6177, time 236.00ms, mfu 0.01%\niter 180: loss 2.4928, time 156.07ms, mfu 0.01%\niter 181: loss 2.4498, time 136.93ms, mfu 0.01%\niter 182: loss 2.4439, time 160.77ms, mfu 0.01%\niter 183: loss 2.5471, time 147.39ms, mfu 0.01%\niter 184: loss 2.4470, time 162.97ms, mfu 0.01%\niter 185: loss 2.5639, time 151.53ms, mfu 0.01%\niter 186: loss 2.5656, time 146.69ms, mfu 0.01%\niter 187: loss 2.5070, time 179.36ms, mfu 0.01%\niter 188: loss 2.4840, time 402.31ms, mfu 0.01%\niter 189: loss 2.5641, time 185.97ms, mfu 0.01%\niter 190: loss 2.5444, time 224.38ms, mfu 0.01%\niter 191: loss 2.5446, time 158.52ms, mfu 0.01%\niter 192: loss 2.4553, time 147.38ms, mfu 0.01%\niter 193: loss 2.5763, time 267.67ms, mfu 0.01%\niter 194: loss 2.4801, time 160.12ms, mfu 0.01%\niter 195: loss 2.4763, time 140.09ms, mfu 0.01%\niter 196: loss 2.4731, time 136.28ms, mfu 0.01%\niter 197: loss 2.4632, time 142.28ms, mfu 0.01%\niter 198: loss 2.4527, time 134.77ms, mfu 0.01%\niter 199: loss 2.4878, time 164.13ms, mfu 0.01%\niter 200: loss 2.5039, time 171.11ms, mfu 0.01%\niter 201: loss 2.4361, time 187.82ms, mfu 0.01%\niter 202: loss 2.4518, time 154.08ms, mfu 0.01%\niter 203: loss 2.5402, time 142.57ms, mfu 0.01%\niter 204: loss 2.4754, time 120.10ms, mfu 0.01%\niter 205: loss 2.4789, time 132.96ms, mfu 0.01%\niter 206: loss 2.4742, time 148.79ms, mfu 0.01%\niter 207: loss 2.5718, time 174.43ms, mfu 0.01%\niter 208: loss 2.3844, time 214.17ms, mfu 0.01%\niter 209: loss 2.5291, time 195.18ms, mfu 0.01%\niter 210: loss 2.4330, time 148.04ms, mfu 0.01%\niter 211: loss 2.5309, time 146.68ms, mfu 0.01%\niter 212: loss 2.4654, time 139.05ms, mfu 0.01%\niter 213: loss 2.4521, time 132.44ms, mfu 0.01%\niter 214: loss 2.5320, time 134.42ms, mfu 0.01%\niter 215: loss 2.5425, time 173.54ms, mfu 0.01%\n\nD:\\test_projects\\ai-paper-reproduction-skill\\tmp\\external-benchmark-runs\\nanogpt-shakespeare-20260904T180201Z-30204\\repo\\train.py:196: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.\n  scaler = torch.cuda.amp.GradScaler(enabled=(dtype == 'float16'))"
+  ]
+}

@@ -43,7 +43,7 @@ def main() -> int:
 
         success = run_persistent_command(
             repo=root,
-            command=command_for("import sys; print('α' * 5000); print('stderr-ok', file=sys.stderr)"),
+            command=command_for("import sys; sys.stdout.reconfigure(encoding='utf-8'); print('α' * 5000); print('stderr-ok', file=sys.stderr)"),
             timeout=10,
             runtime_root=runtime_root,
             run_id="success-run",
@@ -53,7 +53,7 @@ def main() -> int:
         state = json.loads((run_dir / "state.json").read_text(encoding="utf-8"))
         events = [json.loads(line) for line in (run_dir / "events.jsonl").read_text(encoding="utf-8").splitlines()]
         if success["runtime_status"] != "success" or state["status"] != "success":
-            raise AssertionError("successful process did not reach a durable success state")
+            raise AssertionError(f"successful process did not reach a durable success state: {success}")
         checks += 1
         if not success["stdout_truncated"] or len(success["stdout"]) > 128:
             raise AssertionError("bounded stdout tail was not enforced")
@@ -74,22 +74,30 @@ def main() -> int:
         checks += 1
 
         marker = root / "orphan-marker.txt"
-        child_code = "import sys,time; from pathlib import Path; time.sleep(1); Path(sys.argv[1]).write_text('orphan', encoding='utf-8')"
+        release = root / "release-child.txt"
+        child_code = (
+            "import sys,time\nfrom pathlib import Path\n"
+            "while not Path(sys.argv[2]).exists(): time.sleep(0.02)\n"
+            "Path(sys.argv[1]).write_text('orphan', encoding='utf-8')"
+        )
         parent_code = (
             "import subprocess,sys,time; "
-            f"subprocess.Popen([sys.executable, '-c', {child_code!r}, sys.argv[1]]); "
+            f"subprocess.Popen([sys.executable, '-c', {child_code!r}, sys.argv[1], sys.argv[2]]); "
             "time.sleep(5)"
         )
         timed = run_persistent_command(
             repo=root,
-            command=command_for(parent_code, str(marker)),
+            command=command_for(parent_code, str(marker), str(release)),
             timeout=0.35,
             runtime_root=runtime_root,
             run_id="timeout-run",
         )
         if not timed["timed_out"] or timed["runtime_status"] != "timed_out":
             raise AssertionError("timeout was not persisted as a terminal state")
-        time.sleep(1.1)
+        # Only a child surviving completed termination can see this trigger.
+        # A fixed pre-termination sleep incorrectly failed on slow taskkill hosts.
+        release.write_text("runtime returned", encoding="utf-8")
+        time.sleep(0.5)
         if marker.exists():
             raise AssertionError("timeout left a child process running")
         checks += 2

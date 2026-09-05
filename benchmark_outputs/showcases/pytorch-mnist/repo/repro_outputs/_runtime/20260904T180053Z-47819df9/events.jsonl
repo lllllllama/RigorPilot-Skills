@@ -1,0 +1,127 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-04T18:00:53.701760Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-04T18:00:53.728742Z", "type": "started", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-04T18:00:53.833075Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 3137536, "cpu_seconds": 0.0, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-04T18:00:54.849512Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 398901248, "cpu_seconds": 1.09375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-04T18:00:54.854032Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-04T18:00:55.866269Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 483586048, "cpu_seconds": 1.953125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-04T18:00:55.869213Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 8, "timestamp": "2026-09-04T18:00:56.886659Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 503234560, "cpu_seconds": 2.875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 9, "timestamp": "2026-09-04T18:00:56.893649Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 10, "timestamp": "2026-09-04T18:00:57.911767Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 513384448, "cpu_seconds": 3.84375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 11, "timestamp": "2026-09-04T18:00:57.918463Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 12, "timestamp": "2026-09-04T18:00:59.037446Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 525180928, "cpu_seconds": 4.78125, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 13, "timestamp": "2026-09-04T18:00:59.045458Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 14, "timestamp": "2026-09-04T18:00:59.963740Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 532287488, "cpu_seconds": 5.78125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 15, "timestamp": "2026-09-04T18:00:59.971885Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 16, "timestamp": "2026-09-04T18:01:00.991127Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 553533440, "cpu_seconds": 6.734375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 17, "timestamp": "2026-09-04T18:01:00.998281Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 18, "timestamp": "2026-09-04T18:01:02.019306Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 571289600, "cpu_seconds": 7.5625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 19, "timestamp": "2026-09-04T18:01:02.026305Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 20, "timestamp": "2026-09-04T18:01:03.047277Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 581828608, "cpu_seconds": 8.5625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 21, "timestamp": "2026-09-04T18:01:03.055184Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 22, "timestamp": "2026-09-04T18:01:04.177405Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 587378688, "cpu_seconds": 9.546875, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 23, "timestamp": "2026-09-04T18:01:04.183524Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 24, "timestamp": "2026-09-04T18:01:05.103103Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 603521024, "cpu_seconds": 10.515625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 25, "timestamp": "2026-09-04T18:01:05.109741Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 26, "timestamp": "2026-09-04T18:01:06.129359Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 622809088, "cpu_seconds": 10.84375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 27, "timestamp": "2026-09-04T18:01:06.137380Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 28, "timestamp": "2026-09-04T18:01:07.163813Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 639885312, "cpu_seconds": 11.0625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 29, "timestamp": "2026-09-04T18:01:07.171806Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 30, "timestamp": "2026-09-04T18:01:08.197242Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 624283648, "cpu_seconds": 11.390625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 31, "timestamp": "2026-09-04T18:01:08.204783Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 32, "timestamp": "2026-09-04T18:01:09.342893Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 624283648, "cpu_seconds": 11.40625, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 33, "timestamp": "2026-09-04T18:01:09.349473Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 34, "timestamp": "2026-09-04T18:01:10.231449Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 624283648, "cpu_seconds": 11.546875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 35, "timestamp": "2026-09-04T18:01:10.238809Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 36, "timestamp": "2026-09-04T18:01:11.261242Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 762630144, "cpu_seconds": 13.609375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 37, "timestamp": "2026-09-04T18:01:11.268852Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 38, "timestamp": "2026-09-04T18:01:12.291968Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 39, "timestamp": "2026-09-04T18:01:12.300487Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 40, "timestamp": "2026-09-04T18:01:13.324050Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 41, "timestamp": "2026-09-04T18:01:13.332590Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 42, "timestamp": "2026-09-04T18:01:14.461037Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 43, "timestamp": "2026-09-04T18:01:14.467916Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 44, "timestamp": "2026-09-04T18:01:15.392183Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 45, "timestamp": "2026-09-04T18:01:15.400186Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 46, "timestamp": "2026-09-04T18:01:16.420320Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 47, "timestamp": "2026-09-04T18:01:16.429315Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 48, "timestamp": "2026-09-04T18:01:17.450899Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 49, "timestamp": "2026-09-04T18:01:17.458901Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 50, "timestamp": "2026-09-04T18:01:18.483584Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 51, "timestamp": "2026-09-04T18:01:18.492671Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 52, "timestamp": "2026-09-04T18:01:19.617576Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 53, "timestamp": "2026-09-04T18:01:19.626737Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 54, "timestamp": "2026-09-04T18:01:20.554480Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 55, "timestamp": "2026-09-04T18:01:20.563478Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 56, "timestamp": "2026-09-04T18:01:21.589872Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 57, "timestamp": "2026-09-04T18:01:21.596874Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 58, "timestamp": "2026-09-04T18:01:22.619684Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 796434432, "cpu_seconds": 16.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 59, "timestamp": "2026-09-04T18:01:22.626405Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 60, "timestamp": "2026-09-04T18:01:23.651642Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1102163968, "cpu_seconds": 16.671875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 61, "timestamp": "2026-09-04T18:01:23.659764Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 62, "timestamp": "2026-09-04T18:01:24.803048Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1200992256, "cpu_seconds": 17.09375, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 63, "timestamp": "2026-09-04T18:01:24.810056Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 64, "timestamp": "2026-09-04T18:01:25.678931Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201000448, "cpu_seconds": 17.3125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 65, "timestamp": "2026-09-04T18:01:25.685466Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 66, "timestamp": "2026-09-04T18:01:26.705242Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201037312, "cpu_seconds": 17.625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 67, "timestamp": "2026-09-04T18:01:26.713226Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 68, "timestamp": "2026-09-04T18:01:27.737156Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201041408, "cpu_seconds": 17.84375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 69, "timestamp": "2026-09-04T18:01:27.745013Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 70, "timestamp": "2026-09-04T18:01:28.768384Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201049600, "cpu_seconds": 18.140625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 71, "timestamp": "2026-09-04T18:01:28.775936Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 72, "timestamp": "2026-09-04T18:01:29.901012Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201049600, "cpu_seconds": 18.375, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 73, "timestamp": "2026-09-04T18:01:29.908761Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 74, "timestamp": "2026-09-04T18:01:30.824492Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201049600, "cpu_seconds": 18.625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 75, "timestamp": "2026-09-04T18:01:30.830595Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 76, "timestamp": "2026-09-04T18:01:31.850923Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201057792, "cpu_seconds": 18.859375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 77, "timestamp": "2026-09-04T18:01:31.859928Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 78, "timestamp": "2026-09-04T18:01:32.880449Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201057792, "cpu_seconds": 19.109375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 79, "timestamp": "2026-09-04T18:01:32.888779Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 80, "timestamp": "2026-09-04T18:01:33.910227Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201061888, "cpu_seconds": 19.359375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 81, "timestamp": "2026-09-04T18:01:33.917861Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 82, "timestamp": "2026-09-04T18:01:35.033931Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201061888, "cpu_seconds": 19.609375, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 83, "timestamp": "2026-09-04T18:01:35.040938Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 84, "timestamp": "2026-09-04T18:01:35.958857Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201061888, "cpu_seconds": 19.90625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 85, "timestamp": "2026-09-04T18:01:35.967053Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 86, "timestamp": "2026-09-04T18:01:36.985515Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201065984, "cpu_seconds": 20.125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 87, "timestamp": "2026-09-04T18:01:36.992640Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 88, "timestamp": "2026-09-04T18:01:38.012063Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201065984, "cpu_seconds": 20.375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 89, "timestamp": "2026-09-04T18:01:38.019587Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 90, "timestamp": "2026-09-04T18:01:39.042796Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201065984, "cpu_seconds": 20.640625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 91, "timestamp": "2026-09-04T18:01:39.051633Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 92, "timestamp": "2026-09-04T18:01:40.178849Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201070080, "cpu_seconds": 20.796875, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 93, "timestamp": "2026-09-04T18:01:40.186862Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 94, "timestamp": "2026-09-04T18:01:41.108285Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201070080, "cpu_seconds": 20.96875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 95, "timestamp": "2026-09-04T18:01:41.115827Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 96, "timestamp": "2026-09-04T18:01:42.136524Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201074176, "cpu_seconds": 21.171875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 97, "timestamp": "2026-09-04T18:01:42.144655Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 98, "timestamp": "2026-09-04T18:01:43.170866Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201283072, "cpu_seconds": 21.421875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 99, "timestamp": "2026-09-04T18:01:43.178382Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 100, "timestamp": "2026-09-04T18:01:44.203339Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201074176, "cpu_seconds": 21.671875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 101, "timestamp": "2026-09-04T18:01:44.210563Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 102, "timestamp": "2026-09-04T18:01:45.351111Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201078272, "cpu_seconds": 21.921875, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 103, "timestamp": "2026-09-04T18:01:45.358052Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 104, "timestamp": "2026-09-04T18:01:46.276601Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201078272, "cpu_seconds": 22.15625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 105, "timestamp": "2026-09-04T18:01:46.283599Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 106, "timestamp": "2026-09-04T18:01:47.304160Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201078272, "cpu_seconds": 22.46875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 107, "timestamp": "2026-09-04T18:01:47.312103Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 108, "timestamp": "2026-09-04T18:01:48.334201Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201143808, "cpu_seconds": 22.71875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 109, "timestamp": "2026-09-04T18:01:48.340850Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 110, "timestamp": "2026-09-04T18:01:49.369191Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201143808, "cpu_seconds": 23.015625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 111, "timestamp": "2026-09-04T18:01:49.376193Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 112, "timestamp": "2026-09-04T18:01:50.550777Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201143808, "cpu_seconds": 23.21875, "gpu_sampled": true, "gpu_available": true}}
+{"schema_version": "1.0", "sequence": 113, "timestamp": "2026-09-04T18:01:50.559572Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 114, "timestamp": "2026-09-04T18:01:51.430233Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201143808, "cpu_seconds": 23.421875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 115, "timestamp": "2026-09-04T18:01:51.437232Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 116, "timestamp": "2026-09-04T18:01:52.459701Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201143808, "cpu_seconds": 23.671875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 117, "timestamp": "2026-09-04T18:01:52.467701Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 118, "timestamp": "2026-09-04T18:01:53.486179Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 1201143808, "cpu_seconds": 23.953125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 119, "timestamp": "2026-09-04T18:01:53.492705Z", "type": "heartbeat", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 120, "timestamp": "2026-09-04T18:01:53.697182Z", "type": "timeout_detected", "data": {"timeout_seconds": 60}}
+{"schema_version": "1.0", "sequence": 121, "timestamp": "2026-09-04T18:01:53.698748Z", "type": "termination_requested", "data": {"pid": 49444}}
+{"schema_version": "1.0", "sequence": 122, "timestamp": "2026-09-04T18:01:54.456157Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 3621}}
+{"schema_version": "1.0", "sequence": 123, "timestamp": "2026-09-04T18:01:54.458156Z", "type": "stream_chunk", "data": {"stream": "stderr", "characters": 551}}
+{"schema_version": "1.0", "sequence": 124, "timestamp": "2026-09-04T18:01:54.460156Z", "type": "taskkill_finished", "data": {"returncode": 0}}
+{"schema_version": "1.0", "sequence": 125, "timestamp": "2026-09-04T18:01:54.462167Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 3621}}
+{"schema_version": "1.0", "sequence": 126, "timestamp": "2026-09-04T18:01:54.464164Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 551}}
+{"schema_version": "1.0", "sequence": 127, "timestamp": "2026-09-04T18:01:54.634992Z", "type": "completed", "data": {"status": "timed_out", "returncode": 1}}

@@ -202,7 +202,7 @@ def safe_remove_workspace(case_root: Path, work_root: Path) -> None:
             os.chmod(path, stat.S_IWRITE | stat.S_IREAD)
             function(path)
 
-        shutil.rmtree(resolved_case, onexc=remove_readonly)
+        shutil.rmtree(resolved_case, onerror=remove_readonly)
 
 
 def archive_evidence(evidence_dir: Path, archive_dir: Path) -> Dict[str, Any]:
@@ -235,7 +235,7 @@ def safe_remove_showcase(target: Path, showcase_root: Path) -> None:
             os.chmod(path, stat.S_IWRITE | stat.S_IREAD)
             function(path)
 
-        shutil.rmtree(resolved_target, onexc=remove_readonly)
+        shutil.rmtree(resolved_target, onerror=remove_readonly)
 
 
 def tracked_repository_files(repo: Path) -> list[Path]:

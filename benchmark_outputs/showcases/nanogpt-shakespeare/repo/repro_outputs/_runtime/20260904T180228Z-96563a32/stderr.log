@@ -1,0 +1,2 @@
+D:\test_projects\ai-paper-reproduction-skill\tmp\external-benchmark-runs\nanogpt-shakespeare-20260904T180201Z-30204\repo\train.py:196: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=(dtype == 'float16'))

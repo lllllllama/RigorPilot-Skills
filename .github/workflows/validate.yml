@@ -26,6 +26,9 @@ jobs:
       - name: Validate repository and run the full test suite
         run: python scripts/run_all_tests.py
 
+      - name: Verify published showcase files and evidence links
+        run: python scripts/check_publication.py
+
       - name: Test Agent Skills installer
         run: python scripts/install_skills.py --client agents --target ./tmp/agents-skills --force
 

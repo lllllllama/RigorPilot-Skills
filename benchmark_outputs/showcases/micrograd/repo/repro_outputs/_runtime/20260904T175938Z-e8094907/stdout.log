@@ -1,0 +1,9 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.7, pytest-7.4.4, pluggy-1.6.0
+rootdir: D:\test_projects\ai-paper-reproduction-skill\tmp\external-benchmark-runs\micrograd-20260904T175907Z-50148\repo
+plugins: anyio-4.11.0, Faker-40.18.0, cov-7.0.0
+collected 2 items
+
+test\test_engine.py ..                                                   [100%]
+
+============================== 2 passed in 7.62s ==============================
