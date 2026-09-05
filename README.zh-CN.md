@@ -16,7 +16,7 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/regression-56%2F56%20passed-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/regression-59%2F59%20passed-8250df?style=flat-square">
   <img alt="external benchmark" src="https://img.shields.io/badge/external%20protocols-4%2F4%20passed-238636?style=flat-square">
 </p>
 
@@ -99,7 +99,7 @@ RigorPilot 直接读取目标仓库的原始 README，保留其中每一个字�
 
 <sub>卡片内的英语来自外部仓库原始 README 与实际生成的英文证据文件；页面说明统一使用中文。</sub>
 
-**已记录结果：** `56/56` 回归脚本、`4/4` 外部用例协议通过；
+**已记录结果：** `59/59` 回归脚本、`4/4` 外部用例协议通过；
 外部测试套件用时 `251.0 s`，单工作区最高 `98.67 MiB`，`0` 次 API 调用；
 临时工作区全部删除，另保留约 `17.9 MiB` 的四个 tracked 仓库展示快照。
 
@@ -129,6 +129,10 @@ npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 
 <details>
 <summary>其他安装方式、代理命令与运行时控制</summary>
+
+可选模型执行入口：[运行与恢复已审核任务](skills/ai-research-reproduction/references/agent-runner.md)。
+工程测试已覆盖恢复与独立验证；真实模型验收因网关 HTTP 502 暂未完成。
+[P0/P1 实现记录与边界](docs/P0_P1_DELIVERY.md)。
 
 Claude Code 命令：`/ai-research-reproduction`、`/ai-research-explore`、
 `/analyze-project`、`/safe-debug`。

@@ -339,6 +339,13 @@ def classify_block(block: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, 
     user_language = str(context.get("user_language") or "en")
     commands = list(context.get("readme_commands") or [])
     matched = block_commands(block, commands)
+    outcomes = context.get("command_outcomes") or {}
+    observed = [(item["command"], outcomes[item["command"]]) for item in matched if item.get("command") in outcomes]
+    if observed:
+        style = "success" if all(result.get("runtime_status") == "success" and result.get("verified") for _, result in observed) else "partial"
+        return {"style": style, "headline": text(user_language, "Recorded command outcomes", "已记录的命令执行结果"),
+                "lines": [f"`{command}`: `{result.get('runtime_status', 'unknown')}`; verified={result.get('verified', False)}" for command, result in observed],
+                "tier": "execution"}
     selected_section = context.get("documented_command_section")
     selected_command = str(context.get("documented_command") or "")
 

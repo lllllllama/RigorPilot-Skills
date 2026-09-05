@@ -369,6 +369,7 @@ def run_persistent_command(
     retry_of: Optional[str] = None,
     attempt: int = 1,
     monitor_gpu: bool = False,
+    child_env: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
     """Run a command with durable state, append-only events, and streamed logs."""
 
@@ -446,6 +447,7 @@ def run_persistent_command(
         creationflags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
         process = subprocess.Popen(
             argv,
+            env=child_env,
             cwd=repo,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,

@@ -22,6 +22,11 @@
       "sha256": "b78bb786bbc43c12910d3ac389c25cd3bd3bb1ef12fdbda42a85fbac5d7aadf4"
     },
     {
+      "source": "shared/scripts/agent_provider.py",
+      "target": "_bundled/shared/scripts/agent_provider.py",
+      "sha256": "e23c80a7c1c309c6635c2487ac355dd8167559f9e6554c3a07aeadf67f74fd09"
+    },
+    {
       "source": "shared/scripts/command_utils.py",
       "target": "_bundled/shared/scripts/command_utils.py",
       "sha256": "a0bfc2c0826c3096ff50c2006a8466bbd61fd3a29a48843bab8a53d9b1814e52"
@@ -44,7 +49,7 @@
     {
       "source": "shared/scripts/runtime_runner.py",
       "target": "_bundled/shared/scripts/runtime_runner.py",
-      "sha256": "37ef01a1dc15f77e6b88a24b0ee0c8489f7ed539218b83630277b6f7cd700ce6"
+      "sha256": "0ceebae98cad0ea07106040a4e6e7b0a8c6cd94714ff412d1efce9b380018b47"
     },
     {
       "source": "shared/scripts/task_queue.py",

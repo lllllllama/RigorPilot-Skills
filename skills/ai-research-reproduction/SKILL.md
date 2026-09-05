@@ -22,7 +22,7 @@ separately installed companion skills remain optional reusable entrypoints.
 Executed commands persist lifecycle state, append-only events, and full streamed
 stdout/stderr under `repro_outputs/_runtime/<run_id>/`. A `CANCEL` file in the
 active run directory requests process-tree cancellation.
-For recovery, queue scheduling, retry lineage, resources, or model gates, read `references/runtime-and-model-adapter.md`.
+For recovery, queues or model gates, read `references/runtime-and-model-adapter.md`; for the optional model/tool loop, read `references/agent-runner.md` and use `scripts/run_agent.py`.
 
 ## Fit
 

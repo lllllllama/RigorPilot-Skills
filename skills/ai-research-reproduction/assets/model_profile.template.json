@@ -1,0 +1,7 @@
+{
+  "adapter_id": "anthropic-messages",
+  "provider": "anthropic",
+  "model": "YOUR_AVAILABLE_MODEL_ID",
+  "credential_env": "ANTHROPIC_API_KEY",
+  "capabilities": ["tool_calling"]
+}

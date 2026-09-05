@@ -1,0 +1,70 @@
+{
+  "status": "blocked",
+  "model_profile": {
+    "schema_version": "1.0",
+    "status": "configured",
+    "adapter_id": "anthropic-messages",
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "revision": null,
+    "capabilities": [
+      "tool_calling"
+    ],
+    "endpoint": null,
+    "credential_env": "ANTHROPIC_AUTH_TOKEN",
+    "parameters": {},
+    "metadata": {
+      "auth_scheme": "bearer",
+      "endpoint_source": "ANTHROPIC_BASE_URL"
+    },
+    "fingerprint": "b1faa574b75e5c27c388ab330d11e77e3e803bb76cd6c2e61ab18916bbdddc0e"
+  },
+  "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "usage_complete": false,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "verification": {},
+  "elapsed_seconds": 1.9059999999590218,
+  "blocker": "Provider HTTP 502; request not automatically retried",
+  "snapshot": {
+    "schema_version": "1.0",
+    "repository": "https://github.com/karpathy/micrograd.git",
+    "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+    "tracked_files_retained": 13,
+    "original_readme": "README.md",
+    "annotated_readme": "repo/RIGORPILOT_README.md",
+    "original_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+    "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+    "retained_content_bytes": 166918
+  },
+  "task": {
+    "goal": "Read micrograd's README and relevant test code. Plan and run the documented gradient tests, then request independent verification. Do not install dependencies or claim paper scores.",
+    "commands": {
+      "gradient-tests": {
+        "argv": [
+          "python",
+          "-m",
+          "pytest"
+        ],
+        "source": "README.md",
+        "documented_command": "python -m pytest",
+        "timeout_seconds": 30,
+        "expected_stdout": "2 passed"
+      }
+    },
+    "required_commands": [
+      "gradient-tests"
+    ],
+    "budget": {
+      "max_model_calls": 6,
+      "max_tool_calls": 12,
+      "max_total_tokens": 45000,
+      "max_output_tokens": 1000,
+      "max_seconds": 180
+    }
+  },
+  "scope": "Single real-model execution trial with reviewed command set; not a model-quality benchmark or clean dependency install."
+}

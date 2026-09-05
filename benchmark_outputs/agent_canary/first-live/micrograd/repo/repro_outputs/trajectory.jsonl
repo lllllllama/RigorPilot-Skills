@@ -1,0 +1,3 @@
+{"time": "2026-09-05T14:31:22.893356Z", "type": "created", "task_sha256": "905f56d0ce1f499ff979f069151095c491926cf2476d9b719aeabf0c3d82390d"}
+{"time": "2026-09-05T14:31:22.898625Z", "type": "model_request", "call": 1, "reserved_tokens": 4563}
+{"time": "2026-09-05T14:31:25.736363Z", "type": "blocked", "reason": "Provider HTTP 502; request not automatically retried"}

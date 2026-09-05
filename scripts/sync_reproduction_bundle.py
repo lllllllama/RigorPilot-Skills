@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 BUNDLE_FILES = {
+    "shared/scripts/agent_provider.py": "_bundled/shared/scripts/agent_provider.py",
     "shared/scripts/command_utils.py": "_bundled/shared/scripts/command_utils.py",
     "shared/scripts/model_adapter.py": "_bundled/shared/scripts/model_adapter.py",
     "shared/scripts/resource_monitor.py": "_bundled/shared/scripts/resource_monitor.py",

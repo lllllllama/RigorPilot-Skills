@@ -33,6 +33,10 @@ def main() -> int:
     try:
         installed_skill = temp_root / "agent-home" / "skills" / "ai-research-reproduction"
         shutil.copytree(repo_root / "skills" / "ai-research-reproduction", installed_skill)
+        agent_help = subprocess.run([sys.executable, str(installed_skill / "scripts/run_agent.py"), "--help"],
+                                    cwd=temp_root, capture_output=True, text=True)
+        if agent_help.returncode != 0 or "--model-profile" not in agent_help.stdout:
+            raise AssertionError(f"single-skill agent runner imports failed: {agent_help.stderr}")
         bundled_queue = installed_skill / "_bundled" / "shared" / "scripts" / "task_queue.py"
         queue_canary = subprocess.run(
             [sys.executable, str(bundled_queue), "--queue-root", str(temp_root / "queue-canary"), "list"],

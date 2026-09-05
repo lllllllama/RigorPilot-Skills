@@ -23,7 +23,9 @@ def git_bytes(root: Path, *args: str) -> bytes:
 
 def inventory(root: Path) -> dict:
     files = []
-    for path in sorted((root / "benchmark_outputs/showcases").rglob("*")):
+    paths = [path for directory in ["showcases", "agent_canary"]
+             for path in (root / "benchmark_outputs" / directory).rglob("*")]
+    for path in sorted(paths):
         if not path.is_file() or "__pycache__" in path.parts:
             continue
         data = path.read_bytes()

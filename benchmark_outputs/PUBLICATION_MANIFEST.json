@@ -2,6 +2,381 @@
   "schema_version": "1.0",
   "files": [
     {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/agent_state.json",
+      "bytes": 2837,
+      "sha256": "7b7f7de7cfe904d2d24322d918303d087a0ac399d4b0360d0eecc3e8822e9cf0"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5106,
+      "sha256": "3282fa88451489cde55514dc74be32e3123166b6bf4d6b5ed8a6e99fbfa60d0b"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/COMMANDS.md",
+      "bytes": 254,
+      "sha256": "ec8d5b44286961d5727700c679fbfcc7d175bd00b5edaac69555a2b4154952bb"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 965,
+      "sha256": "9ea2a35ccd30d0567af2c0616180d04c6888bc35a31f9de82231869b729090e5"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/LOG.md",
+      "bytes": 880,
+      "sha256": "6207c0b9467f91fec9101d3f0c87b35b86847e52cf0d8ec66a3348451977a561"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 582,
+      "sha256": "ea3586b27cf6b192ae8a39f57f050beebc278a4485caeae2c61f10591cf924ae"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/status.json",
+      "bytes": 2527,
+      "sha256": "d11bae19510edb9875f1dd3d5b72703221864e1b7977a8da5f49edc6d5a1f573"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/SUMMARY.md",
+      "bytes": 551,
+      "sha256": "a4292dceeefc43ec6c84f3838224fc29faf969ec68f819597fef1106aa372dc8"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/repro_outputs/trajectory.jsonl",
+      "bytes": 371,
+      "sha256": "fcc9d58ca173c632b2175a95f2876ed69e3ea82140f2e863250f1a1128ee9d4e"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/RIGORPILOT_README.md",
+      "bytes": 5162,
+      "sha256": "afadb456f4459f10f005cb564f312d9f7b3c760a15b3d5520ed4004674586d08"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/micrograd/SHOWCASE.json",
+      "bytes": 489,
+      "sha256": "75ae3c32c093231b269d2c170597a1d2c19ac9409b84cc7b6876d380a98ce1c8"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/first-live/REPORT.json",
+      "bytes": 2244,
+      "sha256": "29f6efff1b5f8206ef8bab57e3cbe69148dbc0d3b80f931e4878d0d0296a3b56"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/agent_state.json",
+      "bytes": 2957,
+      "sha256": "c45999972f34645c98b2f071e6ccc5fece516463b7612109bbf1cbaedd1dbdf3"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5106,
+      "sha256": "3282fa88451489cde55514dc74be32e3123166b6bf4d6b5ed8a6e99fbfa60d0b"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/COMMANDS.md",
+      "bytes": 254,
+      "sha256": "ec8d5b44286961d5727700c679fbfcc7d175bd00b5edaac69555a2b4154952bb"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 965,
+      "sha256": "6de2c1367965dac4efcc2ba89f48bfc9208c2689864a01de8b5f611f19b482a9"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/LOG.md",
+      "bytes": 880,
+      "sha256": "8ff7dea93c822c9ed4864232bb313ecd12986e053de48a77a7c2d842ff4115a4"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 582,
+      "sha256": "42af49c5a3499aa4bd167950b20535289721f94e63395580eb91c4a88fe8fc29"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/status.json",
+      "bytes": 2527,
+      "sha256": "86af177f7e4d3f3f6610bfe7226be169759a3a1ad3a5669e3404645ad39703ac"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/SUMMARY.md",
+      "bytes": 551,
+      "sha256": "4e27e3570333f28086dae44f0816bcd56869464b4221304eec1cd516df20cf4f"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/repro_outputs/trajectory.jsonl",
+      "bytes": 371,
+      "sha256": "447ab448c0208b2412b8373663dc751dce544f4865288829ecdb028010507de2"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/RIGORPILOT_README.md",
+      "bytes": 5162,
+      "sha256": "afadb456f4459f10f005cb564f312d9f7b3c760a15b3d5520ed4004674586d08"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/micrograd/SHOWCASE.json",
+      "bytes": 489,
+      "sha256": "52af5aa399ad30c4cd5b47b1a67e0db632323e01be45b24fe19f70dfe40a2bf7"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/second-live/REPORT.json",
+      "bytes": 2272,
+      "sha256": "0ee415940f4f32cd4e63111933d0982e9044068c77a7a1797c570c571d8bab71"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/agent_state.json",
+      "bytes": 2959,
+      "sha256": "34357d73a834776f926b58e4f9a88501be476428d4c14cf66676989df5842bfb"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5106,
+      "sha256": "3282fa88451489cde55514dc74be32e3123166b6bf4d6b5ed8a6e99fbfa60d0b"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/COMMANDS.md",
+      "bytes": 254,
+      "sha256": "ec8d5b44286961d5727700c679fbfcc7d175bd00b5edaac69555a2b4154952bb"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 965,
+      "sha256": "e86b860c4bdfb712530cf903549c228811b5d4e44cf4f70d8c1a146aa37ab097"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/LOG.md",
+      "bytes": 880,
+      "sha256": "073b55af3a0ab8c46c49ef4c77c241efa02762f7c2006101eadba6b22311a0c0"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 582,
+      "sha256": "64775f16244ea1f307fef6e3a6e5b213611530941a00a51876ab7b0b71fd3459"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/status.json",
+      "bytes": 2529,
+      "sha256": "32a5dee023ebf727b857ac42bcfa275f94aaf6ccd7e8d17b0d2566d441622964"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/SUMMARY.md",
+      "bytes": 551,
+      "sha256": "be7c03d6f0426b7725b0b669d21f4674c2ab93208153dc445f71b54e94527365"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/repro_outputs/trajectory.jsonl",
+      "bytes": 371,
+      "sha256": "90f57d2a8edd13e49be9e9cdf5db7269eae8010ff2d0fd0646f556312fb20185"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/RIGORPILOT_README.md",
+      "bytes": 5162,
+      "sha256": "afadb456f4459f10f005cb564f312d9f7b3c760a15b3d5520ed4004674586d08"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/micrograd/SHOWCASE.json",
+      "bytes": 489,
+      "sha256": "041abfdacb7ba072835626598a2d32ab5cd0535bb3824b6c7130681bf9ee5330"
+    },
+    {
+      "path": "benchmark_outputs/agent_canary/sonnet-live/REPORT.json",
+      "bytes": 2274,
+      "sha256": "0baf3abdba018235d481e7b2c147c30f9064c19034b8b5ca78b43650625b5c2f"
+    },
+    {
       "path": "benchmark_outputs/showcases/micrograd/repo/.gitignore",
       "bytes": 21,
       "sha256": "a4e97f92728e43e555cf82bb57e201ba5e3a4f1d7c51675d4836230c5ee9e62f"

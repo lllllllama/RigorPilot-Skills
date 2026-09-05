@@ -19,7 +19,7 @@ default; exploration requires explicit authorization.
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/regression-56%2F56%20passed-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/regression-59%2F59%20passed-8250df?style=flat-square">
   <img alt="external benchmark" src="https://img.shields.io/badge/external%20protocols-4%2F4%20passed-238636?style=flat-square">
 </p>
 
@@ -101,7 +101,7 @@ agent stopped before opening the underlying evidence.
   <a href="benchmark_outputs/EXTERNAL_REPRODUCTIONS.md"><b>Browse all four reproductions in one evidence index →</b></a>
 </p>
 
-**Recorded result:** `56/56` regression scripts and `4/4` external protocols
+**Recorded result:** `59/59` regression scripts and `4/4` external protocols
 passed; the external suite took `251.0 s`, used at most `98.67 MiB` per
 workspace, made `0` API calls, removed every temporary workspace, and retained
 about `17.9 MiB` of tracked repository showcase snapshots.
@@ -132,6 +132,10 @@ npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 
 <details>
 <summary>Other install paths, agent commands, and runtime controls</summary>
+
+Optional model/tool loop: [run and resume a reviewed task](skills/ai-research-reproduction/references/agent-runner.md).
+Engineering tests cover recovery and independent verification; live-provider
+acceptance remains blocked by gateway HTTP 502. [P0/P1 evidence and limits](docs/P0_P1_DELIVERY.md).
 
 Claude Code commands: `/ai-research-reproduction`, `/ai-research-explore`,
 `/analyze-project`, `/safe-debug`.

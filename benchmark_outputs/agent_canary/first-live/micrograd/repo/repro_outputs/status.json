@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "generated_at": null,
+  "user_language": "en",
+  "target_repo": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-live-agent-7h_ywx60\\repo",
+  "readme_first": true,
+  "selected_goal": "evaluation",
+  "goal_priority": "evaluation",
+  "status": "blocked",
+  "documented_command_status": "not_run",
+  "documented_command": "",
+  "documented_command_kind": "none",
+  "documented_command_source": "README.md",
+  "documented_command_section": null,
+  "observed_metrics": {},
+  "best_metric": null,
+  "result_match": {
+    "status": "not_evaluated"
+  },
+  "execution_mode": "direct",
+  "runtime": null,
+  "model_adapter": {
+    "schema_version": "1.0",
+    "status": "configured",
+    "adapter_id": "anthropic-messages",
+    "provider": "anthropic",
+    "model": "claude-opus-4-7",
+    "revision": null,
+    "capabilities": [
+      "tool_calling"
+    ],
+    "endpoint": null,
+    "credential_env": "ANTHROPIC_AUTH_TOKEN",
+    "parameters": {},
+    "metadata": {
+      "auth_scheme": "bearer",
+      "endpoint_source": "ANTHROPIC_BASE_URL"
+    },
+    "fingerprint": "446d9ac3525ea759ef1102dd4128f8fecae3696b66f0ccc12b6ae188eccd7725"
+  },
+  "stage_results": [],
+  "patches_applied": false,
+  "patch_branch": null,
+  "readme_fidelity": null,
+  "highest_patch_risk": null,
+  "evidence_level": "mixed",
+  "assumptions": [
+    "Reviewed task commands execute on the local host; P1 is not an OS sandbox."
+  ],
+  "unverified_inferences": [],
+  "protocol_deviations": [],
+  "human_decisions_required": [],
+  "next_safe_action": null,
+  "artifact_provenance": [],
+  "full_training_command": null,
+  "training_duration_hint": null,
+  "verified_commit_count": 0,
+  "readme_section_coverage": {},
+  "outputs": {
+    "summary": "repro_outputs/SUMMARY.md",
+    "commands": "repro_outputs/COMMANDS.md",
+    "log": "repro_outputs/LOG.md",
+    "scientific_changelog": "repro_outputs/SCIENTIFIC_CHANGELOG.md",
+    "comparability_report": "repro_outputs/COMPARABILITY_REPORT.md",
+    "status": "repro_outputs/status.json",
+    "annotated_readme": null,
+    "patches": null
+  },
+  "notes": [
+    "Agent execution verification only; no paper-result match claimed."
+  ],
+  "agent": {
+    "status": "blocked",
+    "model_calls": 1,
+    "tool_calls": 0,
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "task_sha256": "905f56d0ce1f499ff979f069151095c491926cf2476d9b719aeabf0c3d82390d",
+    "verification": {}
+  }
+}

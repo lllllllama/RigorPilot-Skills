@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### P0 / P1 reliability and agent execution
+
+- Fix Python 3.11 benchmark cleanup and Windows Unicode/process-tree test portability.
+- Publish omitted showcase evidence and upstream files; retain exact checkout bytes
+  and verify committed file hashes, README round trips and inserted evidence links in CI.
+- Add an optional Anthropic Messages agent loop with reviewed tool commands,
+  durable plans/messages, bounded usage, recovery and independent finish checks.
+- Add offline transport and agent regressions plus an explicitly bounded live canary.
+  Current live gateway trials returned HTTP 502; live P1 acceptance remains pending.
+
 ### Added (from studying real GitHub projects)
 
 - Extractor robustness proven against real READMEs (dinov2, nanoGPT):

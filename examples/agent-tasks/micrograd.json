@@ -1,0 +1,21 @@
+{
+  "goal": "Read the micrograd README and gradient tests, execute the documented tests and report verifiable results.",
+  "readme": "README.md",
+  "commands": {
+    "gradient-tests": {
+      "argv": ["python", "-m", "pytest"],
+      "documented_command": "python -m pytest",
+      "source": "README.md",
+      "timeout_seconds": 30,
+      "expected_stdout": "2 passed"
+    }
+  },
+  "required_commands": ["gradient-tests"],
+  "budget": {
+    "max_model_calls": 6,
+    "max_tool_calls": 12,
+    "max_total_tokens": 45000,
+    "max_output_tokens": 1000,
+    "max_seconds": 180
+  }
+}
