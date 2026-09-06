@@ -34,7 +34,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
    No API/GPU/downloads; not model-quality evidence.
 3. **Repository protocols:** [Pinned cases](../benchmarks/README.md) distinguish
    selection, execution, partial completion and metric matching.
-4. **Live-model acceptance:** one bounded
+4. **Optional standalone-runner acceptance:** one bounded
    [micrograd canary](../benchmarks/run_agent_canary.py), only with a working
    service and confirmed budget. Preserve actual model/tool traces, usage,
    independent verdict and source hash before expanding the matrix.
@@ -44,7 +44,8 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Priority | Deliverable | Acceptance gate |
 |---|---|---|
 | P0: ongoing | Installation, portability, publication, feedback and security documentation | Installed files work; three-platform CI passes; failures are not reported as success |
-| P1 | One real-model run, with no manually substituted trajectory | Responses, tools, usage and verifier evidence; stop and retain service failures |
+| P1: default skill | Fresh installed-skill use on one commit-pinned public repository | Actual logs, original-file/media integrity, browsable annotations and independent checks; distinguish installation, explicit invocation and client auto-loading |
+| P1: optional standalone runner | One real-model run, with no manually substituted trajectory | Responses, tools, usage and verifier evidence; stop and retain service failures; not a prerequisite for the default skill route |
 | P1: implemented, ongoing regression | Both main runners accept `--source-adjacent-readme` | Nested README/media/evidence links work; original bytes and unrelated files are retained; repeats check ownership |
 | P2 | Frozen tasks, independent graders and same-condition baselines | Separate task completion, false success, incorrect blocking, cost, interventions and evidence integrity |
 | P2 | Optional isolated executor, network/file boundaries and resource limits | Explicit threat model and boundary tests; no sandbox claim when unconfigured |
@@ -53,10 +54,37 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 Defer large training runs, arbitrary source repair, multi-agent orchestration
 and long-term memory infrastructure until demonstrated failures justify them.
 
+## Current delivery plan
+
+Installed explicit-skill use, reporting fixes and independent checks are now
+recorded in the [micrograd acceptance report](FIRST_USE_ACCEPTANCE.md).
+Fresh-client automatic loading and model comparisons remain unverified.
+
+Apply these gates; generated files alone do not establish task completion:
+
+| Order | Scope | Acceptance and stopping condition |
+|---|---|---|
+| 1 | One pinned micrograd checkout and independent installed-skill trial | Agent selects and executes from README without a supplied command; retain failures/interventions; reuse existing dependencies, no large downloads or training |
+| 2 | Report issues observed during first use | Separate actual execution, unexecuted suggestions and observations; no automatic human decision merely for a missing environment file; real dependency/asset failures remain visible |
+| 3 | Independent acceptance and publication | Check actual logs, original-file SHA-256, per-section restoration and local evidence links; full regression and Git publication checks before sync |
+| 4 | Small paired evaluation (next) | Freeze three tasks and two conditions first; inspect graders and per-case differences before repeating or expanding |
+
+Installation, execution with an explicitly named skill/path, and automatic skill
+selection in a fresh client are separate gates. The first two do not establish
+the third without session-loading evidence. Independent agents consume host
+model resources; no separate API call does not mean zero tokens or zero cost.
+Fresh client sessions and standalone calls require an explicit model and budget;
+subscription balances are not available as a stopping signal.
+
 ## Reusable evaluation protocol (planned)
 
-Begin with six tasks and three conditions to audit graders, then expand to
-twelve frozen tasks across 4–6 repositories, with three repeats for key tasks.
+Begin with three tasks and two conditions (six attempts): normal execution,
+missing required assets, and exit-zero/wrong-result. Missing-resource tasks
+should identify the cause and take an authorized safe next step, not reward
+blanket refusal. Label fault injection; single trials do not estimate unseen-task
+success rates. Compare A/B for the default route first; add C after successful
+standalone acceptance. Expand to six tasks and three conditions only when useful,
+then to twelve frozen tasks across 4–6 repositories, with three repeats for key tasks.
 Separate development from holdout data; existing public cases are regressions,
 not unseen tasks.
 

@@ -517,6 +517,556 @@
       "sha256": "065a8eca0e7729be2d26002467b5718bc07f8ae848948eaa76ac9e3fe42395a3"
     },
     {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/artifacts/assets/asset_manifest.json",
+      "bytes": 1943,
+      "sha256": "4d2cc2a5ac16ccfc502b22ee26f814069e529272c11df49792ce810f9451d324"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/BASELINE.json",
+      "bytes": 6900,
+      "sha256": "85723c1945fae501e6d71fda66da1b70d21ca03aa6c1d08dbaa147e774dc08b7"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/CHECK.json",
+      "bytes": 2771,
+      "sha256": "28c1236beef604085a029e864471bf2f9126c3a68bdfa36896babc66bfa73be1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/independent/pytest.xml",
+      "bytes": 367,
+      "sha256": "a7587b29cebc3036e3d0b126f51235bae22b4eb5f2a646e636b417c4bdbb5148"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/independent/RESULT.json",
+      "bytes": 1017,
+      "sha256": "c279e35b894f366f9714b0d57bff2b8ab9cc6932e58b3f83ed23cb9d0eee7b97"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/independent/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/independent/stdout.log",
+      "bytes": 584,
+      "sha256": "f41cdc68604adb17e4dee57df9ddf2332cf5e7c862c586a4650d3915925ab539"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/RECHECK.json",
+      "bytes": 1017,
+      "sha256": "930c56f9fc11021241de1edb37bc2b2c4ac33f32e415d647d6b5f2f42df346b9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/_runtime/20260906T085622Z-09276c45/events.jsonl",
+      "bytes": 2018,
+      "sha256": "fd3aed9151bf57ce27dd2d2f129c84fa4fc2eaf9f05ae5cab3c6eec308791102"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/_runtime/20260906T085622Z-09276c45/resources.jsonl",
+      "bytes": 1242,
+      "sha256": "1f9be441c275338fc8518e3939cc796267d4519711787315133b7b79eb43bc3e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/_runtime/20260906T085622Z-09276c45/spec.json",
+      "bytes": 1165,
+      "sha256": "92123c3b233d1f7d4063014f90d9e6972d762b33c3c6b233df16b0bfe5ab468c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/_runtime/20260906T085622Z-09276c45/state.json",
+      "bytes": 1186,
+      "sha256": "fb90a1e12d0441d575523db96922cacab6ff20a8fc2b6dd947278195578cee55"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/_runtime/20260906T085622Z-09276c45/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/_runtime/20260906T085622Z-09276c45/stdout.log",
+      "bytes": 431,
+      "sha256": "a4e8419473011d6c3d6fb1ddd3cbd519a3e43a1be6e0b87381feac99df529825"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5619,
+      "sha256": "3581a1bb028374dedbe223c3acf944aa45e6f3781aca009b5467f2d8bab2da97"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2471,
+      "sha256": "b05c70f29e53e0ecc69c8ee849bfee38077af0bf4a8e3d3646096c444b8e7228"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1154,
+      "sha256": "dae2d1a9f946deff5a86ed1613e2c946717e96efad094cd3e77583ccb4d60484"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/LOG.md",
+      "bytes": 4464,
+      "sha256": "01dcb8d0ef2a04ca8890569ab7dd93b1027296b8c1d207ea73306dc548176fb9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/readme_delivery.json",
+      "bytes": 392,
+      "sha256": "f693ef3f03d5322d592e7ca1d882c5185a71d03394930c9cba909252ccaba893"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1426,
+      "sha256": "fb75175529e06226ec18fba84ef6a708706f0a40008988c252b1aeca7aaf7551"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/status.json",
+      "bytes": 8545,
+      "sha256": "f9af827773a6adfe2c89dd95fe82f3e419434129aeb9196fb723cf7f5f1b553a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/repro_outputs/SUMMARY.md",
+      "bytes": 559,
+      "sha256": "3137324617c3908195cf8b493df1a9ae6ace67a94a617e9e4b67c9458fe164ab"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/RIGORPILOT_README.md",
+      "bytes": 5787,
+      "sha256": "ae6833bf03a73e8fea7390748f66d154f8455539f8381cad13004881bc50ac66"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/SETUP.json",
+      "bytes": 6263,
+      "sha256": "b8d116b80097126184af1ce5bdd8f3b6f66003044196e46cd188faff1b195f05"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/SHOWCASE.json",
+      "bytes": 489,
+      "sha256": "0fcf53bb8756d5f2a5bc19b1790ef4ba6c168e4530ae508c223995a062c5ac07"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-after/TRIAL.json",
+      "bytes": 1443,
+      "sha256": "da357d45d5ac469dfdd7df1a7d158a5154c0b882d16dfbf631cb94b30d271d3c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/artifacts/assets/asset_manifest.json",
+      "bytes": 1847,
+      "sha256": "f53a885e78ae52ae7e5ae67e6fb5249fda8131e3312d1a71a6686edfed3f387a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/BASELINE.json",
+      "bytes": 6855,
+      "sha256": "505214c3a7fa273cbea489cd9cd4d52207455a45de376e5bcdaa2258f374b45f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/CHECK.json",
+      "bytes": 2711,
+      "sha256": "7ad283cadb0d6b7866287ee91dd147b8994ca087faa62433b7c026605713806a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/FORWARD_REVIEW.md",
+      "bytes": 11581,
+      "sha256": "c5f1f6e8735e7e3555f4922bd2d5f9fa31176b3645f9da3fb2b5021f150417e8"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/_runtime/20260906T084802Z-decf5099/events.jsonl",
+      "bytes": 2395,
+      "sha256": "516991611860f4b3cd9578d788afc4110c96cbf429543d4abb891013670917a9"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/_runtime/20260906T084802Z-decf5099/resources.jsonl",
+      "bytes": 1671,
+      "sha256": "3efa7abd62c4799cbce8e2006fd58bea052065b972847c36c5acc7f7e853c21d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/_runtime/20260906T084802Z-decf5099/spec.json",
+      "bytes": 1141,
+      "sha256": "c48df1511afb8761d99c92e73c7b0d83d1551e3c406c54435a461855ea8080b7"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/_runtime/20260906T084802Z-decf5099/state.json",
+      "bytes": 1191,
+      "sha256": "b26968b5eaeb79eb3a0788878a3dac6c7e71349bdf76bcc837c138c08bb45e63"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/_runtime/20260906T084802Z-decf5099/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/_runtime/20260906T084802Z-decf5099/stdout.log",
+      "bytes": 419,
+      "sha256": "f7dc140cafd33260e99b293ad09e0693635c2b902d19601dea43f9af89f3f74b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5619,
+      "sha256": "3581a1bb028374dedbe223c3acf944aa45e6f3781aca009b5467f2d8bab2da97"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2314,
+      "sha256": "f1f2a8de4ae2a36fc869214892f6ee944613a2bb228151472c0c3006b382e77a"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1142,
+      "sha256": "2193298f27b447773f0a989dab34822bebb1f6b86e65c5f5e44440dfbe78553d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/FORWARD_NOTES.md",
+      "bytes": 1363,
+      "sha256": "b1af12a3bb4054b35e60f5ecb62bc940454c44e27aa75a5c229725c1518d4901"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/LOG.md",
+      "bytes": 4374,
+      "sha256": "52b79d33fbe3e53435f8f29f74c223dc6277c6b206f7830147749629434e5852"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/readme_delivery.json",
+      "bytes": 368,
+      "sha256": "52cec02c04b1978e9deaea5f1147740e55d7810060823fc7f6fc9c02cc6895b6"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1402,
+      "sha256": "9ed07b209fa77146616bd47d3e3d2e2d982eec8d853f6a69fcf04c61ccdd02d4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/status.json",
+      "bytes": 8202,
+      "sha256": "9b0444f2821fbef38c060cd1b696bb526553578d15cff7d3e8845d80f80098e2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/repro_outputs/SUMMARY.md",
+      "bytes": 547,
+      "sha256": "ae4f628be4a688452af0b3ddeb18c7512334ba1cfaaff506179b6abb0154558d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/RIGORPILOT_README.md",
+      "bytes": 5787,
+      "sha256": "ae6833bf03a73e8fea7390748f66d154f8455539f8381cad13004881bc50ac66"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/SETUP.json",
+      "bytes": 6563,
+      "sha256": "d3666da241e75f3a0e2e8ded9930101c16881f9ecab776be63632f671a10eeb2"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/SHOWCASE.json",
+      "bytes": 489,
+      "sha256": "b82d19ba0bcc0034aac1696f045336aca0379298f1cc708c0c4d61ac9689ebaf"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-before/TRIAL.json",
+      "bytes": 1447,
+      "sha256": "5ca531ad619256620326b6a31dfeb1e487871d9ffeacb13edc85e41da991b6e4"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/artifacts/assets/asset_manifest.json",
+      "bytes": 1895,
+      "sha256": "f59b5360e0dcbf134cb81b0a3c0f5781404eb292f6741666d455c2c84769cccb"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/BASELINE.json",
+      "bytes": 6894,
+      "sha256": "c54d2cda5b2fd85689a3d2189dbbc59072fd2194219ae323bcdcc44dc3a419c0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/CHECK.json",
+      "bytes": 2478,
+      "sha256": "3a652ec3b8664119ca8290121cb483a6140218e64965f4b64996e0f9d36076fd"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/RECHECK.json",
+      "bytes": 612,
+      "sha256": "6c64eac2d66d216f153285ce94247e2a28db44cdf5fb05a95d9437fb8a73a766"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/_runtime/20260906T085408Z-0e53ec0f/events.jsonl",
+      "bytes": 1175,
+      "sha256": "481809aab8fba393904a771ed5c98ff28f11e7cf908c62e847a634b7fa4cee9b"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/_runtime/20260906T085408Z-0e53ec0f/resources.jsonl",
+      "bytes": 414,
+      "sha256": "322a159bdcb01e34197477bb7b9e4a706b346e9a974de9f874e715e926e0e952"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/_runtime/20260906T085408Z-0e53ec0f/spec.json",
+      "bytes": 1065,
+      "sha256": "89ee1b1eb38f45491ed07feaa22e711ed6769addecc03e4c8a2d66cb8c0c29d3"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/_runtime/20260906T085408Z-0e53ec0f/state.json",
+      "bytes": 1185,
+      "sha256": "4da2ed0f8a474ebb36503159deaabd43fc7406d21dc1508877b19c3c2593a853"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/_runtime/20260906T085408Z-0e53ec0f/stderr.log",
+      "bytes": 55,
+      "sha256": "adefeea72e82df522bcf28fae15c584ed8b761fbdb8826df3598efb02c41e6b1"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/_runtime/20260906T085408Z-0e53ec0f/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5680,
+      "sha256": "2c5d9ef8010c1c89ba8940435de068c06a1928a4b8f7b8ff4edaf0c60e0f05ea"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2457,
+      "sha256": "316776686a3da72c35ebe96800a5cfe54691dc44789d91ea20c89ed8db789e7c"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1148,
+      "sha256": "de566a90add285722ab616a938c2b9af742b45cc7c61456535a81b51410b05dc"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/LOG.md",
+      "bytes": 4525,
+      "sha256": "01188e8de7f4fbc443e893da0718d59eccb160c4cf5b93a658279e94426ab109"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/readme_delivery.json",
+      "bytes": 380,
+      "sha256": "3d104e357bad43edd9494c1ba3beafcf5e4e9b39d3cf2ef55537508e0b0eeef5"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1414,
+      "sha256": "1ba867dd4a1ae430f43cb3a97edd8416454bc28a4ffabae202f88beb61057374"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/status.json",
+      "bytes": 8162,
+      "sha256": "5b88c53514d927cb768ecb8b54abe7c8be263fe0fcbea85cef47adb655d49b39"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/repro_outputs/SUMMARY.md",
+      "bytes": 619,
+      "sha256": "370251e2c9bde15c86901e009fadd83e349cb2d1912878083641cbd2e9a5ff78"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/RIGORPILOT_README.md",
+      "bytes": 5848,
+      "sha256": "e2e2a4ce70ff61e6a58481a6edea8f8f7439b7996c21f188c81fde18291b8b75"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/SETUP.json",
+      "bytes": 6163,
+      "sha256": "8bf22b45657dce8ee1f97ea597539b490a893becda900a65efda0781816f1706"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/SHOWCASE.json",
+      "bytes": 489,
+      "sha256": "28650e4f18c2393012c5005d6f225f6eed4db62d4228077c98fa29af802d3353"
+    },
+    {
+      "path": "benchmark_outputs/showcases/micrograd-first-use-failed/TRIAL.json",
+      "bytes": 1444,
+      "sha256": "2ce66d8e1c29887aa0dbb8472f9f3a3bd55cf9e6ec777057304455e69374089e"
+    },
+    {
       "path": "benchmark_outputs/showcases/mingpt/repo/.gitignore",
       "bytes": 59,
       "sha256": "ed52d461a246355350f23b4e0f32b07a3641ebfcf475a8c9af09dba670313b9b"

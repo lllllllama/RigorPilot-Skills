@@ -1,0 +1,11 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-06T08:56:22.346338Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-06T08:56:22.547595Z", "type": "started", "data": {"pid": 45988, "argv": ["D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-after-retry-20260906\\.venv\\Scripts\\python.EXE", "-m", "pytest"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-06T08:56:22.549556Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 2813952, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-06T08:56:23.561099Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 4382720, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-06T08:56:23.562096Z", "type": "heartbeat", "data": {"pid": 45988}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-06T08:56:24.574109Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 4382720, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-06T08:56:24.575121Z", "type": "heartbeat", "data": {"pid": 45988}}
+{"schema_version": "1.0", "sequence": 8, "timestamp": "2026-09-06T08:56:24.943200Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 431}}
+{"schema_version": "1.0", "sequence": 9, "timestamp": "2026-09-06T08:56:24.943766Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 0}}
+{"schema_version": "1.0", "sequence": 10, "timestamp": "2026-09-06T08:56:24.944772Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 431}}
+{"schema_version": "1.0", "sequence": 11, "timestamp": "2026-09-06T08:56:24.982798Z", "type": "completed", "data": {"status": "success", "returncode": 0}}

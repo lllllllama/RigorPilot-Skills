@@ -1,0 +1,28 @@
+{
+  "kind": "parent-replay-environment-error",
+  "product_base_commit": "caa9ac65a86e4b1cd38e144d121d0a726b7b69a7",
+  "product_working_tree": true,
+  "source_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "grader_sha256": "96b6eb0491b281e83ee82f358dc24a2a7b965bd1b7ad0ab06013731be7563066",
+  "grader": "benchmarks/check_first_use.py",
+  "grader_returncode": 1,
+  "status": "partial",
+  "runtime_status": "failed",
+  "runtime_seconds": 0.078,
+  "runtime_log": "repo/repro_outputs/_runtime/20260906T085408Z-0e53ec0f/stdout.log",
+  "raw_paths": "Original execution paths retained in raw evidence; use local snapshot links for browsing, not stale ownership receipts for resuming.",
+  "independent_model_trace": "Unavailable: explicit skill trial ran in a host subagent; no standalone provider trajectory or token accounting.",
+  "published_files_bytes": 200217,
+  "local_workspace_bytes": 8576699,
+  "snapshot": {
+    "schema_version": "1.0",
+    "repository": "https://github.com/karpathy/micrograd.git",
+    "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+    "tracked_files_retained": 13,
+    "original_readme": "README.md",
+    "annotated_readme": "repo/RIGORPILOT_README.md",
+    "original_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+    "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+    "retained_content_bytes": 181686
+  }
+}

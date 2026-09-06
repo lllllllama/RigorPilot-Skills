@@ -134,20 +134,26 @@ def write_bundle(script: Path, output_dir: Path, context: Dict[str, Any]) -> Non
             context_path.unlink()
 
 
-def build_asset_commands(asset_data: Dict[str, Any]) -> List[Dict[str, str]]:
+def build_asset_commands(asset_data: Dict[str, Any], user_language: str = "en") -> List[Dict[str, str]]:
+    """Report observations, not mandatory preparation invented from directory names."""
     commands: List[Dict[str, str]] = []
     for item in asset_data.get("manifest", []):
         group = item.get("asset_group", "asset")
-        target = item.get("target_path", "")
         if item.get("status") == "present":
-            commands.append({"label": "inferred", "command": f"# Found existing {group} asset path at {item.get('source_hint')}."})
-        else:
-            commands.append({"label": "inferred", "command": f"# Prepare {group} assets under {target} before the documented run."})
+            commands.append({"label": "inferred", "execution_status": "not_run", "command": text(
+                user_language,
+                f"# Observed {group} path: {item.get('source_hint')}; contents and applicability are unverified.",
+                f"# 已发现 {group} 路径：{item.get('source_hint')}；内容及是否适用于当前目标尚未验证。",
+            )})
 
-    for hint in asset_data.get("text_hints", [])[:3]:
+    for hint in asset_data.get("text_hints", []):
         descriptor = hint.get("paths") or hint.get("urls") or hint.get("line", "")
         source = Path(hint.get("source", "README.md")).name
-        commands.append({"label": "documented", "command": f"# Asset hint from {source}: {descriptor}"})
+        commands.append({"label": "documented", "execution_status": "not_run", "command": text(
+            user_language,
+            f"# Asset hint from {source}: {descriptor}; confirm relevance to the selected command before preparation.",
+            f"# 来自 {source} 的资源线索：{descriptor}；准备前先确认是否与选定命令相关。",
+        )})
     return commands
 
 
@@ -724,6 +730,11 @@ def build_context(
     skill_chain = plan_skill_chain(chosen["selected_goal"], include_analysis_pass, include_paper_gap)
     execution_skill = "run-train" if chosen["selected_goal"] == "training" else "minimal-run-and-audit"
     status = run_data["status"] if run_selected else "not_run"
+    metric_acceptance_failed = (
+        run_selected
+        and run_data.get("runtime_status") == "success"
+        and run_data.get("result_match", {}).get("status") == "mismatched"
+    )
     documented_status = (
         run_data["documented_command_status"]
         if run_selected
@@ -731,8 +742,10 @@ def build_context(
     )
 
     structure = scan_data.get("structure", {})
-    setup_commands = setup_plan.get("setup_commands", [])
-    asset_commands = build_asset_commands(asset_data)
+    # Intake plans are not execution evidence, even when their provenance is documented.
+    setup_commands = [dict(item, execution_status="not_run") for item in setup_plan.get("setup_commands", [])]
+    asset_commands = build_asset_commands(asset_data, user_language)
+    setup_advisories = list(setup_plan.get("unresolved_setup_risks", []))
     dataset_hint = run_data.get("dataset") or derive_dataset_hint(asset_data)
     checkpoint_hint = run_data.get("checkpoint_source") or derive_checkpoint_hint(asset_data)
     training_duration_hint = (
@@ -783,6 +796,12 @@ def build_context(
     if run_selected:
         if status == "success":
             result_summary = text(user_language, "Selected documented command finished successfully.", "选定的文档命令已成功完成。")
+        elif metric_acceptance_failed:
+            result_summary = text(
+                user_language,
+                "The documented command completed, but explicit metric acceptance failed; this is not a successful reproduction result.",
+                "文档命令已完成，但显式指标验收未通过；本次结果不能视为复现成功。",
+            )
         elif status == "partial":
             result_summary = (
                 text(
@@ -831,24 +850,45 @@ def build_context(
         command_notes.append(source_note)
     command_notes.append(f"Planned skill chain: {', '.join(skill_chain)}")
 
-    if setup_plan.get("unresolved_setup_risks"):
-        human_decisions_required.extend(setup_plan["unresolved_setup_risks"])
+    # Setup discovery gaps are advisory until a selected action actually needs them.
+    # Preserve every gap separately; an observed execution failure still requires review below.
     if chosen.get("requires_substitution"):
-        human_decisions_required.append(
-            "Substitute the placeholder values (<...>) in the selected documented command before execution."
-        )
+        human_decisions_required.append(text(user_language,
+            "Substitute the placeholder values (<...>) in the selected documented command before execution.",
+            "执行前请将选定文档命令中的占位符（<...>）替换为真实值。"))
     if not chosen["documented_command"]:
-        human_decisions_required.append("Select or confirm a documented runnable command before treating this as a reproduction run.")
+        human_decisions_required.append(text(user_language,
+            "Select or confirm a documented runnable command before treating this as a reproduction run.",
+            "先选择或确认可运行的文档命令，才能将本次操作视为复现执行。"))
     if chosen["selected_goal"] == "training" and lane == "trusted" and not full_training_authorized:
-        human_decisions_required.append("Review the startup verification evidence and confirm whether to continue with a fuller training reproduction run.")
-    if run_selected and status in {"partial", "blocked"}:
-        human_decisions_required.append("Review the blocker before adapting commands, dependencies, or protocol-sensitive settings.")
+        human_decisions_required.append(text(user_language,
+            "Review the startup verification evidence and confirm whether to continue with a fuller training reproduction run.",
+            "检查启动验证证据，并确认是否继续更完整的训练复现。"))
+    if metric_acceptance_failed:
+        human_decisions_required.append(text(user_language,
+            "Review missing or out-of-tolerance metrics against the recorded expectations and experiment protocol before accepting the result or changing the command.",
+            "接受结果或调整命令前，请按已记录的期望值和实验协议检查缺失或超出容差的指标。"))
+    elif run_selected and status in {"partial", "blocked"}:
+        human_decisions_required.append(text(user_language,
+            "Review the blocker before adapting commands, dependencies, or protocol-sensitive settings.",
+            "调整命令、依赖或影响实验协议的设置前，请先检查阻塞原因。"))
     if include_paper_gap:
-        human_decisions_required.append(
-            "Provide a narrow paper question and an authoritative paper source before running paper-context-resolver."
-        )
+        human_decisions_required.append(text(user_language,
+            "Provide a narrow paper question and an authoritative paper source before running paper-context-resolver.",
+            "运行 paper-context-resolver 前，请提供具体的论文问题与权威论文来源。"))
 
-    if chosen["selected_goal"] == "training":
+    if metric_acceptance_failed:
+        next_action = text(
+            user_language,
+            "Inspect `status.json.result_match` and the raw logs, then check metric names, data, preprocessing, checkpoints, and evaluation conditions. Do not widen tolerances or change expected values merely to obtain a pass.",
+            "检查 `status.json.result_match` 和原始日志，再核对指标名称、数据、预处理、权重与评测条件。不要仅为通过验收而放宽容差或更改期望值。",
+        )
+        next_safe_action = text(
+            user_language,
+            "Preserve the failed acceptance evidence and review the mismatch before any retry or protocol change; command completion alone does not satisfy the expected result.",
+            "保留验收失败证据，在重试或修改实验协议前检查不匹配原因；命令完成本身不代表已达到期望结果。",
+        )
+    elif chosen["selected_goal"] == "training":
         if lane == "trusted" and not full_training_authorized:
             next_action = text(
                 user_language,
@@ -882,7 +922,12 @@ def build_context(
             else "Review generated outputs and confirm that the next documented verification step preserves experiment meaning."
         )
 
-    run_commands = ([{"label": "documented", "command": chosen["documented_command"]}] if chosen["documented_command"] else [])
+    run_execution_status = run_data.get("runtime_status") or "not_run"
+    run_commands = ([{
+        "label": "documented", "command": chosen["documented_command"],
+        "execution_status": run_execution_status,
+        "execution_evidence": run_data.get("runtime_state_path"),
+    }] if chosen["documented_command"] else [])
     verification_commands = (
         [{"label": "inferred", "command": "python - <<'PY'\nimport pathlib\nprint(pathlib.Path('train_outputs/status.json').exists())\nPY"}]
         if chosen["selected_goal"] == "training"
@@ -895,6 +940,12 @@ def build_context(
             f"No separate verification command was executed. Built-in metric comparison: `{comparison_status}`; inspect `status.json.result_match` for expected values and tolerance.",
             f"未执行单独的验证命令。内置指标比较状态为 `{comparison_status}`；期望值与容差见 `status.json.result_match`。",
         ))
+    for item in verification_commands:
+        item["execution_status"] = "not_run"
+    command_reporting = {
+        "setup": "not_run", "assets": "not_run",
+        "main_run": run_execution_status, "verification": "not_run",
+    }
 
     evidence = [
         text(
@@ -971,6 +1022,8 @@ def build_context(
         "run_commands": run_commands,
         "verification_commands": verification_commands,
         "command_notes": command_notes,
+        "command_reporting": command_reporting,
+        "setup_advisories": setup_advisories,
         "timeline": timeline,
         "assumptions": assumptions,
         "unverified_inferences": unverified_inferences,
@@ -1253,6 +1306,20 @@ def main() -> int:
         expected_metrics,
         args.metric_absolute_tolerance,
     )
+    if (
+        args.run_selected
+        and run_data.get("runtime_status") == "success"
+        and run_data.get("status") in {"success", "partial"}
+        and run_data["result_match"]["status"] == "mismatched"
+    ):
+        # Keep command/runtime success as process evidence, but never let exit 0
+        # override an explicitly failed result criterion in the overall outcome.
+        run_data["status"] = "partial"
+        run_data["main_blocker"] = text(
+            args.user_language,
+            "Explicit metric acceptance failed: at least one expected metric is missing or outside the configured absolute tolerance. Inspect `status.json.result_match` for per-metric evidence.",
+            "显式指标验收未通过：至少一个期望指标缺失或超出设定的绝对容差。逐项证据见 `status.json.result_match`。",
+        )
 
     execution_stage = "run-train" if chosen["selected_goal"] == "training" else "minimal-run-and-audit"
     stage_results.append(

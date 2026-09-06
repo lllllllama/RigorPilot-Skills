@@ -22,6 +22,37 @@ The machine-readable report is written to
 GPU. This is a harness regression smoke test, not evidence of broad paper
 reproduction capability.
 
+## Installed-skill first-use check
+
+Inspect the [recorded micrograd trial](../docs/FIRST_USE_ACCEPTANCE.md): one
+independent explicit-skill use, a retained failed parent replay, and a corrected
+replay. This is not a model A/B benchmark or fresh-client auto-loading test.
+
+For a new local experiment with a pre-run baseline and source-adjacent output:
+
+```bash
+python benchmarks/check_first_use.py --baseline trial/BASELINE.json --repo trial/repo --output-dir trial/repro_outputs --expected-stdout "2 passed" --report trial/CHECK.json
+```
+
+Capture the baseline **before** execution: its non-empty `originals` object maps
+every original repo-relative file path (including media) to its SHA-256. An
+example is the recorded trial's [baseline](../benchmark_outputs/showcases/micrograd-first-use-before/BASELINE.json).
+The baseline is trusted input, not an agent-produced success claim. The grader
+does not prove that the baseline is complete or authentic.
+
+The checker reads raw runtime state/events/logs, independently scans annotation
+bytes and insertion offsets, and checks local evidence links. `--report` must
+be a new file outside both the target and evidence directories. Exit 0 means
+these checks passed; exit 1 means a failed check. Omitting `--expected-stdout`
+makes no task-completion claim. Use a task-specific condition; `2 passed` is
+for this micrograd case, not a universal grader. README quality is scored
+separately from the task log condition.
+
+It does not run the target, verify scientific metrics or implement an OS
+security boundary. Recorded paths must refer to the active local experiment;
+for relocated public snapshots use `python scripts/check_publication.py`
+instead. Calibration tests: `python scripts/test_first_use_verifier.py`.
+
 ## Persistent queue smoke
 
 Run the deterministic local scheduler check:

@@ -16,7 +16,7 @@ RigorPilot 不重写原始 README，只在各章节插入执行结果与证据�
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills 开放标准" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="支持平台" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-61%2F61%20passed-8250df?style=flat-square">
+  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-63%2F63%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="历史外部协议验证" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -83,6 +83,8 @@ RigorPilot 直接切分原文件，每个章节插入一条带证据链接的批
 用时 `251.0 s`，工作区峰值 `98.67 MiB`，模型 API 调用 `0` 次。
 零 API 仅指这次确定性套件；仅选择目标和部分训练，不代表完成评测、
 训练收敛或复现论文分数。
+
+新增：[安装后 micrograd 真实试用](docs/FIRST_USE_ACCEPTANCE.zh-CN.md)——保留修改前后命令报告、失败尝试与独立验收，不把它当作模型能力对照。
 
 <a id="quick-start"></a>
 

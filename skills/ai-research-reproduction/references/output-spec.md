@@ -41,6 +41,10 @@ Requirements:
 - commands must be copyable
 - separate setup, assets, run, and verification steps
 - label each command as documented, adapted, or inferred
+- separate provenance from execution: a documented suggestion is not an executed command
+- mark unexecuted setup suggestions and asset observations explicitly; missing conventional
+  directories alone do not establish missing required assets
+- attach runtime status and evidence to actual command attempts
 - avoid dumping noise from the shell history
 
 ## `LOG.md`
@@ -90,6 +94,8 @@ Suggested top-level keys:
 - `unverified_inferences`
 - `protocol_deviations`
 - `human_decisions_required`
+- `setup_advisories`
+- `command_reporting`
 - `next_safe_action`
 - `artifact_provenance`
 - `verified_commit_count`
@@ -119,6 +125,12 @@ Field intent:
   - meaningful differences from README, paper, or documented setup
 - `human_decisions_required`
   - decisions that should not be taken implicitly by the agent
+  - do not include generic missing setup metadata unless a selected action requires a decision
+- `setup_advisories`
+  - preserved setup-planner observations, not automatic blockers or proof of missing dependencies
+- `command_reporting`
+  - records setup, assets, main-run and separate verification-command execution status
+  - `not_run` means no recorded execution; actual runtime status is not scientific acceptance
 - `next_safe_action`
   - the lowest-risk next step a researcher can review or run
 - `artifact_provenance`
@@ -129,6 +141,10 @@ Field intent:
 - `result_match`
   - an independent comparison object with `status` set to `matched`, `mismatched`, or `not_evaluated`
   - `matched` requires explicit expected metrics and a recorded tolerance; observed metrics alone remain `not_evaluated`
+  - after successful execution, missing or out-of-tolerance expected metrics make the
+    overall outcome `partial`; runtime and documented-command success still describe
+    process completion, not acceptance. The CLI exit code reports evidence generation;
+    automation must inspect the persisted outcome and configured acceptance checks
 - `runtime`
   - identifies the durable `_runtime/<run_id>/` directory, terminal state, event stream, full stdout/stderr logs, truncation flags, cancellation state, and duration
   - summary fields may contain only a bounded log tail; the referenced log files remain complete

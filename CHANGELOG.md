@@ -4,6 +4,14 @@
 
 ### First-use output and acceptance
 
+- Separate unexecuted setup suggestions, asset observations and actual command
+  evidence; missing conventional directories no longer invent required setup.
+  Preserve setup discovery gaps as advisories rather than automatic human decisions.
+  Real dependency/asset failures remain visible with logs and review checkpoints.
+- Correct overall acceptance for explicit missing/out-of-tolerance metrics:
+  successful process execution remains recorded, but the reproduction outcome
+  becomes `partial`, with a warning and a concrete review step. Unconfigured
+  metric checks and the evidence-writing CLI exit-code contract are unchanged.
 - Preserve normal controller pauses as incomplete/resumable work, not failures;
   separate controller status, task outcome and final acceptance in agent evidence.
 - Add optional reviewed artifact and JSON-metric checks to the model runner,

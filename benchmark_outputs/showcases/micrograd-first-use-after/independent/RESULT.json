@@ -1,0 +1,36 @@
+{
+  "argv": [
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-after-retry-20260906\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "--junitxml",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-after-retry-20260906\\independent\\pytest.xml"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 2.485,
+  "scope": "Independent upstream pytest rerun with added JUnit reporting, unchanged tests and scientific code",
+  "suite": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "2",
+    "time": "1.893",
+    "timestamp": "2026-09-06T16:56:25.406410",
+    "hostname": "rck"
+  },
+  "test_cases": [
+    {
+      "classname": "test.test_engine",
+      "name": "test_sanity_check",
+      "time": "0.026"
+    },
+    {
+      "classname": "test.test_engine",
+      "name": "test_more_ops",
+      "time": "0.001"
+    }
+  ],
+  "accepted": true,
+  "source_unchanged": true
+}

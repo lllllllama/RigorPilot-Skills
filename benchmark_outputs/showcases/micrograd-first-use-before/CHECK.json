@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "grader": "first-use-log-and-readme-fidelity",
+  "inputs": {
+    "baseline": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\BASELINE.json",
+    "repo": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\repo",
+    "output_dir": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\repro_outputs"
+  },
+  "limits": [
+    "Requires a trusted pre-run baseline; does not authenticate its provenance or completeness.",
+    "Independent marker scanner and ATX parser; not a full Markdown/browser or fragment-anchor validator.",
+    "Runtime/log consistency is not proof against coordinated forgery or malicious OS/filesystem changes.",
+    "Explicit stdout containment is a task-specific log condition, not independent scientific metric verification.",
+    "No model capability, automatic skill discovery, installation or clean dependency-environment claim."
+  ],
+  "checks": {
+    "original_files": {
+      "ok": true,
+      "details": {
+        "files_checked": 13,
+        "baseline_sha256": "505214c3a7fa273cbea489cd9cd4d52207455a45de376e5bcdaa2258f374b45f"
+      }
+    },
+    "status_file": {
+      "ok": true,
+      "details": {
+        "sha256": "9b0444f2821fbef38c060cd1b696bb526553578d15cff7d3e8845d80f80098e2"
+      }
+    },
+    "readme_fidelity_and_links": {
+      "ok": true,
+      "details": {
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\repro_outputs\\ANNOTATED_README.md": {
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "sections": 8,
+          "inserted_links_checked": 12
+        },
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\repo\\RIGORPILOT_README.md": {
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "sections": 8,
+          "inserted_links_checked": 12
+        }
+      }
+    },
+    "runtime_and_stdout": {
+      "ok": true,
+      "details": {
+        "run_id": "20260906T084802Z-decf5099",
+        "command": "python -m pytest",
+        "returncode": 0,
+        "stdout_sha256": "f7dc140cafd33260e99b293ad09e0693635c2b902d19601dea43f9af89f3f74b",
+        "stdout_bytes": 419,
+        "expected_stdout": "2 passed",
+        "stdout_condition": "passed"
+      }
+    }
+  },
+  "ok": true,
+  "task_log_condition": "passed"
+}

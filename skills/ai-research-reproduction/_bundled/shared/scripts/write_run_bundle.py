@@ -52,6 +52,10 @@ def command_block(items: Iterable[Any]) -> str:
     for item in values:
         if isinstance(item, dict):
             rendered.append(f"# [{item.get('label', 'inferred')}]")
+            if item.get("execution_status"):
+                rendered.append(f"# execution_status: {item['execution_status']}")
+            if item.get("execution_evidence"):
+                rendered.append(f"# execution_evidence: {item['execution_evidence']}")
             platforms = item.get("platforms")
             if platforms:
                 rendered.append(f"# platforms: {', '.join(str(platform) for platform in platforms)}")
@@ -137,34 +141,80 @@ def write_repro_summary(output_dir: Path, context: Dict[str, Any]) -> None:
 
 
 def write_repro_commands(output_dir: Path, context: Dict[str, Any]) -> None:
+    def text(en: str, zh: str) -> str:
+        return zh if context.get("user_language", "en").lower().startswith("zh") else en
+
+    reporting = context.get("command_reporting", {})
+    setup_note = text(
+        "These are setup suggestions, not executed steps. Confirm their relevance to the selected target before using them; isolation and installation are not automatically required.",
+        "以下是环境准备建议，未执行。使用前请确认其是否适用于选定目标；不代表必须新建环境或安装依赖。",
+    ) if reporting.get("setup") == "not_run" else text(
+        "Setup execution is not recorded here unless an entry has explicit execution evidence.",
+        "除非条目明确提供执行证据，否则此处不确认环境准备已执行。",
+    )
+    asset_note = text(
+        "Observations only; no asset preparation was executed. Missing conventional directories do not establish missing required assets. Full inventory: artifacts/assets/asset_manifest.json.",
+        "以下仅为观察记录，未执行资源准备。缺少常见目录不等于缺少必需资源。完整清单见 artifacts/assets/asset_manifest.json。",
+    ) if reporting.get("assets") == "not_run" else text(
+        "Asset preparation is not confirmed without execution evidence.",
+        "没有执行证据时，不确认资源准备已完成。",
+    )
     lines = [
-        "# Commands",
+        text("# Commands", "# 命令记录"),
         "",
-        "## Setup",
+        text(
+            "`documented`, `adapted`, and `inferred` describe provenance, not execution. `not_run` means not executed; runtime status and evidence record actual attempts, not scientific result acceptance.",
+            "`documented`、`adapted` 和 `inferred` 表示来源，不表示已经执行。`not_run` 表示未执行；运行状态和证据记录实际尝试，不等同于科研结果验收通过。",
+        ),
+        "",
+        text("## Setup suggestions", "## 环境准备建议"),
+        "",
+        setup_note,
         "",
         "```bash",
         command_block(context.get("setup_commands", [])),
         "```",
         "",
-        "## Assets",
+        text("## Asset observations", "## 资源观察"),
+        "",
+        asset_note,
         "",
         "```bash",
         command_block(context.get("asset_commands", [])),
         "```",
         "",
-        "## Main run",
+        text("## Main run", "## 主命令"),
+        "",
+        text(
+            f"Recorded execution status: `{reporting.get('main_run', 'not_recorded')}`. Inspect the linked runtime state and logs for the outcome.",
+            f"记录的执行状态：`{reporting.get('main_run', 'not_recorded')}`。具体结果请检查对应的运行状态文件与日志。",
+        ),
         "",
         "```bash",
         command_block(context.get("run_commands", [])),
         "```",
         "",
-        "## Verification",
+        text("## Verification", "## 验证"),
+        "",
+        text(
+            f"Separate verification-command execution: `{reporting.get('verification', 'not_recorded')}`. Built-in result comparison is reported separately in the notes and status.json.",
+            f"单独验证命令的执行状态：`{reporting.get('verification', 'not_recorded')}`。内置结果比较另见备注和 status.json。",
+        ),
         "",
         "```bash",
         command_block(context.get("verification_commands", [])),
         "```",
         "",
-        "## Notes",
+        text("## Setup advisories (not automatically blocking)", "## 环境提示（不自动构成阻塞）"),
+        "",
+        text(
+            "Preserved setup-planner observations. Review before changing the environment; these are not proof that the selected command cannot run.",
+            "保留环境规划器的原始观察。修改环境前应检查这些提示；它们不证明选定命令无法运行。",
+        ),
+        "",
+        bullets(context.get("setup_advisories", [])),
+        "",
+        text("## Notes", "## 备注"),
         "",
         bullets(context.get("command_notes", [])),
         "",
@@ -289,6 +339,8 @@ def write_repro_status(output_dir: Path, context: Dict[str, Any]) -> None:
         "unverified_inferences": context.get("unverified_inferences", []),
         "protocol_deviations": context.get("protocol_deviations", []),
         "human_decisions_required": context.get("human_decisions_required", []),
+        "setup_advisories": context.get("setup_advisories", []),
+        "command_reporting": context.get("command_reporting", {}),
         "next_safe_action": context.get("next_safe_action"),
         "artifact_provenance": context.get("artifact_provenance", []),
         "full_training_command": context.get("full_training_command"),

@@ -1,0 +1,43 @@
+{
+  "repo_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\repo",
+  "assets_root": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\artifacts\\assets",
+  "manifest": [
+    {
+      "asset_group": "datasets",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\artifacts\\assets\\datasets",
+      "status": "missing"
+    },
+    {
+      "asset_group": "data",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\artifacts\\assets\\data",
+      "status": "missing"
+    },
+    {
+      "asset_group": "checkpoints",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\artifacts\\assets\\checkpoints",
+      "status": "missing"
+    },
+    {
+      "asset_group": "weights",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\artifacts\\assets\\weights",
+      "status": "missing"
+    },
+    {
+      "asset_group": "cache",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\artifacts\\assets\\cache",
+      "status": "missing"
+    },
+    {
+      "asset_group": ".cache",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\artifacts\\assets\\.cache",
+      "status": "missing"
+    }
+  ],
+  "text_hints": []
+}

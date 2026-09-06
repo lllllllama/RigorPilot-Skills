@@ -1,0 +1,7 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-06T08:54:08.641735Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-06T08:54:08.665116Z", "type": "started", "data": {"pid": 41660, "argv": ["D:\\msys2\\ucrt64\\bin\\python.EXE", "-m", "pytest"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-06T08:54:08.667117Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 2703360, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-06T08:54:08.689041Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 0}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-06T08:54:08.690042Z", "type": "stream_chunk", "data": {"stream": "stderr", "characters": 55}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-06T08:54:08.690042Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 55}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-06T08:54:08.721855Z", "type": "completed", "data": {"status": "failed", "returncode": 1}}

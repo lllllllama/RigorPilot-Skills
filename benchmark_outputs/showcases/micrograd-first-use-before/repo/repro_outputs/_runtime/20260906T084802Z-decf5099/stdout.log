@@ -1,0 +1,8 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.7, pytest-7.4.4, pluggy-1.6.0
+rootdir: D:\test_projects\ai-paper-reproduction-skill\repro_outputs\public-first-use-20260906\repo
+collected 2 items
+
+test\test_engine.py ..                                                   [100%]
+
+============================== 2 passed in 2.29s ==============================

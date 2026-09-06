@@ -187,7 +187,7 @@ def main() -> int:
                 "metric_mismatch",
                 "python evaluate.py",
                 {"evaluate.py": "print('accuracy=0.875')\n"},
-                "success",
+                "partial",
                 "mismatched",
                 ["--expected-metric", "accuracy=0.90", "--metric-absolute-tolerance", "0.01"],
             ),

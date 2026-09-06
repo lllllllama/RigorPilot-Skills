@@ -1,0 +1,13 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-06T08:48:02.586931Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-06T08:48:02.863974Z", "type": "started", "data": {"pid": 30132, "argv": ["D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-20260906\\.venv\\Scripts\\python.EXE", "-m", "pytest"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-06T08:48:02.870436Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 3244032, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-06T08:48:03.885418Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 4362240, "cpu_seconds": 0.015625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-06T08:48:03.888040Z", "type": "heartbeat", "data": {"pid": 30132}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-06T08:48:04.898871Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 4362240, "cpu_seconds": 0.015625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-06T08:48:04.901066Z", "type": "heartbeat", "data": {"pid": 30132}}
+{"schema_version": "1.0", "sequence": 8, "timestamp": "2026-09-06T08:48:05.918368Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 4362240, "cpu_seconds": 0.015625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 9, "timestamp": "2026-09-06T08:48:05.922369Z", "type": "heartbeat", "data": {"pid": 30132}}
+{"schema_version": "1.0", "sequence": 10, "timestamp": "2026-09-06T08:48:06.023302Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 419}}
+{"schema_version": "1.0", "sequence": 11, "timestamp": "2026-09-06T08:48:06.024342Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 0}}
+{"schema_version": "1.0", "sequence": 12, "timestamp": "2026-09-06T08:48:06.025347Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 419}}
+{"schema_version": "1.0", "sequence": 13, "timestamp": "2026-09-06T08:48:06.030406Z", "type": "completed", "data": {"status": "success", "returncode": 0}}

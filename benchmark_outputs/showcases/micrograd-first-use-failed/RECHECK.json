@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\public-first-use-after-20260906\\.venv\\Scripts\\python.exe",
+    ".agents/skills/ai-research-reproduction/scripts/orchestrate_repro.py",
+    "--repo",
+    "repo",
+    "--output-dir",
+    "repro_outputs",
+    "--user-language",
+    "zh-CN",
+    "--run-selected",
+    "--source-adjacent-readme",
+    "--timeout",
+    "60",
+    "--no-gpu-monitor"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.844,
+  "execution": "Deterministic replay of the first independent agent's selected task; not a second model trial"
+}
