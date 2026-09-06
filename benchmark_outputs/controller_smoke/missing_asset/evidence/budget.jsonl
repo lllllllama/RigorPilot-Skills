@@ -1,0 +1,20 @@
+{"at": 1788692926.320369, "limits": {"max_model_calls": 8, "max_seconds": 45, "max_tool_calls": 12, "max_total_tokens": 100000}, "sequence": 0, "type": "created"}
+{"at": 1788692926.3373034, "input_reservation": 3154, "max_output_tokens": 100, "request_id": "request-0001", "sequence": 1, "type": "reserved"}
+{"at": 1788692926.3493168, "request_id": "request-0001", "sequence": 2, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.3589485, "sequence": 3, "type": "tool"}
+{"at": 1788692926.3761046, "input_reservation": 4539, "max_output_tokens": 100, "request_id": "request-0002", "sequence": 4, "type": "reserved"}
+{"at": 1788692926.3841047, "request_id": "request-0002", "sequence": 5, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.392058, "sequence": 6, "type": "tool"}
+{"at": 1788692926.4756854, "input_reservation": 5824, "max_output_tokens": 100, "request_id": "request-0003", "sequence": 7, "type": "reserved"}
+{"at": 1788692926.4824522, "request_id": "request-0003", "sequence": 8, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.4893403, "sequence": 9, "type": "tool"}
+{"at": 1788692926.5572042, "input_reservation": 6341, "max_output_tokens": 100, "request_id": "request-0004", "sequence": 10, "type": "reserved"}
+{"at": 1788692926.56327, "request_id": "request-0004", "sequence": 11, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.5705872, "sequence": 12, "type": "tool"}
+{"at": 1788692926.6472156, "input_reservation": 6808, "max_output_tokens": 100, "request_id": "request-0005", "sequence": 13, "type": "reserved"}
+{"at": 1788692926.6634758, "request_id": "request-0005", "sequence": 14, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.6704748, "sequence": 15, "type": "tool"}
+{"at": 1788692926.6829805, "input_reservation": 7436, "max_output_tokens": 100, "request_id": "request-0006", "sequence": 16, "type": "reserved"}
+{"at": 1788692926.6975026, "request_id": "request-0006", "sequence": 17, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.7035034, "sequence": 18, "type": "tool"}
+{"at": 1788692926.7292418, "reason": "trial_finished", "sequence": 19, "type": "stopped"}

@@ -10,6 +10,7 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -239,7 +240,10 @@ def preflight(campaign: Path, configuration: Path | None = None) -> dict:
             "model_calls": 0}
 
 
-def execute_step(step: dict, repo: Path, attempt: Path, python: str) -> dict:
+def execute_step(step: dict, repo: Path, attempt: Path, python: str, *, timeout_seconds: float = 45) -> dict:
+    if (isinstance(timeout_seconds, bool) or not isinstance(timeout_seconds, (int, float))
+            or not math.isfinite(timeout_seconds) or not 0 < timeout_seconds <= 45):
+        raise ValueError("command timeout must be positive and at most 45 seconds")
     argv = [python if item == "python" else item.replace("{attempt}", str(attempt)) for item in step["argv"]]
     # Reviewed local fixture commands only. No shell, provider transport or dependency installation.
     environment = {key: value for key, value in os.environ.items()
@@ -249,7 +253,7 @@ def execute_step(step: dict, repo: Path, attempt: Path, python: str) -> dict:
                        PATH=str(Path(python).parent) + os.pathsep + environment.get("PATH", ""), RIGORPILOT_LESSONS="0")
     start = time.monotonic()
     try:
-        process = subprocess.run(argv, cwd=repo, env=environment, capture_output=True, timeout=45)
+        process = subprocess.run(argv, cwd=repo, env=environment, capture_output=True, timeout=timeout_seconds)
         returncode, stdout, stderr = process.returncode, process.stdout, process.stderr
         outcome = "completed"
     except subprocess.TimeoutExpired as error:
@@ -263,7 +267,8 @@ def execute_step(step: dict, repo: Path, attempt: Path, python: str) -> dict:
     record = {"step_id": step["id"], "argv": argv, "cwd": str(repo), "returncode": returncode,
               "stdout": stdout.decode("utf-8", errors="replace"), "stderr": stderr.decode("utf-8", errors="replace"),
               "outcome": outcome, "elapsed_seconds": round(time.monotonic() - start, 6),
-              "stdout_sha256": sha(stdout), "stderr_sha256": sha(stderr), "source": step["source"]}
+              "stdout_sha256": sha(stdout), "stderr_sha256": sha(stderr), "source": step["source"],
+              "timeout_seconds": timeout_seconds}
     write_new(log_dir / "receipt.json", record)
     return record
 

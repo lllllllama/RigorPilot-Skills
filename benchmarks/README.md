@@ -1,5 +1,20 @@
 # Harness Smoke Benchmarks
 
+## Neutral controller acceptance
+
+Exercise real local failure/preparation/evaluation through a restricted tool
+broker, with explicitly scripted transport responses and usage:
+
+```bash
+python benchmarks/run_controller_smoke.py --output repro_outputs/controller-check
+```
+
+No model API, downloads or new dependencies. The [controller guide and actual
+logs](../docs/CONTROLLED_TRIALS.md) ([简体中文](../docs/CONTROLLED_TRIALS.zh-CN.md))
+cover unknown-usage stops, denied paths and retained failed attempts. This core
+does not execute bundled skill helpers or provide an OS sandbox; it is not
+the six live model trials below.
+
 ## Small paired-evaluation kit
 
 Prepare three frozen tasks and six unrun A/B slots, then calibrate the independent

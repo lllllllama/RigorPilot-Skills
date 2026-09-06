@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+### Neutral controlled-trial foundation
+
+- Add a neutral injected-transport loop, reviewed-command broker and append-only
+  per-trial budget ledger. Separate reservations from actual transport invocations;
+  retain unknown usage and prevent automatic pending-request replay.
+- Settle usage before tools, reject model identity/content/call-ID drift, and
+  recheck elapsed time after journal writes before model and tool dispatch.
+  Propagate remaining command timeouts without changing the 45-second default.
+- Keep trace failures sticky: a missing tool-result or final record prevents
+  acceptance, while retaining the independent grade and settled usage.
+- Publish four real-process offline controller checks, including a retained
+  missing-asset failure. Scripted responses are not live model evidence. The new
+  core has no live API CLI, campaign spending limit or OS sandbox; skill files
+  are read-only, so it does not establish full bundled-skill execution capability.
+
 ### Paired evaluation foundation
 
 - Freeze three development tasks and six A/B slots, including original source,

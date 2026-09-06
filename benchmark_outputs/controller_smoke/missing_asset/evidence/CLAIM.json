@@ -1,0 +1,7 @@
+{
+  "observed_metrics": {
+    "mse": 0.0
+  },
+  "outcome": "matched",
+  "reason": "Explicitly scripted controller acceptance; not a model decision."
+}

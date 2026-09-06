@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "D:\\msys2\\ucrt64\\bin\\python.exe",
+    "evaluate.py"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\controller_smoke\\wrong_metric\\repo",
+  "elapsed_seconds": 0.063,
+  "outcome": "completed",
+  "returncode": 0,
+  "source": "README.md#evaluation",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "mse=1.0\r\n",
+  "stdout_sha256": "4cdb002876b35fa4a38008a45216bd8bc0d349c384e97af3750e9ba500349acf",
+  "step_id": "evaluate",
+  "timeout_seconds": 44.925955295562744
+}

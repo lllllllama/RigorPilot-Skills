@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\test_projects\ai-paper-reproduction-skill\benchmark_outputs\controller_smoke\missing_asset\repo\evaluate.py", line 11, in <module>
+    with dataset.open(encoding="utf-8", newline="") as stream:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\msys2\ucrt64\lib\python3.12\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\controller_smoke\\missing_asset\\repo\\data\\samples.csv'

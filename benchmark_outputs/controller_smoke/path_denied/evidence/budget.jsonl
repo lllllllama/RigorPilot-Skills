@@ -1,0 +1,8 @@
+{"at": 1788692927.0369163, "limits": {"max_model_calls": 8, "max_seconds": 45, "max_tool_calls": 12, "max_total_tokens": 100000}, "sequence": 0, "type": "created"}
+{"at": 1788692927.053448, "input_reservation": 3140, "max_output_tokens": 100, "request_id": "request-0001", "sequence": 1, "type": "reserved"}
+{"at": 1788692927.0659633, "request_id": "request-0001", "sequence": 2, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692927.0774841, "sequence": 3, "type": "tool"}
+{"at": 1788692927.0902047, "input_reservation": 3447, "max_output_tokens": 100, "request_id": "request-0002", "sequence": 4, "type": "reserved"}
+{"at": 1788692927.103209, "request_id": "request-0002", "sequence": 5, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692927.1119468, "sequence": 6, "type": "tool"}
+{"at": 1788692927.1285985, "reason": "trial_finished", "sequence": 7, "type": "stopped"}

@@ -1,0 +1,60 @@
+{
+  "accepted": false,
+  "boundary": "Single-trial operator ledger; no campaign cap, provider spending guarantee or OS sandbox.",
+  "budget": {
+    "budget_compliant": true,
+    "elapsed_seconds": 0.09168219566345215,
+    "enforcement": "reservation_plus_post_response_stop",
+    "known_tokens": 60,
+    "limits": {
+      "max_model_calls": 8,
+      "max_seconds": 45,
+      "max_tool_calls": 12,
+      "max_total_tokens": 100000
+    },
+    "model_calls": 2,
+    "pending": {},
+    "reason": "trial_finished",
+    "remaining_seconds": 44.90831780433655,
+    "reserved_tokens": 0,
+    "scope": "single_trial",
+    "status": "stopped",
+    "tokens_used": 60,
+    "tool_calls": 2,
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 40,
+      "output_tokens": 20
+    },
+    "usage_complete": true,
+    "usage_unknown": false
+  },
+  "cost": null,
+  "dispatch_reservations": 2,
+  "elapsed_seconds": 0.094,
+  "execution_mode": "offline_simulation",
+  "fixture_reported_tokens": 60,
+  "grade": {
+    "artifact_valid": false,
+    "correct_handling": false,
+    "errors": [
+      "execution: Missing operator-verified execution records",
+      "artifact: Missing or oversized file: results/predictions.json",
+      "claim: Expected mismatched handling, received blocked"
+    ],
+    "execution_verified": false,
+    "false_success": false,
+    "incorrect_blocking": true,
+    "observed_metrics": {},
+    "result_matched": false,
+    "source_integrity": true
+  },
+  "live_model_calls": 0,
+  "model_calls": 2,
+  "reason": "claim_graded",
+  "simulated_model_calls": 2,
+  "status": "completed",
+  "tokens_used": null,
+  "trace_complete": true
+}

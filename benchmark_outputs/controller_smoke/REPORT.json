@@ -1,0 +1,48 @@
+{
+  "boundaries": [
+    "No live adapter/CLI, campaign-wide spending control, OS sandbox or provider cancellation guarantee.",
+    "Original task source bytes remain unchanged; failed commands and unknown reservations are retained.",
+    "The six earlier paired model slots remain unrun; this is a separate controller check."
+  ],
+  "checks_passed": 4,
+  "cost": null,
+  "live_model_calls": 0,
+  "mode": "offline_controller_acceptance",
+  "paired_effect": null,
+  "rows": [
+    {
+      "command_attempts": 3,
+      "expected_boundary_observed": true,
+      "failed_commands": 1,
+      "result": "missing_asset/RESULT.json",
+      "scenario": "missing_asset",
+      "trace": "missing_asset/evidence/trace.jsonl"
+    },
+    {
+      "command_attempts": 1,
+      "expected_boundary_observed": true,
+      "failed_commands": 0,
+      "result": "wrong_metric/RESULT.json",
+      "scenario": "wrong_metric",
+      "trace": "wrong_metric/evidence/trace.jsonl"
+    },
+    {
+      "command_attempts": 0,
+      "expected_boundary_observed": true,
+      "failed_commands": 0,
+      "result": "unknown_usage/RESULT.json",
+      "scenario": "unknown_usage",
+      "trace": "unknown_usage/evidence/trace.jsonl"
+    },
+    {
+      "command_attempts": 0,
+      "expected_boundary_observed": true,
+      "failed_commands": 0,
+      "result": "path_denied/RESULT.json",
+      "scenario": "path_denied",
+      "trace": "path_denied/evidence/trace.jsonl"
+    }
+  ],
+  "scope": "Scripted transport and usage, real standard-library commands; not measured agent decisions or a model A/B result.",
+  "tokens_used": null
+}

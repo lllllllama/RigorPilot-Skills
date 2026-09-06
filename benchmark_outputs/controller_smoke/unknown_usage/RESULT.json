@@ -1,0 +1,52 @@
+{
+  "accepted": false,
+  "boundary": "Single-trial operator ledger; no campaign cap, provider spending guarantee or OS sandbox.",
+  "budget": {
+    "budget_compliant": null,
+    "elapsed_seconds": 0.029749631881713867,
+    "enforcement": "reservation_plus_post_response_stop",
+    "known_tokens": 0,
+    "limits": {
+      "max_model_calls": 8,
+      "max_seconds": 45,
+      "max_tool_calls": 12,
+      "max_total_tokens": 100000
+    },
+    "model_calls": 1,
+    "pending": {
+      "request-0001": {
+        "input_reservation": 3140,
+        "max_output_tokens": 100,
+        "reserved_tokens": 3240
+      }
+    },
+    "reason": "provider usage is missing, malformed, or has unsupported fields",
+    "remaining_seconds": 44.970250368118286,
+    "reserved_tokens": 3240,
+    "scope": "single_trial",
+    "status": "stopped",
+    "tokens_used": null,
+    "tool_calls": 0,
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "usage_complete": false,
+    "usage_unknown": true
+  },
+  "cost": null,
+  "dispatch_reservations": 1,
+  "elapsed_seconds": 0.032,
+  "execution_mode": "offline_simulation",
+  "fixture_reported_tokens": null,
+  "grade": null,
+  "live_model_calls": 0,
+  "model_calls": 1,
+  "reason": "provider usage is missing, malformed, or has unsupported fields",
+  "simulated_model_calls": 1,
+  "status": "stopped",
+  "tokens_used": null,
+  "trace_complete": true
+}

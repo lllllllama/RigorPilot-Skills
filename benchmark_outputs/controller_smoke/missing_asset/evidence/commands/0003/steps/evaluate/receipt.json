@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "D:\\msys2\\ucrt64\\bin\\python.exe",
+    "evaluate.py"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\controller_smoke\\missing_asset\\repo",
+  "elapsed_seconds": 0.063,
+  "outcome": "completed",
+  "returncode": 0,
+  "source": "README.md#evaluation",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "mse=0.0\r\n",
+  "stdout_sha256": "2dccca42d33cf1b2450bcc2056a9cf2b14405514cd320918158e855563b30283",
+  "step_id": "evaluate",
+  "timeout_seconds": 44.74324893951416
+}

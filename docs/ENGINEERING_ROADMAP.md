@@ -24,6 +24,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Models | Anthropic Messages tools, validated parameters and usage accounting | Three real attempts returned 502; no successful live acceptance. Other profile metadata does not imply transport support |
 | External evidence | Four historical, commit-pinned protocols with retained source files/media | Includes selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
 | Paired pilot preparation | Three frozen tasks, six A/B slots, independent graders and real local calibration | All six model slots remain unrun; no generic live executor or enforced model budget in this kit |
+| Neutral trial core | Restricted tools, independent grading, durable per-trial reservations and post-response stops; real offline controller checks | Injected transport interface only; no live API CLI, campaign spending ledger, bundled-helper execution or OS sandbox |
 
 ## Acceptance layers
 
@@ -60,6 +61,12 @@ and long-term memory infrastructure until demonstrated failures justify them.
 Installed explicit-skill use, reporting fixes and independent checks are now
 recorded in the [micrograd acceptance report](FIRST_USE_ACCEPTANCE.md).
 Fresh-client automatic loading and model comparisons remain unverified.
+
+The [neutral controller core](CONTROLLED_TRIALS.md) now exercises tool and budget
+boundaries without new model calls. Its skill namespace is read-only, so future
+trials using it require a new constrained-tool protocol, not silently relabeling
+the earlier full skill-package schedule. The next live gate still requires an
+explicit model/budget, audited transport, campaign accounting and execution isolation.
 
 Apply these gates; generated files alone do not establish task completion:
 

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "D:\\msys2\\ucrt64\\bin\\python.exe",
+    "prepare_data.py"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\controller_smoke\\missing_asset\\repo",
+  "elapsed_seconds": 0.047,
+  "outcome": "completed",
+  "returncode": 0,
+  "source": "README.md#data",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "Prepared data/samples.csv from fixed local values\r\n",
+  "stdout_sha256": "1bf01f6441eb3d0c4bcad353f37175d27695501cd217617cceec48d551653e7c",
+  "step_id": "prepare-data",
+  "timeout_seconds": 44.82459545135498
+}

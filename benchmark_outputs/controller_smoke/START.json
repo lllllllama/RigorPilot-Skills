@@ -1,0 +1,29 @@
+{
+  "created_at": "2026-09-06T11:08:46.305363+00:00",
+  "identity": {
+    "model": "no-model-simulation",
+    "provider": "scripted-fixture",
+    "revision": "fixture-v1"
+  },
+  "implementation_sha256": {
+    "benchmarks/paired_eval.py": "7a03b6a1ea440fc905fe6f12deaf7cf87ce6e0473f08df29a5e451893ee3713e",
+    "benchmarks/paired_tasks.py": "c73b677592891a228b9e8cb4bca68ecd1ac3bf9850390f4db403a35bda64fcbb",
+    "benchmarks/run_controller_smoke.py": "8eaebe475660d3b1aa178ca7c67cdab5687b45c7d936959135175745287e962b",
+    "benchmarks/trial_broker.py": "2e880e4c8e2b6500382d01ac15e0111237dc99b16a0fb467375524e371216c03",
+    "benchmarks/trial_budget.py": "c7922ddf5d93e16b1b9091c8f33022e9cbf6fd247966d3075813f09b459bf066",
+    "benchmarks/trial_controller.py": "35a87abff27ce37e52c067c9ef2b08a30df953ff618f81449288fa8559897102"
+  },
+  "limits": {
+    "max_model_calls": 8,
+    "max_seconds": 45,
+    "max_tool_calls": 12,
+    "max_total_tokens": 100000
+  },
+  "mode": "offline_simulation",
+  "scenarios": [
+    "missing_asset",
+    "wrong_metric",
+    "unknown_usage",
+    "path_denied"
+  ]
+}

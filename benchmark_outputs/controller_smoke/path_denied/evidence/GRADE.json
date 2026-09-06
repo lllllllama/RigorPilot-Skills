@@ -1,0 +1,15 @@
+{
+  "artifact_valid": false,
+  "correct_handling": false,
+  "errors": [
+    "execution: Missing operator-verified execution records",
+    "artifact: Missing or oversized file: results/predictions.json",
+    "claim: Expected mismatched handling, received blocked"
+  ],
+  "execution_verified": false,
+  "false_success": false,
+  "incorrect_blocking": true,
+  "observed_metrics": {},
+  "result_matched": false,
+  "source_integrity": true
+}

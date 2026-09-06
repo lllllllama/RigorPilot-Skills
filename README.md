@@ -16,7 +16,7 @@ Trusted reproduction is the default; candidate exploration requires explicit aut
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-65%2F65%20passed-8250df?style=flat-square">
+  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-68%2F68%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="historical external protocols" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -203,13 +203,16 @@ Run the repository regression suite:
 python scripts/run_all_tests.py
 ```
 
-Latest local record (2026-09-06): **65/65 scripts passed in 119.9 s**.
+Latest local record (2026-09-06): **68/68 scripts passed in 141.5 s**.
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 
 For model comparisons, the [small paired-evaluation kit](docs/PAIRED_PILOT.md)
 provides frozen tasks and actual grader-calibration logs. The six planned model
 trials remain unrun; calibration is not evidence of skill uplift.
+
+[Controlled-trial checks](docs/CONTROLLED_TRIALS.md) add real failure/recovery
+logs, restricted tools and unknown-usage stops, with scripted model responses.
 
 ## Engineering and contributions
 

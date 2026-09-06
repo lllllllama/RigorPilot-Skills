@@ -1,0 +1,58 @@
+{
+  "accepted": true,
+  "boundary": "Single-trial operator ledger; no campaign cap, provider spending guarantee or OS sandbox.",
+  "budget": {
+    "budget_compliant": true,
+    "elapsed_seconds": 0.4088728427886963,
+    "enforcement": "reservation_plus_post_response_stop",
+    "known_tokens": 180,
+    "limits": {
+      "max_model_calls": 8,
+      "max_seconds": 45,
+      "max_tool_calls": 12,
+      "max_total_tokens": 100000
+    },
+    "model_calls": 6,
+    "pending": {},
+    "reason": "trial_finished",
+    "remaining_seconds": 44.591127157211304,
+    "reserved_tokens": 0,
+    "scope": "single_trial",
+    "status": "stopped",
+    "tokens_used": 180,
+    "tool_calls": 6,
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 120,
+      "output_tokens": 60
+    },
+    "usage_complete": true,
+    "usage_unknown": false
+  },
+  "cost": null,
+  "dispatch_reservations": 6,
+  "elapsed_seconds": 0.406,
+  "execution_mode": "offline_simulation",
+  "fixture_reported_tokens": 180,
+  "grade": {
+    "artifact_valid": true,
+    "correct_handling": true,
+    "errors": [],
+    "execution_verified": true,
+    "false_success": false,
+    "incorrect_blocking": false,
+    "observed_metrics": {
+      "mse": 0.0
+    },
+    "result_matched": true,
+    "source_integrity": true
+  },
+  "live_model_calls": 0,
+  "model_calls": 6,
+  "reason": "claim_graded",
+  "simulated_model_calls": 6,
+  "status": "completed",
+  "tokens_used": null,
+  "trace_complete": true
+}

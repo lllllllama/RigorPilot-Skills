@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "D:\\msys2\\ucrt64\\bin\\python.exe",
+    "evaluate.py"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\controller_smoke\\missing_asset\\repo",
+  "elapsed_seconds": 0.063,
+  "outcome": "completed",
+  "returncode": 1,
+  "source": "README.md#evaluation",
+  "stderr": "Traceback (most recent call last):\r\n  File \"D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\controller_smoke\\missing_asset\\repo\\evaluate.py\", line 11, in <module>\r\n    with dataset.open(encoding=\"utf-8\", newline=\"\") as stream:\r\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\msys2\\ucrt64\\lib\\python3.12\\pathlib.py\", line 1013, in open\r\n    return io.open(self, mode, buffering, encoding, errors, newline)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nFileNotFoundError: [Errno 2] No such file or directory: 'D:\\\\test_projects\\\\ai-paper-reproduction-skill\\\\benchmark_outputs\\\\controller_smoke\\\\missing_asset\\\\repo\\\\data\\\\samples.csv'\r\n",
+  "stderr_sha256": "6778f852d3b882d0919596c577310a997bfbdfcc3d9f5635a6c468229ec01e19",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "step_id": "evaluate",
+  "timeout_seconds": 44.92231869697571
+}

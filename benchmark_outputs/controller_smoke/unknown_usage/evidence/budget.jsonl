@@ -1,0 +1,3 @@
+{"at": 1788692926.9780097, "limits": {"max_model_calls": 8, "max_seconds": 45, "max_tool_calls": 12, "max_total_tokens": 100000}, "sequence": 0, "type": "created"}
+{"at": 1788692926.9890118, "input_reservation": 3140, "max_output_tokens": 100, "request_id": "request-0001", "sequence": 1, "type": "reserved"}
+{"at": 1788692927.0077593, "reason": "provider usage is missing, malformed, or has unsupported fields", "sequence": 2, "type": "unknown"}

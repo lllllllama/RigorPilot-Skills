@@ -132,3 +132,7 @@ python benchmarks/paired_eval.py preflight --campaign repro_outputs/paired-pilot
 **一次限额试跑 → 六个对照试验 → 重复有价值的对照**推进，保留失败、人工介入、
 完整轨迹、用量和未知值。另设保留测试集后，再讨论一般化能力。
 当前校准工具没有提供这些真实模型试验结果。
+
+现已提供[中立控制器基础](CONTROLLED_TRIALS.zh-CN.md)进行离线验收。它只开放
+技能文本，不执行随包脚本；真实使用前需另行冻结受限工具对照协议，不会执行或
+改写本评测的六个模型试验。

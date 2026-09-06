@@ -1,0 +1,14 @@
+{"at": 1788692926.7522862, "limits": {"max_model_calls": 8, "max_seconds": 45, "max_tool_calls": 12, "max_total_tokens": 100000}, "sequence": 0, "type": "created"}
+{"at": 1788692926.7668037, "input_reservation": 3140, "max_output_tokens": 100, "request_id": "request-0001", "sequence": 1, "type": "reserved"}
+{"at": 1788692926.7768114, "request_id": "request-0001", "sequence": 2, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.7873461, "sequence": 3, "type": "tool"}
+{"at": 1788692926.8059015, "input_reservation": 4457, "max_output_tokens": 100, "request_id": "request-0002", "sequence": 4, "type": "reserved"}
+{"at": 1788692926.8123794, "request_id": "request-0002", "sequence": 5, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.819815, "sequence": 6, "type": "tool"}
+{"at": 1788692926.8899972, "input_reservation": 4924, "max_output_tokens": 100, "request_id": "request-0003", "sequence": 7, "type": "reserved"}
+{"at": 1788692926.8969288, "request_id": "request-0003", "sequence": 8, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.9039445, "sequence": 9, "type": "tool"}
+{"at": 1788692926.9167988, "input_reservation": 5552, "max_output_tokens": 100, "request_id": "request-0004", "sequence": 10, "type": "reserved"}
+{"at": 1788692926.9237998, "request_id": "request-0004", "sequence": 11, "type": "settled", "usage": {"input_tokens": 20, "output_tokens": 10}}
+{"at": 1788692926.9304433, "sequence": 12, "type": "tool"}
+{"at": 1788692926.9544768, "reason": "trial_finished", "sequence": 13, "type": "stopped"}

@@ -1,0 +1,5 @@
+{
+  "observed_metrics": {},
+  "outcome": "blocked",
+  "reason": "Explicitly scripted controller acceptance; not a model decision."
+}

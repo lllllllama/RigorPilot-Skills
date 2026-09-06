@@ -149,3 +149,8 @@ usage is unavailable. Then run **one budgeted canary → six paired trials →
 repeats of useful comparisons**, preserving failures, interventions, traces,
 usage, and unknown values. Add a separate holdout before making general capability
 claims. None of these live results is provided by the current calibration kit.
+
+The [neutral controller foundation](CONTROLLED_TRIALS.md) is now available for
+offline acceptance. It exposes skill text but does not execute bundled helpers,
+so it requires a separately frozen constrained-tool comparison before live use.
+It does not execute or update this pilot's six slots.
