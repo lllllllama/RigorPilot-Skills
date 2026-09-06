@@ -4,11 +4,15 @@
 from __future__ import annotations
 
 import json
+import importlib.util
+import os
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from urllib.parse import unquote
 
 
 README = """# Demo Research Repo
@@ -111,6 +115,149 @@ def assert_one_annotation_per_heading(annotated: str) -> None:
         count = section.count('rigorpilot:repro:begin kind="section"')
         if count != 1:
             raise AssertionError(f"heading {heading!r} has {count} annotation blocks instead of exactly one")
+
+
+def check_source_adjacent_delivery(renderer: Path, temp_root: Path) -> int:
+    spec = importlib.util.spec_from_file_location("test_annotation_delivery", renderer)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    checks = 0
+    source = (
+        '# Media\n\n![plot](assets/plot.svg)\n\n'
+        '<video controls poster="assets/poster.jpg">\n'
+        '<source src="assets/demo.mp4" type="video/mp4">\n</video>\n'
+        '[Source link, not evidence](status.json)\n\n## Evaluation\n\n'
+        '```bash\npython eval.py --config configs/demo.yaml\n```'
+    ).encode("utf-8")
+    cases = [source + b"\n", source.replace(b"\n", b"\r\n"), b"\xef\xbb\xbf" + source]
+    for index, source_bytes in enumerate(cases):
+        case_root = temp_root / f"adjacent-{index}"
+        source_dir = case_root / "repo" / ("docs" if index else "")
+        source_dir.mkdir(parents=True)
+        source_readme = source_dir / "README.md"
+        source_readme.write_bytes(source_bytes)
+        assets = source_dir / "assets"
+        assets.mkdir()
+        for name in ["plot.svg", "poster.jpg", "demo.mp4"]:
+            (assets / name).write_bytes(b"fixture media retained")
+        (source_dir / "status.json").write_text('{"original": true}', encoding="utf-8")
+        output_dir = case_root / "evidence # (custom)"
+        output_dir.mkdir()
+        train_dir = case_root / "training custom"
+        train_dir.mkdir()
+        for name in ["SUMMARY.md", "COMMANDS.md", "LOG.md", "status.json"]:
+            (output_dir / name).write_text("evidence", encoding="utf-8")
+        (train_dir / "status.json").write_text("training evidence", encoding="utf-8")
+        standard = output_dir / "ANNOTATED_README.md"
+        context = {**build_context("partial", "en"), "selected_goal": "training"}
+        _, coverage = module.write_annotated_readme(
+            source_readme, context, standard, source_adjacent=True, train_output_dir=train_dir,
+        )
+        delivery = coverage["source_adjacent_readme"]
+        adjacent = source_dir / "RIGORPILOT_README.md"
+        if delivery["status"] != "written" or Path(delivery["path"]) != adjacent.resolve():
+            raise AssertionError(f"source-adjacent output was not discoverable: {delivery}")
+        for output in [standard, adjacent]:
+            if module.strip_annotated_bytes(output.read_bytes()) != source_bytes:
+                raise AssertionError("source-adjacent delivery changed original README bytes")
+        if source_readme.read_bytes() != source_bytes:
+            raise AssertionError("source-adjacent rendering mutated its source README")
+        rendered = adjacent.read_bytes().decode("utf-8")
+        for raw_path in ["assets/plot.svg", "assets/poster.jpg", "assets/demo.mp4"]:
+            if raw_path not in rendered or not (adjacent.parent / raw_path).is_file():
+                raise AssertionError("source-relative media lost its original directory context")
+        inserted_links = []
+        for block in module.MARKER_BLOCK_RE.findall(rendered):
+            inserted_links.extend(re.findall(r"\]\(([^)]+)\)", block))
+        actual_targets = {(adjacent.parent / unquote(link)).resolve() for link in inserted_links}
+        expected_targets = {(output_dir / name).resolve() for name in ["SUMMARY.md", "COMMANDS.md", "LOG.md", "status.json"]}
+        expected_targets.add((train_dir / "status.json").resolve())
+        if actual_targets != expected_targets or not all(path.is_file() for path in actual_targets):
+            raise AssertionError(f"source-adjacent evidence links did not resolve: {inserted_links}")
+        if "[Source link, not evidence](status.json)" not in rendered:
+            raise AssertionError("a source-owned link was rebased with inserted evidence")
+        if module.managed_source_adjacent_path(source_readme, output_dir) != adjacent.resolve():
+            raise AssertionError("owned source-adjacent output cannot be recognized precisely")
+        original_copy = adjacent.read_bytes()
+        _, refreshed = module.write_annotated_readme(source_readme, {**context, "status": "success"}, standard,
+                                                     source_adjacent=True, train_output_dir=train_dir)
+        if refreshed["source_adjacent_readme"]["status"] != "written" or adjacent.read_bytes() == original_copy:
+            raise AssertionError("repeated delivery did not safely refresh this bundle's own copy")
+        edited = adjacent.read_bytes() + b"\nuser edit\n"
+        adjacent.write_bytes(edited)
+        _, refused = module.write_annotated_readme(source_readme, context, standard, source_adjacent=True)
+        if refused["source_adjacent_readme"]["status"] != "blocked" or adjacent.read_bytes() != edited:
+            raise AssertionError("source-adjacent refresh overwrote a user-modified copy")
+        if module.managed_source_adjacent_path(source_readme, output_dir) is not None:
+            raise AssertionError("modified source-adjacent file was incorrectly excluded from source inventory")
+        if not standard.is_file():
+            raise AssertionError("a source-adjacent collision discarded standard evidence")
+        checks += 7
+
+    collision_root = temp_root / "adjacent-collisions"
+    collision_root.mkdir()
+    original = collision_root / "README.md"
+    original.write_bytes(source)
+    output_dir = collision_root / "evidence"
+    standard = output_dir / "ANNOTATED_README.md"
+    adjacent = collision_root / "RIGORPILOT_README.md"
+    for collision in ["unrelated", "directory", "symlink", "hardlink", "dangling_symlink"]:
+        try:
+            if collision == "directory":
+                adjacent.mkdir()
+            elif collision == "symlink":
+                adjacent.symlink_to(original)
+            elif collision == "hardlink":
+                os.link(original, adjacent)
+            elif collision == "dangling_symlink":
+                adjacent.symlink_to(collision_root / "missing.md")
+            else:
+                adjacent.write_bytes(b"existing user file")
+        except (OSError, NotImplementedError):
+            continue
+        try:
+            _, coverage = module.write_annotated_readme(original, build_context("partial", "en"), standard, source_adjacent=True)
+            if coverage["source_adjacent_readme"]["status"] != "blocked" or original.read_bytes() != source:
+                raise AssertionError(f"unsafe source-adjacent {collision} was overwritten")
+            if collision == "unrelated" and adjacent.read_bytes() != b"existing user file":
+                raise AssertionError("source-adjacent renderer overwrote an unrelated file")
+            checks += 1
+        finally:
+            adjacent.rmdir() if collision == "directory" else adjacent.unlink()
+
+    # Even the lower-level CLI must not let --output alias its input.
+    for output in [original, adjacent]:
+        if output == adjacent:
+            try:
+                os.link(original, adjacent)
+            except OSError:
+                continue
+        try:
+            module.write_annotated_readme(original, build_context("partial", "en"), output)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("renderer allowed its standard output to overwrite the source")
+        if original.read_bytes() != source:
+            raise AssertionError("source alias protection changed original bytes")
+        checks += 1
+        if output == adjacent:
+            adjacent.unlink()
+    named_source = collision_root / "RIGORPILOT_README.md"
+    named_source.write_bytes(source)
+    _, coverage = module.write_annotated_readme(named_source, build_context("partial", "en"), standard, source_adjacent=True)
+    if coverage["source_adjacent_readme"]["status"] != "blocked" or named_source.read_bytes() != source:
+        raise AssertionError("a source already named RIGORPILOT_README.md was overwritten")
+    checks += 1
+    named_source.unlink()
+    receipt = output_dir / "readme_delivery.json"
+    for receipt_bytes in [b"user-owned manifest", b'{"schema_version":"1.0","source_readme":"another-source"}']:
+        receipt.write_bytes(receipt_bytes)
+        _, coverage = module.write_annotated_readme(original, build_context("partial", "en"), standard, source_adjacent=True)
+        if coverage["source_adjacent_readme"]["status"] != "blocked" or adjacent.exists() or receipt.read_bytes() != receipt_bytes:
+            raise AssertionError("source-adjacent delivery replaced an unrelated ownership receipt")
+        checks += 1
+    return checks
 
 
 def main() -> int:
@@ -408,6 +555,8 @@ def main() -> int:
         if "执行成功" not in zh_annotated:
             raise AssertionError("zh rendering lost the localized success annotation")
         checks += 2
+
+        checks += check_source_adjacent_delivery(renderer, temp_root)
 
         print("ok: True")
         print(f"checks: {checks}")

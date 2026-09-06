@@ -157,6 +157,25 @@ The status bundle should also expose the normalized `model_adapter` snapshot
 and its fingerprint. `resource_summary` must retain measurement scope so
 device-global GPU data is not misrepresented as per-process attribution.
 
+## Optional source-adjacent README
+
+Add `--source-adjacent-readme` to `orchestrate_repro.py` or `run_agent.py` to
+also create `RIGORPILOT_README.md` in the original README's directory. Keep
+the standard `repro_outputs/ANNOTATED_README.md` and its evidence files.
+
+The adjacent copy preserves all original bytes, including relative media and
+file links. Only RigorPilot-inserted evidence links are rebased. Open the path
+reported under `source_adjacent_readme`; `written` confirms delivery, while
+`blocked` means the ordinary evidence remains available but the extra copy
+could not safely be written. Cross-drive Windows evidence links use local
+file URLs; browser policies may prevent opening them, so prefer the same drive.
+
+The bundle retains `readme_delivery.json` to identify its generated copy.
+Repeating with the same source and output may refresh an unchanged owned copy.
+An unrelated or edited file, symlink, hard link, or conflicting receipt is not
+overwritten. Keep the receipt with the evidence; do not use it to claim that
+source code or external media were verified. The original README remains intact.
+
 ## `PATCHES.md`
 
 Only create this file when repository files were modified.

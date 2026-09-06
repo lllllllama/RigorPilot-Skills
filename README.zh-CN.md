@@ -41,6 +41,9 @@ RigorPilot 直接切分原文件，每个章节插入一条带证据链接的批
 相关仓库文件一并保留，相对链接和媒体仍处在原来的目录环境中。
 截图内的英文来自原始仓库及其证据文件；本页说明统一使用中文。
 
+🟢 所选检查通过 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 阻塞 · 🟣 待决策。
+绿色不自动代表论文指标复现；蓝色不表示执行失败。
+
 <table>
   <tr>
     <td align="center" width="50%">
@@ -85,6 +88,8 @@ RigorPilot 直接切分原文件，每个章节插入一条带证据链接的批
 
 ## 🚀 安装使用
 
+安装器需要 Node.js/npm；若出现 `EBADENGINE`，请先核对安装器要求的 Node 版本。
+
 安装全部技能：
 
 ```bash
@@ -99,11 +104,15 @@ npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 
 在支持 Skills 的代理中打开目标仓库，然后输入：
 
-> 使用 ai-research-reproduction，运行 README 中最小的已记录评测，保留原始源码并将证据写入 repro_outputs/。大规模下载或长训练前先确认。
+> 使用 ai-research-reproduction，运行 README 中最小的已记录评测，保留原始源码并将证据写入 repro_outputs/，另生成与原 README 同目录的批注副本。大规模下载或长训练前先确认。
 
 主技能可以单独使用；其他配套入口和叶子技能请选择**安装全部技能**。
 由你已有的代理加载技能，不必使用本项目的独立模型执行器。
 [客户端兼容说明](references/client-compatibility-policy.md)
+
+完成后先打开报告中 `source_adjacent_readme.path` 指向的 `RIGORPILOT_README.md`，
+再点击批注里的命令和日志链接。若额外副本因同名文件等原因被阻止，原文件不会
+被覆盖，仍可从 `repro_outputs/SUMMARY.md` 查看结果与下一步。
 
 ## 能做什么，以及边界
 
@@ -119,7 +128,7 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 也不能监控订阅余额。
 
 可选模型执行器目前支持 Anthropic Messages 协议与预先审核的命令编号，
-不支持不受限的源码修复。**尚无成功的真实模型验收记录**：
+不支持不受限的源码修复。**该独立执行器尚无成功的真实模型验收记录**：
 三次服务调用均返回 HTTP 502。其他模型配置仅记录元数据，
 不代表已实现相应服务接入或证明不同模型效果等同。
 [执行与恢复契约](skills/ai-research-reproduction/references/agent-runner.md) ·
@@ -159,9 +168,11 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 
 🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 阻塞 · 🟣 需要决策
 
-常规输出位于 `repro_outputs/`，可能改变原文相对媒体链接的起始目录。
-公开展示和离线示例另外提供与原文同目录的 `RIGORPILOT_README.md`；
-请勿删除其保留的相关仓库文件。
+常规证据仍位于 `repro_outputs/`。两个主执行入口均可加
+`--source-adjacent-readme`，在原 README 旁生成 `RIGORPILOT_README.md`，
+保留原文相对媒体和文件链接的目录上下文；仅调整新增批注中的证据链接。
+同一输出目录可刷新未被改动的自有副本，不覆盖无关或被手动编辑的同名文件。
+请保留原仓库相关文件及证据目录中的 `readme_delivery.json`。
 [输出契约](references/output-contract.md) · [科研严谨性原则](references/research-rigor-principles.md)
 
 <a id="validation"></a>
@@ -186,7 +197,7 @@ python scripts/run_harness_lab.py
 python scripts/run_all_tests.py
 ```
 
-最近本地记录（2026-09-06）：**61/61 脚本通过，用时 83.5 秒**。
+最近本地记录（2026-09-06）：**61/61 脚本通过，用时 116.8 秒**。
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
 

@@ -21,6 +21,11 @@ Trusted output traits:
 - `SCIENTIFIC_CHANGELOG.md` and `COMPARABILITY_REPORT.md` emitted by the trusted run writers
 - `repro_outputs/ANNOTATED_README.md` emitted by `ai-research-reproduction`: the target README preserved byte-for-byte inside mechanically strippable marker blocks, with exactly one color-coded status after every ATX heading block and SHA-256 round-trip proof in `status.json`
 - next safe action recorded when work is partial or blocked
+- optional `--source-adjacent-readme` on the main runners writes a browsable
+  `RIGORPILOT_README.md` beside the source; `source_adjacent_readme` reports its
+  path and delivery status independently of task success. Only inserted evidence
+  links change. A `readme_delivery.json` receipt guards refresh; conflicting or
+  edited files are retained, and standard evidence is still available.
 - executed commands persist immutable per-attempt runtime evidence under
   `<output-dir>/_runtime/<run-id>/`, including state, events, stdout/stderr,
   scoped resource samples, retry lineage, and a normalized model profile

@@ -47,6 +47,7 @@ def main() -> int:
                 str(output_dir),
                 "--include-analysis-pass",
                 "--include-paper-gap",
+                "--source-adjacent-readme",
             ],
             check=True,
             capture_output=True,
@@ -100,6 +101,27 @@ def main() -> int:
         if "Planned command:" not in payload["next_action"]:
             raise AssertionError("orchestrator failed to mention the fuller training command in next_action")
 
+        adjacent = sample_repo / "RIGORPILOT_README.md"
+        delivery = payload.get("source_adjacent_readme", {})
+        if delivery.get("status") != "written" or Path(delivery.get("path", "")) != adjacent.resolve():
+            raise AssertionError("orchestrator did not expose the requested source-adjacent README")
+        status = json.loads((output_dir / "status.json").read_text(encoding="utf-8"))
+        if status.get("source_adjacent_readme") != delivery:
+            raise AssertionError("orchestrator did not persist source-adjacent delivery in status.json")
+        refresh_command = [sys.executable, str(orchestrator), "--repo", str(sample_repo),
+                           "--output-dir", str(output_dir), "--source-adjacent-readme"]
+        refreshed = subprocess.run(refresh_command, check=True, capture_output=True, text=True)
+        if json.loads(refreshed.stdout)["source_adjacent_readme"]["status"] != "written":
+            raise AssertionError("orchestrator could not safely refresh its own source-adjacent output")
+        user_copy = b"A user-owned README replaces the old generated copy.\n"
+        adjacent.write_bytes(user_copy)
+        collided = subprocess.run(refresh_command, check=True, capture_output=True, text=True)
+        collision_payload = json.loads(collided.stdout)
+        if collision_payload["source_adjacent_readme"]["status"] != "blocked" or adjacent.read_bytes() != user_copy:
+            raise AssertionError("orchestrator overwrote an unrelated source-adjacent file")
+        if "standard evidence retained" not in collided.stderr or not (output_dir / "ANNOTATED_README.md").is_file():
+            raise AssertionError("orchestrator did not explain the collision and retain standard evidence")
+
         prerequisite_repo = temp_root / "prerequisite_repo"
         prerequisite_repo.mkdir()
         cpu_command = (
@@ -133,13 +155,15 @@ def main() -> int:
             text=True,
         )
         prerequisite_payload = json.loads(prerequisite_result.stdout)
+        if prerequisite_payload.get("source_adjacent_readme", {}).get("status") != "not_requested" or (prerequisite_repo / "RIGORPILOT_README.md").exists():
+            raise AssertionError("source-adjacent output must remain explicitly opt-in")
         if prerequisite_payload["selected_goal"] != "training" or prerequisite_payload["documented_command"] != cpu_command:
             raise AssertionError(
                 "orchestrator selected missing-checkpoint or large-download inference instead of bounded CPU training"
             )
 
         print("ok: True")
-        print("checks: 17")
+        print("checks: 23")
         print("failures: 0")
         return 0
     finally:

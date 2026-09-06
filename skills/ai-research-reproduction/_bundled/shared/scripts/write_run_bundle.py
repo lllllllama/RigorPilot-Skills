@@ -305,6 +305,7 @@ def write_repro_status(output_dir: Path, context: Dict[str, Any]) -> None:
             "annotated_readme": "repro_outputs/ANNOTATED_README.md" if context.get("annotated_readme") else None,
             "patches": "repro_outputs/PATCHES.md" if context.get("patches_applied") else None,
         },
+        "source_adjacent_readme": context.get("source_adjacent_readme", {"status": "not_requested", "path": None}),
         "notes": context.get("notes", []),
     }
     (output_dir / "status.json").write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")

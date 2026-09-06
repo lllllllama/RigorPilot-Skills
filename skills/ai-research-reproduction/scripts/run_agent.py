@@ -26,7 +26,7 @@ from model_adapter import load_model_profile
 from runtime_runner import atomic_write_json, run_persistent_command, reconcile_run, utc_now
 from task_queue import QueueLease
 from write_run_bundle import write_bundle
-from annotate_readme import write_annotated_readme, split_readme_blocks
+from annotate_readme import write_annotated_readme, split_readme_blocks, managed_source_adjacent_path
 
 SYSTEM = """You are RigorPilot, a research reproduction agent. Read the original README
 and relevant source files, maintain a short plan, then select reviewed command IDs.
@@ -62,7 +62,8 @@ def fingerprint(value: object) -> str:
 
 def safe_file(repo: Path, name: str) -> Path:
     path = (repo / name).resolve()
-    if not path.is_relative_to(repo) or any(p == ".git" or p.startswith(".env") for p in Path(name).parts):
+    if (not path.is_relative_to(repo) or any(p == ".git" or p.startswith(".env") for p in Path(name).parts)
+            or any(p == ".git" or p.startswith(".env") for p in path.relative_to(repo).parts)):
         raise ValueError("File path is outside the permitted repository scope")
     return path
 
@@ -82,6 +83,53 @@ def inventory(repo: Path, output: Path) -> dict:
             raise ValueError("P1 repository inventory limit exceeded (50 MB / 10000 files)")
         found[path.relative_to(repo).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
     return found
+
+
+def finite_number(value: object) -> bool:
+    try:
+        return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+    except OverflowError:
+        return False
+
+
+def verification_file(repo: Path, name: object) -> Path:
+    if not isinstance(name, str) or not name.strip() or Path(name).is_absolute() or ".." in Path(name).parts:
+        raise ValueError("Verification paths must be nonempty repository-relative paths without '..'")
+    path = safe_file(repo, name)
+    if path == repo:
+        raise ValueError("Verification path must name a file")
+    return path
+
+
+def validate_verification(command: dict, repo: Path) -> None:
+    if "verification" not in command:
+        return
+    spec = command["verification"]
+    if not isinstance(spec, dict) or not spec or set(spec) - {"artifacts", "metrics"}:
+        raise ValueError("verification must contain artifacts and/or metrics, with no unknown fields")
+    for kind, checks in spec.items():
+        if not isinstance(checks, list) or not checks or len(checks) > 32:
+            raise ValueError(f"verification.{kind} must contain 1 to 32 checks")
+        allowed = {"path", "min_bytes", "sha256"} if kind == "artifacts" else {"path", "key", "expected", "absolute_tolerance"}
+        for check in checks:
+            if not isinstance(check, dict) or set(check) - allowed:
+                raise ValueError(f"Invalid {kind} check or unknown verification field")
+            verification_file(repo, check.get("path"))
+            if kind == "artifacts":
+                minimum = check.get("min_bytes", 1)
+                if not isinstance(minimum, int) or isinstance(minimum, bool) or minimum < 0:
+                    raise ValueError("Artifact min_bytes must be a non-negative integer")
+                if "sha256" in check and (not isinstance(check["sha256"], str) or not re.fullmatch(r"[0-9a-fA-F]{64}", check["sha256"])):
+                    raise ValueError("Artifact sha256 must be a 64-character hex digest")
+            else:
+                keys = check.get("key")
+                if not isinstance(keys, list) or not keys or any(not isinstance(key, str) or not key for key in keys):
+                    raise ValueError("Metric key must be a nonempty list of JSON object keys")
+                if not finite_number(check.get("expected")):
+                    raise ValueError("Metric expected value must be a finite number, not a boolean")
+                tolerance = check.get("absolute_tolerance", 0)
+                if not finite_number(tolerance) or tolerance < 0:
+                    raise ValueError("Metric absolute_tolerance must be a finite non-negative number")
 
 
 def validate_task(task: dict, repo: Path) -> None:
@@ -108,6 +156,7 @@ def validate_task(task: dict, repo: Path) -> None:
         if not isinstance(command.get("expected_stdout", ""), str):
             raise ValueError("expected_stdout must be a string")
         safe_file(repo, command.get("cwd", "."))
+        validate_verification(command, repo)
 
 
 def command_result(run_dir: Path) -> dict:
@@ -119,9 +168,108 @@ def command_result(run_dir: Path) -> dict:
             "stderr": (run_dir / "stderr.log").read_text(encoding="utf-8")[-4000:] if (run_dir / "stderr.log").exists() else ""}
 
 
-def verified(command: dict, result: dict) -> bool:
-    return (result.get("runtime_status") == "success" and result.get("returncode") == 0
-            and command.get("expected_stdout", "") in result.get("stdout", ""))
+def command_checks(repo: Path, command: dict, result: dict) -> dict:
+    """Read current artifacts, never a model's claimed metrics or saved verdict.
+
+    Checks prove the reviewed files' current contents, not their freshness or
+    independence from the approved program. JSON reads are capped at 1 MiB and
+    optional digest reads at 50 MiB. Existence-only checks do not read the file.
+    """
+    checks = {"runtime": result.get("runtime_status") == "success" and result.get("returncode") == 0,
+              "stdout": command.get("expected_stdout", "") in result.get("stdout", ""),
+              "artifacts": [], "metrics": []}
+    for kind, rules in command.get("verification", {}).items():
+        for rule in rules:
+            item = {**rule, "passed": False}
+            try:
+                path = verification_file(repo, rule["path"])
+                if not path.is_file():
+                    raise ValueError("missing_regular_file")
+                item["size_bytes"] = path.stat().st_size
+                if kind == "artifacts":
+                    item["passed"] = item["size_bytes"] >= rule.get("min_bytes", 1)
+                    if not item["passed"]:
+                        item["reason"] = "artifact_too_small"
+                    if "sha256" in rule:
+                        with path.open("rb") as handle:
+                            data = handle.read(50 * 1024 * 1024 + 1)
+                        if len(data) > 50 * 1024 * 1024:
+                            raise ValueError("artifact_hash_read_limit_exceeded")
+                        item["observed_sha256"] = hashlib.sha256(data).hexdigest()
+                        item["passed"] = item["passed"] and item["observed_sha256"] == rule["sha256"].lower()
+                        if item["observed_sha256"] != rule["sha256"].lower():
+                            item["reason"] = "artifact_hash_mismatch"
+                else:
+                    with path.open("rb") as handle:
+                        data = handle.read(1024 * 1024 + 1)
+                    if len(data) > 1024 * 1024:
+                        raise ValueError("metric_json_read_limit_exceeded")
+                    observed = json.loads(data)
+                    for key in rule["key"]:
+                        if not isinstance(observed, dict) or key not in observed:
+                            raise ValueError("metric_key_not_found")
+                        observed = observed[key]
+                    if not finite_number(observed):
+                        raise ValueError("metric_value_must_be_finite_number")
+                    error = abs(observed - rule["expected"])
+                    if not finite_number(error):
+                        raise ValueError("metric_absolute_error_not_finite")
+                    item.update(observed=observed, absolute_error=error,
+                                passed=error <= rule.get("absolute_tolerance", 0))
+                    if not item["passed"]:
+                        item["reason"] = "metric_outside_tolerance"
+            except (OSError, ValueError, TypeError, OverflowError, RecursionError) as exc:
+                item.update(passed=False, reason=str(exc))
+            checks[kind].append(item)
+    checks["passed"] = checks["runtime"] and checks["stdout"] and all(item["passed"] for kind in ("artifacts", "metrics") for item in checks[kind])
+    return checks
+
+
+def task_progress(state: dict) -> dict:
+    status = state["status"]
+    outcome = ("accepted" if status == "success" else "failed" if state.get("verification")
+               else "partial" if state.get("results") else "not_run")
+    return {"controller_status": "finished" if status == "success" else status,
+            "task_outcome": outcome,
+            "resumable": status in {"paused", "running"} and not state.get("model_pending", False)}
+
+
+def verify_task(repo: Path, output: Path, task: dict, state: dict, files: dict) -> dict:
+    details = {key: command_checks(repo, task["commands"][key], state["results"].get(key, {})) for key in task["required_commands"]}
+    for key, detail in details.items():
+        if key in state["results"]:
+            state["results"][key].update(checks=detail, verified=detail["passed"])
+    current_files = inventory(repo, output)
+    # Command IDs are user-defined; keep them out of the controller namespace.
+    return {"commands": {key: value["passed"] for key, value in details.items()},
+            "source_unchanged": all(current_files.get(name) == digest for name, digest in files.items()),
+            "details": details}
+
+
+def delivery_fields(task: dict, state: dict) -> dict:
+    zh = str(task.get("language", "en")).lower().startswith("zh")
+    def language(en, cn):
+        return cn if zh else en
+    status = state["status"]
+    if status == "success":
+        overall = "success"
+        summary = language("Independent task checks passed; see agent.verification in status.json.", "独立任务验收已通过；详见 status.json 的 agent.verification。")
+        next_action = language("Inspect the recorded checks and artifacts; no paper-result match is claimed.", "检查已记录的验收项和产物；本结果不声称论文指标复现。")
+    elif status == "paused":
+        overall = "partial" if state.get("results") else "not_run"
+        summary = language("Normal session pause; final task acceptance has not run. Completed command checks are retained, not a completed task.", "会话正常暂停；最终任务验收尚未执行。已保留命令验收记录，但任务尚未完成。")
+        next_action = language("Resume with the same task, model and output arguments plus --resume; completed commands are not repeated.", "使用相同任务、模型和输出参数并增加 --resume 恢复；已完成的命令不会重复执行。")
+    elif status == "running":
+        overall = "partial" if state.get("results") else "not_run"
+        summary = language("Session is interrupted or still active; final task acceptance is incomplete. This is not a normal pause.", "会话已中断或仍在运行，最终任务验收尚未完成；这不是正常暂停。")
+        next_action = language("Inspect agent_state.json and the active runtime before --resume. Unknown command dispatch is not repeated; an unresolved model request requires a fresh run.", "使用 --resume 前先检查 agent_state.json 和活动 runtime。未知命令派发不会重跑；模型请求结果不明确时需使用新目录开始运行。")
+    else:
+        overall = "blocked"
+        summary = language("Task acceptance is not complete; inspect agent state and blocker before continuing.", "任务验收尚未通过；继续前请检查 Agent 状态和阻塞原因。")
+        next_action = language("Inspect agent_state.json and trajectory.jsonl; resolve the blocker and start a fresh bounded run. Blocked runs cannot use --resume.", "检查 agent_state.json 和 trajectory.jsonl，解决阻塞后使用新目录开始有界运行；blocked 状态不支持 --resume。")
+    return {"status": overall, "result_summary": summary, "next_action": next_action,
+            "next_safe_action": next_action,
+            "main_blocker": state.get("blocker") or language("None.", "无。")}
 
 
 def deliver(repo: Path, output: Path, task: dict, state: dict) -> None:
@@ -133,10 +281,8 @@ def deliver(repo: Path, output: Path, task: dict, state: dict) -> None:
     selected_section = next((block["title"] for block in blocks
                              if command.get("documented_command") and command["documented_command"] in "".join(block["lines"])), None)
     context = {**result, "target_repo": str(repo), "selected_goal": "evaluation", "goal_priority": "evaluation", "user_language": task.get("language", "en"),
-        "status": "success" if state["status"] == "success" else "blocked", "readme_first": True,
+        **delivery_fields(task, state), "readme_first": True,
         "documented_command": command.get("documented_command", ""), "documented_command_source": command.get("source", task.get("readme", "README.md")),
-        "result_summary": "Independent task checks passed; see agent.verification in status.json." if state["status"] == "success" else "Task acceptance is not complete; inspect agent state and blocker before continuing.", "main_blocker": state.get("blocker", "None"),
-        "next_action": "Inspect agent_state.json and trajectory.jsonl; resume only after resolving blockers.",
         "notes": ["Agent execution verification only; no paper-result match claimed.", "Model's unverified summary: " + str(state.get("summary", "not supplied"))],
         "model_adapter": state["model_profile"], "run_commands": [task["commands"][k]["documented_command"] for k in state["results"]],
         "documented_command_section": selected_section,
@@ -148,16 +294,42 @@ def deliver(repo: Path, output: Path, task: dict, state: dict) -> None:
                     [f"[{p.name}](_runtime/{p.name}/state.json)" for p in sorted((output / "_runtime").glob("*")) if p.is_dir()],
         "protocol_deviations": [c["adaptation"] for c in task["commands"].values() if c.get("adaptation")],
         "assumptions": ["Reviewed task commands execute on the local host; P1 is not an OS sandbox."],
-        "commands": [], "patches_applied": False}
+        "commands": [], "patches_applied": False, "annotated_readme": True}
     write_bundle("repro", output, context)
-    write_annotated_readme(readme, context, output / "ANNOTATED_README.md")
+    adjacent_name = (readme.parent / "RIGORPILOT_README.md").relative_to(repo).as_posix()
+    requested = state.get("source_adjacent_readme", False)
+    # Never exclude or overwrite a source file that existed at the start,
+    # including a tracked file named like our generated output. New generated
+    # copies are naturally absent from the immutable initial inventory.
+    protected = requested and adjacent_name in state["files"]
+    _, coverage = write_annotated_readme(readme, context, output / "ANNOTATED_README.md",
+                                         source_adjacent=requested and not protected)
+    delivery = coverage["source_adjacent_readme"]
+    if protected:
+        delivery = {"status": "blocked", "path": str(readme.parent / "RIGORPILOT_README.md"),
+                    "reason": "Destination is part of the initial source inventory; original file preserved."}
+    coverage["source_adjacent_readme"] = delivery
+    state["readme_delivery"] = delivery
+    atomic_write_json(output / "agent_state.json", state)
     status = json.loads((output / "status.json").read_text(encoding="utf-8"))
-    status["agent"] = {k: state[k] for k in ["status", "model_calls", "tool_calls", "usage", "usage_complete", "task_sha256", "verification"]}
+    status["agent"] = {**{k: state[k] for k in ["status", "model_calls", "tool_calls", "usage", "usage_complete", "task_sha256", "verification"]}, **task_progress(state)}
+    status["readme_delivery"] = delivery
+    status["source_adjacent_readme"] = delivery
+    status["readme_section_coverage"] = coverage
+    status["outputs"]["source_adjacent_readme"] = delivery.get("path") if delivery["status"] == "written" else None
     atomic_write_json(output / "status.json", status)
+    if requested:
+        zh = str(task.get("language", "en")).lower().startswith("zh")
+        target = delivery.get("path") if delivery["status"] == "written" else str(output / "ANNOTATED_README.md")
+        explanation = ("打开批注 README" if zh else "Open the annotated README") + f": `{target}`."
+        if delivery["status"] == "blocked":
+            explanation += (" 源旁副本未更新，标准证据已保留。" if zh else " Source-adjacent copy was not updated; standard evidence was retained.") + f" {delivery['reason']}"
+        with (output / "SUMMARY.md").open("a", encoding="utf-8") as handle:
+            handle.write("\n" + explanation + "\n")
 
 
 def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume: bool = False,
-        pause_after_tools: int | None = None) -> dict:
+        pause_after_tools: int | None = None, source_adjacent_readme: bool = False) -> dict:
     repo, output = repo.resolve(), output.resolve()
     if output == repo or repo.is_relative_to(output) or not repo.is_dir():
         raise ValueError("Output must be separate from repository root")
@@ -176,12 +348,31 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
         files = inventory(repo, output)
         if resume:
             state = json.loads(state_path.read_text(encoding="utf-8"))
+            if state.get("source_adjacent_readme", False) != source_adjacent_readme:
+                raise ValueError("README delivery option changed; resume with the same --source-adjacent-readme setting")
+            previous_delivery = state.get("readme_delivery", {})
+            if previous_delivery.get("status") == "written":
+                managed = managed_source_adjacent_path(safe_file(repo, task.get("readme", "README.md")), output)
+                if managed is None or str(managed) != previous_delivery.get("path") or hashlib.sha256(managed.read_bytes()).hexdigest() != previous_delivery.get("sha256"):
+                    raise ValueError("Generated source-adjacent README or ownership changed; preserve edits and start a separate run")
             files = {name: files.get(name) for name in state["files"]}
             if state["task_sha256"] != fingerprint(task) or state["model_profile"]["fingerprint"] != profile["fingerprint"] or state["files"] != files or state.get("endpoint_identity") != endpoint_identity:
                 raise ValueError("Task, model or source identity changed; start a separate run")
             if state.get("harness_identity") != harness_identity:
                 raise ValueError("Harness implementation changed; start a separate run")
             if state["status"] == "success":
+                checked_at = time.monotonic()
+                previous_checks = state["verification"]
+                checks = verify_task(repo, output, task, state, files)
+                state["verification"] = checks
+                state["status"] = "success" if all(checks["commands"].values()) and checks["source_unchanged"] else "blocked"
+                if state["status"] == "blocked":
+                    state["blocker"] = "Independent verification failed when rechecking completed output"
+                state["elapsed_seconds"] += time.monotonic() - checked_at
+                state.update(task_progress(state))
+                with (output / "trajectory.jsonl").open("a", encoding="utf-8") as handle:
+                    handle.write(json.dumps({"time": utc_now(), "type": "reverification", "status": state["status"],
+                                             "previous_checks": previous_checks, "checks": checks}, ensure_ascii=False) + "\n")
                 deliver(repo, output, task, state)
                 return state
             if state.get("model_pending"):
@@ -192,6 +383,7 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
             if state_path.exists() or (output / "status.json").exists():
                 raise ValueError("Output already contains a run; use --resume or a fresh directory")
             state = {"schema_version": "1.1", "status": "running", "task_sha256": fingerprint(task),
+                "source_adjacent_readme": source_adjacent_readme,
                 "model_profile": profile, "endpoint_identity": endpoint_identity, "harness_identity": harness_identity, "files": files, "created_at": utc_now(), "elapsed_seconds": 0.0,
                 "messages": [{"role": "user", "content": json.dumps({"goal": task["goal"], "readme": task.get("readme", "README.md"),
                     "commands": task["commands"], "required_commands": task["required_commands"]})}],
@@ -203,6 +395,7 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
 
         def save():
             state["elapsed_seconds"] = elapsed_before + time.monotonic() - started
+            state.update(task_progress(state))
             atomic_write_json(state_path, state)
 
         def event(kind, **data):
@@ -282,20 +475,16 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
                                     timeout=max(1, min(command.get("timeout_seconds", 30), int(remaining))),
                                     runtime_root=output / "_runtime", run_id=call["runtime_id"], child_env=clean_env,
                                     capture_limit=16000, model_adapter=profile)
-                            value["verified"] = verified(command, value)
+                            value["checks"] = command_checks(repo, command, value)
+                            value["verified"] = value["checks"]["passed"]
                             state.setdefault("attempts", []).append({"command_id": command_id, "runtime_id": call["runtime_id"], "verified": value["verified"]})
                             state["results"][command_id] = value
                             state["last_command"] = command_id
                         elif name == "finish":
-                            command_checks = {key: verified(task["commands"][key], state["results"].get(key, {})) for key in task["required_commands"]}
-                            current_files = inventory(repo, output)
-                            # Command IDs are user-defined; keep them out of the
-                            # controller's check namespace to prevent collisions.
-                            checks = {"commands": command_checks, "source_unchanged":
-                                      all(current_files.get(name) == digest for name, digest in files.items())}
+                            checks = verify_task(repo, output, task, state, files)
                             state["verification"] = checks
                             state["summary"] = args["summary"]
-                            state["status"] = "success" if all(command_checks.values()) and checks["source_unchanged"] else "blocked"
+                            state["status"] = "success" if all(checks["commands"].values()) and checks["source_unchanged"] else "blocked"
                             if state["status"] == "blocked":
                                 state["blocker"] = "Independent verification failed"
                             value = {"status": state["status"], "checks": checks}
@@ -376,14 +565,16 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--pause-after-tools", type=int)
+    parser.add_argument("--source-adjacent-readme", action="store_true", help="Also write an owned RIGORPILOT_README.md beside the original README, preserving relative media context")
     args = parser.parse_args()
     profile = load_model_profile(Path(args.model_profile))
     if profile["provider"] != "anthropic":
         parser.error("P1 supports the Anthropic Messages protocol; other adapters remain metadata-only")
     task = json.loads(Path(args.task).read_text(encoding="utf-8-sig"))
     state = run(task, Path(args.repo), Path(args.output), profile, AnthropicProvider(profile),
-                resume=args.resume, pause_after_tools=args.pause_after_tools)
-    print(json.dumps({k: state[k] for k in ["status", "model_calls", "tool_calls", "usage", "verification"]}, indent=2))
+                resume=args.resume, pause_after_tools=args.pause_after_tools, source_adjacent_readme=args.source_adjacent_readme)
+    print(json.dumps({**{k: state[k] for k in ["status", "model_calls", "tool_calls", "usage", "verification"]},
+                      "source_adjacent_readme": state["readme_delivery"]}, indent=2))
     return 0 if state["status"] in {"success", "paused"} else 1
 
 

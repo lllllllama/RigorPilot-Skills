@@ -153,3 +153,47 @@ aliases on Windows/macOS: the folder-install test compared resolved references
 to an unresolved boundary, and the offline example compared its Git pointer using
 literal path text. Canonical path identity now handles those aliases while
 retaining the rule that cleanup removes only this lab's own metadata pointer.
+
+## First-use output and acceptance follow-up
+
+Both ordinary runners now offer `--source-adjacent-readme`, retaining the standard
+bundle and producing an additional README in the source directory. Tests cover
+unchanged original bytes/media, nested paths, special-character evidence paths,
+safe refresh and file/link conflicts. A failed extra-copy delivery is reported
+separately from task acceptance; the existing evidence is retained.
+
+The model runner separates control state from task outcome. A normal pause does
+not become a blocked result. Reviewed task files can require artifact size/hash
+and JSON metric tolerances in addition to exit/stdout checks. Both `finish` and
+re-entry into completed work recheck current artifacts; re-entry calls no model
+and reruns no command. A `reverification` event retains previous/current checks.
+These checks establish current contents, not freshness or scientific comparability.
+
+An independent agent exercised a fresh project-local installation produced by
+`skills@1.5.23` from the local working tree, not a remote repository download.
+It read only installed skill instructions and the raw offline fixture, selected
+the documented linear-prediction evaluation, and observed `mse=0.0` matching the
+explicit expected value at zero tolerance. The process took 0.079 seconds;
+4/4 original file hashes and both README strip round trips passed. No researcher
+intervention, dependency installation, GPU, or separate model-provider API was
+needed for the task. The independent agent itself used the host session's model;
+its token usage was not measured, so this is not a zero-model-cost claim.
+
+This first-use record does not prove automatic loading in a fresh client session,
+GUI rendering, an unknown research repository, or the standalone provider loop.
+The local Node version (22.17.0) was below this CLI's declared minimum (22.20.0):
+the installation succeeded, but this is not an officially supported environment
+claim. Installation was project-scoped, telemetry disabled, and TLS checking
+enabled for that installation process; no global runtime/configuration upgrade
+was performed. The npm package was fetched separately before the install check.
+
+The repeatable CI counterpart is `python scripts/test_single_skill_install.py`:
+standalone installation, execution, explicit comparison, source-adjacent delivery,
+link/byte checks and a reviewed repeat. The independent first-use pass also
+exposed generic environment/asset suggestions on a dependency-free fixture;
+these remain non-blocking usability debt. Its non-training verification placeholder
+was replaced with the actual comparison status and no invented verifier command.
+
+The final local full regression passed **61/61 scripts in 116.8 seconds** after
+the completed-run revalidation fix. New acceptance cases extend existing test
+files; the script count is not the number of individual assertions or tasks.

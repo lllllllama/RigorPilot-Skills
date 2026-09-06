@@ -41,6 +41,9 @@ Each card below opens a full annotated README **beside the original README in a
 retained repository checkout**. Supporting repository files are kept so relative
 links and media retain their original context.
 
+🟢 selected checks passed · 🔵 not executed · ⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision needed.
+Green does not automatically mean paper-result reproduction; blue is not an execution failure.
+
 <table>
   <tr>
     <td align="center" width="50%">
@@ -85,6 +88,8 @@ are not completed evaluations, converged training or reproduced paper scores.
 
 ## 🚀 Install and use
 
+The installer needs Node.js/npm; check its Node version requirement if it reports `EBADENGINE`.
+
 Install all skills:
 
 ```bash
@@ -99,11 +104,16 @@ npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 
 Open the target repository in a Skills-capable agent, then ask:
 
-> Use ai-research-reproduction: run the smallest README-documented evaluation, preserve the source and write evidence to repro_outputs/. Ask before large downloads or long training.
+> Use ai-research-reproduction: run the smallest README-documented evaluation, preserve the source and write evidence to repro_outputs/, plus an annotated copy beside the original README. Ask before large downloads or long training.
 
 The main skill works alone; choose **all skills** for companion and leaf entrypoints.
 Your existing agent loads the skill. The standalone model runner is optional.
 [Client compatibility](references/client-compatibility-policy.md)
+
+Start with the `RIGORPILOT_README.md` reported in `source_adjacent_readme.path`,
+then follow its command and log links. If a conflicting file blocks the extra
+copy, that file stays intact; inspect `repro_outputs/SUMMARY.md` for the outcome
+and next action.
 
 ## What it does—and does not do
 
@@ -120,8 +130,8 @@ host and network; use trusted repositories. Resource admission and between-actio
 budget checks are not hard OS quotas or subscription-balance monitoring.
 
 The optional model loop currently supports Anthropic Messages and reviewed command
-IDs, not unrestricted source repair. **No successful live-model acceptance is
-recorded yet**: three provider attempts returned HTTP 502. Other model profiles
+IDs, not unrestricted source repair. **This standalone runner has no successful
+live-model acceptance recorded yet**: three provider attempts returned HTTP 502. Other model profiles
 are metadata, not proof of working transports or equivalent model performance.
 [Runner and recovery contract](skills/ai-research-reproduction/references/agent-runner.md) ·
 [Implementation evidence and limits](docs/P0_P1_DELIVERY.md)
@@ -160,9 +170,12 @@ contract. Candidate results never become trusted baseline results by declaration
 
 🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision required
 
-Ordinary output under `repro_outputs/` may change the base path of relative media
-links. Published showcases and the offline example also provide a source-adjacent
-`RIGORPILOT_README.md`; do not remove their retained supporting files.
+Standard evidence stays under `repro_outputs/`. Both main runners accept
+`--source-adjacent-readme` to also write `RIGORPILOT_README.md` beside the original,
+preserving the context of its relative media/file links. Only inserted evidence
+links are rebased. The same output directory may refresh its unchanged owned
+copy, never an unrelated or manually edited file. Retain supporting repository
+files and the evidence directory's `readme_delivery.json`.
 [Output contract](references/output-contract.md) · [Rigor principles](references/research-rigor-principles.md)
 
 <a id="validation"></a>
@@ -188,7 +201,7 @@ Run the repository regression suite:
 python scripts/run_all_tests.py
 ```
 
-Latest local record (2026-09-06): **61/61 scripts passed in 83.5 s**.
+Latest local record (2026-09-06): **61/61 scripts passed in 116.8 s**.
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 

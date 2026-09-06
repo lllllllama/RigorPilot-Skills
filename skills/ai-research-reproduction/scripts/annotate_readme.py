@@ -20,10 +20,14 @@ import argparse
 import hashlib
 import html
 import json
+import os
 import re
+import stat
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import quote
 
 
 MARKER_BEGIN = "<!-- rigorpilot:repro:begin"
@@ -490,8 +494,8 @@ def render_header(context: Dict[str, Any], coverage: Dict[str, int], original_sh
         "",
         text(
             user_language,
-            "<sub>🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial / assets missing · 🔴 blocked · 🟣 decision needed — original content unchanged; its relative links resolve against the repo root.</sub>",
-            "<sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 / 资产缺失 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动，原文相对链接以仓库根目录为基准。</sub>",
+            "<sub>🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial / assets missing · 🔴 blocked · 🟣 decision needed — original content unchanged; relative media links need the original README directory context.</sub>",
+            "<sub>🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 / 资产缺失 · 🔴 阻塞 · 🟣 待决策 —— 原文未改动；相对媒体链接需要原 README 所在目录的上下文。</sub>",
         ),
         "",
         f"<sub>original_sha256: `{original_sha256}` · round-trip: verified</sub>",
@@ -586,7 +590,18 @@ def render_annotated_readme(readme_text: str, context: Dict[str, Any]) -> str:
     return build_annotated_readme(readme_text, context)[0]
 
 
-def write_annotated_readme(readme_path: Path, context: Dict[str, Any], output_path: Path) -> Tuple[Path, Dict[str, Any]]:
+def write_annotated_readme(
+    readme_path: Path,
+    context: Dict[str, Any],
+    output_path: Path,
+    *,
+    source_adjacent: bool = False,
+    train_output_dir: Optional[Path] = None,
+) -> Tuple[Path, Dict[str, Any]]:
+    if output_path.resolve() == readme_path.resolve():
+        raise ValueError("annotated output must not overwrite the source README")
+    if output_path.is_symlink() or (output_path.exists() and output_path.stat().st_nlink != 1):
+        raise ValueError("annotated output must not overwrite a linked file")
     source_bytes = readme_path.read_bytes()
     bom = source_bytes.startswith(b"\xef\xbb\xbf")
     payload = source_bytes[3:] if bom else source_bytes
@@ -603,6 +618,10 @@ def write_annotated_readme(readme_path: Path, context: Dict[str, Any], output_pa
     if strip_annotated_bytes(output_path.read_bytes()) != source_bytes:
         output_path.unlink(missing_ok=True)
         raise RuntimeError("annotated README failed the byte-for-byte round-trip fidelity check")
+    coverage["source_adjacent_readme"] = (
+        write_source_adjacent_readme(readme_path, output_path, train_output_dir=train_output_dir)
+        if source_adjacent else {"status": "not_requested", "path": None}
+    )
     return output_path, coverage
 
 
@@ -614,17 +633,150 @@ def strip_annotated_bytes(value: bytes) -> bytes:
     return (b"\xef\xbb\xbf" if bom else b"") + stripped
 
 
+def _plain_single_link_file(path: Path) -> bool:
+    """Never follow or replace a symlink, hard link, junction, or directory."""
+    try:
+        metadata = path.lstat()
+        return (
+            stat.S_ISREG(metadata.st_mode)
+            and metadata.st_nlink == 1
+            and not getattr(metadata, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0)
+        )
+    except OSError:
+        return False
+
+
+def managed_source_adjacent_path(readme_path: Path, output_dir: Path) -> Optional[Path]:
+    """Recognize only this bundle's unchanged generated copy, never its name alone.
+
+    Callers may omit this path from a source inventory. Modified copies, linked
+    files, and copies belonging to another evidence bundle remain source files.
+    """
+    destination = readme_path.parent / "RIGORPILOT_README.md"
+    manifest = output_dir / "readme_delivery.json"
+    if not _plain_single_link_file(destination) or not _plain_single_link_file(manifest):
+        return None
+    try:
+        if manifest.stat().st_size > 65536:
+            return None
+        ownership = json.loads(manifest.read_text(encoding="utf-8"))
+        if (
+            not isinstance(ownership, dict)
+            or ownership.get("schema_version") != "1.0"
+            or ownership.get("source_readme") != str(readme_path.resolve())
+            or ownership.get("path") != str(destination.resolve())
+            or destination.resolve() == readme_path.resolve()
+            or ownership.get("sha256") != hashlib.sha256(destination.read_bytes()).hexdigest()
+        ):
+            return None
+        return destination.resolve()
+    except (OSError, ValueError, UnicodeError):
+        return None
+
+
+def _evidence_target(path: Path, readme_directory: Path) -> str:
+    try:
+        return quote(os.path.relpath(path.resolve(), readme_directory.resolve()).replace("\\", "/"), safe="/.-_~")
+    except ValueError:
+        # Different Windows drives have no relative path; keep a local file
+        # URL in the inserted evidence only, never rewrite original media.
+        return path.resolve().as_uri()
+
+
+def rebase_inserted_evidence_links(
+    annotated_bytes: bytes, readme_directory: Path, output_dir: Path, train_output_dir: Path
+) -> bytes:
+    """Rebase known generated evidence links exclusively inside marked inserts."""
+    decoded = annotated_bytes.decode("utf-8", errors="surrogateescape")
+    replacements = {target: _evidence_target(output_dir / target, readme_directory) for _, target in EVIDENCE_LINKS}
+    replacements["../train_outputs/status.json"] = _evidence_target(train_output_dir / "status.json", readme_directory)
+
+    def replace_links(match: re.Match[str]) -> str:
+        block = match.group(0)
+        # Single pass prevents a relocated destination being rebased twice.
+        return re.sub(r"\]\((SUMMARY\.md|COMMANDS\.md|LOG\.md|status\.json|\.\./train_outputs/status\.json)\)",
+                      lambda link: f"]({replacements[link.group(1)]})", block)
+
+    return MARKER_BLOCK_RE.sub(replace_links, decoded).encode("utf-8", errors="surrogateescape")
+
+
+def _write_managed_file(path: Path, payload: bytes, *, refresh: bool) -> None:
+    if not refresh:
+        # Exclusive creation protects even dangling symlinks and collisions.
+        with path.open("xb") as handle:
+            handle.write(payload)
+        return
+    if not _plain_single_link_file(path):
+        raise ValueError(f"refusing to replace a linked or non-regular file: {path}")
+    with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".rigorpilot-readme-", delete=False) as handle:
+        temporary = Path(handle.name)
+        handle.write(payload)
+    try:
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def write_source_adjacent_readme(
+    readme_path: Path, annotated_path: Path, *, train_output_dir: Optional[Path] = None
+) -> Dict[str, Any]:
+    """Publish an optional owned source-adjacent copy; collisions keep evidence.
+
+    A bundle-local ownership receipt permits refresh only while the previous
+    copy is unchanged. This is local accidental-overwrite protection, not a
+    sandbox or a guarantee against concurrent hostile filesystem mutation.
+    """
+    destination = readme_path.parent / "RIGORPILOT_README.md"
+    output_dir = annotated_path.parent
+    manifest = output_dir / "readme_delivery.json"
+    try:
+        if readme_path.is_symlink() or destination.resolve() == readme_path.resolve():
+            raise ValueError("source-adjacent copy would alias or replace the original README")
+        if destination.resolve() == annotated_path.resolve():
+            raise ValueError("standard and source-adjacent outputs must have separate paths")
+        owned = managed_source_adjacent_path(readme_path, output_dir)
+        if os.path.lexists(destination) and owned is None:
+            raise ValueError("source-adjacent destination already exists and is not this bundle's unchanged generated copy")
+        if os.path.lexists(manifest):
+            if not _plain_single_link_file(manifest):
+                raise ValueError("source-adjacent ownership receipt is not a plain unlinked file")
+            previous = json.loads(manifest.read_text(encoding="utf-8"))
+            if not isinstance(previous, dict) or previous.get("schema_version") != "1.0" or previous.get("source_readme") != str(readme_path.resolve()) or previous.get("path") != str(destination.resolve()):
+                raise ValueError("source-adjacent ownership receipt belongs to another source or is invalid")
+        rebased = rebase_inserted_evidence_links(
+            annotated_path.read_bytes(), readme_path.parent, output_dir,
+            train_output_dir if train_output_dir is not None else output_dir.parent / "train_outputs",
+        )
+        if strip_annotated_bytes(rebased) != readme_path.read_bytes():
+            raise ValueError("source-adjacent README failed the exact byte round-trip check")
+        ownership = {"schema_version": "1.0", "source_readme": str(readme_path.resolve()),
+                     "path": str(destination.resolve()), "sha256": hashlib.sha256(rebased).hexdigest()}
+        _write_managed_file(destination, rebased, refresh=owned is not None)
+        _write_managed_file(manifest, (json.dumps(ownership, ensure_ascii=False, indent=2) + "\n").encode("utf-8"), refresh=manifest.exists())
+        return {"status": "written", **ownership, "round_trip_verified": True}
+    except (OSError, ValueError, UnicodeError) as exc:
+        reason = f"Source-adjacent README was not updated; standard evidence retained: {exc}"
+        print(reason, file=sys.stderr)
+        return {"status": "blocked", "path": str(destination.absolute()), "reason": reason}
+
+
 def _run_legacy_annotate(argv: List[str]) -> int:
     parser = argparse.ArgumentParser(description="Render an annotated README from reproduction evidence.")
     parser.add_argument("--readme", required=True, help="Path to the original README file.")
     parser.add_argument("--context-json", required=True, help="Path to the reproduction context JSON (orchestrator payload).")
     parser.add_argument("--output", required=True, help="Path to write the annotated README to.")
+    parser.add_argument("--source-adjacent-readme", action="store_true", help="Also write an owned RIGORPILOT_README.md beside the original README, preserving relative media paths.")
+    parser.add_argument("--train-output-dir", help="Actual training evidence directory for source-adjacent inserted links.")
     args = parser.parse_args(argv)
     context = json.loads(Path(args.context_json).read_text(encoding="utf-8-sig"))
     if not isinstance(context, dict):
         raise SystemExit("Context JSON must contain a top-level object.")
-    written, coverage = write_annotated_readme(Path(args.readme), context, Path(args.output))
-    print(json.dumps({"annotated_readme": str(written), "readme_section_coverage": coverage}, ensure_ascii=False))
+    written, coverage = write_annotated_readme(
+        Path(args.readme), context, Path(args.output), source_adjacent=args.source_adjacent_readme,
+        train_output_dir=Path(args.train_output_dir) if args.train_output_dir else None,
+    )
+    print(json.dumps({"annotated_readme": str(written), "readme_section_coverage": coverage,
+                      "source_adjacent_readme": coverage["source_adjacent_readme"]}, ensure_ascii=False))
     return 0
 
 

@@ -886,8 +886,15 @@ def build_context(
     verification_commands = (
         [{"label": "inferred", "command": "python - <<'PY'\nimport pathlib\nprint(pathlib.Path('train_outputs/status.json').exists())\nPY"}]
         if chosen["selected_goal"] == "training"
-        else [{"label": "inferred", "command": "# Add metric check, artifact check, or smoke verification command here."}]
+        else []
     )
+    if chosen["selected_goal"] != "training":
+        comparison_status = run_data.get("result_match", {}).get("status", "not_evaluated")
+        command_notes.append(text(
+            user_language,
+            f"No separate verification command was executed. Built-in metric comparison: `{comparison_status}`; inspect `status.json.result_match` for expected values and tolerance.",
+            f"未执行单独的验证命令。内置指标比较状态为 `{comparison_status}`；期望值与容差见 `status.json.result_match`。",
+        ))
 
     evidence = [
         text(
@@ -1027,6 +1034,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Run a minimal README-first reproduction orchestration.")
     parser.add_argument("--repo", required=True, help="Path to the target repository.")
     parser.add_argument("--output-dir", default="repro_outputs", help="Directory to write standardized outputs into.")
+    parser.add_argument("--source-adjacent-readme", action="store_true", help="Also write an owned RIGORPILOT_README.md beside the original README, preserving relative media paths.")
     parser.add_argument("--train-output-dir", default="", help="Optional override for the supplemental training output directory.")
     parser.add_argument(
         "--runtime-root",
@@ -1286,6 +1294,7 @@ def main() -> int:
 
     context["annotated_readme"] = None
     context["readme_section_coverage"] = {}
+    context["source_adjacent_readme"] = {"status": "not_requested", "path": None}
     if readme_path and Path(readme_path).exists():
         annotated_path, coverage = write_annotated_readme(
             readme_path=Path(readme_path),
@@ -1299,9 +1308,14 @@ def main() -> int:
                 ),
             },
             output_path=output_dir / "ANNOTATED_README.md",
+            source_adjacent=args.source_adjacent_readme,
+            train_output_dir=train_output_dir,
         )
         context["annotated_readme"] = str(annotated_path)
         context["readme_section_coverage"] = coverage
+        context["source_adjacent_readme"] = coverage["source_adjacent_readme"]
+    elif args.source_adjacent_readme:
+        context["source_adjacent_readme"] = {"status": "blocked", "path": None, "reason": "No source README was found; standard evidence retained."}
 
     write_bundle(repro_write_script, output_dir, context)
     if context["selected_goal"] == "training":

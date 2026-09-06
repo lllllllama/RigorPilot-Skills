@@ -19,8 +19,8 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Installation | Self-contained main skill; shared bundled runtime and guides for all-skills installs | Tests cover installed layouts, 20 public CLIs and actual short execution, not a live third-party installation service |
 | Execution | Processes, timeout/cancel, events/logs and explicit executable identity | Local host, not an OS sandbox; sampling/admission is not a hard resource quota |
 | Recovery | Checkpoints, completed-result reuse, uncertain-dispatch blocking | No blind request replay or training-checkpoint restoration |
-| Verification | Independent command checks and source integrity | The model loop's exit/stdout criteria are not paper-result matching |
-| README | Byte-preserving incremental annotations with a strip round trip | Ordinary subdirectory output may break relative media context; showcases retain a source-adjacent copy |
+| Verification | Independent commands/source checks; optional artifact size/hash and JSON-metric tolerances, rechecked at finish | Without configured structured checks, acceptance remains exit/stdout-only; no artifact-freshness or paper-reproduction claim |
+| README | Byte-preserving inserts and optional source-adjacent copies in ordinary runs, preserving original media context | Conflicting files are retained; regenerate links after moving directories; external-media availability is not guaranteed |
 | Models | Anthropic Messages tools, validated parameters and usage accounting | Three real attempts returned 502; no successful live acceptance. Other profile metadata does not imply transport support |
 | External evidence | Four historical, commit-pinned protocols with retained source files/media | Includes selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
 
@@ -45,7 +45,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 |---|---|---|
 | P0: ongoing | Installation, portability, publication, feedback and security documentation | Installed files work; three-platform CI passes; failures are not reported as success |
 | P1 | One real-model run, with no manually substituted trajectory | Responses, tools, usage and verifier evidence; stop and retain service failures |
-| P1 | Optional source-adjacent annotation for ordinary runs | Nested README/media/evidence links work; original bytes and files are not overwritten |
+| P1: implemented, ongoing regression | Both main runners accept `--source-adjacent-readme` | Nested README/media/evidence links work; original bytes and unrelated files are retained; repeats check ownership |
 | P2 | Frozen tasks, independent graders and same-condition baselines | Separate task completion, false success, incorrect blocking, cost, interventions and evidence integrity |
 | P2 | Optional isolated executor, network/file boundaries and resource limits | Explicit threat model and boundary tests; no sandbox claim when unconfigured |
 | P3 | Model regression, releases, compatibility notes and failure classification | Each version has regression evidence and change notes; historical evidence remains inspectable |

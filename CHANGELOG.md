@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### First-use output and acceptance
+
+- Preserve normal controller pauses as incomplete/resumable work, not failures;
+  separate controller status, task outcome and final acceptance in agent evidence.
+- Add optional reviewed artifact and JSON-metric checks to the model runner,
+  including final rechecks; exit code zero alone cannot satisfy these checks.
+  Existing exit/stdout-only tasks remain supported. File checks establish current
+  contents, not that the current command created them or reproduced a paper.
+- Add `--source-adjacent-readme` to both main runners while retaining the standard
+  evidence bundle. Only inserted links are rebased; originals and media stay intact.
+  An ownership receipt permits safe refresh and protects conflicting/edited files.
+- Extend standalone-install validation through execution, source-adjacent output,
+  original-byte restoration, media/evidence links and a reviewed repeat.
+- Replace the non-training verification placeholder with the actual built-in
+  metric-comparison status; do not invent a separately executed verifier command.
+
 ### September engineering hardening
 
 #### Fixed
