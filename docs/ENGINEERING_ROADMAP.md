@@ -1,0 +1,98 @@
+# Engineering roadmap and acceptance criteria
+
+[简体中文](ENGINEERING_ROADMAP.zh-CN.md) · [README](../README.md) · [Implementation record](P0_P1_DELIVERY.md)
+
+Updated 2026-09-06. Planned work is not an implemented capability.
+
+## Product scope
+
+RigorPilot turns research-repository README targets into bounded execution and
+auditable evidence. It targets small inference/evaluation runs, reproduction
+preflight, conservative training startup and diagnosis. Trusted execution is
+the default; source exploration needs explicit authorization. It does not
+replace researcher judgment or change algorithms/budgets to manufacture success.
+
+## Current capabilities
+
+| Area | Implementation | Boundary |
+|---|---|---|
+| Installation | Self-contained main skill; shared bundled runtime and guides for all-skills installs | Tests cover installed layouts, 20 public CLIs and actual short execution, not a live third-party installation service |
+| Execution | Processes, timeout/cancel, events/logs and explicit executable identity | Local host, not an OS sandbox; sampling/admission is not a hard resource quota |
+| Recovery | Checkpoints, completed-result reuse, uncertain-dispatch blocking | No blind request replay or training-checkpoint restoration |
+| Verification | Independent command checks and source integrity | The model loop's exit/stdout criteria are not paper-result matching |
+| README | Byte-preserving incremental annotations with a strip round trip | Ordinary subdirectory output may break relative media context; showcases retain a source-adjacent copy |
+| Models | Anthropic Messages tools, validated parameters and usage accounting | Three real attempts returned 502; no successful live acceptance. Other profile metadata does not imply transport support |
+| External evidence | Four historical, commit-pinned protocols with retained source files/media | Includes selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
+
+## Acceptance layers
+
+1. **Engineering regression:** `python scripts/run_all_tests.py` covers installed
+   layouts, invalid model responses, recovery, source fidelity and a real target
+   command asserting it executes inside the created virtualenv.
+2. **Offline verification:** `python scripts/run_harness_lab.py` uses fixed
+   simulated decisions with real failure, preparation, pause and process restart.
+   No API/GPU/downloads; not model-quality evidence.
+3. **Repository protocols:** [Pinned cases](../benchmarks/README.md) distinguish
+   selection, execution, partial completion and metric matching.
+4. **Live-model acceptance:** one bounded
+   [micrograd canary](../benchmarks/run_agent_canary.py), only with a working
+   service and confirmed budget. Preserve actual model/tool traces, usage,
+   independent verdict and source hash before expanding the matrix.
+
+## Delivery priorities
+
+| Priority | Deliverable | Acceptance gate |
+|---|---|---|
+| P0: ongoing | Installation, portability, publication, feedback and security documentation | Installed files work; three-platform CI passes; failures are not reported as success |
+| P1 | One real-model run, with no manually substituted trajectory | Responses, tools, usage and verifier evidence; stop and retain service failures |
+| P1 | Optional source-adjacent annotation for ordinary runs | Nested README/media/evidence links work; original bytes and files are not overwritten |
+| P2 | Frozen tasks, independent graders and same-condition baselines | Separate task completion, false success, incorrect blocking, cost, interventions and evidence integrity |
+| P2 | Optional isolated executor, network/file boundaries and resource limits | Explicit threat model and boundary tests; no sandbox claim when unconfigured |
+| P3 | Model regression, releases, compatibility notes and failure classification | Each version has regression evidence and change notes; historical evidence remains inspectable |
+
+Defer large training runs, arbitrary source repair, multi-agent orchestration
+and long-term memory infrastructure until demonstrated failures justify them.
+
+## Reusable evaluation protocol (planned)
+
+Begin with six tasks and three conditions to audit graders, then expand to
+twelve frozen tasks across 4–6 repositories, with three repeats for key tasks.
+Separate development from holdout data; existing public cases are regressions,
+not unseen tasks.
+
+A: same model with generic task instructions; B: A plus skill instructions;
+C: B plus durable execution/recovery/evidence mechanics. Freeze model revision,
+tool permissions, reviewed commands, budgets, source/environment and grader.
+Retain raw traces for all arms. A baseline must not fail a business task merely
+because it lacks a polished report. Different tools/permissions constitute an
+end-to-end product comparison, not a single-factor ablation. Reviewed command
+sets do not establish autonomous target discovery.
+
+Cover normal execution, missing assets, exit-zero/wrong-result, interrupted
+controller, premature completion and unauthorized large downloads. Label
+injected faults separately. Protect external graders from agent modification;
+check actual artifacts, metric tolerances and experimental conditions.
+
+Record task/split/commit, harness/prompt/grader hashes, requested/returned model,
+parameters, dependencies/cache, repeat, interventions, claimed/verified outcome,
+trace, usage and latency. Mark unknown costs; include failed attempts in cost
+per success. Report provider failures separately without removing them from
+user-facing success denominators. Report both safe and incorrect blocking;
+small samples warrant per-case evidence and uncertainty, not broad claims.
+See [agent evaluation guidance](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents).
+
+## Upgrades and operation
+
+Protocol/usage tests → one live canary → paired holdout comparison → release.
+Change one factor at a time and preserve old results. Use ablations to remove
+obsolete scaffolding as models improve. Borrow acceptance contracts and
+independent checks from [long-running harness practice](https://www.anthropic.com/engineering/harness-design-long-running-apps),
+and the checkpoint/memory distinction from [persistence design](https://docs.langchain.com/oss/python/langgraph/persistence),
+without copying their architectural scale.
+
+Prefer single-case, serial, budgeted validation. Token/time gates cannot read
+subscription balances or replace provider-side spending caps. Do not download
+large models implicitly or replay requests with unknown outcomes. Review traces
+before publication; see [security](../SECURITY.md) and [contributing](../CONTRIBUTING.md).
+Remote branch protection, private vulnerability reporting and account settings
+require maintainer confirmation; repository templates do not enable them.

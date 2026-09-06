@@ -14,8 +14,8 @@ python scripts/run_all_tests.py
 python scripts/check_publication.py
 ```
 
-For a first hands-on exercise, run `python scripts/run_harness_lab.py` and read
-the [learning roadmap](docs/PROJECT_GUIDE.md). The lab simulates model decisions
+For an offline execution check, run `python scripts/run_harness_lab.py` and read
+the [engineering roadmap](docs/ENGINEERING_ROADMAP.md). The example simulates model decisions
 but executes real commands; it is not a model-quality benchmark. Share sanitized
 reproduction feedback through the issue form; never upload credentials or
 unreviewed private traces. Do not fix an acceptance failure by weakening its grader.

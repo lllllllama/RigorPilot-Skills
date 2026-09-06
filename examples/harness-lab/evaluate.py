@@ -1,4 +1,4 @@
-"""A deterministic teaching check, not a scientific model evaluation."""
+"""A deterministic execution check, not a scientific model evaluation."""
 import json
 from pathlib import Path
 

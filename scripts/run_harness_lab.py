@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline teaching lab: simulated decisions, actual execution and process restart."""
+"""Offline verification: simulated decisions, actual execution and process restart."""
 from __future__ import annotations
 
 import argparse
@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -34,13 +35,13 @@ class SimulatedDecisions:
     """A fixed script, NOT an LLM. Only command execution and verification are real."""
     def complete(self, messages, system, tools, max_tokens, timeout):
         steps = [
-            [call("read_file", "教学模拟：先读取原始说明。", path="README.md"),
-             call("update_plan", "教学模拟：明确最小任务和验收条件。", steps=["评估", "根据失败准备资产", "恢复并验证"])],
-            [call("run_command", "教学模拟：有意触发一次缺失资产错误。", command_id="evaluate")],
-            [call("update_plan", "教学模拟：根据预期的缺失资产错误，先准备再重试。", steps=["已观察缺失资产", "准备资产", "暂停后恢复评估"]),
-             call("run_command", "教学模拟：只调用 README 中已审核的准备命令。", command_id="prepare")],
-            [call("run_command", "教学模拟：新进程恢复后只重试失败的评估。", command_id="evaluate")],
-            [call("finish", "教学模拟：提交独立验证，而非凭声明判定成功。", summary="模拟决策结束；以进程和源码验收为准。")],
+            [call("read_file", "模拟决策：先读取原始说明。", path="README.md"),
+             call("update_plan", "模拟决策：明确最小任务和验收条件。", steps=["评估", "根据失败准备资产", "恢复并验证"])],
+            [call("run_command", "模拟决策：有意触发一次缺失资产错误。", command_id="evaluate")],
+            [call("update_plan", "模拟决策：根据预期的缺失资产错误，先准备再重试。", steps=["已观察缺失资产", "准备资产", "暂停后恢复评估"]),
+             call("run_command", "模拟决策：只调用 README 中已审核的准备命令。", command_id="prepare")],
+            [call("run_command", "模拟决策：新进程恢复后只重试失败的评估。", command_id="evaluate")],
+            [call("finish", "模拟决策：提交独立验证，而非凭声明判定成功。", summary="模拟决策结束；以进程和源码验收为准。")],
         ]
         index = sum(message.get("role") == "assistant" for message in messages)
         if index >= len(steps):
@@ -50,7 +51,7 @@ class SimulatedDecisions:
 
 
 def lab_task() -> dict:
-    return {"goal": "离线教学模拟：执行已审核命令，记录缺失资产错误，跨进程恢复并独立验证；不代表真实模型能力。",
+    return {"goal": "离线验证示例：执行已审核命令，记录缺失资产错误，跨进程恢复并独立验证；不代表真实模型能力。",
         "language": "zh", "commands": {
             "prepare": {"argv": ["python", "prepare.py"], "documented_command": "python prepare.py",
                         "expected_stdout": "prepared: ready.json", "timeout_seconds": 10},
@@ -73,9 +74,38 @@ def independent_verification_passed(state: dict, required_commands: list[str]) -
             and all(command_checks.get(name) is True for name in required_commands))
 
 
+def remove_temporary_git_pointer(repo: Path, metadata: Path) -> None:
+    """Remove only this lab's regular .git pointer, comparing filesystem identity."""
+    pointer = repo / ".git"
+    try:
+        pointer_stat = pointer.lstat()
+    except FileNotFoundError:
+        return
+    if not stat.S_ISREG(pointer_stat.st_mode):
+        raise RuntimeError(f"Preserved unexpected .git entry (not a regular pointer file): {pointer}")
+    try:
+        lines = pointer.read_text(encoding="utf-8").strip().splitlines()
+        if len(lines) != 1 or not lines[0].startswith("gitdir: "):
+            raise ValueError("unrecognized gitdir pointer format")
+        target_text = lines[0][len("gitdir: "):].strip()
+        if not target_text:
+            raise ValueError("empty gitdir target")
+        target = Path(target_text)
+        if not target.is_absolute():
+            target = pointer.parent / target
+        # Git may canonicalize /var to /private/var or Windows short paths to
+        # long paths. Relative gitdir paths are relative to the pointer's parent.
+        actual, expected = target.resolve(strict=True), metadata.resolve(strict=True)
+        if not actual.is_dir() or not expected.is_dir() or not actual.samefile(expected):
+            raise ValueError("gitdir does not identify this run's temporary metadata")
+    except (OSError, UnicodeError, ValueError) as exc:
+        raise RuntimeError(f"Preserved unexpected .git pointer at {pointer}: {exc}") from exc
+    pointer.unlink()
+
+
 def worker(output: Path, resume: bool) -> int:
     task = json.loads((output / "TASK.json").read_text(encoding="utf-8"))
-    profile = normalize_model_profile({"adapter_id": "offline-teaching-simulation", "provider": "simulation",
+    profile = normalize_model_profile({"adapter_id": "offline-verification-simulation", "provider": "simulation",
         "model": "simulation-no-model", "endpoint": "simulation://offline", "capabilities": ["tool_calling"],
         "metadata": {"simulation": True, "live_model_evidence": False}})
     state = run(task, output / "repo", output / "repo/repro_outputs", profile, SimulatedDecisions(),
@@ -119,9 +149,7 @@ def run_lab(output: Path) -> dict:
                 if phase == "pause":
                     shutil.copyfile(repo / "repro_outputs/agent_state.json", output / "CHECKPOINT.json")
         finally:
-            pointer = repo / ".git"
-            if pointer.is_file() and pointer.read_text(encoding="utf-8").strip() == f"gitdir: {metadata.as_posix()}":
-                pointer.unlink()
+            remove_temporary_git_pointer(repo, metadata)
     state = json.loads((repo / "repro_outputs/agent_state.json").read_text(encoding="utf-8"))
     checkpoint = json.loads((output / "CHECKPOINT.json").read_text(encoding="utf-8"))
     annotated = rebase_inserted_evidence_links((repo / "repro_outputs/ANNOTATED_README.md").read_bytes(), "repro_outputs/", "train_outputs/")

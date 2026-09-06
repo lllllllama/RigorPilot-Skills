@@ -31,7 +31,9 @@ def invoke(script: Path, args: list[str], cwd: Path) -> subprocess.CompletedProc
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     with tempfile.TemporaryDirectory(prefix="rigorpilot-folder-install-") as temporary:
-        workspace = Path(temporary)
+        # Resolve platform aliases (/var vs /private/var, Windows short paths)
+        # before comparing this boundary with resolved installed references.
+        workspace = Path(temporary).resolve()
         installed = workspace / "agent-home" / "skills"
         shutil.copytree(root / "skills", installed,
                         ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))

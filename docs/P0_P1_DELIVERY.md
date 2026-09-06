@@ -100,7 +100,7 @@ P1 增加模型—工具执行循环、任务状态、预算和恢复能力。�
 自动测试覆盖主要工程行为；真实网关三次请求均返回 502，尚未通过真实模型
 端到端验收。失败记录可核查，不能把未返回用量的失败解释为零费用。
 
-## 2026-09-06 follow-up: audit findings and learning workflow
+## 2026-09-06 follow-up: installation, execution and verification
 
 Independent, offline reviews reproduced two installation failures: the Python
 installer omitted `agent_provider.py`, and skills-folder-only installs could not
@@ -118,7 +118,7 @@ real successful command. Malformed provider batches now stop before dispatch;
 valid usage is retained even when response content is invalid. Profile parameters
 are either validated and transmitted or rejected, never silently ignored.
 
-`python scripts/run_harness_lab.py` provides a small offline teaching workflow:
+`python scripts/run_harness_lab.py` provides a small offline verification workflow:
 real missing-asset failure, preparation, a durable pause, a new controller process,
 retry and independent verification. Decisions are explicitly scripted, not an
 LLM. The final local review run took 1.407 seconds and retained roughly 96 KB including
@@ -128,9 +128,8 @@ directories are refused. No new successful live-model evidence is claimed.
 The old MiniSeg preview is retained but labeled as a historical illustration
 whose execution provenance was not independently verified. The fixed-commit
 repository evidence and media are unchanged. The bilingual
-[learning and delivery guide](PROJECT_GUIDE.md) separates current evidence,
-planned baseline experiments, model-upgrade gates, career exercises and user
-adoption goals. No star-growth or hiring outcome is promised.
+[engineering roadmap](ENGINEERING_ROADMAP.md) separates current capabilities,
+acceptance boundaries, baseline experiments, model-upgrade gates and maintenance.
 
 The first full regression in this audit passed 60/61 scripts. Its failure
 revealed that MSYS2 Python creates `bin/python.exe` despite `os.name == 'nt'`.
@@ -146,5 +145,11 @@ execution evidence, not proof of this new interpreter-isolation assertion.
 
 After these fixes, the complete local suite passed **61/61 scripts in 102.6 s**,
 including the actual-venv assertion, installed entrypoints, provider regressions
-and teaching lab. `check_publication.py` also verified the unchanged committed
+and offline example. `check_publication.py` also verified the unchanged committed
 showcase tree. Remote CI for this revision is separate from this local result.
+
+The first remote follow-up (`0b3f4dd`) passed Ubuntu but exposed temporary-path
+aliases on Windows/macOS: the folder-install test compared resolved references
+to an unresolved boundary, and the offline example compared its Git pointer using
+literal path text. Canonical path identity now handles those aliases while
+retaining the rule that cleanup removes only this lab's own metadata pointer.

@@ -104,21 +104,14 @@ def main() -> int:
     if "not fields the agent must invent on every run" not in campaign_text:
         failures.append("research_campaign optional fields are not clearly downgraded from required")
 
-    readme = (repo_root / "README.md").read_text(encoding="utf-8")
-    for phrase in [
-        "RigorPilot Skills",
-        "Research-first Agent Skills for Deep Learning Experiments",
-        "Suggested Research Evidence",
-        "Lifecycle View",
-        "agent-operating-principles.md",
-    ]:
-        if phrase not in readme:
-            failures.append(f"README.md missing `{phrase}`")
-
-    readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
-    for phrase in ["RigorPilot Skills", "不只是更高分数", "建议的科研证据体系"]:
-        if phrase not in readme_zh:
-            failures.append(f"README.zh-CN.md missing `{phrase}`")
+    # Product copy and heading names may change. Test discoverable guidance,
+    # not legacy marketing phrases that force long content back onto the page.
+    for name in ("README.md", "README.zh-CN.md"):
+        readme = (repo_root / name).read_text(encoding="utf-8")
+        for reference in ("references/agent-operating-principles.md",
+                          "references/research-rigor-principles.md"):
+            if f"]({reference})" not in readme or not (repo_root / reference).is_file():
+                failures.append(f"{name} must link to existing guidance: {reference}")
 
     print(f"ok: {not failures}")
     print(f"public_skills: {len(public_names)}")
