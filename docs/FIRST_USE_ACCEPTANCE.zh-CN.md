@@ -59,5 +59,6 @@ python scripts/check_publication.py
 新实验可复用 [首次使用验收器](../benchmarks/README.md#installed-skill-first-use-check)。它不执行
 目标仓库，不认证基线来源，不验证外部媒体服务、浏览器渲染、科学指标或抗协同伪造。
 
-下一阶段按 [工程计划](ENGINEERING_ROADMAP.zh-CN.md#当前交付计划) 冻结三个任务的 A/B 试验。
+下一阶段的[三任务评测准备](PAIRED_PILOT.zh-CN.md)已交付：输入已冻结，评分器已真实校准，
+六个模型试验仍未运行。
 全新客户端加载、成功的独立模型执行器调用和模型能力对照仍待单独确认预算后验收。

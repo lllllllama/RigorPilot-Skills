@@ -23,6 +23,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | README | Byte-preserving inserts and optional source-adjacent copies in ordinary runs, preserving original media context | Conflicting files are retained; regenerate links after moving directories; external-media availability is not guaranteed |
 | Models | Anthropic Messages tools, validated parameters and usage accounting | Three real attempts returned 502; no successful live acceptance. Other profile metadata does not imply transport support |
 | External evidence | Four historical, commit-pinned protocols with retained source files/media | Includes selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
+| Paired pilot preparation | Three frozen tasks, six A/B slots, independent graders and real local calibration | All six model slots remain unrun; no generic live executor or enforced model budget in this kit |
 
 ## Acceptance layers
 
@@ -67,7 +68,7 @@ Apply these gates; generated files alone do not establish task completion:
 | 1 | One pinned micrograd checkout and independent installed-skill trial | Agent selects and executes from README without a supplied command; retain failures/interventions; reuse existing dependencies, no large downloads or training |
 | 2 | Report issues observed during first use | Separate actual execution, unexecuted suggestions and observations; no automatic human decision merely for a missing environment file; real dependency/asset failures remain visible |
 | 3 | Independent acceptance and publication | Check actual logs, original-file SHA-256, per-section restoration and local evidence links; full regression and Git publication checks before sync |
-| 4 | Small paired evaluation (next) | Freeze three tasks and two conditions first; inspect graders and per-case differences before repeating or expanding |
+| 4 | Small paired evaluation (preparation/calibration delivered; live pending) | [Frozen tasks and actual grader calibration](PAIRED_PILOT.md); connect an isolated, budget-enforcing model executor before one canary and six paired trials |
 
 Installation, execution with an explicitly named skill/path, and automatic skill
 selection in a fresh client are separate gates. The first two do not establish
@@ -76,7 +77,14 @@ model resources; no separate API call does not mean zero tokens or zero cost.
 Fresh client sessions and standalone calls require an explicit model and budget;
 subscription balances are not available as a stopping signal.
 
-## Reusable evaluation protocol (planned)
+## Reusable evaluation protocol (offline foundation delivered; live planned)
+
+The [paired pilot kit](PAIRED_PILOT.md) implements task/input/implementation
+freezing, fresh directories, independent graders and append-only local calibration.
+Its three real-command calibrations are separate from the six still-unrun live
+slots. Model configuration is preflight validation only, not execution or spending
+enforcement. Next acceptance: isolated client, measured usage/time stops, one live
+canary, then paired trials with all attempts retained.
 
 Begin with three tasks and two conditions (six attempts): normal execution,
 missing required assets, and exit-zero/wrong-result. Missing-resource tasks
@@ -88,7 +96,8 @@ then to twelve frozen tasks across 4–6 repositories, with three repeats for ke
 Separate development from holdout data; existing public cases are regressions,
 not unseen tasks.
 
-A: same model with generic task instructions; B: A plus skill instructions;
+A: same model with generic task instructions; B: A plus the skill package,
+including bundled helpers (an end-to-end package comparison, not prompt-only);
 C: B plus durable execution/recovery/evidence mechanics. Freeze model revision,
 tool permissions, reviewed commands, budgets, source/environment and grader.
 Retain raw traces for all arms. A baseline must not fail a business task merely

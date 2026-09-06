@@ -1,0 +1,7 @@
+{
+  "observed_metrics": {
+    "mse": 0.0
+  },
+  "outcome": "matched",
+  "reason": "Scripted grader calibration; not a model response."
+}

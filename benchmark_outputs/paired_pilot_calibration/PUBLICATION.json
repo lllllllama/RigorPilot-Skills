@@ -1,0 +1,18 @@
+{
+  "bytes_before_this_metadata": 224167,
+  "cost": null,
+  "date": "2026-09-06",
+  "integrity": "Original README/media, logs, receipts and reports copied unchanged. Operator hash files are not an OS security boundary.",
+  "live_trials_started": 0,
+  "mode": "offline_calibration",
+  "model_usage": null,
+  "omitted": "Six unused live workspaces, duplicate installed skill copies, caches and environments; frozen identities remain in control/manifest.json.",
+  "origin_base_commit": "bd3ba488216b3036531ae59e7f7b850a60ebc927",
+  "paths": "Original runtime absolute paths are historical. This is a browsable snapshot, not a resumable campaign.",
+  "protocol_sha256": "db4d8480b489cee248f96a2b6d5fd730df7145415b99707738c8dc679559115e",
+  "raw_log_hashes_verified": true,
+  "raw_report": "REPORT.json",
+  "scope": "Actual local commands and scripted claims calibrate independent graders; no model A/B result.",
+  "snapshot": "calibration/calibration-835721b0e817",
+  "upstream_originals_verified": true
+}

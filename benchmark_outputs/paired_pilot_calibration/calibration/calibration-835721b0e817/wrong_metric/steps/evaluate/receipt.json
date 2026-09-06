@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "D:\\Anaconda3\\python.exe",
+    "evaluate.py"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\paired-pilot-20260906-v2\\calibration\\calibration-835721b0e817\\wrong_metric\\repo",
+  "elapsed_seconds": 0.063,
+  "outcome": "completed",
+  "returncode": 0,
+  "source": "README.md#evaluation",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "mse=1.0\r\n",
+  "stdout_sha256": "4cdb002876b35fa4a38008a45216bd8bc0d349c384e97af3750e9ba500349acf",
+  "step_id": "evaluate"
+}

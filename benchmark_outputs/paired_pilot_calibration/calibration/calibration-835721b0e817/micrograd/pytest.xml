@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="2" time="1.835" timestamp="2026-09-06T18:17:14.893621" hostname="rck"><testcase classname="test.test_engine" name="test_sanity_check" time="0.026" /><testcase classname="test.test_engine" name="test_more_ops" time="0.001" /></testsuite></testsuites>

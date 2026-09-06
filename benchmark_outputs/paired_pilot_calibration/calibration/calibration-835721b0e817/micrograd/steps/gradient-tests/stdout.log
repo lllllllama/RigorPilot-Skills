@@ -1,0 +1,9 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.7, pytest-7.4.4, pluggy-1.6.0
+rootdir: D:\test_projects\ai-paper-reproduction-skill\repro_outputs\paired-pilot-20260906-v2\calibration\calibration-835721b0e817\micrograd\repo
+collected 2 items
+
+test\test_engine.py ..                                                   [100%]
+
+- generated xml file: D:\test_projects\ai-paper-reproduction-skill\repro_outputs\paired-pilot-20260906-v2\calibration\calibration-835721b0e817\micrograd\pytest.xml -
+============================== 2 passed in 1.83s ==============================

@@ -377,6 +377,281 @@
       "sha256": "0baf3abdba018235d481e7b2c147c30f9064c19034b8b5ca78b43650625b5c2f"
     },
     {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/CLAIM.json",
+      "bytes": 119,
+      "sha256": "4f97293bea8144d41f716445dbb6f7b0c3b43274ec3353c45b2dc4b9b8cf667e"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/GRADE.json",
+      "bytes": 240,
+      "sha256": "0f7c23538af0a5cdfc68f2fb334ed32ebd8df66581ca5bd19accbb0192eb8d1f"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/pytest.xml",
+      "bytes": 367,
+      "sha256": "219f99e47c59f451644e763ccc7492edce4544a44b059a7b95c81ce89ebbd245"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/steps/gradient-tests/receipt.json",
+      "bytes": 1437,
+      "sha256": "12f06c78319c15c15b61ffcd90dc9e555e7fe9f08dfa8c78742a69d1aef35132"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/steps/gradient-tests/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/micrograd/steps/gradient-tests/stdout.log",
+      "bytes": 640,
+      "sha256": "a3b3d5c0da35504576e68232b6bfdd0b1d583f04a3e704855c7c4542456aa9d2"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/CLAIM.json",
+      "bytes": 137,
+      "sha256": "7db310f523e90f9feadc66f8a33fc6c367cc309320995dc0a542691dfc567231"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/GRADE.json",
+      "bytes": 258,
+      "sha256": "84b949a034264a3b896e69fef1bd495eb2867836b9157d82cc3ecaa086f3e861"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/repo/config.json",
+      "bytes": 34,
+      "sha256": "8c489a6bb1a8d85796e7821987ea43a45dd9ea2b9cc036b9793649c179150656"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/repo/data/samples.csv",
+      "bytes": 16,
+      "sha256": "5f6672b1c549886384a63452da2d44272c0ac2490a9cba877a881265d983deeb"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/repo/evaluate.py",
+      "bytes": 1407,
+      "sha256": "8a0dd85e0a3cc1d1fbb450e1b0750eca6385fcd8c80644f58b623886ad4f8aa2"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/repo/prepare_data.py",
+      "bytes": 692,
+      "sha256": "217aac9d4a8550b7b1fe59bdfe030bfe4f5cbdf87e47572ae52d0ae9aba5e580"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/repo/README.md",
+      "bytes": 1005,
+      "sha256": "b6a9322f0fc759985298508f3a91bfad2fd90386dbd818c5ca237ff559796eab"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/repo/results/metrics.json",
+      "bytes": 216,
+      "sha256": "97f78d23a86e6a956311e837ce8b4ece09e35414824ef1ab95ca861e4d2ff83a"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/repo/results/predictions.json",
+      "bytes": 161,
+      "sha256": "3af8520cda4ab9bc870b83bb1369295269c1a0c489a9db5caafa914f2b0594c1"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/steps/evaluate/receipt.json",
+      "bytes": 582,
+      "sha256": "858ae27c3369ec98b1f7eaa5e4a22e79423d29aabef750b2784ef05e156f5c5d"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/steps/evaluate/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/steps/evaluate/stdout.log",
+      "bytes": 9,
+      "sha256": "2dccca42d33cf1b2450bcc2056a9cf2b14405514cd320918158e855563b30283"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/steps/prepare-data/receipt.json",
+      "bytes": 626,
+      "sha256": "461eb9d4525fb73691766a0bac3feff6a78f9a51ecbe89c0d226d76dca9eee0a"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/steps/prepare-data/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/missing_asset/steps/prepare-data/stdout.log",
+      "bytes": 51,
+      "sha256": "1bf01f6441eb3d0c4bcad353f37175d27695501cd217617cceec48d551653e7c"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/REPORT.json",
+      "bytes": 1886,
+      "sha256": "09a705cc29ca2a9800723e6d5ed42e5d3270578c63edeb1c8f39b30fd7236568"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/START.json",
+      "bytes": 174,
+      "sha256": "0da88da97850149de19aaf3d888f2d5afea80509d0e1018e8b4856c6271d7729"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/CLAIM.json",
+      "bytes": 140,
+      "sha256": "665c83458700afc8a77537837efaf1847704a2ed037b4de96a9e632c7341127d"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/GRADE.json",
+      "bytes": 259,
+      "sha256": "4583bd1e7eda8a58c3e41138b703bc3e96909e6516305ff0645068c5fb7eb422"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/repo/config.json",
+      "bytes": 34,
+      "sha256": "075cd20545b0d4ea1cfd5b58c2afbf1a23dda3460605c2c2d579bc013f379ee3"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/repo/data/samples.csv",
+      "bytes": 16,
+      "sha256": "5f6672b1c549886384a63452da2d44272c0ac2490a9cba877a881265d983deeb"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/repo/evaluate.py",
+      "bytes": 1407,
+      "sha256": "8a0dd85e0a3cc1d1fbb450e1b0750eca6385fcd8c80644f58b623886ad4f8aa2"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/repo/prepare_data.py",
+      "bytes": 692,
+      "sha256": "217aac9d4a8550b7b1fe59bdfe030bfe4f5cbdf87e47572ae52d0ae9aba5e580"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/repo/README.md",
+      "bytes": 945,
+      "sha256": "d154d23c65fcc253fb7b3ae643fb3ad8ce65f1469d9a5c5b8a848b52921087ff"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/repo/results/metrics.json",
+      "bytes": 216,
+      "sha256": "fc0ab88401932669d1b952dff265a22ba88bddf6f9e5a380a1d0c44674ba0483"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/repo/results/predictions.json",
+      "bytes": 161,
+      "sha256": "e666951d2814c563e223d6e9538af2378b743b71034f8a2e0411fac3a34b3c69"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/steps/evaluate/receipt.json",
+      "bytes": 581,
+      "sha256": "38931ce4466fae480e436d7a320771916d0023155deba8dcb5e3bd6acd23ce85"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/steps/evaluate/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/calibration/calibration-835721b0e817/wrong_metric/steps/evaluate/stdout.log",
+      "bytes": 9,
+      "sha256": "4cdb002876b35fa4a38008a45216bd8bc0d349c384e97af3750e9ba500349acf"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/control/freeze.json",
+      "bytes": 92,
+      "sha256": "88bced261af8ddcb39b728108a92c298c2ef1a50e48f57d6eaff193e4fc77a6a"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/control/manifest.json",
+      "bytes": 18118,
+      "sha256": "db4d8480b489cee248f96a2b6d5fd730df7145415b99707738c8dc679559115e"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/implementation/paired_eval.py",
+      "bytes": 21395,
+      "sha256": "4331b1ddf275066a5a9411a3cbb4eabeb2c58fde2f7d624105543c1d6599169c"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/implementation/paired_tasks.py",
+      "bytes": 19310,
+      "sha256": "c73b677592891a228b9e8cb4bca68ecd1ac3bf9850390f4db403a35bda64fcbb"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/PUBLICATION.json",
+      "bytes": 1002,
+      "sha256": "70647f7e0d96bf06a0e6d5906a3d5dde85d04d0db444e31864488e40ed8730ca"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/REPORT.json",
+      "bytes": 1886,
+      "sha256": "09a705cc29ca2a9800723e6d5ed42e5d3270578c63edeb1c8f39b30fd7236568"
+    },
+    {
+      "path": "benchmark_outputs/paired_pilot_calibration/SUMMARY.json",
+      "bytes": 1290,
+      "sha256": "36af2f2fd8d576cfb58c8488cd11859a3196ebc1376d02589047c191dced7736"
+    },
+    {
       "path": "benchmark_outputs/showcases/micrograd/repo/.gitignore",
       "bytes": 21,
       "sha256": "a4e97f92728e43e555cf82bb57e201ba5e3a4f1d7c51675d4836230c5ee9e62f"

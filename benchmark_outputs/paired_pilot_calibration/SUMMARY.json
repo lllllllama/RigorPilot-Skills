@@ -1,0 +1,52 @@
+{
+  "budget_compliant": null,
+  "budget_enforcement": "not_enforced",
+  "cost": null,
+  "limitations": [
+    "No live executor, model trial, provider failure or model usage was measured by this kit.",
+    "Do not treat calibration passes as model success rates or discard planned slots.",
+    "A/B includes the skill package, not just its prompt; future tools/permissions/environment must be audited."
+  ],
+  "live_completion_rate": null,
+  "live_trials_not_run": 6,
+  "live_trials_started": 0,
+  "offline_calibrations": [
+    {
+      "passed": 3,
+      "run_id": "calibration-835721b0e817",
+      "status": "completed",
+      "tasks": 3
+    }
+  ],
+  "paired_effect": null,
+  "phase": "prepared_not_live_evaluated",
+  "planned_live_trials": 6,
+  "protocol_id": "research-workflow-pilot-v1",
+  "slots": [
+    {
+      "slot_id": "micrograd-A-r1",
+      "status": "not_run"
+    },
+    {
+      "slot_id": "micrograd-B-r1",
+      "status": "not_run"
+    },
+    {
+      "slot_id": "missing_asset-A-r1",
+      "status": "not_run"
+    },
+    {
+      "slot_id": "missing_asset-B-r1",
+      "status": "not_run"
+    },
+    {
+      "slot_id": "wrong_metric-A-r1",
+      "status": "not_run"
+    },
+    {
+      "slot_id": "wrong_metric-B-r1",
+      "status": "not_run"
+    }
+  ],
+  "tokens_used": null
+}

@@ -16,7 +16,7 @@ RigorPilot 不重写原始 README，只在各章节插入执行结果与证据�
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills 开放标准" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="支持平台" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-63%2F63%20passed-8250df?style=flat-square">
+  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-65%2F65%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="历史外部协议验证" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -199,9 +199,12 @@ python scripts/run_harness_lab.py
 python scripts/run_all_tests.py
 ```
 
-最近本地记录（2026-09-06）：**61/61 脚本通过，用时 116.8 秒**。
+最近本地记录（2026-09-06）：**65/65 脚本通过，用时 119.9 秒**。
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
+
+准备模型对照可用[小型评测工具](docs/PAIRED_PILOT.zh-CN.md)：提供冻结任务和
+真实评分器校准日志。六个计划中的模型试验尚未运行；校准不代表技能增益。
 
 ## 工程与贡献
 

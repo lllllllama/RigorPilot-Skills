@@ -54,5 +54,6 @@ For fresh experiments, reuse the [first-use grader](../benchmarks/README.md#inst
 It does not execute the target, authenticate the baseline, test external media/browser rendering,
 verify scientific metrics or protect against coordinated evidence forgery.
 
-Next: freeze three tasks for the paired pilot in the [engineering plan](ENGINEERING_ROADMAP.md#current-delivery-plan).
+Next-stage preparation is now in the [three-task paired pilot](PAIRED_PILOT.md):
+frozen inputs and real grader calibration, with all six model slots still unrun.
 Fresh-client loading, successful standalone model execution and model-quality comparisons still require separately confirmed budgets and acceptance.

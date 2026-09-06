@@ -1,0 +1,10 @@
+{
+  "mode": "offline_calibration",
+  "model_calls": 0,
+  "run_id": "calibration-835721b0e817",
+  "task_ids": [
+    "micrograd",
+    "missing_asset",
+    "wrong_metric"
+  ]
+}

@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Paired evaluation foundation
+
+- Freeze three development tasks and six A/B slots, including original source,
+  prompts, environment, skill package and evaluator/executor hashes. Reject
+  changed inputs, invalid model/budget declarations and overwritten evidence.
+- Add independent task graders for real micrograd tests, local missing-asset
+  preparation and an explicitly injected exit-zero/wrong-metric task. Reports
+  distinguish process success, artifact validity, result match and correct handling.
+- Publish actual offline calibration with unchanged upstream files/media and raw
+  receipts; extend Git publication checks to this snapshot. Scripted claims only
+  calibrate graders. All six live model slots remain unrun; unknown usage/cost
+  stays null, and this kit has no generic live backend or enforced model budget.
+
 ### First-use output and acceptance
 
 - Separate unexecuted setup suggestions, asset observations and actual command

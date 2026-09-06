@@ -1,5 +1,22 @@
 # Harness Smoke Benchmarks
 
+## Small paired-evaluation kit
+
+Prepare three frozen tasks and six unrun A/B slots, then calibrate the independent
+graders with real local commands. This kit does **not** execute live models:
+
+```bash
+python benchmarks/paired_eval.py prepare --output repro_outputs/paired-pilot --python python
+python benchmarks/paired_eval.py calibrate --campaign repro_outputs/paired-pilot
+python benchmarks/paired_eval.py summarize --campaign repro_outputs/paired-pilot
+```
+
+Use an existing Python with torch/pytest for micrograd; the other two tasks need
+only the standard library. No dependency installation, network fetch or model
+call. Read the [protocol, preflight and actual calibration evidence](../docs/PAIRED_PILOT.md)
+([简体中文](../docs/PAIRED_PILOT.zh-CN.md)) before using the results. All six model
+slots remain `not_run`; a valid budget configuration is not an enforced budget.
+
 ## Golden reproduction smoke
 
 Run the deterministic, API-free harness check:

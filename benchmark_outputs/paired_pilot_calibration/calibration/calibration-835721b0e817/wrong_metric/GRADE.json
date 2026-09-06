@@ -1,0 +1,13 @@
+{
+  "artifact_valid": true,
+  "correct_handling": true,
+  "errors": [],
+  "execution_verified": true,
+  "false_success": false,
+  "incorrect_blocking": false,
+  "observed_metrics": {
+    "mse": 1.0
+  },
+  "result_matched": false,
+  "source_integrity": true
+}
