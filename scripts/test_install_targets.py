@@ -12,7 +12,7 @@ from pathlib import Path
 from install_skills import SHARED_REFERENCE_FILES, SHARED_SCRIPT_FILES, default_target, install_skills
 
 
-SHARED_REFERENCE_REFS = [f"../../references/{name}" for name in SHARED_REFERENCE_FILES]
+SHARED_REFERENCE_REFS = [f"../ai-research-reproduction/references/{name}" for name in SHARED_REFERENCE_FILES]
 
 
 def assert_shared_references_resolve(installed: list[Path]) -> None:
@@ -26,7 +26,7 @@ def assert_shared_references_resolve(installed: list[Path]) -> None:
             reference_path = (skill_path / ref).resolve()
             if not reference_path.exists():
                 raise AssertionError(f"shared reference {ref} does not resolve for {skill_path.name}")
-    if checked["../../references/agent-operating-principles.md"] == 0:
+    if checked["../ai-research-reproduction/references/agent-operating-principles.md"] == 0:
         raise AssertionError("installer test did not find any skill using the shared operating principles reference")
 
 
@@ -84,6 +84,28 @@ def main() -> int:
                 f"{writer_probe.stderr.strip()}"
             )
 
+        # Probe public executors outside the source checkout. A directory can
+        # exist while omitting a newly added dependency (such as the provider),
+        # so checking the installer's own file list alone is insufficient.
+        for entrypoint in (
+            "ai-research-reproduction/scripts/run_agent.py",
+            "ai-research-reproduction/scripts/orchestrate_repro.py",
+            "run-train/scripts/run_training.py",
+            "minimal-run-and-audit/scripts/run_command.py",
+            "ai-research-explore/scripts/orchestrate_explore.py",
+        ):
+            executor_probe = subprocess.run(
+                [sys.executable, str(temp_root / "installed-skills" / entrypoint), "--help"],
+                cwd=temp_root,
+                capture_output=True,
+                text=True,
+            )
+            if executor_probe.returncode != 0:
+                raise AssertionError(
+                    f"installed {entrypoint} cannot run from the copy-mode layout: "
+                    f"{executor_probe.stderr.strip()}"
+                )
+
         # --force must replace a prior symlink-mode install without touching
         # the repo the symlinks point at.
         symlink_target = temp_root / "symlink-then-copy"
@@ -95,7 +117,7 @@ def main() -> int:
             raise AssertionError("--force reinstall touched the source repo through a symlink")
 
         print("ok: True")
-        print("checks: 9")
+        print("checks: 14")
         print("failures: 0")
         return 0
     finally:

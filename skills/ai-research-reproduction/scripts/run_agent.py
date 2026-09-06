@@ -16,7 +16,9 @@ from pathlib import Path
 
 SKILL = Path(__file__).resolve().parents[1]
 SHARED = SKILL.parents[1] / "shared/scripts"
-if not SHARED.is_dir():
+REQUIRED_SHARED_MODULES = ("agent_provider.py", "model_adapter.py", "runtime_runner.py",
+                           "task_queue.py", "write_run_bundle.py", "command_utils.py", "resource_monitor.py")
+if not all((SHARED / name).is_file() for name in REQUIRED_SHARED_MODULES):
     SHARED = SKILL / "_bundled/shared/scripts"
 sys.path.insert(0, str(SHARED))
 from agent_provider import AnthropicProvider, ProviderError
@@ -189,7 +191,7 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
         else:
             if state_path.exists() or (output / "status.json").exists():
                 raise ValueError("Output already contains a run; use --resume or a fresh directory")
-            state = {"schema_version": "1.0", "status": "running", "task_sha256": fingerprint(task),
+            state = {"schema_version": "1.1", "status": "running", "task_sha256": fingerprint(task),
                 "model_profile": profile, "endpoint_identity": endpoint_identity, "harness_identity": harness_identity, "files": files, "created_at": utc_now(), "elapsed_seconds": 0.0,
                 "messages": [{"role": "user", "content": json.dumps({"goal": task["goal"], "readme": task.get("readme", "README.md"),
                     "commands": task["commands"], "required_commands": task["required_commands"]})}],
@@ -285,12 +287,15 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
                             state["results"][command_id] = value
                             state["last_command"] = command_id
                         elif name == "finish":
-                            checks = {key: verified(task["commands"][key], state["results"].get(key, {})) for key in task["required_commands"]}
+                            command_checks = {key: verified(task["commands"][key], state["results"].get(key, {})) for key in task["required_commands"]}
                             current_files = inventory(repo, output)
-                            checks["source_unchanged"] = all(current_files.get(name) == digest for name, digest in files.items())
+                            # Command IDs are user-defined; keep them out of the
+                            # controller's check namespace to prevent collisions.
+                            checks = {"commands": command_checks, "source_unchanged":
+                                      all(current_files.get(name) == digest for name, digest in files.items())}
                             state["verification"] = checks
                             state["summary"] = args["summary"]
-                            state["status"] = "success" if all(checks.values()) else "blocked"
+                            state["status"] = "success" if all(command_checks.values()) and checks["source_unchanged"] else "blocked"
                             if state["status"] == "blocked":
                                 state["blocker"] = "Independent verification failed"
                             value = {"status": state["status"], "checks": checks}
@@ -323,8 +328,13 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
                 save()
                 event("model_request", call=state["model_calls"], reserved_tokens=reserve)
                 response = provider.complete(state["messages"], SYSTEM, TOOLS, budget["max_output_tokens"], min(60, remaining))
+                if not isinstance(response, dict):
+                    raise ProviderError("Provider response must be an object; execution stopped")
                 usage = response.get("usage") or {}
-                if not all(isinstance(usage.get(key), int) and usage[key] >= 0 for key in state["usage"]):
+                usage_keys = [*state["usage"], "cache_creation_input_tokens", "cache_read_input_tokens"]
+                if not isinstance(usage, dict) or not all(
+                        isinstance(usage.get(key, 0), int) and not isinstance(usage.get(key, 0), bool)
+                        and usage.get(key, 0) >= 0 for key in usage_keys) or not all(key in usage for key in state["usage"]):
                     raise ProviderError("Missing/invalid provider usage; accounting incomplete, execution stopped")
                 for key in state["usage"]:
                     state["usage"][key] += max(0, int(usage.get(key, 0)))
@@ -332,10 +342,19 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
                 state["usage"]["input_tokens"] += max(0, int(usage.get("cache_creation_input_tokens", 0))) + max(0, int(usage.get("cache_read_input_tokens", 0)))
                 state["usage_complete"] = True
                 state["model_pending"] = False
-                blocks = response["content"]
+                blocks = response.get("content")
+                if not isinstance(blocks, list) or any(not isinstance(b, dict) or not isinstance(b.get("type"), str) for b in blocks):
+                    raise ProviderError("Provider content must contain typed objects; execution stopped")
+                tool_blocks = [b for b in blocks if b["type"] == "tool_use"]
+                if any(not isinstance(b.get("id"), str) or not b["id"]
+                       or not isinstance(b.get("name"), str) or not b["name"]
+                       or not isinstance(b.get("input"), dict) for b in tool_blocks):
+                    raise ProviderError("Malformed provider tool call; execution stopped")
+                if len({b["id"] for b in tool_blocks}) != len(tool_blocks):
+                    raise ProviderError("Duplicate provider tool call IDs; execution stopped")
                 event("model_response", content=blocks, usage=usage, model=response.get("model"))
                 state["messages"].append({"role": "assistant", "content": blocks})
-                state["pending"] = [{k: b[k] for k in ["id", "name", "input"]} for b in blocks if b.get("type") == "tool_use"]
+                state["pending"] = [{k: b[k] for k in ["id", "name", "input"]} for b in tool_blocks]
                 if sum(state["usage"].values()) > budget["max_total_tokens"]:
                     block("Provider-reported token usage exceeded reservation; no further actions")
                 if not state["pending"]:

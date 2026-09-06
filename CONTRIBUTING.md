@@ -5,36 +5,20 @@ Keep changes small, lane-aware, and easy to validate.
 ## Local workflow
 
 1. Edit the relevant files under `skills/`, `references/`, `shared/`, or `scripts/`.
-2. Run the full validation set:
+2. Synchronize bundled dependencies and run the automatically discovered full suite:
 
 ```bash
 python scripts/sync_reproduction_bundle.py
 python scripts/sync_reproduction_bundle.py --check
-python scripts/validate_repo.py
-python scripts/test_bootstrap_env.py
-python scripts/test_install_targets.py
-python scripts/test_single_skill_install.py
-python scripts/test_runtime_runner.py
-python scripts/test_runtime_recovery.py
-python scripts/test_model_adapter.py
-python scripts/test_task_queue.py
-python scripts/test_queue_smoke_benchmark.py
-python scripts/test_external_reproduction_benchmark.py
-python scripts/test_skill_registry.py
-python scripts/test_trigger_boundaries.py
-python scripts/test_claude_command_wrappers.py
-python scripts/test_readme_selection.py
-python scripts/test_output_rendering.py
-python scripts/test_train_output_rendering.py
-python scripts/test_analysis_output_rendering.py
-python scripts/test_safe_debug_output_rendering.py
-python scripts/test_explore_output_rendering.py
-python scripts/test_explore_variant_matrix.py
-python scripts/test_research_explore_dry_run.py
-python scripts/test_setup_planning.py
-python scripts/test_orchestrator_dry_run.py
-python scripts/test_training_lane_routing.py
+python scripts/run_all_tests.py
+python scripts/check_publication.py
 ```
+
+For a first hands-on exercise, run `python scripts/run_harness_lab.py` and read
+the [learning roadmap](docs/PROJECT_GUIDE.md). The lab simulates model decisions
+but executes real commands; it is not a model-quality benchmark. Share sanitized
+reproduction feedback through the issue form; never upload credentials or
+unreviewed private traces. Do not fix an acceptance failure by weakening its grader.
 
 3. If installation behavior changed, also run:
 

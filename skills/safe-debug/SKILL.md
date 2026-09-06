@@ -9,7 +9,7 @@ Use this as the Rigor Debug / Rigor Audit skill. The installed slug remains
 `safe-debug` for compatibility.
 
 Use the shared operating principles in
-`../../references/agent-operating-principles.md`; this skill should guide
+`../ai-research-reproduction/references/agent-operating-principles.md`; this skill should guide
 conservative diagnosis without blocking the model from finding the local root
 cause.
 
@@ -42,4 +42,4 @@ cause.
 
 ## Notes
 
-Use `references/debug-policy.md`, `../../references/research-rigor-principles.md`, and the shared `../../references/research-pitfall-checklist.md`.
+Use `references/debug-policy.md`, `../ai-research-reproduction/references/research-rigor-principles.md`, and the shared `../ai-research-reproduction/references/research-pitfall-checklist.md`.

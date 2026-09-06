@@ -9,7 +9,7 @@ Use this as the Rigor Analyze / Rigor Audit read-only skill. The installed slug
 remains `analyze-project` for compatibility.
 
 Use the shared operating principles in
-`../../references/agent-operating-principles.md`; this skill should guide
+`../ai-research-reproduction/references/agent-operating-principles.md`; this skill should guide
 read-only analysis without constraining the model's project-specific reasoning.
 
 ## When to apply
@@ -42,4 +42,4 @@ read-only analysis without constraining the model's project-specific reasoning.
 
 ## Notes
 
-Use `references/analysis-policy.md` and the shared `../../references/research-pitfall-checklist.md`.
+Use `references/analysis-policy.md` and the shared `../ai-research-reproduction/references/research-pitfall-checklist.md`.

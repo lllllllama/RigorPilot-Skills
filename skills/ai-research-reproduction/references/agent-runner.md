@@ -64,6 +64,14 @@ uses `ANTHROPIC_BASE_URL` or the official endpoint. For an already configured
 Bearer gateway, set `metadata.auth_scheme` to `bearer` and name its credential
 environment variable. Redirects are refused so credentials are not forwarded.
 
+Optional `parameters` are transmitted, not just recorded: the current transport
+supports `temperature` or `top_p` (not both), and `stop_sequences`. Unsupported
+fields are rejected before HTTP; `max_tokens` remains controlled by the task
+budget. Leave sampling settings absent unless the selected model supports them:
+the [Messages API](https://platform.claude.com/docs/en/api/messages/create)
+deprecates these controls for newer models. A local protocol test is not a
+compatibility claim for every model or gateway.
+
 ## Evidence, recovery and limits
 
 The standard README bundle is accompanied by `agent_state.json` (task/model
@@ -72,6 +80,10 @@ responses, public reasons, tools and usage), and `_runtime/` process evidence.
 The verifier requires all `required_commands` to pass their exit/stdout checks
 and the initial source inventory to remain unchanged. These checks demonstrate
 the task's execution criteria, not a paper score or an unknown task success rate.
+State schema `1.1` separates `verification.commands` from
+`verification.source_unchanged`; command IDs cannot overwrite harness checks.
+Malformed response batches are blocked before tool dispatch. Harness changes
+invalidate older checkpoints: retain their evidence and start a fresh run.
 
 Append `--resume` with the same task/model/output to continue a paused or
 interrupted active session. `--pause-after-tools N` creates a deliberate durable

@@ -9,7 +9,7 @@ Use this as the Rigor Run skill. The installed slug remains
 `minimal-run-and-audit` for compatibility.
 
 Use the shared operating principles in
-`../../references/agent-operating-principles.md`; this skill should make run
+`../ai-research-reproduction/references/agent-operating-principles.md`; this skill should make run
 evidence auditable without turning every command into a rigid protocol.
 
 ## When to apply
@@ -55,4 +55,4 @@ evidence auditable without turning every command into a rigid protocol.
 
 ## Notes
 
-Use `references/reporting-policy.md`, `../../references/research-rigor-principles.md`, `scripts/run_command.py`, and `scripts/write_outputs.py`.
+Use `references/reporting-policy.md`, `../ai-research-reproduction/references/research-rigor-principles.md`, `scripts/run_command.py`, and `scripts/write_outputs.py`.

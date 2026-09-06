@@ -9,7 +9,7 @@
     {
       "source": "references/continuous-learning-policy.md",
       "target": "references/continuous-learning-policy.md",
-      "sha256": "0c200dcf20be032814af7e73700bd05bdb82fe4a77c93f7d24e826d835bbb399"
+      "sha256": "879f029b5e91bb7ed6e7ce33b005035c1c99dec51e1cb16f5f519c2be3948338"
     },
     {
       "source": "references/deep-learning-experiment-principles.md",
@@ -17,14 +17,29 @@
       "sha256": "9696c3c81ed96ee3fa319eeb0eac4eb25a8df8292de85a758408c8056edd9ec1"
     },
     {
+      "source": "references/explore-variant-spec.md",
+      "target": "references/explore-variant-spec.md",
+      "sha256": "1b11aba7ab86734cac5c5d954497f0e99a0d3a59f8cec51680c4c31542ccb733"
+    },
+    {
+      "source": "references/research-pitfall-checklist.md",
+      "target": "references/research-pitfall-checklist.md",
+      "sha256": "ab4ade1732ae0460f52de27a4b5b3df4f62155c9e5c68429ac6ec956610e4c97"
+    },
+    {
       "source": "references/research-rigor-principles.md",
       "target": "references/research-rigor-principles.md",
       "sha256": "b78bb786bbc43c12910d3ac389c25cd3bd3bb1ef12fdbda42a85fbac5d7aadf4"
     },
     {
+      "source": "references/research-thinking-loop.md",
+      "target": "references/research-thinking-loop.md",
+      "sha256": "c0f7dc13f6d1e45df5f2ffa183850d1b47ff6f65fb41619910b9771bbe43461a"
+    },
+    {
       "source": "shared/scripts/agent_provider.py",
       "target": "_bundled/shared/scripts/agent_provider.py",
-      "sha256": "e23c80a7c1c309c6635c2487ac355dd8167559f9e6554c3a07aeadf67f74fd09"
+      "sha256": "5d7902c3f21923d0a2fa82f890e87ed68617d25991dc03bdd519f1cfd5535105"
     },
     {
       "source": "shared/scripts/command_utils.py",
@@ -39,7 +54,7 @@
     {
       "source": "shared/scripts/model_adapter.py",
       "target": "_bundled/shared/scripts/model_adapter.py",
-      "sha256": "2b1c0ba43616897eddd3049a4f8aa5fc3e887e5a8a309b29921b3e678baaacec"
+      "sha256": "11015e28c69fdbfd65eb863f0913c4a5744ac15f8b929363cb0b2729e5a7d04e"
     },
     {
       "source": "shared/scripts/resource_monitor.py",
@@ -49,12 +64,17 @@
     {
       "source": "shared/scripts/runtime_runner.py",
       "target": "_bundled/shared/scripts/runtime_runner.py",
-      "sha256": "0ceebae98cad0ea07106040a4e6e7b0a8c6cd94714ff412d1efce9b380018b47"
+      "sha256": "f32c9718a26d9b9e038a50aecec950efc390cd79150a328e59a63c06aff5a69a"
     },
     {
       "source": "shared/scripts/task_queue.py",
       "target": "_bundled/shared/scripts/task_queue.py",
       "sha256": "57593f71a05c28958178e8d9ae238181542f704c2026b2e4fea55ff915bc19a8"
+    },
+    {
+      "source": "shared/scripts/write_explore_bundle.py",
+      "target": "_bundled/shared/scripts/write_explore_bundle.py",
+      "sha256": "aca8b6d66b8741a30a1243a497ba1d1f682e061fa3bac7f63c14d466de80b8a0"
     },
     {
       "source": "shared/scripts/write_run_bundle.py",
@@ -79,7 +99,7 @@
     {
       "source": "skills/minimal-run-and-audit/scripts/write_outputs.py",
       "target": "_bundled/skills/minimal-run-and-audit/scripts/write_outputs.py",
-      "sha256": "1fed1438c23766724ad1bc23dd65b3781dbe5e2ceea0bcf8f2472128c773cc68"
+      "sha256": "21b5ab7259fec4602653a534860610f0b5a825ad0d579375ee8c5c16da64f5f4"
     },
     {
       "source": "skills/repo-intake-and-plan/scripts/extract_commands.py",
@@ -94,12 +114,12 @@
     {
       "source": "skills/run-train/scripts/run_training.py",
       "target": "_bundled/skills/run-train/scripts/run_training.py",
-      "sha256": "3d104c3ba837197c4f2c7d8313934d121dc3ba7641dfa103c9da27db4aae1f6b"
+      "sha256": "1e318818771e9527f43de26e2de069b0003a1ff1250212e7c5993f0911b4b396"
     },
     {
       "source": "skills/run-train/scripts/write_outputs.py",
       "target": "_bundled/skills/run-train/scripts/write_outputs.py",
-      "sha256": "5f9db39358855382b08bb95f9f6b1ae94b65c7951f7539fd5237d56c3911fa7d"
+      "sha256": "08e568b48dd6540a7c3f521e10f805fc20b650b992fac2420c1eec741f76a8ee"
     }
   ]
 }

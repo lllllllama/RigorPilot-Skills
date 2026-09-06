@@ -28,6 +28,20 @@ python shared/scripts/runtime_runner.py --runtime-root repro_outputs/_runtime re
 orphaned process has no loop consuming that file, so it requires deliberate
 process inspection instead of an automatic retry.
 
+## Direct executable lookup
+
+Direct mode resolves a bare command name only through the actual child
+environment's `PATH`; relative entries are anchored to the target repository.
+An empty or absent `PATH` blocks bare names instead of falling back to the
+controller's interpreter or working directory. Include the repository in PATH
+explicitly if that lookup is intended. Windows extensions use child `PATHEXT`
+(the usual `.COM;.EXE;.BAT;.CMD` default only when it is absent).
+Absolute executable paths remain unchanged; explicit relative paths are made
+absolute against the target repository without resolving symlinks. Virtualenv
+Python symlinks retain their venv entrypoint. Native-shell lookup is unchanged.
+`spec.json` keeps the original `command`, parsed `requested_argv`, and actual
+execution `argv`; the started event records the same actual argv.
+
 ## Resource evidence
 
 Each run writes `resources.jsonl`. Process CPU and RSS samples apply to the

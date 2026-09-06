@@ -355,6 +355,48 @@ def record_resource_snapshot(
     )
 
 
+def resolve_direct_argv(argv: List[str], cwd: Path, environment: Dict[str, str]) -> List[str]:
+    """Resolve bare executables only against the environment used by the child.
+
+    Windows CreateProcess may prefer the controller's interpreter directory
+    over an activated venv. Do not delegate that search or resolve a venv
+    interpreter symlink to its host target. Relative explicit paths use cwd.
+    """
+    if not argv or not argv[0]:
+        raise ValueError("direct command must name an executable")
+    name = argv[0]
+    if os.path.dirname(name):
+        if os.path.isabs(name):
+            return list(argv)
+        return [os.path.abspath(cwd / name), *argv[1:]]
+
+    def value(key: str) -> Optional[str]:
+        if os.name != "nt":
+            return environment.get(key)
+        return next((item for candidate, item in environment.items() if candidate.upper() == key), None)
+
+    path_value = value("PATH")
+    if not path_value:
+        raise FileNotFoundError(f"Executable not found on child PATH: {name} (PATH is empty or absent)")
+    suffixes = [""]
+    if os.name == "nt":
+        extensions = value("PATHEXT")
+        if extensions is None:
+            extensions = ".COM;.EXE;.BAT;.CMD"
+        suffixes.extend(extension for extension in extensions.split(";") if extension)
+    for entry in path_value.split(os.pathsep):
+        if os.name == "nt" and entry.startswith('"') and entry.endswith('"'):
+            entry = entry[1:-1]
+        directory = Path(entry) if entry else cwd
+        if not directory.is_absolute():
+            directory = cwd / directory
+        for suffix in suffixes:
+            candidate = Path(os.path.abspath(directory / (name + suffix)))
+            if candidate.is_file() and os.access(candidate, os.X_OK):
+                return [str(candidate), *argv[1:]]
+    raise FileNotFoundError(f"Executable not found on child PATH: {name}")
+
+
 def run_persistent_command(
     *,
     repo: Path,
@@ -444,10 +486,17 @@ def run_persistent_command(
 
     try:
         argv = build_command(command, shell_mode)
+        environment = dict(os.environ if child_env is None else child_env)
+        spec["requested_argv"] = list(argv)
+        atomic_write_json(run_dir / "spec.json", spec)
+        if shell_mode == "direct":
+            argv = resolve_direct_argv(argv, repo, environment)
+        spec["argv"] = list(argv)
+        atomic_write_json(run_dir / "spec.json", spec)
         creationflags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
         process = subprocess.Popen(
             argv,
-            env=child_env,
+            env=environment,
             cwd=repo,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -469,7 +518,7 @@ def run_persistent_command(
         journal.event("launch_failed", error=str(exc))
         return _result_payload(journal.state, run_dir, stdout_capture, stderr_capture, shell_mode, started_monotonic)
 
-    journal.event("started", pid=process.pid)
+    journal.event("started", pid=process.pid, argv=argv)
     journal.update(status="running", started_at=utc_now(), pid=process.pid, last_heartbeat=utc_now())
     resource_summary = journal.state["resource_summary"]
     record_resource_snapshot(

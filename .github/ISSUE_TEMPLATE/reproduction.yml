@@ -1,0 +1,42 @@
+name: Reproduction or installation feedback
+description: Report a reproducible failure or share a verified result. English or Chinese welcome.
+title: "[Reproduction] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share the smallest public example. Do not upload credentials, private repositories,
+        personal paths, or unreviewed full traces. English and Chinese are welcome.
+  - type: input
+    id: versions
+    attributes:
+      label: Version and environment
+      description: RigorPilot commit, OS, Python, agent client, installation method.
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Target repository and pinned commit
+      description: Public URL and commit, or a minimal sanitized fixture; use N/A for installation issues.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Shortest command or prompt to reproduce
+      description: Include the reviewed task and budget when relevant. Never paste credentials.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected and actual outcome
+      description: Distinguish execution, result match, selection-only, partial, and blocked.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence and effort
+      description: Small log excerpt or public evidence link; time to first success and manual interventions, if known.

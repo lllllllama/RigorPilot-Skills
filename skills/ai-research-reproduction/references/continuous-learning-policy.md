@@ -10,7 +10,9 @@ core never mutates itself; the overlay never overrides the core.
 - Location: `~/.rigorpilot/lessons.jsonl` (override the directory with
   `RIGORPILOT_HOME`; disable recording entirely with `RIGORPILOT_LESSONS=0`).
 - Distilled overlay: `~/.rigorpilot/PERSONAL_RIGOR.md`, regenerated on demand
-  by `shared/scripts/lessons_store.py --summarize`.
+  by `lessons_store.py summarize`. In a source checkout the module lives in
+  `shared/scripts/`; in the installed `ai-research-reproduction` skill it
+  lives in `_bundled/shared/scripts/`. Invoke it with Python.
 - Both files are plain text, user-auditable, and safe to delete at any time;
   deleting them returns the skills to the universal base behavior.
 
@@ -21,7 +23,7 @@ core never mutates itself; the overlay never overrides the core.
 | `failure-fix` | A blocker hit during a run, with the working fix once known | orchestrators, agent |
 | `user-correction` | The researcher corrected the agent's choice or output | agent |
 | `preference` | A durable user preference (language, lanes, output style) | agent, user |
-| `generalization` | A lesson distilled from repeated records | `--summarize`, user review |
+| `generalization` | A lesson distilled from repeated records | `summarize`, user review |
 
 Each record is one compact line: kind, skill, summary, optional detail, and a
 repo fingerprint (directory name + README hash prefix) — enough to recognize
@@ -60,8 +62,8 @@ in the change description. The agent never performs promotion on its own.
    text is a human decision made through normal review.
 4. Transparent by default. When a lesson influences a decision, say so and
    name the lesson. The researcher can always ask to see or delete the store.
-5. Bounded growth. `--summarize` dedupes and prunes; the overlay stays short
-   enough to read in one sitting.
+5. Bounded growth. `summarize` dedupes and caps the overlay; use `prune`
+   separately to remove stale stored lessons.
 
 ## How skills use the overlay
 

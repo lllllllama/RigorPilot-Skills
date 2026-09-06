@@ -19,7 +19,7 @@ default; exploration requires explicit authorization.
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/regression-59%2F59%20passed-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/regression-61%2F61%20passed-8250df?style=flat-square">
   <img alt="external benchmark" src="https://img.shields.io/badge/external%20protocols-4%2F4%20passed-238636?style=flat-square">
 </p>
 
@@ -27,6 +27,7 @@ default; exploration requires explicit authorization.
   <a href="#examples"><strong>Examples</strong></a> ·
   <a href="#evidence"><strong>Real-repo Evidence</strong></a> ·
   <a href="#quick-start"><strong>Quick Start</strong></a> ·
+  <a href="docs/PROJECT_GUIDE.md"><strong>Learn & Roadmap</strong></a> ·
   <a href="#-choose-an-entry-point"><strong>Skill Index</strong></a>
 </p>
 
@@ -48,13 +49,13 @@ agent stopped before opening the underlying evidence.
 <div align="center">
   <img src="assets/annotated-readme-preview.png" width="840" alt="Annotated README showing an error excerpt, observed metrics, evidence links, risk levels, and the training authorization boundary"/>
   <br/>
-  <sub>The same evaluation command moves from a missing checkpoint to ready assets; training remains untouched without authorization.</sub>
+  <sub>Historical interface illustration: missing assets, result display and authorization boundaries. Execution provenance is not independently verified; excluded from benchmarks.</sub>
 </div>
 
-| Inspectable demo | What it shows |
+| Historical illustration (not capability evidence) | What it shows |
 |---|---|
-| [First attempt](examples/annotated-readme-demo/first-run/ANNOTATED_README.md) | 🟡 missing checkpoint with the real error excerpt · 🟡 dataset not ready · 🟣 training awaits authorization |
-| [After assets are ready](examples/annotated-readme-demo/after-setup/ANNOTATED_README.md) | 🟢 the same evaluation command succeeds with observed `mIoU` / `aAcc` |
+| [First attempt](examples/annotated-readme-demo/first-run/ANNOTATED_README.md) | 🟡 missing-checkpoint error display · 🟡 dataset not ready · 🟣 training awaits authorization |
+| [After assets are ready](examples/annotated-readme-demo/after-setup/ANNOTATED_README.md) | 🟢 success and `mIoU` / `aAcc` display; not independently verified execution results |
 
 ### Verified on a Real Public Repository: micrograd
 
@@ -64,7 +65,7 @@ agent stopped before opening the underlying evidence.
 
 <a id="evidence"></a>
 
-## 🧪 Reproduced on Real Public Repositories
+## 🧪 Real Public Repository Runs and Boundary Checks
 
 <table>
   <tr>
@@ -101,7 +102,7 @@ agent stopped before opening the underlying evidence.
   <a href="benchmark_outputs/EXTERNAL_REPRODUCTIONS.md"><b>Browse all four reproductions in one evidence index →</b></a>
 </p>
 
-**Recorded result:** `59/59` regression scripts and `4/4` external protocols
+**Recorded result:** `61/61` regression scripts and `4/4` historical external protocols
 passed; the external suite took `251.0 s`, used at most `98.67 MiB` per
 workspace, made `0` API calls, removed every temporary workspace, and retained
 about `17.9 MiB` of tracked repository showcase snapshots.
@@ -129,6 +130,25 @@ Only the trusted reproduction skill:
 ```bash
 npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 ```
+
+After installation, open the target repository in a Skills-capable agent:
+
+> Use ai-research-reproduction. Read the original README and select the smallest documented evaluation. Stop for approval before large downloads or long training; preserve the source and record execution evidence.
+
+The main skill works alone; install all skills when using companion entrypoints.
+Your existing agent loads the skill; the standalone model runner is optional.
+
+To learn recovery from a clone of this project:
+
+```bash
+python scripts/run_harness_lab.py
+```
+
+**Offline teaching lab: scripted decisions, real processes.** No API, GPU or model
+downloads. Failure → preparation → pause → process restart → independent checks;
+not evidence of live-model capability. Requires Python 3.11+ and Git.
+[Project assessment & learning roadmap](docs/PROJECT_GUIDE.md) ·
+[Original lab README](examples/harness-lab/README.md)
 
 <details>
 <summary>Other install paths, agent commands, and runtime controls</summary>

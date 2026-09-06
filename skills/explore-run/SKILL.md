@@ -9,7 +9,7 @@ Use this as the Rigor Improve / Rigor Explore run leaf skill. The installed slug
 remains `explore-run` for compatibility.
 
 Use the shared operating principles in
-`../../references/agent-operating-principles.md`; this skill should guide
+`../ai-research-reproduction/references/agent-operating-principles.md`; this skill should guide
 candidate run planning while preserving model judgment about the active repo.
 
 ## When to apply
@@ -58,5 +58,5 @@ candidate run planning while preserving model judgment about the active repo.
 
 ## Notes
 
-Use `references/execution-policy.md`, `../../references/explore-variant-spec.md`, `../../references/deep-learning-experiment-principles.md`, `scripts/plan_variants.py`, and `scripts/write_outputs.py`.
+Use `references/execution-policy.md`, `../ai-research-reproduction/references/explore-variant-spec.md`, `../ai-research-reproduction/references/deep-learning-experiment-principles.md`, `scripts/plan_variants.py`, and `scripts/write_outputs.py`.
 

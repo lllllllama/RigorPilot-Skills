@@ -9,7 +9,7 @@ Use this as the Rigor Setup skill. The installed slug remains
 `env-and-assets-bootstrap` for compatibility.
 
 Use the shared operating principles in
-`../../references/agent-operating-principles.md`; this skill should keep setup
+`../ai-research-reproduction/references/agent-operating-principles.md`; this skill should keep setup
 planning conservative while leaving environment-specific judgment to the model.
 
 ## When to apply

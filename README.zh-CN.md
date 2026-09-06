@@ -16,7 +16,7 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/regression-59%2F59%20passed-8250df?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/regression-61%2F61%20passed-8250df?style=flat-square">
   <img alt="external benchmark" src="https://img.shields.io/badge/external%20protocols-4%2F4%20passed-238636?style=flat-square">
 </p>
 
@@ -24,6 +24,7 @@
   <a href="#examples"><strong>效果示例</strong></a> ·
   <a href="#evidence"><strong>真实仓库证据</strong></a> ·
   <a href="#quick-start"><strong>快速安装</strong></a> ·
+  <a href="docs/PROJECT_GUIDE.zh-CN.md"><strong>学习与路线</strong></a> ·
   <a href="#-该用哪个入口"><strong>技能索引</strong></a>
 </p>
 
@@ -44,13 +45,13 @@ RigorPilot 直接读取目标仓库的原始 README，保留其中每一个字�
 <div align="center">
   <img src="assets/annotated-readme-preview.zh-CN.png" width="840" alt="批注版 README：同时展示错误摘录、观测指标、证据链接、风险级别与训练授权边界"/>
   <br/>
-  <sub>同一条评测命令从 checkpoint 缺失到资产就绪；训练没有授权时保持不执行。</sub>
+  <sub>历史界面示意：展示缺失资源、执行结果与授权边界；执行来源未独立核验，不计入 benchmark。</sub>
 </div>
 
-| 可复核演示 | 你会看到 |
+| 历史界面示意（非能力证据） | 你会看到 |
 |---|---|
-| [首次尝试](examples/annotated-readme-demo-zh/first-run/ANNOTATED_README.md) | 🟡 checkpoint 缺失与真实错误摘录 · 🟡 数据未就绪 · 🟣 训练等待授权 |
-| [资产就绪后](examples/annotated-readme-demo-zh/after-setup/ANNOTATED_README.md) | 🟢 同一评测命令成功，并记录实际观测的 `mIoU` / `aAcc` |
+| [首次尝试](examples/annotated-readme-demo-zh/first-run/ANNOTATED_README.md) | 🟡 缺失 checkpoint 的错误展示 · 🟡 数据未就绪 · 🟣 训练等待授权 |
+| [资产就绪后](examples/annotated-readme-demo-zh/after-setup/ANNOTATED_README.md) | 🟢 成功状态与 `mIoU` / `aAcc` 指标展示；不是已核验的实跑成绩 |
 
 ### 真实公开仓库验证：micrograd
 
@@ -60,7 +61,7 @@ RigorPilot 直接读取目标仓库的原始 README，保留其中每一个字�
 
 <a id="evidence"></a>
 
-## 🧪 已完成的真实公开仓库复现
+## 🧪 真实公开仓库执行与边界验证
 
 <table>
   <tr>
@@ -99,7 +100,7 @@ RigorPilot 直接读取目标仓库的原始 README，保留其中每一个字�
 
 <sub>卡片内的英语来自外部仓库原始 README 与实际生成的英文证据文件；页面说明统一使用中文。</sub>
 
-**已记录结果：** `59/59` 回归脚本、`4/4` 外部用例协议通过；
+**已记录结果：** `61/61` 回归脚本、`4/4` 历史外部用例协议通过；
 外部测试套件用时 `251.0 s`，单工作区最高 `98.67 MiB`，`0` 次 API 调用；
 临时工作区全部删除，另保留约 `17.9 MiB` 的四个 tracked 仓库展示快照。
 
@@ -126,6 +127,24 @@ npx skills add lllllllama/rigorpilot-skills --all
 ```bash
 npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 ```
+
+安装后，在目标仓库中让支持 Skills 的 Agent 执行：
+
+> 使用 ai-research-reproduction，读取原始 README，选择最小的已文档化评测。下载大资源或长训练前先停下确认；保留原文并输出执行证据。
+
+主技能可单独安装；使用其他叶子技能时安装全部技能。已有 Agent 加载技能，
+不需要使用本项目的独立模型执行器。
+
+想先从源码了解恢复机制？克隆本项目后运行：
+
+```bash
+python scripts/run_harness_lab.py
+```
+
+**离线教学实验：模拟决策，真实进程。** 无 API / GPU / 模型下载；演示失败→准备→
+暂停→跨进程恢复→独立验收，不证明真实模型能力。需 Python 3.11+ 和 Git。
+[学习、项目分析与改进路线](docs/PROJECT_GUIDE.zh-CN.md) ·
+[实验原始 README](examples/harness-lab/README.md)
 
 <details>
 <summary>其他安装方式、代理命令与运行时控制</summary>

@@ -99,3 +99,10 @@ package/network caches. The matrix is therefore a low-cost fresh-workspace
 benchmark, not a fully cache-purged dependency cold start. Retry only failed
 cases during diagnosis, then rerun the explicit matrix for a common harness
 fingerprint.
+
+The runner locates the created virtualenv's actual `Scripts`/`bin` entrypoint
+and records it. Direct commands resolve executables against child PATH/PATHEXT,
+with relative paths anchored to the target cwd; the local pinned fixture asserts
+that the target command really runs inside that venv. Existing public snapshots
+predate this assertion and have not been rerun as part of the installation audit.
+They remain historical execution evidence, not proof of strict interpreter isolation.

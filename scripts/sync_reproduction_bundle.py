@@ -19,6 +19,7 @@ BUNDLE_FILES = {
     "shared/scripts/task_queue.py": "_bundled/shared/scripts/task_queue.py",
     "shared/scripts/lessons_store.py": "_bundled/shared/scripts/lessons_store.py",
     "shared/scripts/write_run_bundle.py": "_bundled/shared/scripts/write_run_bundle.py",
+    "shared/scripts/write_explore_bundle.py": "_bundled/shared/scripts/write_explore_bundle.py",
     "skills/repo-intake-and-plan/scripts/scan_repo.py": "_bundled/skills/repo-intake-and-plan/scripts/scan_repo.py",
     "skills/repo-intake-and-plan/scripts/extract_commands.py": "_bundled/skills/repo-intake-and-plan/scripts/extract_commands.py",
     "skills/env-and-assets-bootstrap/scripts/plan_setup.py": "_bundled/skills/env-and-assets-bootstrap/scripts/plan_setup.py",
@@ -31,6 +32,9 @@ BUNDLE_FILES = {
     "references/research-rigor-principles.md": "references/research-rigor-principles.md",
     "references/deep-learning-experiment-principles.md": "references/deep-learning-experiment-principles.md",
     "references/continuous-learning-policy.md": "references/continuous-learning-policy.md",
+    "references/explore-variant-spec.md": "references/explore-variant-spec.md",
+    "references/research-thinking-loop.md": "references/research-thinking-loop.md",
+    "references/research-pitfall-checklist.md": "references/research-pitfall-checklist.md",
 }
 
 

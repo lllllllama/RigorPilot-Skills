@@ -43,6 +43,7 @@ def main() -> int:
         {**raw, "metadata": {"authorization": "Bearer inline-secret"}},
         {**raw, "credential_env": "not an env name"},
         {**raw, "endpoint": "https://user:password@example.test/v1"},
+        {**raw, "parameters": ["temperature", 0]},
     ]:
         try:
             normalize_model_profile(unsafe)

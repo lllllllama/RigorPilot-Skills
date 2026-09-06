@@ -14,6 +14,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import sysconfig
 import time
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -172,6 +173,31 @@ def format_step_argv(values: list[Any], python_path: Path, repo: Path, case_root
             value = value.replace(token, replacement)
         formatted.append(value)
     return formatted
+
+
+def find_venv_python(venv_root: Path) -> Path:
+    """Locate an existing venv entrypoint without falling back to host Python.
+
+    Windows MSYS2 uses a POSIX install scheme even though os.name is 'nt'.
+    Preserve the venv entrypoint path: resolving a normal POSIX Python symlink
+    to its base interpreter would lose virtual-environment discovery.
+    """
+    root = venv_root.resolve()
+    configured_scripts = Path(sysconfig.get_path(
+        "scripts", vars={"base": str(root), "platbase": str(root)}
+    ))
+    directories = dict.fromkeys((configured_scripts, root / "Scripts", root / "bin"))
+    names = dict.fromkeys((Path(sys.executable).name, "python.exe", "python", "python3"))
+    for directory in directories:
+        # Reject a configured path or a scripts-directory symlink outside this
+        # venv. The executable itself may be a standard venv Python symlink.
+        if not directory.is_absolute() or not directory.resolve().is_relative_to(root):
+            continue
+        for name in names:
+            candidate = directory / name
+            if candidate.is_file():
+                return candidate
+    raise FileNotFoundError("created virtual environment has no Python interpreter in its scripts directory")
 
 
 def write_report(output_path: Path, report: Dict[str, Any]) -> None:
@@ -626,8 +652,15 @@ def main() -> int:
         return fail(storage_blocker)
     if venv_result["runtime_status"] != "success":
         return fail("virtual environment creation failed")
-    python_path = venv / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    try:
+        python_path = find_venv_python(venv)
+    except FileNotFoundError as exc:
+        return fail(str(exc))
     scripts_path = python_path.parent
+    # Preserve the venv entrypoint in evidence even when POSIX links it to a
+    # base interpreter outside the workspace; do not use resolving relative().
+    report["environment"]["venv_executable"] = python_path.absolute().relative_to(case_root.absolute()).as_posix()
+    report["environment"]["venv_scripts_directory"] = scripts_path.absolute().relative_to(case_root.absolute()).as_posix()
 
     probes = list((case.get("environment") or {}).get("dependency_probes") or [])
     if probes:

@@ -24,6 +24,7 @@ SHARED_REFERENCE_FILES = [
 # Runtime modules loaded by installed skills via parents[3]/shared/scripts;
 # they must be installed next to the skills.
 SHARED_SCRIPT_FILES = [
+    "agent_provider.py",
     "command_utils.py",
     "model_adapter.py",
     "resource_monitor.py",

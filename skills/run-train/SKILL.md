@@ -9,7 +9,7 @@ Use this as the Rigor Train skill. The installed slug remains `run-train` for
 compatibility.
 
 Use the shared operating principles in
-`../../references/agent-operating-principles.md`; this skill should keep
+`../ai-research-reproduction/references/agent-operating-principles.md`; this skill should keep
 training evidence bounded while leaving repository-specific monitoring details
 to the model.
 
@@ -53,4 +53,4 @@ to the model.
 
 ## Notes
 
-Use `references/training-policy.md`, `../../references/deep-learning-experiment-principles.md`, `scripts/run_training.py`, and `scripts/write_outputs.py`.
+Use `references/training-policy.md`, `../ai-research-reproduction/references/deep-learning-experiment-principles.md`, `scripts/run_training.py`, and `scripts/write_outputs.py`.

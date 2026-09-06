@@ -13,6 +13,13 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 
 SHARED_SCRIPTS = Path(__file__).resolve().parents[3] / "shared" / "scripts"
+if not all((SHARED_SCRIPTS / name).is_file() for name in (
+    "runtime_runner.py", "model_adapter.py", "command_utils.py", "resource_monitor.py"
+)):
+    SHARED_SCRIPTS = (Path(__file__).resolve().parents[2] / "ai-research-reproduction"
+                      / "_bundled" / "shared" / "scripts")
+if not (SHARED_SCRIPTS / "model_adapter.py").is_file():
+    raise RuntimeError("Shared runtime missing: install all RigorPilot skills, including ai-research-reproduction.")
 if str(SHARED_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SHARED_SCRIPTS))
 

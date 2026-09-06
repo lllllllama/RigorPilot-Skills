@@ -18,9 +18,9 @@ The skill does not promise autonomous discovery, global benchmark completeness,
 novelty proof, or trusted reproduction success.
 
 Start from the shared operating principles in
-`../../references/agent-operating-principles.md`, then load
-`../../references/research-rigor-principles.md` for research claims and
-`../../references/deep-learning-experiment-principles.md` when experiment
+`../ai-research-reproduction/references/agent-operating-principles.md`, then load
+`../ai-research-reproduction/references/research-rigor-principles.md` for research claims and
+`../ai-research-reproduction/references/deep-learning-experiment-principles.md` when experiment
 details affect comparability or reproducibility.
 
 ## Fit
@@ -113,12 +113,12 @@ schema and artifact expectations.
   semantics.
 - Load `references/research-campaign-spec.md` only when a campaign file is
   present or the user asks for Rigor Explore campaign governance.
-- Load `../../references/explore-variant-spec.md` for run-level variant matrix
+- Load `../ai-research-reproduction/references/explore-variant-spec.md` for run-level variant matrix
   details.
-- Load `../../references/research-thinking-loop.md` before proposing or ranking candidate changes; it is the required greedy observe-ground-design-compare cycle.
-- Load `../../references/research-rigor-principles.md` before making novelty, contribution, SOTA, or comparability statements.
-- Consult `~/.rigorpilot/PERSONAL_RIGOR.md` if present, under `../../references/continuous-learning-policy.md` (advisory only; core wins).
-- Load `../../references/deep-learning-experiment-principles.md` when training,
+- Load `../ai-research-reproduction/references/research-thinking-loop.md` before proposing or ranking candidate changes; it is the required greedy observe-ground-design-compare cycle.
+- Load `../ai-research-reproduction/references/research-rigor-principles.md` before making novelty, contribution, SOTA, or comparability statements.
+- Consult `~/.rigorpilot/PERSONAL_RIGOR.md` if present, under `../ai-research-reproduction/references/continuous-learning-policy.md` (advisory only; core wins).
+- Load `../ai-research-reproduction/references/deep-learning-experiment-principles.md` when training,
   evaluation, baseline, ablation, metric, checkpoint, or dataset details matter.
 - Use `scripts/orchestrate_explore.py` and `scripts/write_outputs.py` for the
   existing deterministic artifact workflow.

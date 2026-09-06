@@ -99,3 +99,52 @@ P1 增加模型—工具执行循环、任务状态、预算和恢复能力。�
 最终成功由独立验证器判定；安装单独 skill 时也带齐所需运行代码。
 自动测试覆盖主要工程行为；真实网关三次请求均返回 502，尚未通过真实模型
 端到端验收。失败记录可核查，不能把未返回用量的失败解释为零费用。
+
+## 2026-09-06 follow-up: audit findings and learning workflow
+
+Independent, offline reviews reproduced two installation failures: the Python
+installer omitted `agent_provider.py`, and skills-folder-only installs could not
+resolve shared runtime modules or root-level references. The installer now ships
+the provider; companion skills resolve the main skill's bundled runtime and
+guidance. Tests cover installed public CLI entrypoints, stale shared directories,
+reference fidelity, a real short process and persisted evidence. These tests
+model the installed layout; they do not claim a live third-party `npx` transaction.
+
+A required command named `source_unchanged` could previously pass without any
+execution because its verifier field was overwritten. Agent state schema `1.1`
+uses separate `verification.commands` and `verification.source_unchanged` fields.
+Regression tests cover both rejection without execution and acceptance after a
+real successful command. Malformed provider batches now stop before dispatch;
+valid usage is retained even when response content is invalid. Profile parameters
+are either validated and transmitted or rejected, never silently ignored.
+
+`python scripts/run_harness_lab.py` provides a small offline teaching workflow:
+real missing-asset failure, preparation, a durable pause, a new controller process,
+retry and independent verification. Decisions are explicitly scripted, not an
+LLM. The final local review run took 1.407 seconds and retained roughly 96 KB including
+its report, with three actual command attempts and no API calls. Existing output
+directories are refused. No new successful live-model evidence is claimed.
+
+The old MiniSeg preview is retained but labeled as a historical illustration
+whose execution provenance was not independently verified. The fixed-commit
+repository evidence and media are unchanged. The bilingual
+[learning and delivery guide](PROJECT_GUIDE.md) separates current evidence,
+planned baseline experiments, model-upgrade gates, career exercises and user
+adoption goals. No star-growth or hiring outcome is promised.
+
+The first full regression in this audit passed 60/61 scripts. Its failure
+revealed that MSYS2 Python creates `bin/python.exe` despite `os.name == 'nt'`.
+The benchmark now locates the actual virtualenv entrypoint. A stronger fixture
+then caught a second issue: Windows subprocess lookup could choose host Python
+for a bare `python` command even with the venv first on child PATH. Direct mode
+now resolves against that actual PATH/PATHEXT, anchors explicit relative paths
+to the execution cwd, and records the exact argv without resolving virtualenv
+symlinks to their host target. The regression asserts `sys.prefix !=
+sys.base_prefix` inside the actual target command. Native-shell behavior is
+unchanged. Existing public snapshots are not regenerated: they remain historical
+execution evidence, not proof of this new interpreter-isolation assertion.
+
+After these fixes, the complete local suite passed **61/61 scripts in 102.6 s**,
+including the actual-venv assertion, installed entrypoints, provider regressions
+and teaching lab. `check_publication.py` also verified the unchanged committed
+showcase tree. Remote CI for this revision is separate from this local result.

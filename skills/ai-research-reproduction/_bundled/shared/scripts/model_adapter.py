@@ -60,6 +60,8 @@ def normalize_model_profile(raw: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(raw, dict):
         raise ModelAdapterError("model profile must be a JSON object")
     _reject_secrets(raw)
+    if "parameters" in raw and not isinstance(raw["parameters"], dict):
+        raise ModelAdapterError("parameters must be a JSON object")
     adapter_id = str(raw.get("adapter_id") or "").strip()
     provider = str(raw.get("provider") or "").strip()
     model = str(raw.get("model") or "").strip()

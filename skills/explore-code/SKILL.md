@@ -9,7 +9,7 @@ Use this as the Rigor Improve implementation leaf skill. The installed slug
 remains `explore-code` for compatibility.
 
 Use the shared operating principles in
-`../../references/agent-operating-principles.md`; this skill should guide
+`../ai-research-reproduction/references/agent-operating-principles.md`; this skill should guide
 bounded candidate code work without over-prescribing implementation details.
 
 ## When to apply
@@ -44,5 +44,5 @@ bounded candidate code work without over-prescribing implementation details.
 
 ## Notes
 
-Use `references/explore-policy.md`, `../../references/research-rigor-principles.md`, `scripts/plan_code_changes.py`, and `scripts/write_outputs.py`.
+Use `references/explore-policy.md`, `../ai-research-reproduction/references/research-rigor-principles.md`, `scripts/plan_code_changes.py`, and `scripts/write_outputs.py`.
 

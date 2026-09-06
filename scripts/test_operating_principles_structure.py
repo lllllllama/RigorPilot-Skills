@@ -7,9 +7,9 @@ import json
 from pathlib import Path
 
 
-PUBLIC_PRINCIPLES_REF = "../../references/agent-operating-principles.md"
-RESEARCH_RIGOR_REF = "../../references/research-rigor-principles.md"
-DL_EXPERIMENT_REF = "../../references/deep-learning-experiment-principles.md"
+PUBLIC_PRINCIPLES_REF = "../ai-research-reproduction/references/agent-operating-principles.md"
+RESEARCH_RIGOR_REF = "../ai-research-reproduction/references/research-rigor-principles.md"
+DL_EXPERIMENT_REF = "../ai-research-reproduction/references/deep-learning-experiment-principles.md"
 SELF_CONTAINED_PRINCIPLES_REF = "references/agent-operating-principles.md"
 SELF_CONTAINED_RESEARCH_RIGOR_REF = "references/research-rigor-principles.md"
 SELF_CONTAINED_DL_EXPERIMENT_REF = "references/deep-learning-experiment-principles.md"

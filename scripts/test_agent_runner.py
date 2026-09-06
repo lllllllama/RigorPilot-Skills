@@ -59,7 +59,20 @@ def main():
         assert all((out / p).exists() for p in ["SUMMARY.md", "LOG.md", "status.json", "trajectory.jsonl", "agent_state.json"])
         # A model declaration cannot bypass independent execution verification.
         fake = agent.run(task, repo, base / "fake", profile, ScriptedProvider([[call("finish", summary="Everything passed!")]]))
-        assert fake["status"] == "blocked" and not fake["verification"]["test"]
+        assert fake["status"] == "blocked" and not fake["verification"]["commands"]["test"]
+        # User-defined command IDs cannot overwrite independent controller checks.
+        collision_task = {**task, "commands": {"source_unchanged": task["commands"]["test"]},
+                          "required_commands": ["source_unchanged"]}
+        collision = agent.run(collision_task, repo, base / "check-collision", profile,
+                              ScriptedProvider([[call("finish", summary="Everything passed!")]]))
+        assert collision["schema_version"] == "1.1"
+        assert collision["status"] == "blocked" and collision["results"] == {}
+        assert collision["verification"] == {"commands": {"source_unchanged": False}, "source_unchanged": True}
+        collision_passed = agent.run(collision_task, repo, base / "check-collision-passed", profile,
+                                     ScriptedProvider([[call("run_command", command_id="source_unchanged")],
+                                                       [call("finish", summary="Executed and checked")]]))
+        assert collision_passed["status"] == "success"
+        assert collision_passed["verification"]["commands"]["source_unchanged"]
         malicious = ScriptedProvider([[call("read_file", path="../private.txt")],
                                      [call("run_command", command_id="not-approved")], [call("finish", summary="blocked")]])
         denied = agent.run(task, repo, base / "denied", profile, malicious)
@@ -107,6 +120,31 @@ def main():
         unavailable = agent.run(task, repo, base / "unavailable", profile, UnavailableProvider())
         assert unavailable["status"] == "blocked" and unavailable["model_pending"]
         assert not unavailable["usage_complete"] and unavailable["tool_calls"] == 0
+        class RawProvider:
+            def __init__(self, response):
+                self.response = response
+
+            def complete(self, *args):
+                return self.response
+
+        # Invalid transport data must persist a blocked state without dispatching
+        # the valid-looking tool call earlier in the same malformed batch.
+        good_usage = {"input_tokens": 12, "output_tokens": 5}
+        malformed_responses = [[], {"usage": [], "content": []},
+            {"usage": {**good_usage, "cache_read_input_tokens": -1}, "content": []},
+            {"usage": {**good_usage, "input_tokens": True}, "content": []},
+            {"usage": good_usage, "content": [call("run_command", command_id="test"), None]},
+            {"usage": good_usage, "content": [{"type": "tool_use", "id": "missing-fields"}]},
+            {"usage": good_usage, "content": [call("list_files"), call("list_files")]}]
+        for index, response in enumerate(malformed_responses):
+            malformed_out = base / f"malformed-{index}"
+            malformed = agent.run(task, repo, malformed_out, profile, RawProvider(response))
+            assert malformed["status"] == "blocked" and malformed["tool_calls"] == 0
+            assert json.loads((malformed_out / "agent_state.json").read_text(encoding="utf-8"))["status"] == "blocked"
+            assert not (malformed_out / "_runtime").exists()
+            assert malformed["usage_complete"] == (index >= 4)
+            if index >= 4:
+                assert malformed["usage"] == good_usage
         try:
             agent.run(task, repo, base / "unavailable", profile, provider, resume=True)
         except ValueError:

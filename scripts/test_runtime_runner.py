@@ -19,7 +19,7 @@ SHARED_SCRIPTS = REPO_ROOT / "shared" / "scripts"
 if str(SHARED_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SHARED_SCRIPTS))
 
-from runtime_runner import run_persistent_command
+from runtime_runner import resolve_direct_argv, run_persistent_command
 
 
 def command_for(code: str, *args: str) -> str:
@@ -35,11 +35,84 @@ def wait_for(path: Path, timeout: float = 5.0) -> None:
         raise AssertionError(f"timed out waiting for {path}")
 
 
+def check_executable_lookup(root: Path, runtime_root: Path) -> int:
+    environment = dict(os.environ)
+    environment["PATH"] = str(Path(sys.executable).parent)
+    argv = [Path(sys.executable).name, "-c", "import sys; print('path-lookup-ok')"]
+    command = subprocess.list2cmdline(argv) if os.name == "nt" else shlex.join(argv)
+    result = run_persistent_command(repo=root, command=command, timeout=10,
+                                    runtime_root=runtime_root, child_env=environment)
+    if result["runtime_status"] != "success" or "path-lookup-ok" not in result["stdout"]:
+        raise AssertionError(f"bare executable did not use the child PATH: {result}")
+    run_dir = Path(result["runtime_dir"])
+    spec = json.loads((run_dir / "spec.json").read_text(encoding="utf-8"))
+    events = [json.loads(line) for line in (run_dir / "events.jsonl").read_text(encoding="utf-8").splitlines()]
+    actual = next(event["data"]["argv"] for event in events if event["type"] == "started")
+    if spec["command"] != command or spec["requested_argv"] != argv or spec["argv"] != actual:
+        raise AssertionError("runtime did not preserve original command and actual executed argv")
+    if not Path(actual[0]).is_absolute():
+        raise AssertionError("bare executable lookup was left to platform-specific process search")
+
+    for label, env in (("empty", {**environment, "PATH": ""}), ("absent", {})):
+        blocked = run_persistent_command(repo=root, command=command, timeout=10,
+                                         runtime_root=runtime_root, child_env=env)
+        if blocked["runtime_status"] != "blocked" or "PATH" not in str(blocked.get("launch_error")):
+            raise AssertionError(f"{label} child PATH fell back to controller Python")
+    missing = run_persistent_command(repo=root, command="rigorpilot-nonexistent-executable", timeout=10,
+                                     runtime_root=runtime_root, child_env=environment)
+    if missing["runtime_status"] != "blocked":
+        raise AssertionError("missing executable did not produce a durable blocked result")
+    explicit = run_persistent_command(repo=root, command=command_for("import sys; print('explicit-path-ok')"), timeout=10,
+                                      runtime_root=runtime_root, child_env={**environment, "PATH": ""})
+    if explicit["runtime_status"] != "success":
+        raise AssertionError("empty PATH changed explicit executable path semantics")
+    interpreter = Path(sys.executable)
+    relative_argv = [str(Path(interpreter.parent.name) / interpreter.name),
+                     "-c", "import sys; print('relative-path-ok')"]
+    relative_command = subprocess.list2cmdline(relative_argv) if os.name == "nt" else shlex.join(relative_argv)
+    relative_run = run_persistent_command(repo=interpreter.parent.parent, command=relative_command,
+                                          timeout=10, runtime_root=runtime_root,
+                                          child_env={**environment, "PATH": ""})
+    if relative_run["runtime_status"] != "success" or "relative-path-ok" not in relative_run["stdout"]:
+        raise AssertionError("explicit relative executable was not anchored to execution cwd")
+
+    # These are lookup-only fixture files: they are never executed.
+    tools_dir = root / "relative-tools"
+    tools_dir.mkdir()
+    name = "lookup-fixture.EXE" if os.name == "nt" else "lookup-fixture"
+    fixture = tools_dir / name
+    fixture.write_text("fixture", encoding="utf-8")
+    fixture.chmod(0o755)
+    resolved = resolve_direct_argv([name], root, {"PATH": "relative-tools"})
+    if resolved != [str(fixture)]:
+        raise AssertionError("relative PATH entry was not anchored to execution cwd")
+    for explicit_name in (str(fixture), "./relative-tools/" + name):
+        if resolve_direct_argv([explicit_name], root, {}) != [str(fixture)]:
+            raise AssertionError("explicit executable path did not preserve its execution-cwd meaning")
+    try:
+        resolve_direct_argv([name], tools_dir, {"PATH": str(root)})
+    except FileNotFoundError:
+        pass
+    else:
+        raise AssertionError("lookup implicitly searched the execution cwd outside PATH")
+    if os.name == "nt":
+        if resolve_direct_argv(["lookup-fixture"], root, {"Path": "relative-tools", "PATHEXT": ".EXE"}) != [str(fixture)]:
+            raise AssertionError("Windows lookup did not use the child's PATH/PATHEXT")
+        try:
+            resolve_direct_argv(["lookup-fixture"], root, {"PATH": "relative-tools", "PATHEXT": ".CMD"})
+        except FileNotFoundError:
+            pass
+        else:
+            raise AssertionError("Windows lookup leaked the parent's PATHEXT")
+    return 10
+
+
 def main() -> int:
     checks = 0
     with tempfile.TemporaryDirectory(prefix="rigorpilot-runtime-test-") as temporary:
         root = Path(temporary)
         runtime_root = root / "runtime"
+        checks += check_executable_lookup(root, runtime_root)
 
         success = run_persistent_command(
             repo=root,

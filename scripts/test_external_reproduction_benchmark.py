@@ -4,12 +4,14 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 
 def git(repo: Path, *args: str) -> str:
@@ -25,6 +27,54 @@ def git(repo: Path, *args: str) -> str:
     return result.stdout.strip()
 
 
+def check_venv_layouts(module, temporary: Path) -> int:
+    """Deterministic layout tests do not execute fixture interpreter files."""
+    temporary = temporary.resolve()
+    checks = 0
+    for label, configured, expected in (
+        ("windows", "Scripts", "Scripts/python.exe"),
+        ("msys2", "bin", "bin/python.exe"),
+        ("posix", "bin", "bin/python"),
+        ("scripts-fallback", "unavailable", "Scripts/python.exe"),
+        ("bin-fallback", "unavailable", "bin/python"),
+    ):
+        root = temporary / label
+        executable = root / expected
+        executable.parent.mkdir(parents=True)
+        executable.write_bytes(b"layout fixture; never executed")
+        with patch.object(module.sysconfig, "get_path", return_value=str(root / configured)):
+            if module.find_venv_python(root) != executable:
+                raise AssertionError(f"incorrect virtual-environment interpreter for {label}")
+        checks += 1
+
+    missing = temporary / "missing"
+    missing.mkdir()
+    outside = temporary / "host"
+    outside.mkdir()
+    (outside / Path(sys.executable).name).write_bytes(b"must not fall back to host")
+    for configured in (missing / "Scripts", outside):
+        with patch.object(module.sysconfig, "get_path", return_value=str(configured)):
+            try:
+                module.find_venv_python(missing)
+            except FileNotFoundError:
+                pass
+            else:
+                raise AssertionError("missing virtual-environment interpreter did not fail closed")
+        checks += 1
+    if os.name != "nt":
+        root = temporary / "linked-venv"
+        scripts = root / "bin"
+        scripts.mkdir(parents=True)
+        link = scripts / "python"
+        link.symlink_to(outside / Path(sys.executable).name)
+        with patch.object(module.sysconfig, "get_path", return_value=str(scripts)):
+            selected = module.find_venv_python(root)
+        if selected != link or selected.absolute().relative_to(root.absolute()).as_posix() != "bin/python":
+            raise AssertionError("POSIX virtualenv lookup/evidence resolved the interpreter symlink to its host")
+        checks += 1
+    return checks
+
+
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
     runner = repo_root / "benchmarks" / "run_external_reproduction.py"
@@ -32,6 +82,10 @@ def main() -> int:
     temp_root = Path(tempfile.mkdtemp(prefix="rigorpilot-external-test-"))
     checks = 0
     try:
+        module_spec = importlib.util.spec_from_file_location("external_benchmark_layout_test", runner)
+        module = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(module)
+        checks += check_venv_layouts(module, temp_root / "layouts")
         source = temp_root / "source"
         source.mkdir()
         git(source, "init")
@@ -45,6 +99,8 @@ def main() -> int:
         (source / "assets" / "result.png").write_bytes(b"tracked-readme-image")
         (source / "verify.py").write_text(
             "import os\n"
+            "import sys\n"
+            "assert sys.prefix != sys.base_prefix, 'must run in the created virtual environment'\n"
             "assert 'RIGORPILOT_TEST_API_KEY' not in os.environ\n"
             "print('accuracy=0.91')\n",
             encoding="utf-8",
@@ -92,6 +148,7 @@ def main() -> int:
         output = temp_root / "report.json"
         child_env = dict(os.environ)
         child_env["RIGORPILOT_TEST_API_KEY"] = "must-not-reach-external-code"
+        child_env["RIGORPILOT_LESSONS"] = "0"
         result = subprocess.run(
             [
                 sys.executable,
@@ -181,6 +238,11 @@ def main() -> int:
         if report["environment"]["secret_environment_variables_stripped"] < 1:
             raise AssertionError("external benchmark did not record stripped secret environment variables")
         checks += 1
+        executable = Path(report["environment"]["venv_executable"])
+        scripts_directory = Path(report["environment"]["venv_scripts_directory"])
+        if executable.is_absolute() or executable.parts[0] != ".venv" or executable.parent != scripts_directory:
+            raise AssertionError("external benchmark did not record its actual contained venv layout")
+        checks += 1
         if report["scope"]["workspace_retained"] or report["limits"]["peak_workspace_bytes"] <= 0:
             raise AssertionError("external benchmark did not record bounded disposable workspace usage")
         workspace = repo_root / report["scope"]["workspace"]
@@ -231,6 +293,7 @@ def main() -> int:
             capture_output=True,
             text=True,
             encoding="utf-8",
+            env=child_env,
             check=False,
         )
         if suite_result.returncode != 0:
