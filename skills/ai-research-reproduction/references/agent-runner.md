@@ -112,6 +112,11 @@ uses `ANTHROPIC_BASE_URL` or the official endpoint. For an already configured
 Bearer gateway, set `metadata.auth_scheme` to `bearer` and name its credential
 environment variable. Redirects are refused so credentials are not forwarded.
 
+Set `model` to the exact pinned model ID returned by the provider. Every response
+must report that identical ID; missing IDs, alias resolution and other mismatches
+block the run before any tools execute. Known usage is saved before this check,
+including cache tokens; identity rejection never discards the incurred usage.
+
 Optional `parameters` are transmitted, not just recorded: the current transport
 supports `temperature` or `top_p` (not both), and `stop_sequences`. Unsupported
 fields are rejected before HTTP; `max_tokens` remains controlled by the task
@@ -170,6 +175,8 @@ README、选择步骤、观察执行结果，最终由独立验证器决定是�
 这是本机执行，不是系统沙箱；P1 不支持自主修改科研代码，也不证明论文指标复现。
 正常暂停会保留已执行命令和证据，不再显示为“被阻塞”，也不声称整体验收完成。
 `agent.controller_status` 表示控制状态，`agent.task_outcome` 表示任务结果。
+配置中的 `model` 必须是提供方返回的精确固定模型 ID；不隐式接受别名映射。
+返回身份缺失或不一致时，先保存已知用量（含缓存 token），再阻止所有工具执行。
 命令可增加上述 `verification` 验收产物与 JSON 数值指标；退出码为 0 但产物缺失、
 指标超出容差，仍不能通过最终验收。验收条件由任务文件预先审核，模型不能修改。
 这些检查不单独保证产物新鲜度或科研可比性；需要时使用全新目标工作目录。

@@ -16,7 +16,7 @@ RigorPilot 不重写原始 README，只在各章节插入执行结果与证据�
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills 开放标准" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="支持平台" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-68%2F68%20passed-8250df?style=flat-square">
+  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-69%2F69%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="历史外部协议验证" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -199,7 +199,7 @@ python scripts/run_harness_lab.py
 python scripts/run_all_tests.py
 ```
 
-最近本地记录（2026-09-06）：**68/68 脚本通过，用时 141.5 秒**。
+最近本地记录（2026-09-07）：**69/69 脚本通过，用时 156.0 秒**。
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
 
@@ -208,6 +208,9 @@ python scripts/run_all_tests.py
 
 [受控试验检查](docs/CONTROLLED_TRIALS.zh-CN.md)提供真实失败与恢复日志、受限工具
 和未知用量停止验证；模型响应为脚本化测试数据。
+另提供[有界 A/B 命令行入口](docs/CONTROLLED_TRIALS.zh-CN.md#一次有界-ab-对照)：
+模型传输 → 预审命令 → 独立评分 → 完整性校验汇总。
+本地 HTTP 集成已测试；真实供应商下的有效性仍未测量。
 
 ## 工程与贡献
 

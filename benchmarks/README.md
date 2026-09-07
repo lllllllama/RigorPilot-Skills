@@ -1,5 +1,23 @@
 # Harness Smoke Benchmarks
 
+## Bounded model-pair entrypoint
+
+The [controlled-trial guide](../docs/CONTROLLED_TRIALS.md#one-bounded-ab-pair)
+([简体中文](../docs/CONTROLLED_TRIALS.zh-CN.md#一次有界-ab-对照)) connects a reviewed
+model profile to two equally budgeted arms, actual commands, independent grading
+and integrity-checked summaries. It compares constrained skill guidance, not the
+full skill package; the historical six-slot pilot below is unchanged.
+
+Free local HTTP integration checks (scripted responses, no model API):
+
+```bash
+python scripts/test_run_paired_trial.py
+```
+
+Real-model `run` requires credentials and may incur charges; read the profile,
+budget and stopping instructions before executing it. Local protocol tests do
+not establish provider availability or model benefit.
+
 ## Neutral controller acceptance
 
 Exercise real local failure/preparation/evaluation through a restricted tool

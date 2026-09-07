@@ -531,6 +531,12 @@ def run(task: dict, repo: Path, output: Path, profile: dict, provider, *, resume
                 state["usage"]["input_tokens"] += max(0, int(usage.get("cache_creation_input_tokens", 0))) + max(0, int(usage.get("cache_read_input_tokens", 0)))
                 state["usage_complete"] = True
                 state["model_pending"] = False
+                save()
+                response_model = response.get("model")
+                if not isinstance(response_model, str) or response_model != profile["model"]:
+                    event("model_identity_rejected", expected_model=profile["model"],
+                          model=response_model, usage=usage)
+                    raise ProviderError("Missing/mismatched provider model identity; configure an exact pinned model ID, execution stopped")
                 blocks = response.get("content")
                 if not isinstance(blocks, list) or any(not isinstance(b, dict) or not isinstance(b.get("type"), str) for b in blocks):
                     raise ProviderError("Provider content must contain typed objects; execution stopped")

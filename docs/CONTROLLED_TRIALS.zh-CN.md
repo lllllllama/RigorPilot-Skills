@@ -8,6 +8,60 @@
 
 ## 运行与查看
 
+### 一次有界 A/B 对照
+
+`run_paired_trial.py` 将现有 Messages 传输、控制器、预审命令、独立评分器和
+带完整性检查的 `SUMMARY.json` 接通。新协议比较**相同受限工具下的技能指导**，
+不代表完整技能包的使用效果。固定先运行 A，再运行可额外读取技能文件的 B。
+
+保存不含密钥的 `model.json`，填写实际可用的精确模型标识和记录版本：
+
+```json
+{
+  "adapter_id": "anthropic-messages",
+  "provider": "anthropic",
+  "model": "YOUR_EXACT_MODEL_ID",
+  "revision": "YOUR_RECORDED_REVISION",
+  "credential_env": "ANTHROPIC_API_KEY",
+  "capabilities": ["tool_calling"]
+}
+```
+
+密钥只放在指定环境变量中。确认模型和限额后再执行 `run`，**该命令会发起可能计费
+的模型请求**：
+自定义密钥变量名须包含 `TOKEN`、`SECRET`、`PASSWORD`、`API_KEY` 或 `CREDENTIAL`，
+以确保预审子进程的环境过滤会移除该变量。
+
+```bash
+python benchmarks/run_paired_trial.py preflight --task missing_asset --model-profile model.json --output repro_outputs/pair-1
+python benchmarks/run_paired_trial.py run --task missing_asset --model-profile model.json --output repro_outputs/pair-1
+python benchmarks/run_paired_trial.py summarize --output repro_outputs/pair-1
+```
+
+预检不发送 HTTP 请求、不创建输出，也不证明服务端可用。默认总预算 60,000 tokens，
+两组各分配 30,000；每组最多 8 次模型调用、20 次工具调用、120 秒，每次响应最多
+1,000 输出 tokens。可分别通过 `--max-total-tokens`、`--max-model-calls`、
+`--max-tool-calls`、`--max-seconds`、`--max-output-tokens` 调整。
+组间不转移剩余预算。用量未知或控制器失败时停止整对试验；若 A 完整执行但任务
+判断错误，仍继续 B。不会自动重试、恢复、安装依赖或下载。供应商可能先超出预留
+再返回响应，因此响应后停止仍不是扣费硬上限。
+
+支持 `missing_asset`、`wrong_metric` 两个标准库故障案例，以及保留固定源码的
+`micrograd`；后者需要已有 torch/pytest，可用 `--python` 选择解释器。
+查看 `A/RESULT.json`、`B/RESULT.json` 和各自 `evidence/`。完整性记录绑定批次和组别；
+修改输入、结果或交换两组目录会使汇总校验失败。失败与未完成项不会从两项计划中
+消失。固定顺序的一对试验仅用于开发试跑，不构成统计意义上的能力增益结论。
+
+免费本地集成检查：`python scripts/test_run_paired_trial.py`。它通过本地 HTTP 服务
+提供**预设响应**，执行真实本地命令。回环地址必须显式加 `--local-fixture`，该模式
+拒绝远程地址，真实调用数为 0、真实 tokens 和效果为 `null`。目前验证的是本地协议
+链路，**尚未完成该新入口的真实供应商有效性评测**。
+适配层按[官方 Messages 字段](https://platform.claude.com/docs/en/api/messages/create)
+处理用量元数据，不重复累加缓存或思考细分。未知用量字段或非零服务端工具计费
+会停止试验，不会被静默丢弃。
+
+### 离线故障演示
+
 在项目根目录使用已有 Python 执行：
 
 ```bash
@@ -53,7 +107,7 @@ token 数来自脚本化测试数据。`accepted` 与测试数据中的 token �
 这些工具上传执行记录，也不能修改评分器、控制文件、原始 README、媒体、科学代码
 或评估标准。命令执行后，只开放采集到且明确允许读取的结果文件。
 
-未来若进行对照，A 可访问仓库，B 额外可读取冻结的技能文件。内核**不会执行技能
+受限对照中，A 可访问仓库，B 额外可读取冻结的技能文件。内核**不会执行技能
 随包脚本**。因此应称为“受限工具下的 skill 指引试验”，不能称完整技能包 A/B、
 安装验证、客户端自动发现测试或不受限的自主 agent benchmark。
 
@@ -87,7 +141,7 @@ token 数来自脚本化测试数据。`accepted` 与测试数据中的 token �
 传输需归一化 `model`、文本或工具调用形式的 `content` 及 `usage`；该格式接近
 Anthropic Messages，**不是 OpenAI Responses 原始响应适配器**。内核校验返回的
 模型标识；配置的版本会被记录，但不能据此证明服务端实际运行了该版本。
-这里没有真实 API 命令行入口，也没有完成真实供应商调用验收。
+上述有界命令行入口已接入现有 Messages 传输，但尚未完成该新入口的真实供应商验收。
 
 `broker_scoped` 只限制模型通过工具能够访问的范围，`os_sandbox` 明确为
 `false`。轨迹默认私有；模型文字和工具输出不保证自动脱敏，公开前须人工检查。
@@ -97,8 +151,8 @@ Anthropic Messages，**不是 OpenAI Responses 原始响应适配器**。内核�
 也不保证远端请求被取消。不能在这一边界下运行未审查或恶意仓库。
 
 真实试验前，仍须确认模型及明确的费用/token 限额，审计供应商的用量、超时与重试
-行为，增加批次总账，并选择适当的真实进程/网络隔离方案。先做一次限额试跑，再
-建立新的冻结对照。历史小型评测的六个模型试验仍为 `not_run`；此次冒烟测试不会
+行为，并选择符合可信任务要求的隔离方案。两组入口采用预分配的独立账本，扩大到
+并发批次时仍需共享总账。历史小型评测的六个模型试验仍为 `not_run`；此次冒烟测试不会
 改写它们的协议或结果。
 
 设计参考：[OpenAI 函数调用指南](https://developers.openai.com/api/docs/guides/function-calling)

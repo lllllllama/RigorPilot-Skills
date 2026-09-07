@@ -169,6 +169,8 @@ def main():
             {"usage": good_usage, "content": [{"type": "tool_use", "id": "missing-fields"}]},
             {"usage": good_usage, "content": [call("list_files"), call("list_files")]}]
         for index, response in enumerate(malformed_responses):
+            if isinstance(response, dict):
+                response = {"model": profile["model"], **response}
             malformed_out = base / f"malformed-{index}"
             malformed = agent.run(task, repo, malformed_out, profile, RawProvider(response))
             assert malformed["status"] == "blocked" and malformed["tool_calls"] == 0
@@ -177,6 +179,38 @@ def main():
             assert malformed["usage_complete"] == (index >= 4)
             if index >= 4:
                 assert malformed["usage"] == good_usage
+                assert ("typed objects", "Malformed provider tool call", "Duplicate provider tool call IDs")[index - 4] in malformed["blocker"]
+        # Known usage, including cache tokens, survives identity rejection. A
+        # plausible command/finish batch from another model cannot execute.
+        identity_usage = {**good_usage, "cache_creation_input_tokens": 3, "cache_read_input_tokens": 7}
+        identity_content = [call("run_command", command_id="test"), call("finish", summary="Everything passed!")]
+        bad_identities = [{}, *[{"model": value} for value in (
+            None, "", "wrong-model", profile["model"].upper(), profile["model"] + " ", 123)]]
+        for index, identity in enumerate(bad_identities):
+            identity_out = base / f"model-identity-{index}"
+            rejected = agent.run(task, repo, identity_out, profile,
+                                 RawProvider({**identity, "usage": identity_usage, "content": identity_content}))
+            saved = json.loads((identity_out / "agent_state.json").read_text(encoding="utf-8"))
+            assert rejected["status"] == saved["status"] == "blocked"
+            assert "provider model identity" in rejected["blocker"]
+            assert saved["model_calls"] == 1 and saved["tool_calls"] == 0
+            assert saved["usage"] == {"input_tokens": 22, "output_tokens": 5}
+            assert saved["usage_complete"] and not saved["model_pending"]
+            assert not saved["pending"] and not saved["results"] and not saved["verification"]
+            assert not (identity_out / "_runtime").exists()
+            status = json.loads((identity_out / "status.json").read_text(encoding="utf-8"))
+            assert status["status"] == "blocked" and status["agent"]["task_outcome"] == "not_run"
+            events = [json.loads(line) for line in (identity_out / "trajectory.jsonl").read_text(encoding="utf-8").splitlines()]
+            assert not any(event["type"] == "tool_request" for event in events)
+            rejected_event = next(event for event in events if event["type"] == "model_identity_rejected")
+            assert rejected_event["expected_model"] == profile["model"]
+            assert rejected_event["model"] == identity.get("model") and rejected_event["usage"] == identity_usage
+        matched = agent.run(task, repo, base / "model-identity-matched", profile,
+                            RawProvider({"model": profile["model"], "usage": identity_usage, "content": identity_content}))
+        assert matched["status"] == "success" and matched["task_outcome"] == "accepted"
+        assert matched["model_calls"] == 1 and matched["tool_calls"] == 2
+        assert matched["usage"] == {"input_tokens": 22, "output_tokens": 5}
+        assert matched["verification"]["commands"]["test"]
         try:
             agent.run(task, repo, base / "unavailable", profile, provider, resume=True)
         except ValueError:

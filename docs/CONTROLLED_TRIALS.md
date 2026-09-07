@@ -9,6 +9,66 @@ processes**. It tests controller behavior, not model intelligence or skill gains
 
 ## Run and inspect
 
+### One bounded A/B pair
+
+`run_paired_trial.py` connects the existing Messages transport to the controller,
+reviewed commands, independent grader and a sealed `SUMMARY.json`. This new
+protocol compares **skill guidance through the same restricted tools**, not the
+complete installed skill package. A runs first; B can additionally read the skill.
+
+Save a credential-free `model.json` (use an exact available model ID and revision):
+
+```json
+{
+  "adapter_id": "anthropic-messages",
+  "provider": "anthropic",
+  "model": "YOUR_EXACT_MODEL_ID",
+  "revision": "YOUR_RECORDED_REVISION",
+  "credential_env": "ANTHROPIC_API_KEY",
+  "capabilities": ["tool_calling"]
+}
+```
+
+Keep the credential in the named environment variable. Configure the model and
+review the caps before `run`, which **does make billable model requests**:
+Custom credential variable names must contain `TOKEN`, `SECRET`, `PASSWORD`,
+`API_KEY` or `CREDENTIAL`, so the reviewed subprocess filter removes them.
+
+```bash
+python benchmarks/run_paired_trial.py preflight --task missing_asset --model-profile model.json --output repro_outputs/pair-1
+python benchmarks/run_paired_trial.py run --task missing_asset --model-profile model.json --output repro_outputs/pair-1
+python benchmarks/run_paired_trial.py summarize --output repro_outputs/pair-1
+```
+
+Preflight makes no HTTP requests, creates no output and does not prove provider
+availability. Defaults: 60,000 total tokens allocated equally (30,000 per arm),
+8 model calls, 20 tool calls, 120 seconds per arm, and 1,000 output tokens per
+request. Change these with `--max-total-tokens`, `--max-model-calls`,
+`--max-tool-calls`, `--max-seconds`, and `--max-output-tokens`.
+Unused allocations are not transferred. Unknown usage or controller failure
+stops the pair; a completed but incorrect task still allows B to run. No retries,
+automatic resume, dependency installation or downloads. A provider can exceed
+a request reservation before the response-time stop; this is not a billing cap.
+
+The three supported tasks are `missing_asset`, `wrong_metric` (standard-library
+fault fixtures), and `micrograd` (retained pinned source; needs existing torch
+and pytest, selectable with `--python`). Inspect `A/RESULT.json`, `B/RESULT.json`
+and their `evidence/` directories. Receipts bind files to their pair and arm;
+changed results, inputs or swapped arms make summary verification fail. Failed
+and incomplete runs stay in the two-slot denominator. A single fixed-order pair
+is a development probe, not a statistically established benefit.
+
+For free local integration checks, run `python scripts/test_run_paired_trial.py`.
+These use a loopback HTTP server with **scripted responses** and real local
+commands. Loopback requires `--local-fixture`, rejects remote endpoints, and
+keeps live calls at zero and live tokens/effect at `null`. The CLI has local
+protocol coverage, **not a completed real-provider effectiveness evaluation**.
+The adapter normalizes documented [Messages usage metadata](https://platform.claude.com/docs/en/api/messages/create)
+without double-counting cache/thinking breakdowns. Unknown usage fields or
+nonzero server-side tool charges stop the trial rather than disappearing.
+
+### Offline fault demonstration
+
 From the project root, using an existing Python installation:
 
 ```bash
@@ -60,7 +120,7 @@ Models cannot submit execution receipts or modify the grader, control files,
 original README, media, scientific source, or evaluation criteria through them.
 The broker can expose only collected, allowed result files after execution.
 
-For a future comparison, A has repository access; B can additionally read the
+In the constrained comparison, A has repository access; B can additionally read the
 frozen skill namespace. The core does **not execute bundled skill helpers**.
 This is a *skill-guided constrained trial*, not a complete skill-package A/B,
 installation check, client auto-discovery test, or unrestricted agent benchmark.
@@ -98,7 +158,8 @@ explicit provider/model/revision identity, and budgets. The transport contract
 normalizes `model`, `content` text/tool-use blocks, and `usage`; it resembles
 Anthropic Messages and is **not a raw OpenAI Responses adapter**. Returned model
 identity is checked; a configured revision is recorded, not remotely attested.
-There is no live API CLI here and no completed live-provider acceptance test.
+The bounded CLI above supplies the existing Messages transport. There is still
+no completed real-provider acceptance test for this new pair entrypoint.
 Traces remain private by default. Model text and tool output are not universally
 redacted; inspect them before publishing. Transport exceptions are recorded by
 type, not by arbitrary error bodies or authentication headers.
@@ -111,9 +172,9 @@ or cancellation of a remote request. The operator must not run unreviewed or
 hostile repositories under this boundary.
 
 Before live trials: choose a model and explicit spending/token limits, audit
-the provider's usage/timeout/retry behavior, add a campaign-wide ledger, and
-choose appropriate real process/network isolation. Then run one budgeted canary
-before a newly frozen comparison. The six historical paired-pilot slots remain
+the provider's usage/timeout/retry behavior, and choose isolation appropriate
+to the trusted task. The pair CLI preallocates two independent ledgers; a larger
+concurrent campaign still needs a shared accountant. The six historical paired-pilot slots remain
 `not_run`; this smoke test does not rewrite their protocol or results.
 
 Design references: application-owned tool execution is described in
