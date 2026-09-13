@@ -185,6 +185,35 @@ class PairedTrialCliTests(unittest.TestCase):
         for command in ("run", "preflight", "summarize"):
             self.assertIn(command, result.stdout)
 
+    def test_parent_path_alias_is_canonicalized_before_freezing_and_sealing(self) -> None:
+        # macOS /var -> /private/var is an operator-selected parent alias, not
+        # an agent-created link within the frozen repository/tool boundary.
+        alias = self.work / "parent-alias"
+        try:
+            alias.symlink_to(self.work.resolve(), target_is_directory=True)
+        except OSError:
+            if os.name != "nt":
+                self.skipTest("Creating directory symlinks is unavailable on this host")
+            environment = {**os.environ, "RIGOR_TEST_ALIAS": str(alias),
+                           "RIGOR_TEST_TARGET": str(self.work.resolve())}
+            made = subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command",
+                                   "$ErrorActionPreference='Stop'; New-Item -ItemType Junction "
+                                   "-Path $env:RIGOR_TEST_ALIAS -Target $env:RIGOR_TEST_TARGET | Out-Null"],
+                                  env=environment, capture_output=True, timeout=15)
+            if made.returncode:
+                self.skipTest("Creating a test-only parent junction is unavailable")
+            self.addCleanup(alias.rmdir)  # Remove the junction itself, never its target.
+        else:
+            self.addCleanup(alias.unlink)
+        self.output = alias / "trial"
+        with ScriptedServer(actions("wrong_metric") + actions("wrong_metric")) as server:
+            self.profile(server.endpoint)
+            result = self.run_cli("wrong_metric")
+            self.assert_code(result, 0)
+        summary = load(self.output / "SUMMARY.json")
+        self.assertEqual(summary["completed_trials"], 2)
+        self.assert_code(self.cli("summarize", "--output", str(self.output)), 0)
+
     def test_missing_credential_preflight_has_no_network_or_trial(self) -> None:
         with ScriptedServer([]) as server:
             self.profile(server.endpoint)
@@ -418,6 +447,11 @@ class PairedTrialCliTests(unittest.TestCase):
     def test_transport_failure_is_not_retried_and_stops_b(self) -> None:
         self.assert_stops_before_tool((503, {"error": {"message": CREDENTIAL}}))
         self.assertFalse(load(self.output / "A/RESULT.json")["budget"]["usage_complete"])
+        expected = {"code": "http_error", "http_status": 503}
+        self.assertEqual(load(self.output / "A/RESULT.json")["provider_error"], expected)
+        self.assertEqual(load(self.output / "SUMMARY.json")["rows"][0]["provider_error"], expected)
+        events = [json.loads(line) for line in (self.output / "A/evidence/trace.jsonl").read_text(encoding="utf-8").splitlines()]
+        self.assertEqual(next(event for event in events if event["event"] == "provider_failure")["provider_error"], expected)
 
     def test_model_call_cap_stops_incomplete_pair_with_fixed_denominator(self) -> None:
         with ScriptedServer(actions("wrong_metric")[:1]) as server:

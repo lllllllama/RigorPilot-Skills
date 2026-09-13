@@ -1,0 +1,17 @@
+{
+  "case": "matching_metric",
+  "check": "matching_metric/ACCEPTANCE.json",
+  "metric_status": "matched",
+  "origin": {
+    "fault": "missing_required_local_asset",
+    "fixture_version": 1,
+    "kind": "fault_injection"
+  },
+  "passed": true,
+  "readme": "matching_metric/repo/RIGORPILOT_README.md",
+  "runtime_success": true,
+  "seconds": 0.688,
+  "source_and_readme_verified": true,
+  "status": "matching_metric/evidence/status.json",
+  "task_status": "success"
+}

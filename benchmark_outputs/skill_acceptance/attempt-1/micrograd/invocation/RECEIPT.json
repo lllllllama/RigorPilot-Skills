@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "D:\\Anaconda3\\python.exe",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\installed\\ai-research-reproduction\\scripts\\orchestrate_repro.py",
+    "--repo",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\micrograd\\repo",
+    "--output-dir",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\micrograd\\evidence",
+    "--run-selected",
+    "--source-adjacent-readme",
+    "--user-language",
+    "zh-CN",
+    "--timeout",
+    "30",
+    "--no-gpu-monitor"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\micrograd",
+  "returncode": 0,
+  "seconds": 27.954
+}

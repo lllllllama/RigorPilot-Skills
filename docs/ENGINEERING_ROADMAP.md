@@ -2,7 +2,7 @@
 
 [简体中文](ENGINEERING_ROADMAP.zh-CN.md) · [README](../README.md) · [Implementation record](P0_P1_DELIVERY.md)
 
-Updated 2026-09-06. Planned work is not an implemented capability.
+Updated 2026-09-13. Planned work is not an implemented capability.
 
 ## Product scope
 
@@ -16,7 +16,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 
 | Area | Implementation | Boundary |
 |---|---|---|
-| Installation | Self-contained main skill; shared bundled runtime and guides for all-skills installs | Tests cover installed layouts, 20 public CLIs and actual short execution, not a live third-party installation service |
+| Installation | Self-contained main skill; shared bundled runtime and guides for all-skills installs | Tests cover installed layouts, public CLIs and actual short execution, not a live third-party installation service |
 | Execution | Processes, timeout/cancel, events/logs and explicit executable identity | Local host, not an OS sandbox; sampling/admission is not a hard resource quota |
 | Recovery | Checkpoints, completed-result reuse, uncertain-dispatch blocking | No blind request replay or training-checkpoint restoration |
 | Verification | Independent commands/source checks; optional artifact size/hash and JSON-metric tolerances, rechecked at finish | Without configured structured checks, acceptance remains exit/stdout-only; no artifact-freshness or paper-reproduction claim |
@@ -24,7 +24,8 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Models | Anthropic Messages tools, validated parameters and usage accounting | Three real attempts returned 502; no successful live acceptance. Other profile metadata does not imply transport support |
 | External evidence | Four historical, commit-pinned protocols with retained source files/media | Includes selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
 | Paired pilot preparation | Three frozen tasks, six A/B slots, independent graders and real local calibration | All six model slots remain unrun; no generic live executor or enforced model budget in this kit |
-| Neutral trial core | Restricted tools, independent grading, durable per-trial reservations and post-response stops; real offline controller checks | Injected transport interface only; no live API CLI, campaign spending ledger, bundled-helper execution or OS sandbox |
+| Neutral trial core | Restricted tools, independent grading, durable reservations and a bounded Messages A/B CLI | Local HTTP integration tested; successful real-provider acceptance, campaign billing caps, bundled-helper execution and OS isolation remain absent |
+| Functional acceptance | Installed-layout runtime, exact positive/negative outcomes, independent predictions/logs and README checks; optional pinned micrograd | [Four actual checks](SKILL_ACCEPTANCE.md); scripted preparation, existing dependencies, no model uplift or cold-install claim |
 
 ## Acceptance layers
 
@@ -81,8 +82,10 @@ Installation, execution with an explicitly named skill/path, and automatic skill
 selection in a fresh client are separate gates. The first two do not establish
 the third without session-loading evidence. Independent agents consume host
 model resources; no separate API call does not mean zero tokens or zero cost.
-Fresh client sessions and standalone calls require an explicit model and budget;
-subscription balances are not available as a stopping signal.
+Fresh client sessions and standalone calls require an explicit model and budget.
+An optional read-only [Codex quota helper](SKILL_ACCEPTANCE.md#optional-codex-quota-snapshot)
+can retrieve reported windows; it is not integrated budget enforcement and cannot
+guarantee a minimum subscription percentage after a running request.
 
 ## Reusable evaluation protocol (offline foundation delivered; live planned)
 

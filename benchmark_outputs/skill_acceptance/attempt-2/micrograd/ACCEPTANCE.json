@@ -1,0 +1,47 @@
+{
+  "artifact_checks": {
+    "original_files": {
+      "details": {
+        "baseline_sha256": "0587638dd2a1d199d91855db58f85c040cbbbcc051725cda670cad90f47d6df4",
+        "files_checked": 13
+      },
+      "ok": true
+    },
+    "readme_fidelity_and_links": {
+      "details": {
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\micrograd\\evidence\\ANNOTATED_README.md": {
+          "inserted_links_checked": 12,
+          "sections": 8,
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+        },
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\micrograd\\repo\\RIGORPILOT_README.md": {
+          "inserted_links_checked": 12,
+          "sections": 8,
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+        }
+      },
+      "ok": true
+    },
+    "status_file": {
+      "details": {
+        "sha256": "4a6af11a16c6205e24568b17a0e1951cd0c190f263b24cbaeda1c16dc6c8ed15"
+      },
+      "ok": true
+    }
+  },
+  "case_check": {
+    "independent_mse": null,
+    "metric_status": "not_evaluated",
+    "ok": true,
+    "returncode": 0,
+    "runtime_status": "success",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "77543625d8d7b81527b733de0b9e6393af0f686a0a50d4015da6940ee455e898",
+    "task_status": "success"
+  },
+  "ok": true,
+  "success_only_grader": "CHECK.json",
+  "success_only_grader_applicable": true
+}

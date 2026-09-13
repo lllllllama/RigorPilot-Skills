@@ -1,0 +1,50 @@
+{
+  "repo_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\repo",
+  "assets_root": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\artifacts\\assets",
+  "manifest": [
+    {
+      "asset_group": "datasets",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\artifacts\\assets\\datasets",
+      "status": "missing"
+    },
+    {
+      "asset_group": "data",
+      "source_hint": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\repo\\data",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\artifacts\\assets\\data",
+      "status": "present"
+    },
+    {
+      "asset_group": "checkpoints",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\artifacts\\assets\\checkpoints",
+      "status": "missing"
+    },
+    {
+      "asset_group": "weights",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\artifacts\\assets\\weights",
+      "status": "missing"
+    },
+    {
+      "asset_group": "cache",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\artifacts\\assets\\cache",
+      "status": "missing"
+    },
+    {
+      "asset_group": ".cache",
+      "source_hint": "not found in repo",
+      "target_path": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\artifacts\\assets\\.cache",
+      "status": "missing"
+    }
+  ],
+  "text_hints": [
+    {
+      "source": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\matching_metric\\repo\\README.md",
+      "line": "Do not change README.md, Python sources, config.json, dataset values, the expected metric, or the evaluation protocol. Do not repair a failing model/configuration. If the observed MSE differs, report mismatched with the actual MSE; do not claim matched or hide the result.",
+      "urls": "",
+      "paths": "config.json"
+    }
+  ]
+}

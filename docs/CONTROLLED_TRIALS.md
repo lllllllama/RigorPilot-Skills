@@ -161,8 +161,27 @@ identity is checked; a configured revision is recorded, not remotely attested.
 The bounded CLI above supplies the existing Messages transport. There is still
 no completed real-provider acceptance test for this new pair entrypoint.
 Traces remain private by default. Model text and tool output are not universally
-redacted; inspect them before publishing. Transport exceptions are recorded by
-type, not by arbitrary error bodies or authentication headers.
+redacted; inspect them before publishing. Transport failures add a `provider_error`
+classification to each result, summary row and `provider_failure` trace event:
+HTTP status, refused redirect, timeout, TLS, DNS, connection or response format.
+Only allowlisted codes and bounded numeric status/errno fields survive; arbitrary
+exception messages, response bodies, URLs and authentication headers are excluded.
+Unknown usage still stops the pair, even if recording that diagnostic fails.
+
+For `tls_error`, check the Python **launching the transport**, not just the task
+interpreter selected by `--python`:
+
+```bash
+python -c "import ssl,sys; print(sys.executable); print(ssl.create_default_context().cert_store_stats())"
+```
+
+Use an existing trusted interpreter/CA configuration and keep certificate
+verification enabled. Zero preloaded CA certificates is a diagnostic clue, not
+by itself proof of failure (some stores load lazily). A credential-free HTTPS
+check can distinguish certificate failure from an HTTP response; it does not
+prove authentication or model availability. Do not turn off TLS verification or
+silently retry a request with unknown usage. HTTP 502 is retained as `http_error`
+with `http_status: 502`; it does not reveal the gateway's internal cause.
 
 `broker_scoped` controls access through the model's tools; `os_sandbox` is
 `false`. Local Python still uses host dependencies and is not strongly isolated

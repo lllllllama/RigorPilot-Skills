@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "D:\\Anaconda3\\python.exe",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\installed\\ai-research-reproduction\\scripts\\orchestrate_repro.py",
+    "--repo",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\wrong_metric\\repo",
+    "--output-dir",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\wrong_metric\\evidence",
+    "--run-selected",
+    "--source-adjacent-readme",
+    "--user-language",
+    "zh-CN",
+    "--timeout",
+    "30",
+    "--no-gpu-monitor",
+    "--expected-metric",
+    "mse=0",
+    "--metric-absolute-tolerance",
+    "0.000000000001"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\wrong_metric",
+  "returncode": 0,
+  "seconds": 0.734
+}

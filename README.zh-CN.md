@@ -16,7 +16,7 @@ RigorPilot 不重写原始 README，只在各章节插入执行结果与证据�
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills 开放标准" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="支持平台" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-69%2F69%20passed-8250df?style=flat-square">
+  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-71%2F71%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="历史外部协议验证" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -127,7 +127,7 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 
 这是**本机执行，不是操作系统沙箱**。已授权命令可以访问宿主机和网络，
 请仅运行可信仓库。资源准入和步骤间预算检查不是系统级硬配额，
-也不能监控订阅余额。
+执行器尚未接入订阅余额监控。
 
 可选模型执行器目前支持 Anthropic Messages 协议与预先审核的命令编号，
 不支持不受限的源码修复。**该独立执行器尚无成功的真实模型验收记录**：
@@ -184,6 +184,29 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 克隆本项目，安装 Python 3.11+ 和 Git 后运行：
 
 ```bash
+python benchmarks/run_skill_acceptance.py --output tmp/skill-check
+```
+
+实际运行安装目录中的主技能，覆盖缺数据、指标达标、退出码为零但指标错误三个小用例，
+独立检查原始日志、预测结果、原文件和 README 插入。已有 PyTorch/pytest 时，
+加 `--include-micrograd` 可同时运行上游原始两项测试。
+不调用模型、不下载、不安装包；每次使用新的输出目录。
+[实测结果与完整证据](docs/SKILL_ACCEPTANCE.zh-CN.md)：**4/4 功能验收**通过，
+不是四次成功复现，也不是模型增益证明。
+
+遇到安装或环境问题时（安装后将技能路径替换为实际位置）：
+
+```bash
+python skills/ai-research-reproduction/scripts/doctor.py --repo /path/to/target
+```
+
+只读检查实际 Python、Git、随包文件完整性和 README；可加
+`--require-module torch --require-module pytest` 检查依赖是否可发现，
+不会自动安装依赖或执行目标源码。
+
+查看失败与恢复的完整流程：
+
+```bash
 python scripts/run_harness_lab.py
 ```
 
@@ -199,7 +222,7 @@ python scripts/run_harness_lab.py
 python scripts/run_all_tests.py
 ```
 
-最近本地记录（2026-09-07）：**69/69 脚本通过，用时 156.0 秒**。
+最近本地 Windows 记录（2026-09-13）：**71/71 脚本通过，用时 168.3 秒**。
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
 

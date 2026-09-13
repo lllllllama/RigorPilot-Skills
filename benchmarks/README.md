@@ -1,5 +1,16 @@
 # Harness Smoke Benchmarks
 
+## Installed-skill functional acceptance
+
+```bash
+python benchmarks/run_skill_acceptance.py --output tmp/skill-check
+```
+
+Actual bundled runtime, independent positive/negative checks and byte-preserving
+README delivery. No model calls or installations. Add `--include-micrograd` only
+when PyTorch/pytest already exist. See [results and retained failures](../docs/SKILL_ACCEPTANCE.md)
+([简体中文](../docs/SKILL_ACCEPTANCE.zh-CN.md)). This is functional acceptance, not an A/B model score.
+
 ## Bounded model-pair entrypoint
 
 The [controlled-trial guide](../docs/CONTROLLED_TRIALS.md#one-bounded-ab-pair)

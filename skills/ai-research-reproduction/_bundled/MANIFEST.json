@@ -39,7 +39,7 @@
     {
       "source": "shared/scripts/agent_provider.py",
       "target": "_bundled/shared/scripts/agent_provider.py",
-      "sha256": "5d7902c3f21923d0a2fa82f890e87ed68617d25991dc03bdd519f1cfd5535105"
+      "sha256": "54f5daf29feb7303ff35c023e11019d35476e83d1707d7cfc1e6e15a9b41d753"
     },
     {
       "source": "shared/scripts/command_utils.py",

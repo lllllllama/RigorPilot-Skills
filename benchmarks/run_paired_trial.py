@@ -189,6 +189,7 @@ def summarize(output: Path) -> dict:
             raise ValueError("trial execution mode differs from the frozen pair")
         results.append(result)
         rows.append({"arm": arm, "status": result["status"], "accepted": result["accepted"],
+                     "provider_error": result.get("provider_error"),
                      "grade": result["grade"], "elapsed_seconds": result["elapsed_seconds"],
                      "result": f"{arm}/RESULT.json", "trace": f"{arm}/evidence/trace.jsonl"})
     complete_pair = len(results) == 2 and all(result["status"] == "completed" for result in results)
@@ -214,7 +215,10 @@ def summarize(output: Path) -> dict:
 
 
 def run_pair(args, configuration: dict) -> dict:
-    output = args.output.absolute()
+    # Canonicalize the operator-selected parent once (e.g. macOS /var). The
+    # preflight rejects an existing/linked selected output; links *inside*
+    # frozen scopes are still rejected by the broker and publication seal.
+    output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     disk_gate(output)
     profile, limits = configuration["profile"], configuration["limits"]

@@ -1,0 +1,59 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-13T11:37:52.337293Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-13T11:37:52.351641Z", "type": "started", "data": {"pid": 32676, "argv": ["D:\\Anaconda3\\python.EXE", "-m", "pytest"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-13T11:37:52.353630Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 2883584, "cpu_seconds": 0.015625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-13T11:37:53.366614Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 42311680, "cpu_seconds": 0.484375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-13T11:37:53.368662Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-13T11:37:54.378183Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 42344448, "cpu_seconds": 0.75, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-13T11:37:54.380282Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 8, "timestamp": "2026-09-13T11:37:55.392745Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 221982720, "cpu_seconds": 0.890625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 9, "timestamp": "2026-09-13T11:37:55.395753Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 10, "timestamp": "2026-09-13T11:37:56.411568Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 221986816, "cpu_seconds": 1.4375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 11, "timestamp": "2026-09-13T11:37:56.414907Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 12, "timestamp": "2026-09-13T11:37:57.431149Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 222138368, "cpu_seconds": 1.890625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 13, "timestamp": "2026-09-13T11:37:57.434659Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 14, "timestamp": "2026-09-13T11:37:58.451009Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 226119680, "cpu_seconds": 2.28125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 15, "timestamp": "2026-09-13T11:37:58.453885Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 16, "timestamp": "2026-09-13T11:37:59.467011Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 226123776, "cpu_seconds": 2.75, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 17, "timestamp": "2026-09-13T11:37:59.470385Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 18, "timestamp": "2026-09-13T11:38:00.484156Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 226123776, "cpu_seconds": 3.75, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 19, "timestamp": "2026-09-13T11:38:00.487094Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 20, "timestamp": "2026-09-13T11:38:01.504121Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 249323520, "cpu_seconds": 4.140625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 21, "timestamp": "2026-09-13T11:38:01.507118Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 22, "timestamp": "2026-09-13T11:38:02.522063Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 252166144, "cpu_seconds": 4.3125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 23, "timestamp": "2026-09-13T11:38:02.525060Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 24, "timestamp": "2026-09-13T11:38:03.541644Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 252170240, "cpu_seconds": 5.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 25, "timestamp": "2026-09-13T11:38:03.544244Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 26, "timestamp": "2026-09-13T11:38:04.568217Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 258371584, "cpu_seconds": 5.4375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 27, "timestamp": "2026-09-13T11:38:04.571234Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 28, "timestamp": "2026-09-13T11:38:05.593352Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 258400256, "cpu_seconds": 5.8125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 29, "timestamp": "2026-09-13T11:38:05.596336Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 30, "timestamp": "2026-09-13T11:38:06.612417Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 258404352, "cpu_seconds": 6.171875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 31, "timestamp": "2026-09-13T11:38:06.615691Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 32, "timestamp": "2026-09-13T11:38:07.606180Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 258703360, "cpu_seconds": 6.859375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 33, "timestamp": "2026-09-13T11:38:07.616196Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 34, "timestamp": "2026-09-13T11:38:08.631627Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 264982528, "cpu_seconds": 6.984375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 35, "timestamp": "2026-09-13T11:38:08.634633Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 36, "timestamp": "2026-09-13T11:38:09.656579Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 326602752, "cpu_seconds": 7.4375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 37, "timestamp": "2026-09-13T11:38:09.660296Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 38, "timestamp": "2026-09-13T11:38:10.685646Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 329482240, "cpu_seconds": 7.578125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 39, "timestamp": "2026-09-13T11:38:10.688848Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 40, "timestamp": "2026-09-13T11:38:11.712099Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 329490432, "cpu_seconds": 7.828125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 41, "timestamp": "2026-09-13T11:38:11.715082Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 42, "timestamp": "2026-09-13T11:38:12.737251Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 329490432, "cpu_seconds": 9.546875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 43, "timestamp": "2026-09-13T11:38:12.741693Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 44, "timestamp": "2026-09-13T11:38:13.765944Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 427065344, "cpu_seconds": 10.71875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 45, "timestamp": "2026-09-13T11:38:13.771425Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 46, "timestamp": "2026-09-13T11:38:14.783749Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 469540864, "cpu_seconds": 11.34375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 47, "timestamp": "2026-09-13T11:38:14.787748Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 48, "timestamp": "2026-09-13T11:38:15.801063Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 488583168, "cpu_seconds": 11.953125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 49, "timestamp": "2026-09-13T11:38:15.804042Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 50, "timestamp": "2026-09-13T11:38:16.824677Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 507584512, "cpu_seconds": 12.703125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 51, "timestamp": "2026-09-13T11:38:16.827755Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 52, "timestamp": "2026-09-13T11:38:17.857184Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 514842624, "cpu_seconds": 13.53125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 53, "timestamp": "2026-09-13T11:38:17.860299Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 54, "timestamp": "2026-09-13T11:38:18.861669Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 550449152, "cpu_seconds": 14.359375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 55, "timestamp": "2026-09-13T11:38:18.868655Z", "type": "heartbeat", "data": {"pid": 32676}}
+{"schema_version": "1.0", "sequence": 56, "timestamp": "2026-09-13T11:38:19.536371Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 429}}
+{"schema_version": "1.0", "sequence": 57, "timestamp": "2026-09-13T11:38:19.537320Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 429}}
+{"schema_version": "1.0", "sequence": 58, "timestamp": "2026-09-13T11:38:19.538325Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 0}}
+{"schema_version": "1.0", "sequence": 59, "timestamp": "2026-09-13T11:38:19.616857Z", "type": "completed", "data": {"status": "success", "returncode": 0}}

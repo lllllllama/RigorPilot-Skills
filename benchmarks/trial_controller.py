@@ -50,6 +50,34 @@ def _json(value: object) -> bytes:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False).encode("utf-8")
 
 
+def _provider_diagnostic(error: Exception) -> dict:
+    """Copy only a small typed transport contract; never stringify the error."""
+    fallback = {"code": "provider_error"}
+    try:
+        raw = getattr(error, "diagnostic", None)
+        codes = {"provider_error", "http_error", "redirect_refused", "timeout", "tls_error", "dns_error",
+                 "connection_error", "invalid_json", "invalid_response", "response_too_large",
+                 "invalid_configuration", "missing_credential"}
+        if type(raw) is not dict or type(raw.get("code")) is not str or raw["code"] not in codes:
+            return fallback
+        result = {"code": raw["code"]}
+        if "http_status" in raw:
+            status = raw["http_status"]
+            valid = ((raw["code"] == "http_error" and type(status) is int and 400 <= status <= 599)
+                     or (raw["code"] == "redirect_refused" and type(status) is int and 300 <= status <= 399))
+            if not valid:
+                return fallback
+            result["http_status"] = status
+        if "errno" in raw:
+            number = raw["errno"]
+            if raw["code"] not in {"connection_error", "dns_error"} or type(number) is not int or not -65535 <= number <= 65535:
+                return fallback
+            result["errno"] = number
+        return result
+    except Exception:
+        return fallback
+
+
 class Trace:
     """Private operator trace. New files only; no automatic publication or resume."""
     def __init__(self, path: Path):
@@ -144,6 +172,7 @@ def run_trial(*, broker, provider, ledger, identity: dict, prompt: str, trace_pa
     started, seen = time.monotonic(), set()
     transport_invocations = 0
     status, reason = "stopped", None
+    provider_error = None
     try:
         record("trial_start", execution_mode=execution_mode, identity=identity,
                      prompt_sha256=hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
@@ -168,8 +197,12 @@ def run_trial(*, broker, provider, ledger, identity: dict, prompt: str, trace_pa
                 response = provider.complete(json.loads(_json(messages)), SYSTEM, json.loads(_json(TOOLS)),
                                              max_output_tokens, min(45.0, remaining))
             except Exception as error:
-                ledger.mark_unknown(f"provider_exception:{type(error).__name__}")
-                raise BudgetStop("provider outcome unknown")
+                provider_error = _provider_diagnostic(error)
+                try:
+                    record("provider_failure", request_id=request_id, provider_error=provider_error)
+                finally:
+                    # Even diagnostic I/O failure must not release uncertain usage.
+                    ledger.mark_unknown(f"provider_exception:{type(error).__name__}")
             # Account BEFORE executing tools, including on identity/content errors.
             usage = response.get("usage") if isinstance(response, dict) else None
             ledger.settle(request_id, usage)
@@ -218,7 +251,8 @@ def run_trial(*, broker, provider, ledger, identity: dict, prompt: str, trace_pa
                   "simulated_model_calls": transport_invocations if execution_mode == "offline_simulation" else 0,
                   "tokens_used": snapshot["tokens_used"] if execution_mode == "live_transport" else None,
                   "fixture_reported_tokens": snapshot["tokens_used"] if execution_mode == "offline_simulation" else None,
-                  "cost": None, "budget": snapshot, "elapsed_seconds": round(time.monotonic() - started, 6),
+                  "cost": None, "budget": snapshot, "provider_error": provider_error,
+                  "elapsed_seconds": round(time.monotonic() - started, 6),
                   "boundary": "Single-trial operator ledger; no campaign cap, provider spending guarantee or OS sandbox."}
         result["trace_complete"] = not trace_failed
         try:

@@ -59,6 +59,11 @@ def main() -> int:
             raise AssertionError(f"single-skill queue runtime failed:\n{queue_canary.stdout}\n{queue_canary.stderr}")
         target_repo = temp_root / "target-repo"
         write_target_repo(target_repo)
+        doctor = subprocess.run(
+            [sys.executable, str(installed_skill / "scripts/doctor.py"), "--repo", str(target_repo),
+             "--require-module", "json"], cwd=temp_root, capture_output=True, text=True, timeout=30)
+        if doctor.returncode or not json.loads(doctor.stdout)["ok"]:
+            raise AssertionError(f"installed doctor failed: {doctor.stdout}\n{doctor.stderr}")
         originals = {path.relative_to(target_repo): path.read_bytes()
                      for path in target_repo.rglob("*") if path.is_file()}
         output_dir = temp_root / "outputs" / "repro_outputs"

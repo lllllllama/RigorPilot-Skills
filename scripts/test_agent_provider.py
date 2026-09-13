@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """Exercise real HTTP serialization and fail-closed provider error handling locally."""
 import json
+import http.client
 import os
+import socket
+import ssl
 import sys
 import threading
+import urllib.error
+from unittest import mock
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -26,7 +31,11 @@ def main():
                 self.send_header("Location", "http://127.0.0.1:1/not-allowed")
                 self.end_headers()
                 return
-            self.send_response(200 if mode[0] in {"ok", "non_object"} else 401)
+            self.send_response(200 if mode[0] in {"ok", "non_object", "invalid_json"} else 502 if mode[0] == "gateway" else 401)
+            if mode[0] == "invalid_json":
+                self.end_headers()
+                self.wfile.write(b"test-credential-not-json")
+                return
             if mode[0] == "non_object":
                 # A gateway can return valid JSON of the wrong shape with HTTP 200.
                 self.end_headers()
@@ -49,15 +58,19 @@ def main():
         assert response["usage"]["output_tokens"] == 9
         assert requests[0]["max_tokens"] == 32 and requests[0]["model"] == "local-test"
         assert requests[0]["temperature"] == 1.0 and requests[0]["stop_sequences"] == ["STOP"]
-        for failure in ["unauthorized", "redirect"]:
+        for failure in ["unauthorized", "redirect", "gateway"]:
             mode[0] = failure
             try:
                 client.complete([], "system", [], 32, 5)
             except ProviderError as exc:
                 assert "test-credential" not in str(exc)
+                expected_status = {"unauthorized": 401, "redirect": 302, "gateway": 502}[failure]
+                assert exc.diagnostic == {"code": "redirect_refused" if failure == "redirect" else "http_error",
+                                          "http_status": expected_status}
+                assert "test-credential" not in json.dumps(exc.diagnostic)
             else:
                 raise AssertionError("provider did not stop on error/redirect")
-        assert len(requests) == 3, "provider silently retried"
+        assert len(requests) == 4, "provider silently retried"
         for parameters in ({"max_tokens": 999999}, {"thinking": {"type": "adaptive"}},
                            {"temperature": True}, {"top_p": float("nan")}, {"temperature": -1},
                            {"temperature": 1, "top_p": 1}, {"stop_sequences": "STOP"}):
@@ -67,17 +80,43 @@ def main():
                 pass
             else:
                 raise AssertionError("unsupported/invalid parameters were silently accepted")
-        assert len(requests) == 3, "invalid configuration sent an HTTP request"
+        assert len(requests) == 4, "invalid configuration sent an HTTP request"
         mode[0] = "ok"
         AnthropicProvider({**profile, "parameters": {"top_p": 1}}).complete([], "system", [], 32, 5)
         assert requests[-1]["top_p"] == 1 and "temperature" not in requests[-1]
         mode[0] = "non_object"
         try:
             client.complete([], "system", [], 32, 5)
-        except ProviderError:
-            pass
+        except ProviderError as exc:
+            assert exc.diagnostic == {"code": "invalid_response"}
         else:
             raise AssertionError("non-object response escaped fail-closed handling")
+        mode[0] = "invalid_json"
+        try:
+            client.complete([], "system", [], 32, 5)
+        except ProviderError as exc:
+            assert exc.diagnostic == {"code": "invalid_json"}
+            assert "test-credential" not in str(exc)
+        else:
+            raise AssertionError("invalid JSON must fail without echoing its body")
+        cases = [
+            (urllib.error.URLError(socket.gaierror(-2, "test-credential")), {"code": "dns_error", "errno": -2}),
+            (urllib.error.URLError(ssl.SSLCertVerificationError(1, "test-credential")), {"code": "tls_error"}),
+            (urllib.error.URLError(TimeoutError("test-credential")), {"code": "timeout"}),
+            (ConnectionRefusedError(10061, "test-credential"), {"code": "connection_error", "errno": 10061}),
+            (http.client.IncompleteRead(b"test-credential"), {"code": "invalid_response"}),
+        ]
+        for failure, expected in cases:
+            with mock.patch("agent_provider.urllib.request.build_opener") as opener:
+                opener.return_value.open.side_effect = failure
+                try:
+                    client.complete([], "system", [], 32, 5)
+                except ProviderError as exc:
+                    assert exc.diagnostic == expected
+                    assert "test-credential" not in str(exc) + json.dumps(exc.diagnostic)
+                else:
+                    raise AssertionError("transport failure lost its public classification")
+                assert opener.return_value.open.call_count == 1
     finally:
         server.shutdown()
         server.server_close()

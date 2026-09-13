@@ -1,0 +1,7 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-13T11:45:29.614787Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-13T11:45:29.626783Z", "type": "started", "data": {"pid": 43616, "argv": ["D:\\Anaconda3\\python.EXE", "evaluate.py"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-13T11:45:29.629783Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 3137536, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-13T11:45:29.696530Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 8}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-13T11:45:29.697531Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 0}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-13T11:45:29.697531Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 8}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-13T11:45:29.733847Z", "type": "completed", "data": {"status": "success", "returncode": 0}}

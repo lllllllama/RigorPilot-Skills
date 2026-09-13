@@ -1,0 +1,54 @@
+{
+  "checks": {
+    "original_files": {
+      "details": {
+        "baseline_sha256": "6b395d35cfceb125020f3b37d50b2513d9371a5e95703403c5b004cd5bc7d235",
+        "files_checked": 4
+      },
+      "ok": true
+    },
+    "readme_fidelity_and_links": {
+      "details": {
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\missing_asset\\evidence\\ANNOTATED_README.md": {
+          "inserted_links_checked": 12,
+          "sections": 4,
+          "source_sha256": "b6a9322f0fc759985298508f3a91bfad2fd90386dbd818c5ca237ff559796eab",
+          "stripped_sha256": "b6a9322f0fc759985298508f3a91bfad2fd90386dbd818c5ca237ff559796eab"
+        },
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\missing_asset\\repo\\RIGORPILOT_README.md": {
+          "inserted_links_checked": 12,
+          "sections": 4,
+          "source_sha256": "b6a9322f0fc759985298508f3a91bfad2fd90386dbd818c5ca237ff559796eab",
+          "stripped_sha256": "b6a9322f0fc759985298508f3a91bfad2fd90386dbd818c5ca237ff559796eab"
+        }
+      },
+      "ok": true
+    },
+    "runtime_and_stdout": {
+      "error": "runtime does not record successful terminal execution",
+      "ok": false
+    },
+    "status_file": {
+      "details": {
+        "sha256": "49066afbe04e75fe9e5275c5beab5bd09abee5ae97ec35a0e6c054951072e52e"
+      },
+      "ok": true
+    }
+  },
+  "grader": "first-use-log-and-readme-fidelity",
+  "inputs": {
+    "baseline": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\missing_asset\\BASELINE.json",
+    "output_dir": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\missing_asset\\evidence",
+    "repo": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913\\missing_asset\\repo"
+  },
+  "limits": [
+    "Requires a trusted pre-run baseline; does not authenticate its provenance or completeness.",
+    "Independent marker scanner and ATX parser; not a full Markdown/browser or fragment-anchor validator.",
+    "Runtime/log consistency is not proof against coordinated forgery or malicious OS/filesystem changes.",
+    "Explicit stdout containment is a task-specific log condition, not independent scientific metric verification.",
+    "No model capability, automatic skill discovery, installation or clean dependency-environment claim."
+  ],
+  "ok": false,
+  "schema_version": "1.0",
+  "task_log_condition": "not_evaluated"
+}

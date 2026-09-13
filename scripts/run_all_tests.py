@@ -28,12 +28,13 @@ def main() -> int:
         )
         elapsed = time.perf_counter() - script_started
         if result.returncode == 0:
-            print(f"PASS {target.name} ({elapsed:.1f}s)")
+            print(f"PASS {target.name} ({elapsed:.1f}s)", flush=True)
         else:
             failures.append(target.name)
-            print(f"FAIL {target.name} ({elapsed:.1f}s)")
-            tail = "\n".join((result.stdout + "\n" + result.stderr).strip().splitlines()[-15:])
-            print(tail)
+            print(f"FAIL {target.name} ({elapsed:.1f}s)", flush=True)
+            # The last traceback may be secondary; retain every failed test
+            # in CI logs so the first/root error can actually be diagnosed.
+            print((result.stdout + "\n" + result.stderr).strip(), flush=True)
 
     total = time.perf_counter() - started
     print(f"\n{len(targets) - len(failures)}/{len(targets)} scripts passed in {total:.1f}s")

@@ -1,0 +1,86 @@
+{
+  "limitations": [
+    "Local installed-layout copy, not remote installation or automatic skill discovery.",
+    "Prepared actions are scripted; no agent decision or A/B advantage is measured.",
+    "micrograd uses a hash-verified archive and existing dependencies, not cold setup.",
+    "Hash/log checks assume a trusted operator and do not prove scientific generalization."
+  ],
+  "model_calls": 0,
+  "model_effect": null,
+  "ok": false,
+  "passed": 3,
+  "protocol": "installed-skill-functional-acceptance-v1",
+  "rows": [
+    {
+      "case": "missing_asset",
+      "check": "missing_asset/CHECK.json",
+      "metric_status": "mismatched",
+      "origin": {
+        "fault": "missing_required_local_asset",
+        "fixture_version": 1,
+        "kind": "fault_injection"
+      },
+      "passed": true,
+      "readme": "missing_asset/repo/RIGORPILOT_README.md",
+      "runtime_success": false,
+      "seconds": 0.875,
+      "source_and_readme_verified": true,
+      "status": "missing_asset/evidence/status.json",
+      "task_status": "partial"
+    },
+    {
+      "case": "matching_metric",
+      "check": "matching_metric/CHECK.json",
+      "metric_status": "matched",
+      "origin": {
+        "fault": "missing_required_local_asset",
+        "fixture_version": 1,
+        "kind": "fault_injection"
+      },
+      "passed": true,
+      "readme": "matching_metric/repo/RIGORPILOT_README.md",
+      "runtime_success": true,
+      "seconds": 0.844,
+      "source_and_readme_verified": true,
+      "status": "matching_metric/evidence/status.json",
+      "task_status": "success"
+    },
+    {
+      "case": "wrong_metric",
+      "check": "wrong_metric/CHECK.json",
+      "metric_status": "mismatched",
+      "origin": {
+        "fault": "exit_zero_metric_mismatch",
+        "fixture_version": 1,
+        "kind": "fault_injection"
+      },
+      "passed": false,
+      "readme": "wrong_metric/repo/RIGORPILOT_README.md",
+      "runtime_success": true,
+      "seconds": 0.734,
+      "source_and_readme_verified": false,
+      "status": "wrong_metric/evidence/status.json",
+      "task_status": "partial"
+    },
+    {
+      "case": "micrograd",
+      "check": "micrograd/CHECK.json",
+      "metric_status": "not_evaluated",
+      "origin": {
+        "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+        "kind": "public_repository",
+        "repository": "https://github.com/karpathy/micrograd",
+        "source": "local_hash_verified_archive"
+      },
+      "passed": true,
+      "readme": "micrograd/repo/RIGORPILOT_README.md",
+      "runtime_success": true,
+      "seconds": 27.954,
+      "source_and_readme_verified": true,
+      "status": "micrograd/evidence/status.json",
+      "task_status": "success"
+    }
+  ],
+  "scope": "deterministic_runtime_acceptance_not_model_gain",
+  "total": 4
+}

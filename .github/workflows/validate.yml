@@ -34,7 +34,7 @@ jobs:
           python-version: "3.11"
 
       - name: Validate repository and run the full test suite
-        run: python scripts/run_all_tests.py
+        run: python -u scripts/run_all_tests.py
 
       - name: Verify published showcase files and evidence links
         run: python scripts/check_publication.py

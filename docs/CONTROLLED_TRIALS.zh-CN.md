@@ -145,7 +145,23 @@ Anthropic Messages，**不是 OpenAI Responses 原始响应适配器**。内核�
 
 `broker_scoped` 只限制模型通过工具能够访问的范围，`os_sandbox` 明确为
 `false`。轨迹默认私有；模型文字和工具输出不保证自动脱敏，公开前须人工检查。
-传输异常只记录类型，不记录任意错误正文或鉴权头。
+传输失败在组结果、汇总行和 `provider_failure` 轨迹中增加 `provider_error`：
+区分 HTTP 状态、拒绝重定向、超时、TLS、DNS、连接和响应格式错误。
+仅保留白名单分类和有界数值状态码/errno；异常正文、响应正文、URL 和鉴权头
+不会进入这些诊断字段。即使诊断写入失败，用量未知仍须停止整对试验。
+
+遇到 `tls_error`，应检查**启动传输客户端的 Python**，而不仅是 `--python`
+指定的任务解释器：
+
+```bash
+python -c "import ssl,sys; print(sys.executable); print(ssl.create_default_context().cert_store_stats())"
+```
+
+使用已有且可信的解释器或 CA 配置，保持证书验证开启。预加载 CA 数为 0 只是
+排查线索，不能单独证明故障，因为有些证书库按需加载。无凭据 HTTPS 检查可区分
+证书失败与 HTTP 响应，但不能证明鉴权或模型可用。不要关闭 TLS 验证，也不要
+静默重放用量未知的请求。HTTP 502 会保留为 `http_error` 和 `http_status: 502`，
+该状态码不能揭示网关内部具体原因。
 本地 Python 仍使用宿主依赖，未对宿主文件、网络、`PATH` 或
 `PYTHONPATH` 做强隔离。预审命令会收到超时限制，但不保证操作系统进程树清理，
 也不保证远端请求被取消。不能在这一边界下运行未审查或恶意仓库。

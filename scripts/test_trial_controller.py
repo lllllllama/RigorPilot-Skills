@@ -344,6 +344,116 @@ class TrialControllerTests(unittest.TestCase):
         self.assertNotIn(private, (self.work / "trace.jsonl").read_text(encoding="utf-8"))
         self.assertNotIn(private, (self.work / "budget.jsonl").read_text(encoding="utf-8"))
 
+    def test_provider_diagnostic_records_only_allowed_fields_without_retry(self):
+        private = "fixture-secret-token-response-body-and-private-url"
+        variants = [
+            {"code": "http_error", "http_status": 401},
+            {"code": "http_error", "http_status": 502},
+            {"code": "redirect_refused", "http_status": 302},
+            {"code": "dns_error", "errno": -2},
+            {"code": "connection_error", "errno": 10061},
+            {"code": "timeout"},
+        ]
+        for index, expected in enumerate(variants):
+            with self.subTest(diagnostic=expected):
+                error = RuntimeError(private)
+                error.diagnostic = {**expected, "message": private, "url": private,
+                                    "headers": {"Authorization": private}, "body": private}
+                trace_path = self.work / f"provider-diagnostic-{index}.jsonl"
+                ledger = BudgetLedger(self.work / f"provider-budget-{index}.jsonl", {
+                    "max_total_tokens": 100000, "max_model_calls": 4,
+                    "max_tool_calls": 6, "max_seconds": 30,
+                })
+                provider, broker = ScriptedProvider(error), FakeBroker()
+                result = self.trial(provider, broker=broker, ledger=ledger, trace_path=trace_path)
+                self.assertEqual(result["provider_error"], expected)
+                self.assertEqual(len(provider.calls), 1)
+                self.assertEqual(broker.calls, [])
+                self.assertTrue(result["budget"]["pending"])
+                self.assertFalse(result["budget"]["usage_complete"])
+                self.assertIsNone(result["fixture_reported_tokens"])
+                self.assertFalse(result["accepted"])
+                trace_text = trace_path.read_text(encoding="utf-8")
+                events = [json.loads(line) for line in trace_text.splitlines()]
+                failures = [event for event in events if event["event"] == "provider_failure"]
+                self.assertEqual(len(failures), 1)
+                self.assertEqual(failures[0]["provider_error"], expected)
+                self.assertNotIn(private, trace_text)
+                self.assertNotIn(private, json.dumps(result))
+                self.assertNotIn(private, ledger.path.read_text(encoding="utf-8"))
+
+    def test_malformed_provider_diagnostic_defaults_without_stringifying_error(self):
+        class UnprintableError(RuntimeError):
+            def __str__(self):
+                raise AssertionError("provider exception must never be stringified")
+
+        variants = [None, [], {"code": "fixture-private-code"}, {"code": []},
+                    {"code": True}, {"code": "http_error", "http_status": "401"},
+                    {"code": "http_error", "http_status": True},
+                    {"code": "http_error", "http_status": 399},
+                    {"code": "http_error", "http_status": 600},
+                    {"code": "redirect_refused", "http_status": 401},
+                    {"code": "connection_error", "errno": True},
+                    {"code": "dns_error", "errno": -65536}]
+        for index, diagnostic in enumerate(variants):
+            with self.subTest(case=index):
+                error = UnprintableError("fixture-private-exception-text")
+                error.diagnostic = diagnostic
+                trace_path = self.work / f"malformed-provider-{index}.jsonl"
+                ledger = BudgetLedger(self.work / f"malformed-provider-budget-{index}.jsonl", {
+                    "max_total_tokens": 100000, "max_model_calls": 4,
+                    "max_tool_calls": 6, "max_seconds": 30,
+                })
+                provider, broker = ScriptedProvider(error), FakeBroker()
+                result = self.trial(provider, broker=broker, ledger=ledger, trace_path=trace_path)
+                self.assertEqual(result["provider_error"], {"code": "provider_error"})
+                self.assertEqual(len(provider.calls), 1)
+                self.assertEqual(broker.calls, [])
+                self.assertTrue(result["budget"]["pending"])
+                self.assertFalse(result["budget"]["usage_complete"])
+                self.assertIsNone(result["fixture_reported_tokens"])
+                trace_text = trace_path.read_text(encoding="utf-8")
+                events = [json.loads(line) for line in trace_text.splitlines()]
+                failures = [event for event in events if event["event"] == "provider_failure"]
+                self.assertEqual(len(failures), 1)
+                self.assertEqual(failures[0]["provider_error"], {"code": "provider_error"})
+                self.assertNotIn("fixture-private", trace_text)
+                self.assertNotIn("fixture-private", json.dumps(result))
+
+    def test_provider_failure_trace_error_retains_unknown_without_dispatch(self):
+        from trial_controller import Trace
+
+        original = Trace.record
+        injected = []
+
+        def fail_provider_failure(trace, event, **fields):
+            if event == "provider_failure":
+                injected.append(event)
+                raise OSError("fixture-private-trace-write-failure")
+            return original(trace, event, **fields)
+
+        error = RuntimeError("fixture-private-provider-error")
+        error.diagnostic = {"code": "http_error", "http_status": 502}
+        provider, broker, ledger = ScriptedProvider(error), FakeBroker(), self.ledger()
+        with mock.patch.object(Trace, "record", new=fail_provider_failure):
+            result = self.trial(provider, broker=broker, ledger=ledger)
+        self.assertEqual(injected, ["provider_failure"])
+        self.assertEqual(result["provider_error"], {"code": "http_error", "http_status": 502})
+        self.assertEqual(len(provider.calls), 1)
+        self.assertEqual(broker.calls, [])
+        self.assertEqual(result["model_calls"], 1)
+        self.assertTrue(result["budget"]["pending"])
+        self.assertFalse(result["budget"]["usage_complete"])
+        self.assertIsNone(result["fixture_reported_tokens"])
+        self.assertEqual(result["status"], "stopped")
+        self.assertFalse(result["accepted"])
+        self.assertFalse(result["trace_complete"])
+        self.assertNotIn("fixture-private", json.dumps(result))
+        events = self.trace()
+        self.assertEqual(events[-1]["event"], "trial_end")
+        self.assertEqual(events[-1]["result"], result)
+        self.assertFalse(any(item["event"] == "provider_failure" for item in events))
+
     def test_provider_argument_mutation_does_not_mutate_controller_tools(self):
         from trial_controller import TOOLS
 
@@ -469,6 +579,7 @@ class TrialControllerTests(unittest.TestCase):
         self.assertEqual(len(provider.calls), 1)
         self.assertEqual(len(broker.calls), 1)
         self.assertFalse(result["accepted"])
+        self.assertIsNone(result["provider_error"])
         self.assertEqual(result["reason"], "controller_error:RuntimeError")
         self.assertNotIn("fixture-private-error", (self.work / "trace.jsonl").read_text(encoding="utf-8"))
 

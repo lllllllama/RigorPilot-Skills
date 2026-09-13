@@ -1,0 +1,17 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-13T11:45:30.698225Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-13T11:45:30.718897Z", "type": "started", "data": {"pid": 11672, "argv": ["D:\\Anaconda3\\python.EXE", "-m", "pytest"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-13T11:45:30.724048Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 3149824, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-13T11:45:31.739298Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 158408704, "cpu_seconds": 0.59375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-13T11:45:31.740367Z", "type": "heartbeat", "data": {"pid": 11672}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-13T11:45:32.751055Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 430084096, "cpu_seconds": 1.15625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-13T11:45:32.757795Z", "type": "heartbeat", "data": {"pid": 11672}}
+{"schema_version": "1.0", "sequence": 8, "timestamp": "2026-09-13T11:45:33.770229Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 511033344, "cpu_seconds": 1.90625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 9, "timestamp": "2026-09-13T11:45:33.773229Z", "type": "heartbeat", "data": {"pid": 11672}}
+{"schema_version": "1.0", "sequence": 10, "timestamp": "2026-09-13T11:45:34.788960Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 530382848, "cpu_seconds": 2.859375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 11, "timestamp": "2026-09-13T11:45:34.792024Z", "type": "heartbeat", "data": {"pid": 11672}}
+{"schema_version": "1.0", "sequence": 12, "timestamp": "2026-09-13T11:45:35.816404Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 483147776, "cpu_seconds": 3.6875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 13, "timestamp": "2026-09-13T11:45:35.820262Z", "type": "heartbeat", "data": {"pid": 11672}}
+{"schema_version": "1.0", "sequence": 14, "timestamp": "2026-09-13T11:45:35.961311Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 0}}
+{"schema_version": "1.0", "sequence": 15, "timestamp": "2026-09-13T11:45:35.962294Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 432}}
+{"schema_version": "1.0", "sequence": 16, "timestamp": "2026-09-13T11:45:35.963284Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 432}}
+{"schema_version": "1.0", "sequence": 17, "timestamp": "2026-09-13T11:45:36.026608Z", "type": "completed", "data": {"status": "success", "returncode": 0}}

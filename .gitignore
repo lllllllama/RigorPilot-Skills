@@ -34,3 +34,5 @@ checkpoints/
 datasets/
 cache/
 agent.md
+!benchmark_outputs/skill_acceptance/**/artifacts/
+!benchmark_outputs/skill_acceptance/**/*.log

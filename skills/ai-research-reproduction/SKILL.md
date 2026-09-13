@@ -16,6 +16,7 @@ documented commands, then record results and deviations. Start with
 `references/deep-learning-experiment-principles.md` when scientific meaning or
 experiment details are at stake.
 
+For first-use problems, run `scripts/doctor.py` with the intended Python (read-only; optional `--repo` and `--require-module`).
 The deterministic entrypoint is `scripts/orchestrate_repro.py`. It includes a
 self-contained `_bundled/` runtime, so this skill works when installed alone;
 separately installed companion skills remain optional reusable entrypoints.
@@ -125,6 +126,5 @@ Use the templates under `assets/` and the field rules in `references/output-spec
 - Load `references/research-safety-principles.md` before protocol-sensitive
   decisions.
 - Load `references/patch-policy.md` before modifying repository files.
-- Keep specialized logic in sub-skills, scripts, templates, or references rather
-  than expanding this entrypoint.
+- Keep specialized logic in sub-skills, scripts, templates, or references rather than expanding this entrypoint.
 

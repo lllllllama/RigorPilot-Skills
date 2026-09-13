@@ -16,7 +16,7 @@ Trusted reproduction is the default; candidate exploration requires explicit aut
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-69%2F69%20passed-8250df?style=flat-square">
+  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-71%2F71%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="historical external protocols" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -187,6 +187,30 @@ files and the evidence directory's `readme_delivery.json`.
 From a clone of this project, with Python 3.11+ and Git:
 
 ```bash
+python benchmarks/run_skill_acceptance.py --output tmp/skill-check
+```
+
+Runs the installed-layout skill runtime on three small cases: missing data,
+matching metrics, and exit-zero/wrong metrics. Independently checks raw logs,
+predictions, original files and README insertions. With existing PyTorch/pytest,
+add `--include-micrograd` to run the two unchanged upstream tests too.
+No model calls, downloads or package installs; use a fresh output directory each time.
+[Recorded outcomes and full evidence](docs/SKILL_ACCEPTANCE.md) — **4/4 functional
+checks**, not four successful reproductions or measured model uplift.
+
+For installation/environment problems (replace the skill path after installation):
+
+```bash
+python skills/ai-research-reproduction/scripts/doctor.py --repo /path/to/target
+```
+
+This read-only check reports the actual Python, Git, bundled-file integrity and
+README availability. Add `--require-module torch --require-module pytest` for
+dependency discovery; it does not install anything or execute target code.
+
+For the failure-and-recovery walkthrough:
+
+```bash
 python scripts/run_harness_lab.py
 ```
 
@@ -203,7 +227,7 @@ Run the repository regression suite:
 python scripts/run_all_tests.py
 ```
 
-Latest local record (2026-09-07): **69/69 scripts passed in 156.0 s**.
+Latest local Windows record (2026-09-13): **71/71 scripts passed in 168.3 s**.
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 

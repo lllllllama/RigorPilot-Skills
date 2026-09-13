@@ -1,0 +1,17 @@
+{
+  "case": "wrong_metric",
+  "check": "wrong_metric/CHECK.json",
+  "metric_status": "mismatched",
+  "origin": {
+    "fault": "exit_zero_metric_mismatch",
+    "fixture_version": 1,
+    "kind": "fault_injection"
+  },
+  "passed": false,
+  "readme": "wrong_metric/repo/RIGORPILOT_README.md",
+  "runtime_success": true,
+  "seconds": 0.734,
+  "source_and_readme_verified": false,
+  "status": "wrong_metric/evidence/status.json",
+  "task_status": "partial"
+}

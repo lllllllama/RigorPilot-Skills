@@ -1,0 +1,18 @@
+{
+  "case": "micrograd",
+  "check": "micrograd/ACCEPTANCE.json",
+  "metric_status": "not_evaluated",
+  "origin": {
+    "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+    "kind": "public_repository",
+    "repository": "https://github.com/karpathy/micrograd",
+    "source": "local_hash_verified_archive"
+  },
+  "passed": true,
+  "readme": "micrograd/repo/RIGORPILOT_README.md",
+  "runtime_success": true,
+  "seconds": 5.968,
+  "source_and_readme_verified": true,
+  "status": "micrograd/evidence/status.json",
+  "task_status": "success"
+}

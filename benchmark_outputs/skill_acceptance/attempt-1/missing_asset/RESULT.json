@@ -1,0 +1,17 @@
+{
+  "case": "missing_asset",
+  "check": "missing_asset/CHECK.json",
+  "metric_status": "mismatched",
+  "origin": {
+    "fault": "missing_required_local_asset",
+    "fixture_version": 1,
+    "kind": "fault_injection"
+  },
+  "passed": true,
+  "readme": "missing_asset/repo/RIGORPILOT_README.md",
+  "runtime_success": false,
+  "seconds": 0.875,
+  "source_and_readme_verified": true,
+  "status": "missing_asset/evidence/status.json",
+  "task_status": "partial"
+}

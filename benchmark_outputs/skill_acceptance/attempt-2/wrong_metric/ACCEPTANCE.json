@@ -1,0 +1,47 @@
+{
+  "artifact_checks": {
+    "original_files": {
+      "details": {
+        "baseline_sha256": "d847c79e8f3f2aca132315688259abbdc65219330cb33cd306fd7c02f559381f",
+        "files_checked": 5
+      },
+      "ok": true
+    },
+    "readme_fidelity_and_links": {
+      "details": {
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\wrong_metric\\evidence\\ANNOTATED_README.md": {
+          "inserted_links_checked": 8,
+          "sections": 4,
+          "source_sha256": "d154d23c65fcc253fb7b3ae643fb3ad8ce65f1469d9a5c5b8a848b52921087ff",
+          "stripped_sha256": "d154d23c65fcc253fb7b3ae643fb3ad8ce65f1469d9a5c5b8a848b52921087ff"
+        },
+        "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\skill-acceptance-20260913-v2\\wrong_metric\\repo\\RIGORPILOT_README.md": {
+          "inserted_links_checked": 8,
+          "sections": 4,
+          "source_sha256": "d154d23c65fcc253fb7b3ae643fb3ad8ce65f1469d9a5c5b8a848b52921087ff",
+          "stripped_sha256": "d154d23c65fcc253fb7b3ae643fb3ad8ce65f1469d9a5c5b8a848b52921087ff"
+        }
+      },
+      "ok": true
+    },
+    "status_file": {
+      "details": {
+        "sha256": "d67baf58e9ef9b088a9dc08db1a94371273981b1b6bc3c89dcefad8baa9c3475"
+      },
+      "ok": true
+    }
+  },
+  "case_check": {
+    "independent_mse": 1.0,
+    "metric_status": "mismatched",
+    "ok": true,
+    "returncode": 0,
+    "runtime_status": "success",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "1cc2a283b5eb5e6e599639b2ccdc570f4815656298b8ab92593a0c4b4b5700c2",
+    "task_status": "partial"
+  },
+  "ok": true,
+  "success_only_grader": "CHECK.json",
+  "success_only_grader_applicable": false
+}

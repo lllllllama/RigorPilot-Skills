@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### Foundation and functional acceptance
+
+- Canonicalize the A/B output parent before freezing and sealing. Reproduce the
+  macOS path-alias failure with a symlink/junction regression without relaxing
+  broker boundaries; retain full failing-test output in CI.
+- Add a self-contained, read-only `doctor.py` for Python, Git, bundle integrity,
+  target README and explicitly requested dependency discovery.
+- Add repeatable installed-runtime acceptance for missing data, a matching
+  metric, an exit-zero metric mismatch and optional pinned micrograd tests.
+  Preserve raw logs and source/media bytes; independently recompute predictions
+  and test tampered evidence. Keep the earlier success-only grader strict.
+- Retain both acceptance attempts, including the first grader-integration failure.
+  Four functional checks pass; no new model calls or measured model uplift.
+- Add optional read-only Codex app-server quota-window lookup. It does not start
+  model turns, reserve quota, read credential files or enforce a percentage floor.
+
 ### Neutral controlled-trial foundation
 
 - Add a neutral injected-transport loop, reviewed-command broker and append-only
@@ -14,7 +30,7 @@
   acceptance, while retaining the independent grade and settled usage.
 - Publish four real-process offline controller checks, including a retained
   missing-asset failure. Scripted responses are not live model evidence. The new
-  core has no live API CLI, campaign spending limit or OS sandbox; skill files
+  core now has a bounded Messages CLI, but no campaign billing cap or OS sandbox; skill files
   are read-only, so it does not establish full bundled-skill execution capability.
 
 ### Paired evaluation foundation
