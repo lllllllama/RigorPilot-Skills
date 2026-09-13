@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "scope": "one_real_client_first_use_not_model_uplift",
+  "date": "2026-09-13",
+  "skill_commit": "3f4ff415bc678fc83db673288d33b1a8fb5458aa",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "client_version": "0.154.0-alpha.6.1",
+  "model_revision_verified": false,
+  "checks": {
+    "public_install_with_tls_verification": true,
+    "installed_files_match_frozen_commit": true,
+    "original_task_passed": true,
+    "independent_bundle_check_passed": true,
+    "client_completed": false,
+    "overall_pass": false
+  },
+  "stop_reason": "wall_timeout",
+  "client_seconds": 241.516,
+  "command_execution_calls": 8,
+  "file_change_calls": 1,
+  "runtime_run_id": "20260913T125713Z-fd901d8d",
+  "original_files_retained": 13,
+  "readme_archive_checks": {
+    "RIGORPILOT_README.md": {
+      "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+      "section_annotations": 8,
+      "banner_insertions": 1,
+      "inserted_links_checked": 12
+    },
+    "repro_outputs/ANNOTATED_README.md": {
+      "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+      "section_annotations": 8,
+      "banner_insertions": 1,
+      "inserted_links_checked": 12
+    }
+  },
+  "model_usage": null,
+  "model_cost": null,
+  "model_uplift": null,
+  "baseline_A": "not_run_after_B_timeout",
+  "preparation_attempts": [
+    {
+      "name": "inherited_tls_disabled",
+      "accepted_as_secure_install": false,
+      "reason": "Inherited NODE_TLS_REJECT_UNAUTHORIZED=0; retained, then isolated verified retry with fresh cache."
+    },
+    {
+      "name": "codex_0.150.1",
+      "accepted_as_task_run": false,
+      "reason": "HTTP 400 explicitly required a newer client for the requested model; no command executed."
+    }
+  ],
+  "limits": [
+    "Single task on an existing dependency environment; explicit skill invocation, not automatic routing.",
+    "Command and evidence success do not imply client completion or paper-result reproduction.",
+    "No final turn.completed or usage event; quota-window deltas are not token accounting.",
+    "Wall-time cancellation was observed; token feature was experimental, disk/percentage gates are not hard quotas.",
+    "Trace exposes actions and returned output, not private model reasoning or a complete latency breakdown.",
+    "Raw absolute paths retained for provenance; snapshot is for inspection, not in-place resume.",
+    "Native external client tested; the optional standalone Anthropic runner was not tested here.",
+    "Subsequent finish-guidance fix has not been rerun with a live model."
+  ],
+  "publication": {
+    "copied_files": 106,
+    "copied_bytes": 506787,
+    "omitted": [
+      "Account quota snapshots and END.quota_observations (raw retained locally)",
+      "Portable Node binary/zip and npm caches",
+      ".git metadata and duplicate installed skill copy",
+      ".pytest_cache"
+    ],
+    "byte_identity_manifest": "FILES.json"
+  }
+}

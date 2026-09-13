@@ -1,0 +1,8 @@
+{
+  "README.md": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+  "setup.py": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f",
+  "micrograd/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "micrograd/engine.py": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84",
+  "micrograd/nn.py": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d",
+  "test/test_engine.py": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+}

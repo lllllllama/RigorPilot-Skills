@@ -1,0 +1,33 @@
+{
+  "argv": [
+    "D:\\Anaconda3\\python.exe",
+    ".agents/skills/ai-research-reproduction/scripts/orchestrate_repro.py",
+    "--repo",
+    ".",
+    "--output-dir",
+    "repro_outputs",
+    "--run-selected",
+    "--timeout",
+    "18",
+    "--no-gpu-monitor",
+    "--user-language",
+    "zh-CN",
+    "--source-adjacent-readme"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\B\\repo",
+  "environment_overrides": {
+    "RIGORPILOT_LESSONS": "0",
+    "CUDA_VISIBLE_DEVICES": "",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "PYTEST_ADDOPTS": "",
+    "PYTEST_PLUGINS": ""
+  },
+  "outer_timeout_seconds": 25,
+  "started_at": "2026-09-13T20:57:13+0800",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 16.203,
+  "source_hashes_unchanged": true
+}

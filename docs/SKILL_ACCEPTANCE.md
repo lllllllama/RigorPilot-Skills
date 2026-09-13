@@ -8,8 +8,10 @@ reporting and evidence delivery, not model uplift or paper-level reproduction.
 
 Full local Windows regression: **71/71 scripts passed in 168.3 s**. The public
 archive passed byte/link checks and Git publication validation in an isolated
-temporary index, without changing the normal staging area. This is not a new
-remote CI result or an already-published release.
+temporary index, without changing the normal staging area. Subsequently published at
+[`3f4ff41`](https://github.com/lllllllama/RigorPilot-Skills/commit/3f4ff415bc678fc83db673288d33b1a8fb5458aa),
+with [all three CI platforms passing](https://github.com/lllllllama/RigorPilot-Skills/actions/runs/34757822033).
+See also the [real-client trial](REAL_CLIENT_ACCEPTANCE.md): tests and evidence passed, but the client timed out.
 
 ## Inspect the outcomes
 
@@ -75,7 +77,7 @@ Archived logs preserve their original execution paths. The copied evidence is
 for browsing, not restoring a live task at those paths. The installed package is
 not duplicated in the public archive; its per-file hashes are in `START.json`.
 No credentials or full host environment are included. Git publication validation
-checks the archived files; the current changes still need their own CI run after publication.
+checks the archived files; the corresponding commit's CI is linked above.
 
 ## Optional Codex quota snapshot
 

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "git",
+    "fetch",
+    "--quiet",
+    "--depth",
+    "1",
+    "origin",
+    "7bc720e951fe422b8f8814aa5aa1b64121d26b4c"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\B\\repo",
+  "returncode": 0,
+  "seconds": 2.75
+}

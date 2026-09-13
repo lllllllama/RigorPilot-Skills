@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "--quiet"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\B\\repo",
+  "returncode": 0,
+  "seconds": 0.078
+}

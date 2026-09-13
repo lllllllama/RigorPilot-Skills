@@ -952,6 +952,556 @@
       "sha256": "36af2f2fd8d576cfb58c8488cd11859a3196ebc1376d02589047c191dced7736"
     },
     {
+      "path": "benchmark_outputs/real_client/20260913/B/BASELINE.json",
+      "bytes": 1232,
+      "sha256": "127fe53aa9929394fb61699a5affc1d849dd43af95ecdec9248c715a1609b666"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client/COLLECTOR.py",
+      "bytes": 16438,
+      "sha256": "fc31b0f3ef3114876c3bae3bdd621d22302cfb38954d77afdb1daf5778d1edc8"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client/END.public.json",
+      "bytes": 407,
+      "sha256": "6998aa0ef6bd6fb259bc3f1d28a406bdaae79de1c98ba614f822cf9ba96a6f76"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client/PROMPT.txt",
+      "bytes": 843,
+      "sha256": "49c84ae1a452fbc352b406bc9030a5af2413241d029545a123403e0f14e230c1"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client/START.json",
+      "bytes": 2722,
+      "sha256": "f66223b795a555c05d3c43636ae3215448d405a4191673833539e5866b39cb3a"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client/stderr.log",
+      "bytes": 1650,
+      "sha256": "fa6305d2f53bfe5a423dda7426360a63aab6add014d1a683bd9bf43c3797948c"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client/TRACE.jsonl",
+      "bytes": 234225,
+      "sha256": "642bcff4f6dd4b6c14f5a9d2e9372b4ff643a67e7bb931cca0145137824001bf"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client-cli-0.150.1-rejected/END.public.json",
+      "bytes": 396,
+      "sha256": "5f2cc6b0d7cb7254628408df748f4fbbcf8569d6192b2dddc2948635f9b2d2ad"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client-cli-0.150.1-rejected/PROMPT.txt",
+      "bytes": 843,
+      "sha256": "49c84ae1a452fbc352b406bc9030a5af2413241d029545a123403e0f14e230c1"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client-cli-0.150.1-rejected/START.json",
+      "bytes": 2743,
+      "sha256": "c5a530670ee087114510d556fafda91cccb1ad5d3d37bec34a5bf545d9fe4611"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client-cli-0.150.1-rejected/stderr.log",
+      "bytes": 734,
+      "sha256": "03e58b379507ef6141fc54a160e3b2824f0ffd35bf7f4e6c7c27a6a66a3e709f"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/client-cli-0.150.1-rejected/TRACE.jsonl",
+      "bytes": 1117,
+      "sha256": "171bcdda4c1566794cf18314143eb8cf74a3facd015b17542cd458585f96065a"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/EVIDENCE_CHECK.json",
+      "bytes": 2708,
+      "sha256": "38efa5fc4cd582bd2f9ee944e99db8166f8503897f4540749144b8c58514a9ab"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/.gitignore",
+      "bytes": 20,
+      "sha256": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/artifacts/assets/asset_manifest.json",
+      "bytes": 1865,
+      "sha256": "aa3636f226a01b448b3f96a584c3248ba29825984014ddad4d2127acc36b5cc0"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/demo.ipynb",
+      "bytes": 57550,
+      "sha256": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/gout.svg",
+      "bytes": 11360,
+      "sha256": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/LICENSE",
+      "bytes": 1081,
+      "sha256": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/micrograd/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/micrograd/engine.py",
+      "bytes": 2730,
+      "sha256": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/micrograd/nn.py",
+      "bytes": 1613,
+      "sha256": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/moon_mlp.png",
+      "bytes": 15806,
+      "sha256": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/puppy.jpg",
+      "bytes": 49269,
+      "sha256": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/README.md",
+      "bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/_runtime/20260913T125713Z-fd901d8d/events.jsonl",
+      "bytes": 6862,
+      "sha256": "91e33bba4e8f439bbaa80d1c0071ae8ddd8960ec43f5f5690edd06e296bed882"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/_runtime/20260913T125713Z-fd901d8d/resources.jsonl",
+      "bytes": 6738,
+      "sha256": "15b1e2cedc21a7502da6f66481edfa15cb3b7585d574b5c32da9695290c39e90"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/_runtime/20260913T125713Z-fd901d8d/spec.json",
+      "bytes": 1047,
+      "sha256": "2ebdb94e428abcf4cd67a2ce31ade239ae89fdd31472bf2ba348ac1265250111"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/_runtime/20260913T125713Z-fd901d8d/state.json",
+      "bytes": 1192,
+      "sha256": "691dd78bcb857efa2390f0f5094cd92eb2adbff22bc8c9edf6a98cd0a54ce413"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/_runtime/20260913T125713Z-fd901d8d/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/_runtime/20260913T125713Z-fd901d8d/stdout.log",
+      "bytes": 415,
+      "sha256": "1688ec064289b8c79f88e77a19ce7636502e182330f3f97d35176cc63ade5621"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/ANNOTATED_README.md",
+      "bytes": 5619,
+      "sha256": "3581a1bb028374dedbe223c3acf944aa45e6f3781aca009b5467f2d8bab2da97"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/COMMANDS.md",
+      "bytes": 2486,
+      "sha256": "d051998102b315b7751e4df155666c58d01344f66144a5e8b61b8ec0389663fd"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/COMPARABILITY_REPORT.md",
+      "bytes": 1138,
+      "sha256": "e22854752741033ecb2d16d8caf5adcb14c564ef13cf98203c708cff197eb41d"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/invocation.json",
+      "bytes": 907,
+      "sha256": "b176e6a5bb5a6533e863a10490ad3693feeb87d8aee61c70076188250d2d67ea"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/LOG.md",
+      "bytes": 4393,
+      "sha256": "cb34ed6f751ce4e5727e3ca38c26068550a62dea10d91912698fae0e073c0794"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/orchestrator.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/orchestrator.stdout.log",
+      "bytes": 11643,
+      "sha256": "dcb0056097974ae677c3d601075eaab035536401633bfeb8485a8e4e17b13719"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/readme_delivery.json",
+      "bytes": 362,
+      "sha256": "c4c0c16b43649afb485edf3ada82ea04ad6160a5ea57986be41399a10ea5cf8b"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/run_evidence.py",
+      "bytes": 2437,
+      "sha256": "4846058478b2d88f6a1d60e2fa88c7c5812964a581098f7fa06086c7530c2dcf"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/SCIENTIFIC_CHANGELOG.md",
+      "bytes": 1436,
+      "sha256": "4ec8892da86e5856c81ebc75e9f0ad9ec17df52ebba8afa493cbaa56bfae8855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/source_hashes_before.json",
+      "bytes": 544,
+      "sha256": "8978abe6cbb10b857bb3e931b1044ff785ade0a29a6f512591e83a1c8fa09032"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/status.json",
+      "bytes": 8370,
+      "sha256": "9e73bd5a4c0ab5aab44ec985ac26e0c775211da4c3f63a0ea8c6c37cab6f2c34"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/repro_outputs/SUMMARY.md",
+      "bytes": 543,
+      "sha256": "3ab70ddd4830079e75488cabf3675f762d654f3c07d3c49c14a7a7ecab72eb31"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/RIGORPILOT_README.md",
+      "bytes": 5787,
+      "sha256": "ae6833bf03a73e8fea7390748f66d154f8455539f8381cad13004881bc50ac66"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/setup.py",
+      "bytes": 717,
+      "sha256": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/skills-lock.json",
+      "bytes": 365,
+      "sha256": "8c51aee80807608051096782067d5d18389ed46e5b30c869e39c4ef9903ac89d"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/test/test_engine.py",
+      "bytes": 1470,
+      "sha256": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/B/repo/trace_graph.ipynb",
+      "bytes": 2934,
+      "sha256": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/FILES.json",
+      "bytes": 18266,
+      "sha256": "3e541ef6a1d8943b86a9fc161470560f0a6eebf255a9c00eded7e4bbfec4e554"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/INSTALL-secure.json",
+      "bytes": 5624,
+      "sha256": "e3206fee81ecbeafac92b5513411c37a20f34fd37f6004a81363c0cb92ab9930"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/INSTALL.json",
+      "bytes": 5618,
+      "sha256": "a2ad20e9584a26b6ad8ab83cba206015a68beb23e820b2b5c33395eb21c8a01e"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/NODE.json",
+      "bytes": 259,
+      "sha256": "e697c784e8c673ee96b73687c4bfd942c4d88773599a0a568fcc94843bc08c40"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/REPORT.json",
+      "bytes": 3137,
+      "sha256": "dc96e09363180bb4bd57dc2151a53601c55a80576bba388d8fd9727cab1d5e57"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-checkout/RECEIPT.json",
+      "bytes": 238,
+      "sha256": "3829174179a5ca85bf3b73c12047b60b85404c2444a425b6f0c05d3133215e11"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-checkout/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-checkout/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-fetch/RECEIPT.json",
+      "bytes": 287,
+      "sha256": "f9e71f203d4c0765da4a7fd9fcc7fcb42099783a36bb05b9606fd5c279e773ab"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-fetch/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-fetch/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-init/RECEIPT.json",
+      "bytes": 290,
+      "sha256": "bcc29db43e60e74ca6888d2e76bd797800138cbe5054370c707e78cfecceb58e"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-init/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-init/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-line-endings/RECEIPT.json",
+      "bytes": 221,
+      "sha256": "62d106d1df4b3ba5f8d6a46b63bb3c956be56a31c8a85abe967146a35d0a41fd"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-line-endings/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-line-endings/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-remote/RECEIPT.json",
+      "bytes": 261,
+      "sha256": "0be9d5ec965286229f54fd263e9a1294c7165319bafc97d561cd4f09c097aa92"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-remote/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/A-git-remote/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-checkout/RECEIPT.json",
+      "bytes": 238,
+      "sha256": "cb4d268f208ade9824fdaf83786ab0a6dd3980ac320c1e865b7145ae0d143543"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-checkout/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-checkout/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-fetch/RECEIPT.json",
+      "bytes": 286,
+      "sha256": "67f007b0f4721c292234db55fbf1f1c884b5d64434fcdf9bbb65b745b9c8dcd6"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-fetch/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-fetch/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-init/RECEIPT.json",
+      "bytes": 290,
+      "sha256": "9852c1c29b5302a39106151bd3d827bb17fb6302c38a73d2e79b6e46d00ca261"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-init/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-init/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-line-endings/RECEIPT.json",
+      "bytes": 221,
+      "sha256": "800f404205a5d5912d5872ec276431afcf98ddbf2b54bd350ec14a7cc987e47f"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-line-endings/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-line-endings/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-remote/RECEIPT.json",
+      "bytes": 261,
+      "sha256": "0dc8ee3c5e7ec205c07539587bc5e7c52ec2f56d21851da3694a5e0b74f2bee7"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-remote/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-git-remote/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-checkout/RECEIPT.json",
+      "bytes": 237,
+      "sha256": "6e5fe19b886a30f0f35616012c437a0dd70540eccd69e68305c6715c1f12bcdf"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-checkout/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-checkout/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-fetch/RECEIPT.json",
+      "bytes": 287,
+      "sha256": "d16062fa7164cdfe3428b11739e5ffe8a7d8be6abdaef40f72e29750b0b4bb0b"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-fetch/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-fetch/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-init/RECEIPT.json",
+      "bytes": 200,
+      "sha256": "1ff69953df1413245a8f2913471c25feffebaa2c6a351c4b185bef208ebb0961"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-init/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-init/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-line-endings/RECEIPT.json",
+      "bytes": 221,
+      "sha256": "db2207323b5191e4dcc1a12937c31e2af090fc69df18997ae85106975dca3046"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-line-endings/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-line-endings/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-remote/RECEIPT.json",
+      "bytes": 261,
+      "sha256": "9cd5590b722bc3e8055f6f68e3bcd23cb9f0cd54ed85eda27000b64525129841"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-remote/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/B-secure-git-remote/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/installed-doctor/RECEIPT.json",
+      "bytes": 534,
+      "sha256": "a38e87fe472ecad1e40595dd92042fe6da4b0d1dc71e4c598546c6cf8fc8114f"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/installed-doctor/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/installed-doctor/stdout.log",
+      "bytes": 897,
+      "sha256": "cadb03322fe39ba684b7f0a87d54cbd2bd06bcd7e09b8dd44d7eceb44f79a029"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/installed-doctor-verified/RECEIPT.json",
+      "bytes": 534,
+      "sha256": "4378e34b87dca5d107961ea952b651f18853a7187bc21a8a2fdd915a62a71cba"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/installed-doctor-verified/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/installed-doctor-verified/stdout.log",
+      "bytes": 897,
+      "sha256": "cadb03322fe39ba684b7f0a87d54cbd2bd06bcd7e09b8dd44d7eceb44f79a029"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/public-npx-install/RECEIPT.json",
+      "bytes": 683,
+      "sha256": "df56b114949d8fb8f8e5d5815ab32bea9ff5682f33fcf34e3841e869521690ac"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/public-npx-install/stderr.log",
+      "bytes": 504,
+      "sha256": "e3897db253f7c1fe4941808ec31edd73b807f0ede3043ebad242193f68235d19"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/public-npx-install/stdout.log",
+      "bytes": 4761,
+      "sha256": "0adc2a818f69ec421d8c80183ad94091465b9f2457aea77a61e8dd348d98ceb9"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/public-npx-install-verified/RECEIPT.json",
+      "bytes": 683,
+      "sha256": "7f9c087326a9c9556de16049eb59a7fba2f18056d34feff62330d9c84eb26516"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/public-npx-install-verified/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "benchmark_outputs/real_client/20260913/setup/public-npx-install-verified/stdout.log",
+      "bytes": 5031,
+      "sha256": "8de5143912d4ed831f114182d7b7c1d9295f5417ddd1e76e71d3b57ada8dcd89"
+    },
+    {
       "path": "benchmark_outputs/showcases/micrograd/repo/.gitignore",
       "bytes": 21,
       "sha256": "a4e97f92728e43e555cf82bb57e201ba5e3a4f1d7c51675d4836230c5ee9e62f"

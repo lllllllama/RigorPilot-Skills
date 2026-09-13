@@ -7,7 +7,9 @@
 
 本地 Windows 全量回归：**71/71 脚本通过，168.3 秒**。
 公开归档通过字节/链接检查及独立临时索引中的 Git 发布检查，未改变正式暂存区。
-这不代表新的远程 CI 已通过，也不代表版本已经发布。
+后续已发布到 [`3f4ff41`](https://github.com/lllllllama/RigorPilot-Skills/commit/3f4ff415bc678fc83db673288d33b1a8fb5458aa)，
+[三平台 CI](https://github.com/lllllllama/RigorPilot-Skills/actions/runs/34757822033) 均通过。
+另见[真实客户端试用](REAL_CLIENT_ACCEPTANCE.zh-CN.md)：测试与证据通过，但整轮超时。
 
 ## 直接查看结果
 
@@ -63,7 +65,7 @@ python benchmarks/run_skill_acceptance.py --output tmp/skill-check-with-microgra
 
 归档日志保留当时的运行路径；复制后的快照用于浏览，不是可从旧路径恢复的活动任务。
 公开目录不重复存放整个已安装技能；`START.json` 保留其逐文件哈希。
-未收录凭据或完整宿主环境。Git 发布检查覆盖归档文件；本次改动发布后仍需单独验证 CI。
+未收录凭据或完整宿主环境。Git 发布检查覆盖归档文件；对应提交的 CI 链接见上文。
 
 ## 可选：Codex 额度快照
 

@@ -86,11 +86,14 @@ are not completed evaluations, converged training or reproduced paper scores.
 
 New: [installed-skill micrograd trial](docs/FIRST_USE_ACCEPTANCE.md), with before/after command reports, a retained failed attempt and independent checks—not a model-quality comparison.
 
+Real model trial: [public install → 2 tests passed → evidence verified → client timed out](docs/REAL_CLIENT_ACCEPTANCE.md). Full outputs and failed attempts are retained; end-to-end acceptance and model uplift are not claimed.
+
 <a id="quick-start"></a>
 
 ## 🚀 Install and use
 
-The installer needs Node.js/npm; check its Node version requirement if it reports `EBADENGINE`.
+The installer needs Node.js/npm. Tested with `skills@1.5.26` and Node 22.20.0;
+that installer requires Node ≥22.20.0. If you see `EBADENGINE`, check the requested version.
 
 Install all skills:
 
@@ -227,7 +230,7 @@ Run the repository regression suite:
 python scripts/run_all_tests.py
 ```
 
-Latest local Windows record (2026-09-13): **71/71 scripts passed in 168.3 s**.
+Latest local Windows record (2026-09-13): **71/71 scripts passed in 173.1 s**.
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 

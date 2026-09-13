@@ -36,3 +36,6 @@ cache/
 agent.md
 !benchmark_outputs/skill_acceptance/**/artifacts/
 !benchmark_outputs/skill_acceptance/**/*.log
+!benchmark_outputs/real_client/**/repro_outputs/
+!benchmark_outputs/real_client/**/artifacts/
+!benchmark_outputs/real_client/**/*.log

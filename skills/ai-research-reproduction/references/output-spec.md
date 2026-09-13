@@ -133,6 +133,10 @@ Field intent:
   - `not_run` means no recorded execution; actual runtime status is not scientific acceptance
 - `next_safe_action`
   - the lowest-risk next step a researcher can review or run
+  - for a successful bounded non-training target, verify existing evidence, return
+    the result and stop; do not recommend unrequested follow-up execution
+  - command-level `success` does not establish that an outer agent/client completed
+    its turn, that its evidence passed independent acceptance, or that a paper was reproduced
 - `artifact_provenance`
   - where key inputs or outputs came from, such as README, repo path, paper, dataset root, checkpoint, or generated logs
 - `stage_results`

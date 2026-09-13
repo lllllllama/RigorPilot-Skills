@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "D:/Anaconda3/python.exe",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\B\\repo\\.agents\\skills\\ai-research-reproduction\\scripts\\doctor.py",
+    "--repo",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\B\\repo",
+    "--require-module",
+    "torch",
+    "--require-module",
+    "pytest"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913",
+  "returncode": 0,
+  "seconds": 0.156
+}

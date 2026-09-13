@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Real-client first-use evidence and bounded handoff
+
+- Publish a commit-pinned public installation and real Codex task trace: original
+  micrograd tests and independent evidence checks pass, but the outer client times
+  out at 240 seconds. Preserve both the obsolete-client rejection and insecure
+  inherited-TLS installation attempt; do not claim end-to-end success or model uplift.
+- Successful bounded non-training reports now hand the result back after evidence
+  review instead of recommending unrequested follow-up execution. Clarify the skill's
+  finish boundary and focused implementation reading; live timeout reduction is unverified.
+- Record tested installer/Node versions and retain the original README command
+  examples, color guide and supporting media. Publication checks include the new archive.
+
 ### Foundation and functional acceptance
 
 - Canonicalize the A/B output parent before freezing and sealing. Reproduce the

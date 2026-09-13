@@ -1,0 +1,13 @@
+{
+  "returncode": 1,
+  "stop_reason": null,
+  "seconds": 10.078,
+  "trace_sha256": "171bcdda4c1566794cf18314143eb8cf74a3facd015b17542cd458585f96065a",
+  "extra_model_requests_unknown_until_trace_review": true,
+  "publication": {
+    "omitted_fields": [
+      "quota_observations"
+    ],
+    "original_sha256": "dfb0943195cdccf9ff8046adffa7a94910d0056cb07919e4247887b383a641bc"
+  }
+}

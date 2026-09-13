@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\node-v22.20.0-win-x64\\node.exe",
+    "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\node-v22.20.0-win-x64\\node_modules\\npm\\bin\\npx-cli.js",
+    "--yes",
+    "skills@1.5.26",
+    "add",
+    "https://github.com/lllllllama/RigorPilot-Skills/tree/3f4ff415bc678fc83db673288d33b1a8fb5458aa",
+    "--skill",
+    "ai-research-reproduction",
+    "--agent",
+    "codex",
+    "--copy",
+    "--yes"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\repro_outputs\\fresh-user-20260913\\B\\repo",
+  "returncode": 0,
+  "seconds": 20.016
+}

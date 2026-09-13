@@ -1,0 +1,7 @@
+{
+  "version": "22.20.0",
+  "source": "https://nodejs.org/dist/v22.20.0/node-v22.20.0-win-x64.zip",
+  "sha256": "bb819d6eb8f5bfda294bbc83a7e4ec6539da67c4233d54b0d655b9248b15e29d",
+  "bytes": 35500968,
+  "installation": "temporary_portable_no_global_change"
+}

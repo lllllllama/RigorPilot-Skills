@@ -1,0 +1,13 @@
+{
+  "returncode": 1,
+  "stop_reason": "wall_timeout",
+  "seconds": 241.516,
+  "trace_sha256": "642bcff4f6dd4b6c14f5a9d2e9372b4ff643a67e7bb931cca0145137824001bf",
+  "extra_model_requests_unknown_until_trace_review": true,
+  "publication": {
+    "omitted_fields": [
+      "quota_observations"
+    ],
+    "original_sha256": "99f592498066793e5c3c3b439c8bedb76543b8c5473618233cb303fad556425a"
+  }
+}

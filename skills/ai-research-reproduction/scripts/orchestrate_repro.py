@@ -914,12 +914,16 @@ def build_context(
         next_action = (
             text(user_language, "Prepare environment and assets, then retry the documented command.", "先准备环境与资源，再重试该文档命令。")
             if status in {"partial", "blocked", "not_run"}
-            else text(user_language, "Review outputs and continue with the next documented verification step.", "检查输出后继续下一步文档化验证。")
+            else text(user_language,
+                "Check the recorded evidence against the requested target, deliver the bounded result, and stop. Further experiments require a new request; this result alone does not establish paper-level reproduction.",
+                "按本次请求核对已记录的证据，交付限定范围内的结果，然后停止。后续实验需要新的请求；本次结果本身不代表论文级复现。")
         )
         next_safe_action = (
             "Review setup assumptions and confirm the next documented command before making any semantic changes."
             if status in {"partial", "blocked", "not_run"}
-            else "Review generated outputs and confirm that the next documented verification step preserves experiment meaning."
+            else text(user_language,
+                "Verify the existing evidence and return the result to the user, then stop without launching additional commands or optional stages unless requested.",
+                "核验现有证据并向用户交付结果，然后停止；未经请求，不启动额外命令或可选阶段。")
         )
 
     run_execution_status = run_data.get("runtime_status") or "not_run"

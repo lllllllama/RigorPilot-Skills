@@ -38,7 +38,7 @@ def run_case(root: Path, name: str, source: str, *, language: str = "en",
     assert (repo / "README.md").read_bytes() == original, "Reporting changed the original README"
     assert not (repo / ".venv").exists(), "Reporting unexpectedly executed a setup suggestion"
     persisted = json.loads((output / "status.json").read_text(encoding="utf-8"))
-    for key in ("human_decisions_required", "setup_advisories", "command_reporting"):
+    for key in ("human_decisions_required", "setup_advisories", "command_reporting", "next_safe_action"):
         assert persisted[key] == payload[key], f"{key} disappeared from the durable status"
     assert all(item["execution_status"] == "not_run" for item in payload["setup_commands"])
     assert payload["command_reporting"]["setup"] == payload["command_reporting"]["assets"] == "not_run"
@@ -56,6 +56,13 @@ def main() -> int:
             assert payload["asset_commands"] == [], "Missing generic directories invented asset prerequisites"
             assert payload["command_reporting"]["main_run"] == "success"
             assert Path(payload["run_commands"][0]["execution_evidence"]).is_file()
+            # Completion must hand off the requested result, not open an unrequested task.
+            stop_word = "停止" if language == "zh" else "stop"
+            assert stop_word in payload["next_safe_action"]
+            assert stop_word in payload["next_action"]
+            assert payload["next_action"] in (output / "SUMMARY.md").read_text(encoding="utf-8")
+            assert not any(stage["stage"] == "analyze-project" and stage["status"] != "not_requested"
+                           for stage in payload["stage_results"])
             rendered = (output / "COMMANDS.md").read_text(encoding="utf-8")
             assert ("未执行" if language == "zh" else "not executed") in rendered
             assert rendered.startswith("# 命令记录" if language == "zh" else "# Commands")
@@ -67,10 +74,12 @@ def main() -> int:
         assert payload["command_reporting"]["main_run"] == "not_run"
         assert not payload["run_commands"][0]["execution_evidence"]
         assert payload["human_decisions_required"] == []
+        assert "deliver the bounded result" not in payload["next_action"]
 
         payload, output, _ = run_case(root, "missing-dependency", "import rigorpilot_intentionally_missing_dependency_71830\n")
         assert payload["status"] != "success" and payload["human_decisions_required"]
         assert payload["command_reporting"]["main_run"] == "failed"
+        assert "deliver the bounded result" not in payload["next_action"]
         assert payload["setup_advisories"], "Real failures must not hide setup discovery gaps"
         assert "ModuleNotFoundError" in Path(payload["stderr_log_path"]).read_text(encoding="utf-8")
         assert "ModuleNotFoundError" in (output / "status.json").read_text(encoding="utf-8")
