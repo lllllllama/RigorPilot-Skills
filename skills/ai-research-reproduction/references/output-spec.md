@@ -98,6 +98,9 @@ Suggested top-level keys:
 - `command_reporting`
 - `next_safe_action`
 - `artifact_provenance`
+- `source_integrity`
+- `invocation_path`
+- `evidence_manifest_path`
 - `verified_commit_count`
 - `outputs`
 - `notes`

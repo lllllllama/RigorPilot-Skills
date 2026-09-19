@@ -1,6 +1,7 @@
 ---
 name: ai-research-reproduction
 description: Rigor Reproduce compatible skill slug for README-first deep learning repository reproduction. Use when the user wants an end-to-end, minimal-trustworthy flow that reads the repository first, selects the smallest documented inference or evaluation target, coordinates intake, setup, trusted execution, optional trusted training, optional repository analysis, and optional paper-gap resolution, enforces conservative patch rules, records evidence assumptions deviations and human decision points, and writes the standardized `repro_outputs/` bundle. Do not use for paper summary, generic environment setup, isolated repo scanning, standalone command execution, silent protocol changes, score chasing, or broad research assistance outside repository-grounded reproduction.
+compatibility: Requires Python 3.11+ and Git for bundled orchestration; target repositories may require additional reviewed dependencies, network access, or accelerators.
 ---
 
 # ai-research-reproduction
@@ -16,14 +17,17 @@ documented commands, then record results and deviations. Start with
 `references/deep-learning-experiment-principles.md` when scientific meaning or
 experiment details are at stake.
 
-For first-use problems, run `scripts/doctor.py` with the intended Python (read-only; optional `--repo` and `--require-module`).
-The deterministic entrypoint is `scripts/orchestrate_repro.py` with a self-contained `_bundled/` runtime, so this skill works when installed alone;
-separately installed companion skills remain optional reusable entrypoints.
-Use the entrypoint and `--help` for routine runs; inspect its implementation when a concrete blocker or safety question requires it.
-Executed commands persist lifecycle state, append-only events, and full streamed
-stdout/stderr under `repro_outputs/_runtime/<run_id>/`. A `CANCEL` file in the
-active run directory requests process-tree cancellation.
-For recovery, queues or model gates, read `references/runtime-and-model-adapter.md`; for the optional model/tool loop, read `references/agent-runner.md` and use `scripts/run_agent.py`.
+## Fast Path
+
+For a routine bounded run, keep the control path short:
+
+1. Read the target README and only the target test/config/source needed to understand the documented command.
+2. Run `scripts/orchestrate_repro.py --repo <repo> --plan-only --agent-output`; review the selected command and side-effect contract. With no `--output-dir`, later evidence goes to `<repo>/repro_outputs` regardless of the caller's current directory.
+3. If it fits the user's bounds, rerun with `--run-selected --agent-output` plus the requested timeout/metric/source-adjacent options.
+4. Run `--verify-output --agent-output`; inspect detailed evidence files only when verification fails or the result is partial/blocked.
+5. Deliver the bounded result and stop.
+
+Do **not** inspect `orchestrate_repro.py`, `annotate_readme.py`, `_bundled/`, writers, or runtime internals on a normal success path. Inspect implementation only for a concrete blocker, unexpected side effect, bundle-integrity failure, or unresolved safety question. Use `scripts/doctor.py` for first-use environment/install diagnostics. Executed commands keep full lifecycle/log evidence under `repro_outputs/_runtime/<run_id>/`.
 
 ## Fit
 
@@ -56,20 +60,12 @@ narrow reproduction-critical gap.
 
 ## Workflow
 
-1. Read the README and nearby repo signals.
-2. Run the bundled `repo-intake-and-plan` stage to extract commands and targets.
-3. Select and justify the minimum trustworthy target.
-4. Run `env-and-assets-bootstrap` only for target-specific environment,
-   checkpoint, dataset, and cache assumptions.
-5. Run `analyze-project` only when structure, insertion points, or suspicious
-   implementation patterns need read-only clarification.
-6. Use `minimal-run-and-audit` for documented inference, evaluation, smoke, or sanity execution. Keep direct execution as the default; native shell syntax requires explicit review and authorization.
-7. Use `run-train` instead when the selected trusted target is training startup, short-run verification, full kickoff, or resume.
-8. Pause for human review before fuller training claims or any change that could
-   alter dataset, split, checkpoint, preprocessing, metric, loss, model
-   semantics, or result interpretation.
-9. Award `result-match` only when explicit expected metrics are compared under a recorded tolerance; observed metrics alone prove execution, not reproduction. Then write the standardized outputs and a concise final note in the user's language when practical.
-10. Once the requested target and evidence checks are complete, return the bounded result and stop. Optional stages and further README commands are not automatic follow-up work.
+1. Treat README guidance as primary; extract and select the minimum trustworthy target.
+2. Use setup/assets only for target-specific prerequisites and `analyze-project` only when structural clarification is needed.
+3. Use `minimal-run-and-audit` for inference/evaluation/smoke and `run-train` for training startup, kickoff, or resume; direct execution is the default.
+4. Pause before fuller training or changes to dataset, split, checkpoint, preprocessing, metric, loss, model semantics, or interpretation.
+5. Award `result-match` only against explicit expected metrics and tolerance; process success alone is not reproduction success.
+6. Write the evidence bundle, return the requested bounded result, and stop; optional stages are not automatic follow-up work.
 
 ## Patch Boundary
 

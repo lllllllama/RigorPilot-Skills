@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+### Agent fast path
+
+- Add a compact first-use path for the reproduction skill: `--plan-only` previews
+  the selected README command and side-effect contract without target execution or
+  evidence writes, `--agent-output` keeps control-plane stdout small, and
+  `--verify-output` rechecks an existing bundle without replaying the target command.
+- Persist `repro_outputs/invocation.json` and compare Git-tracked source snapshots
+  before/after target execution. Tracked source mutations downgrade successful runs
+  to `partial` and require review instead of being silently accepted.
+- Move implementation reading off the routine happy path in `SKILL.md`; detailed
+  internals remain available for concrete blockers, integrity failures and safety
+  questions.
+- Resolve the orchestrator's default evidence directory relative to the target
+  repository (`<repo>/repro_outputs`) rather than the caller's working directory;
+  explicit `--output-dir` values retain their existing behavior.
+- Extend repository validation with Agent Skills name/description/compatibility
+  bounds, `metadata`/`allowed-tools` type checks and the existing public-SKILL
+  line limit, with focused negative tests.
+
 ### Real-client first-use evidence and bounded handoff
 
 - Publish a commit-pinned public installation and real Codex task trace: original

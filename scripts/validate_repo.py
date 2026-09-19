@@ -11,7 +11,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 
-SKILL_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+AGENT_SKILL_NAME_MAX = 64
+AGENT_SKILL_DESCRIPTION_MAX = 1024
+AGENT_SKILL_COMPATIBILITY_MAX = 500
+PUBLIC_SKILL_LINE_MAX = 130
 REGISTRY_PATH = Path("references/skill-registry.json")
 ALLOWED_TIERS = {"public", "helper"}
 ALLOWED_LANES = {"trusted", "explore", "helper"}
@@ -90,7 +94,14 @@ ROOT_REQUIRED_TESTS = [
 IGNORED_PATH_PARTS = {"tmp", "artifacts", "repro_outputs", "benchmark_outputs", "_bundled", "__pycache__", ".git", ".claude", ".codex"}
 
 
-def parse_front_matter(skill_md: Path) -> Dict[str, str]:
+def _parse_scalar(value: str) -> str:
+    value = value.strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+        return value[1:-1]
+    return value
+
+
+def parse_front_matter(skill_md: Path) -> Dict[str, Any]:
     text = skill_md.read_text(encoding="utf-8")
     if not text.startswith("---\n"):
         raise ValueError(f"{skill_md} is missing YAML front matter.")
@@ -100,13 +111,25 @@ def parse_front_matter(skill_md: Path) -> Dict[str, str]:
     except ValueError as exc:
         raise ValueError(f"{skill_md} has malformed front matter.") from exc
 
-    data: Dict[str, str] = {}
+    data: Dict[str, Any] = {}
+    active_mapping: str | None = None
     for raw_line in front_matter.splitlines():
         line = raw_line.strip()
         if not line or ":" not in line:
             continue
+        indentation = len(raw_line) - len(raw_line.lstrip())
         key, value = line.split(":", 1)
-        data[key.strip()] = value.strip()
+        key = key.strip()
+        if indentation:
+            if active_mapping == "metadata" and isinstance(data.get("metadata"), dict):
+                data["metadata"][key] = _parse_scalar(value)
+            continue
+        if key == "metadata" and not value.strip():
+            data[key] = {}
+            active_mapping = key
+            continue
+        data[key] = _parse_scalar(value)
+        active_mapping = None
     return data
 
 
@@ -114,6 +137,67 @@ def validate_openai_yaml(path: Path) -> List[str]:
     text = path.read_text(encoding="utf-8")
     required_keys = ["display_name:", "short_description:", "default_prompt:"]
     return [f"Missing `{key[:-1]}` in {path}" for key in required_keys if key not in text]
+
+
+def validate_agent_skill_frontmatter(skill_dir: Path, front_matter: Dict[str, Any], public: bool) -> List[str]:
+    """Validate the Agent Skills metadata constraints used by this repository."""
+    errors: List[str] = []
+    skill_md = skill_dir / "SKILL.md"
+    declared_name = front_matter.get("name", "")
+    description = front_matter.get("description", "")
+
+    if not declared_name:
+        errors.append(f"Missing name in {skill_md}")
+    else:
+        if len(declared_name) > AGENT_SKILL_NAME_MAX:
+            errors.append(
+                f"Skill name in {skill_md} exceeds {AGENT_SKILL_NAME_MAX} characters"
+            )
+        if not SKILL_NAME_RE.fullmatch(declared_name):
+            errors.append(
+                f"Invalid Agent Skills name `{declared_name}` in {skill_md}; "
+                "use lowercase letters/digits separated by single hyphens"
+            )
+        if declared_name != skill_dir.name:
+            errors.append(
+                f"Front matter name mismatch for {skill_md}: `{declared_name}` != `{skill_dir.name}`"
+            )
+
+    if not description:
+        errors.append(f"Missing description in {skill_md}")
+    elif len(description) > AGENT_SKILL_DESCRIPTION_MAX:
+        errors.append(
+            f"Description in {skill_md} exceeds {AGENT_SKILL_DESCRIPTION_MAX} characters"
+        )
+
+    compatibility = front_matter.get("compatibility")
+    if compatibility is not None:
+        if not isinstance(compatibility, str) or not compatibility:
+            errors.append(f"Empty compatibility field in {skill_md}")
+        elif len(compatibility) > AGENT_SKILL_COMPATIBILITY_MAX:
+            errors.append(
+                f"Compatibility in {skill_md} exceeds {AGENT_SKILL_COMPATIBILITY_MAX} characters"
+            )
+
+    metadata = front_matter.get("metadata")
+    if metadata is not None:
+        if not isinstance(metadata, dict):
+            errors.append(f"Metadata in {skill_md} must be a string-to-string mapping")
+        elif any(not isinstance(key, str) or not isinstance(value, str) for key, value in metadata.items()):
+            errors.append(f"Metadata in {skill_md} must be a string-to-string mapping")
+
+    allowed_tools = front_matter.get("allowed-tools")
+    if allowed_tools is not None and (not isinstance(allowed_tools, str) or not allowed_tools.strip()):
+        errors.append(f"Allowed-tools in {skill_md} must be a non-empty space-separated string")
+
+    if public:
+        line_count = len(skill_md.read_text(encoding="utf-8").splitlines())
+        if line_count > PUBLIC_SKILL_LINE_MAX:
+            errors.append(
+                f"Public {skill_md} has {line_count} lines; repository convention allows "
+                f"at most {PUBLIC_SKILL_LINE_MAX}"
+            )
+    return errors
 
 
 def validate_python_files(root: Path) -> List[str]:
@@ -261,14 +345,13 @@ def validate_repo(root: Path) -> Tuple[List[str], List[str]]:
             errors.append(str(exc))
             continue
 
-        declared_name = front_matter.get("name", "")
-        description = front_matter.get("description", "")
-        if declared_name != skill_dir.name:
-            errors.append(
-                f"Front matter name mismatch for {skill_dir / 'SKILL.md'}: `{declared_name}` != `{skill_dir.name}`"
+        errors.extend(
+            validate_agent_skill_frontmatter(
+                skill_dir,
+                front_matter,
+                public=registry_by_name.get(skill_dir.name, {}).get("tier") == "public",
             )
-        if not description:
-            errors.append(f"Missing description in {skill_dir / 'SKILL.md'}")
+        )
 
         required_files = registry_by_name.get(skill_dir.name, {}).get("required_files", [])
         for rel in required_files:

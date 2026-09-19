@@ -29,6 +29,19 @@ Trusted output traits:
 - executed commands persist immutable per-attempt runtime evidence under
   `<output-dir>/_runtime/<run-id>/`, including state, events, stdout/stderr,
   scoped resource samples, retry lineage, and a normalized model profile
+- ordinary reproduction runs also persist `repro_outputs/invocation.json` with
+  the orchestrator invocation, elapsed time, selected command, and before/after
+  source-integrity summary; Git-tracked changes and unexpected untracked
+  source/config additions downgrade an otherwise successful run for review
+- ordinary reproduction runs persist `repro_outputs/evidence_manifest.json`
+  with size and SHA-256 records for the durable bundle and runtime files that
+  exist for the run. `--verify-output` recomputes these hashes and fails with a
+  non-zero exit code when the bundle is missing, inconsistent, or modified
+  after the run relative to the retained manifest. This is a local consistency
+  check, not a digital signature or external attestation
+- `--plan-only` provides a no-target-execution/no-evidence-write command and
+  side-effect preview, while `--verify-output` performs compact post-run evidence
+  checks without replaying the target command
 - controller recovery must not auto-replay commands: dead runs become
   `interrupted`, while stale live processes become `orphaned`
 

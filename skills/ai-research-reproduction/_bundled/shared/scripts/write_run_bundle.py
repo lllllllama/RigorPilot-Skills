@@ -358,6 +358,9 @@ def write_repro_status(output_dir: Path, context: Dict[str, Any]) -> None:
             "patches": "repro_outputs/PATCHES.md" if context.get("patches_applied") else None,
         },
         "source_adjacent_readme": context.get("source_adjacent_readme", {"status": "not_requested", "path": None}),
+        "source_integrity": context.get("source_integrity", {"status": "not_recorded", "unchanged": None, "changed_files": []}),
+        "invocation_path": context.get("invocation_path"),
+        "evidence_manifest_path": context.get("evidence_manifest_path"),
         "notes": context.get("notes", []),
     }
     (output_dir / "status.json").write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")

@@ -16,7 +16,7 @@ Trusted reproduction is the default; candidate exploration requires explicit aut
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-71%2F71%20passed-8250df?style=flat-square">
+  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-74%2F74%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="historical external protocols" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -115,6 +115,14 @@ The main skill works alone; choose **all skills** for companion and leaf entrypo
 Your existing agent loads the skill. The standalone model runner is optional.
 [Client compatibility](references/client-compatibility-policy.md)
 
+Recommended first run:
+
+| Step | What it does | What it does not do |
+|---|---|---|
+| Plan | Selects the smallest README-backed target and reports the side-effect contract | No target execution, installs, downloads, source edits or evidence writes |
+| Run | Executes the reviewed target and writes evidence under the target repo by default | Does not turn process success into a paper-result claim |
+| Verify | Rechecks the retained evidence, README round trip, runtime state and current source snapshot | Does not rerun the target command |
+
 Start with the `RIGORPILOT_README.md` reported in `source_adjacent_readme.path`,
 then follow its command and log links. If a conflicting file blocks the extra
 copy, that file stays intact; inspect `repro_outputs/SUMMARY.md` for the outcome
@@ -169,6 +177,7 @@ contract. Candidate results never become trusted baseline results by declaration
 |---|---|
 | `repro_outputs/ANNOTATED_README.md` | Original README with inserted section verdicts |
 | `SUMMARY.md`, `COMMANDS.md`, `LOG.md`, `status.json` | Outcome, exact commands, observations and machine-readable status |
+| `invocation.json`, `evidence_manifest.json` | Invocation/source-integrity summary plus retained file sizes and SHA-256 hashes for local consistency checks |
 | `PATCHES.md`, `SCIENTIFIC_CHANGELOG.md`, `COMPARABILITY_REPORT.md` | Changes, scientific meaning and comparison boundaries |
 | `_runtime/<run_id>/` | Process state, events, resource samples and stdout/stderr |
 | `agent_state.json`, `trajectory.jsonl` | Optional model runner's checkpoints, tool calls and reported usage |
@@ -182,6 +191,14 @@ links are rebased. The same output directory may refresh its unchanged owned
 copy, never an unrelated or manually edited file. Retain supporting repository
 files and the evidence directory's `readme_delivery.json`.
 [Output contract](references/output-contract.md) · [Rigor principles](references/research-rigor-principles.md)
+
+For agent clients, the shortest normal path is `--plan-only --agent-output`, then
+`--run-selected --agent-output`, then `--verify-output --agent-output`. Routine
+success should not require reading orchestrator, bundle, writer, or runtime source.
+When `--output-dir` is omitted, the orchestrator writes to the target repository's
+`repro_outputs/` directory, not the caller's current working directory.
+The evidence manifest detects later changes against the retained manifest; it is
+not a digital signature, external attestation or substitute for an OS sandbox.
 
 <a id="validation"></a>
 
@@ -230,7 +247,12 @@ Run the repository regression suite:
 python scripts/run_all_tests.py
 ```
 
-Latest local Windows record (2026-09-13): **71/71 scripts passed in 173.1 s**.
+The validator also checks the repository's Agent Skills metadata constraints,
+including skill-name syntax/length, description length, optional compatibility
+length, `metadata`/`allowed-tools` types, and the repository's public `SKILL.md`
+line limit.
+
+Latest local Windows record (2026-09-20): **74/74 scripts passed in 212.5 s**.
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 

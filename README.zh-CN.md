@@ -16,7 +16,7 @@ RigorPilot 不重写原始 README，只在各章节插入执行结果与证据�
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills 开放标准" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="支持平台" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-71%2F71%20passed-8250df?style=flat-square">
+  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-74%2F74%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="历史外部协议验证" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -115,6 +115,14 @@ npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 由你已有的代理加载技能，不必使用本项目的独立模型执行器。
 [客户端兼容说明](references/client-compatibility-policy.md)
 
+建议首次使用按三步走：
+
+| 步骤 | 会做什么 | 不会做什么 |
+|---|---|---|
+| 计划 | 选择最小的 README 文档目标，并报告副作用契约 | 不执行目标、不安装、不下载、不改源码、不写证据 |
+| 执行 | 运行已审核目标，默认在目标仓库内写入证据 | 不把进程成功直接解释为论文结果复现 |
+| 验证 | 复核已保留证据、README round trip、运行状态和当前源码快照 | 不重新执行目标命令 |
+
 完成后先打开报告中 `source_adjacent_readme.path` 指向的 `RIGORPILOT_README.md`，
 再点击批注里的命令和日志链接。若额外副本因同名文件等原因被阻止，原文件不会
 被覆盖，仍可从 `repro_outputs/SUMMARY.md` 查看结果与下一步。
@@ -167,6 +175,7 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 |---|---|
 | `repro_outputs/ANNOTATED_README.md` | 原始 README 与逐节插入的结论 |
 | `SUMMARY.md`、`COMMANDS.md`、`LOG.md`、`status.json` | 结果、实际命令、观察记录与机器可读状态 |
+| `invocation.json`、`evidence_manifest.json` | 调用/源码完整性摘要，以及用于本地一致性检查的文件大小与 SHA-256 |
 | `PATCHES.md`、`SCIENTIFIC_CHANGELOG.md`、`COMPARABILITY_REPORT.md` | 修改、科学含义与可比性边界 |
 | `_runtime/<run_id>/` | 进程状态、事件、资源采样与标准输出和错误日志 |
 | `agent_state.json`、`trajectory.jsonl` | 可选模型执行器的检查点、工具调用与已报告用量 |
@@ -179,6 +188,13 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 同一输出目录可刷新未被改动的自有副本，不覆盖无关或被手动编辑的同名文件。
 请保留原仓库相关文件及证据目录中的 `readme_delivery.json`。
 [输出契约](references/output-contract.md) · [科研严谨性原则](references/research-rigor-principles.md)
+
+对于代理客户端，常规最短路径是先运行 `--plan-only --agent-output`，再运行
+`--run-selected --agent-output`，最后运行 `--verify-output --agent-output`。
+若省略 `--output-dir`，编排器默认写入目标仓库自身的 `repro_outputs/`，
+不会受调用者当前工作目录影响。
+证据清单用于对照保留的 manifest 检测后续变化；它不是数字签名、外部证明，
+也不能替代操作系统沙箱。
 
 <a id="validation"></a>
 
@@ -225,7 +241,11 @@ python scripts/run_harness_lab.py
 python scripts/run_all_tests.py
 ```
 
-最近本地 Windows 记录（2026-09-13）：**71/71 脚本通过，用时 173.1 秒**。
+仓库校验器同时检查本项目采用的 Agent Skills 元数据约束，包括技能名称格式与长度、
+description 长度、可选 compatibility 长度、`metadata`/`allowed-tools` 类型，
+以及公共 `SKILL.md` 的行数上限。
+
+最近本地 Windows 记录（2026-09-20）：**74/74 脚本通过，用时 212.5 秒**。
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
 
