@@ -53,6 +53,16 @@ def main():
         assert any("not published" in error and "real_client" in error for error in check(root, ""))
         git("add", live.relative_to(root).as_posix())
         assert not check(root, "")
+        reviewed = root / "benchmark_outputs/reviewed_selection_latest.json"
+        reviewed.write_bytes(b'{"status":"passed","passed":4,"failed":0}\n')
+        integrity = root / "benchmark_outputs/source_integrity_latest.json"
+        integrity.write_bytes(b'{"status":"passed","cases":[]}\n')
+        (root / MANIFEST).write_text(json.dumps(inventory(root)), encoding="utf-8")
+        git("add", MANIFEST)
+        assert any("not published" in error and "reviewed_selection_latest" in error for error in check(root, ""))
+        assert any("not published" in error and "source_integrity_latest" in error for error in check(root, ""))
+        git("add", reviewed.relative_to(root).as_posix(), integrity.relative_to(root).as_posix())
+        assert not check(root, "")
         evidence.write_bytes(b"corrupted evidence\n")
         git("add", evidence.relative_to(root).as_posix())
         assert any("bytes changed" in error for error in check(root, ""))

@@ -22,8 +22,8 @@ experiment details are at stake.
 For a routine bounded run, keep the control path short:
 
 1. Read the target README and only the target test/config/source needed to understand the documented command.
-2. Run `scripts/orchestrate_repro.py --repo <repo> --plan-only --agent-output`; review the selected command and side-effect contract. With no `--output-dir`, later evidence goes to `<repo>/repro_outputs` regardless of the caller's current directory.
-3. If it fits the user's bounds, rerun with `--run-selected --agent-output` plus the requested timeout/metric/source-adjacent options.
+2. Run `scripts/orchestrate_repro.py --repo <repo> --plan-only --agent-output`; review `command_candidates`, the selected `cmd-XX`, side-effect contract, and selection fingerprint. With no `--output-dir`, later evidence goes to `<repo>/repro_outputs` regardless of caller cwd.
+3. Run the selected candidate, or another reviewed candidate, with `--run-selected --command-id <cmd-XX> --plan-fingerprint <fingerprint> --agent-output` plus requested timeout/metric/source-adjacent options. A changed command set fails closed; setup/download commands are never target candidates.
 4. Run `--verify-output --agent-output`; inspect detailed evidence files only when verification fails or the result is partial/blocked.
 5. Deliver the bounded result and stop.
 

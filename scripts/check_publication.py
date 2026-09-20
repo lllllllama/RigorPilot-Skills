@@ -25,6 +25,10 @@ def inventory(root: Path) -> dict:
     files = []
     paths = [path for directory in ["showcases", "agent_canary", "paired_pilot_calibration", "controller_smoke", "skill_acceptance", "real_client"]
              for path in (root / "benchmark_outputs" / directory).rglob("*")]
+    for filename in ["reviewed_selection_latest.json", "source_integrity_latest.json"]:
+        standalone = root / "benchmark_outputs" / filename
+        if standalone.is_file():
+            paths.append(standalone)
     for path in sorted(paths):
         if not path.is_file() or "__pycache__" in path.parts:
             continue

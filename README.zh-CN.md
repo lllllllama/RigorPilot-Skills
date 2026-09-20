@@ -16,7 +16,7 @@ RigorPilot 不重写原始 README，只在各章节插入执行结果与证据�
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills 开放标准" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="支持平台" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-74%2F74%20passed-8250df?style=flat-square">
+  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-76%2F76%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="历史外部协议验证" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -119,8 +119,8 @@ npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
 
 | 步骤 | 会做什么 | 不会做什么 |
 |---|---|---|
-| 计划 | 选择最小的 README 文档目标，并报告副作用契约 | 不执行目标、不安装、不下载、不改源码、不写证据 |
-| 执行 | 运行已审核目标，默认在目标仓库内写入证据 | 不把进程成功直接解释为论文结果复现 |
+| 计划 | 列出 README 中的 `cmd-XX` 候选，选择最小可信目标，并返回选择 fingerprint | 不执行目标、不安装、不下载、不改源码、不写证据 |
+| 执行 | 用已审核的 `command-id` 与对应 fingerprint 执行，并默认在目标仓库内写入证据 | setup/download 命令不能被选为复现目标；计划变化会在执行前阻塞 |
 | 验证 | 复核已保留证据、README round trip、运行状态和当前源码快照 | 不重新执行目标命令 |
 
 完成后先打开报告中 `source_adjacent_readme.path` 指向的 `RIGORPILOT_README.md`，
@@ -174,7 +174,7 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 | 文件 | 可以核查什么 |
 |---|---|
 | `repro_outputs/ANNOTATED_README.md` | 原始 README 与逐节插入的结论 |
-| `SUMMARY.md`、`COMMANDS.md`、`LOG.md`、`status.json` | 结果、实际命令、观察记录与机器可读状态 |
+| `SUMMARY.md`、`COMMANDS.md`、`LOG.md`、`status.json` | 结果、实际命令、审核选择来源、稳定 `error.code`、观察记录与机器可读状态 |
 | `invocation.json`、`evidence_manifest.json` | 调用/源码完整性摘要，以及用于本地一致性检查的文件大小与 SHA-256 |
 | `PATCHES.md`、`SCIENTIFIC_CHANGELOG.md`、`COMPARABILITY_REPORT.md` | 修改、科学含义与可比性边界 |
 | `_runtime/<run_id>/` | 进程状态、事件、资源采样与标准输出和错误日志 |
@@ -189,8 +189,9 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 请保留原仓库相关文件及证据目录中的 `readme_delivery.json`。
 [输出契约](references/output-contract.md) · [科研严谨性原则](references/research-rigor-principles.md)
 
-对于代理客户端，常规最短路径是先运行 `--plan-only --agent-output`，再运行
-`--run-selected --agent-output`，最后运行 `--verify-output --agent-output`。
+对于代理客户端，常规最短路径是先运行 `--plan-only --agent-output`，再用返回的
+`cmd-XX` 与对应 `--plan-fingerprint` 执行，最后运行 `--verify-output --agent-output`。
+fingerprint 将实际执行绑定到已审核的 README 命令集合；setup/download 命令不会进入复现目标候选。
 若省略 `--output-dir`，编排器默认写入目标仓库自身的 `repro_outputs/`，
 不会受调用者当前工作目录影响。
 证据清单用于对照保留的 manifest 检测后续变化；它不是数字签名、外部证明，
@@ -245,7 +246,20 @@ python scripts/run_all_tests.py
 description 长度、可选 compatibility 长度、`metadata`/`allowed-tools` 类型，
 以及公共 `SKILL.md` 的行数上限。
 
-最近本地 Windows 记录（2026-09-20）：**74/74 脚本通过，用时 212.5 秒**。
+另有两项无需模型 API 的新控制路径检查：
+
+```bash
+python benchmarks/run_reviewed_selection_suite.py --cases micrograd mingpt pytorch-mnist nanogpt-shakespeare --output tmp/reviewed-selection.json
+python benchmarks/run_source_integrity_benchmark.py --counts 1000 10000 --output tmp/source-integrity.json
+```
+
+固定版本的 reviewed-selection 套件当前 **4/4** 通过，且不执行目标命令。
+本机 source-integrity 基线：1k tracked 文件 snapshot/verify 约 **0.705 s / 0.670 s**，
+10k 小文件约 **6.054 s / 5.897 s**。这是 Windows 合成小文件测量，不是通用延迟承诺。
+[Reviewed-selection 结果](benchmark_outputs/reviewed_selection_latest.json) ·
+[完整性性能基线](benchmark_outputs/source_integrity_latest.json)
+
+最近本地 Windows 记录（2026-09-20）：**76/76 脚本通过，用时 245.9 秒**。
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
 

@@ -1502,6 +1502,11 @@
       "sha256": "8de5143912d4ed831f114182d7b7c1d9295f5417ddd1e76e71d3b57ada8dcd89"
     },
     {
+      "path": "benchmark_outputs/reviewed_selection_latest.json",
+      "bytes": 4451,
+      "sha256": "e1bb6d7a4452d6daa5f251ad0d95a9b461b9409cd81ec90df6e100c0a4a5e6bc"
+    },
+    {
       "path": "benchmark_outputs/showcases/micrograd/repo/.gitignore",
       "bytes": 21,
       "sha256": "a4e97f92728e43e555cf82bb57e201ba5e3a4f1d7c51675d4836230c5ee9e62f"
@@ -5115,6 +5120,11 @@
       "path": "benchmark_outputs/skill_acceptance/attempt-2/wrong_metric/RESULT.json",
       "bytes": 456,
       "sha256": "8630c63d872cfae3080575f756bb4e56ad2e59b361273e92e514765dbdb6ec64"
+    },
+    {
+      "path": "benchmark_outputs/source_integrity_latest.json",
+      "bytes": 1075,
+      "sha256": "110831694dca67ab4a1f907754527f3cfe25c85869c85c28a7dcf797d27e41fd"
     }
   ]
 }

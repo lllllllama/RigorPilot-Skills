@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-reviewed-selection-suite",
+  "generated_at": "2026-09-20T05:40:58.406043Z",
+  "requested_cases": [
+    "micrograd",
+    "mingpt",
+    "pytorch-mnist",
+    "nanogpt-shakespeare"
+  ],
+  "status": "passed",
+  "passed": 4,
+  "failed": 0,
+  "wall_duration_seconds": 15.61,
+  "scope": "Pinned real-repository README planning only; no target command execution, dependency installation, model call, or training.",
+  "cases": [
+    {
+      "case": "micrograd",
+      "status": "passed",
+      "repository": "https://github.com/karpathy/micrograd.git",
+      "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+      "expected_command": "python -m pytest",
+      "actual_command": "python -m pytest",
+      "selected_goal": "evaluation",
+      "selected_command_id": "cmd-01",
+      "candidate_count": 1,
+      "selection_fingerprint": "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c",
+      "checks": {
+        "process_ok": true,
+        "plan_only": true,
+        "command_match": true,
+        "goal_match": true,
+        "selected_id_present": true,
+        "selected_candidate_present": true,
+        "fingerprint_present": true,
+        "review_args_bound": true,
+        "no_repo_evidence_write": true
+      },
+      "duration_seconds": 2.797
+    },
+    {
+      "case": "mingpt",
+      "status": "passed",
+      "repository": "https://github.com/karpathy/minGPT.git",
+      "commit": "37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+      "expected_command": "python -m unittest discover tests",
+      "actual_command": "python -m unittest discover tests",
+      "selected_goal": "evaluation",
+      "selected_command_id": "cmd-01",
+      "candidate_count": 1,
+      "selection_fingerprint": "9f9ab6d3cc30396e25fbd741df6a4e603201c38601e858238259606fc8846df6",
+      "checks": {
+        "process_ok": true,
+        "plan_only": true,
+        "command_match": true,
+        "goal_match": true,
+        "selected_id_present": true,
+        "selected_candidate_present": true,
+        "fingerprint_present": true,
+        "review_args_bound": true,
+        "no_repo_evidence_write": true
+      },
+      "duration_seconds": 3.468
+    },
+    {
+      "case": "pytorch-mnist",
+      "status": "passed",
+      "repository": "https://github.com/pytorch/examples.git",
+      "commit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
+      "expected_command": "python main.py",
+      "actual_command": "python main.py",
+      "selected_goal": "training",
+      "selected_command_id": "cmd-01",
+      "candidate_count": 1,
+      "selection_fingerprint": "8f9581e9d2c1af4858e5e93645729ce777afcbc1d07f74b9b36132793c7a59bb",
+      "checks": {
+        "process_ok": true,
+        "plan_only": true,
+        "command_match": true,
+        "goal_match": true,
+        "selected_id_present": true,
+        "selected_candidate_present": true,
+        "fingerprint_present": true,
+        "review_args_bound": true,
+        "no_repo_evidence_write": true
+      },
+      "duration_seconds": 5.078
+    },
+    {
+      "case": "nanogpt-shakespeare",
+      "status": "passed",
+      "repository": "https://github.com/karpathy/nanoGPT.git",
+      "commit": "3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+      "expected_command": "python train.py config/train_shakespeare_char.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0",
+      "actual_command": "python train.py config/train_shakespeare_char.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0",
+      "selected_goal": "training",
+      "selected_command_id": "cmd-04",
+      "candidate_count": 15,
+      "selection_fingerprint": "acda53280dc5084e319f2109a5ee4faf4b680e6410dce608b0e984abf2aee9a7",
+      "checks": {
+        "process_ok": true,
+        "plan_only": true,
+        "command_match": true,
+        "goal_match": true,
+        "selected_id_present": true,
+        "selected_candidate_present": true,
+        "fingerprint_present": true,
+        "review_args_bound": true,
+        "no_repo_evidence_write": true
+      },
+      "duration_seconds": 3.906
+    }
+  ]
+}

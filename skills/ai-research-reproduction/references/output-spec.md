@@ -76,9 +76,14 @@ Suggested top-level keys:
 - `status`
 - `documented_command_status`
 - `documented_command`
+- `documented_command_id`
 - `documented_command_kind`
 - `documented_command_source`
 - `documented_command_section`
+- `selection_source`
+- `selection_fingerprint`
+- `command_candidates`
+- `error`
 - `execution_mode`
 - `runtime`
 - `stage_results`
@@ -120,6 +125,16 @@ Recommended evidence level enums:
 
 Field intent:
 
+- `documented_command_id`, `selection_fingerprint`, `command_candidates`
+  - identify the exact README-backed candidate set shown during planning
+  - explicit `--command-id` execution should carry the plan fingerprint so a changed README/command set fails closed instead of silently running a different command
+  - setup and asset commands are not reproduction target candidates and cannot be selected through this mechanism
+- `error`
+  - optional machine-readable failure object with stable `code`, human summary,
+    review requirement and safe next actions
+  - examples include `missing_dependency`, `missing_asset`, `placeholder_required`,
+    `shell_review_required`, `command_not_found`, `command_failed`, `timeout`,
+    `metric_mismatch`, `source_modified`, and evidence-verification errors
 - `assumptions`
   - important assumptions that still shape execution or interpretation
 - `unverified_inferences`

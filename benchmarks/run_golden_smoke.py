@@ -77,6 +77,7 @@ def run_case(
     expected_match: str,
     extra_args: List[str] | None = None,
     expected_model: str | None = None,
+    expect_runtime_evidence: bool = True,
 ) -> Dict[str, Any]:
     case_repo = root / name / "repo"
     output_dir = root / name / "repro_outputs"
@@ -115,6 +116,7 @@ def run_case(
     runtime_dir = Path(payload["runtime_dir"]) if payload.get("runtime_dir") else None
     runtime_files = {path.name for path in runtime_dir.iterdir() if path.is_file()} if runtime_dir and runtime_dir.is_dir() else set()
     runtime_evidence_complete = RUNTIME_FILES.issubset(runtime_files)
+    runtime_expectation_met = runtime_evidence_complete if expect_runtime_evidence else runtime_dir is None
     actual_model = (payload.get("model_adapter") or {}).get("model")
     passed = (
         result.returncode == 0
@@ -123,7 +125,7 @@ def run_case(
         and actual_match == expected_match
         and not missing_outputs
         and not false_result_match
-        and runtime_evidence_complete
+        and runtime_expectation_met
         and (expected_model is None or actual_model == expected_model)
     )
     return {
@@ -137,6 +139,8 @@ def run_case(
         "false_result_match": false_result_match,
         "runtime_status": payload.get("runtime_status"),
         "runtime_evidence_complete": runtime_evidence_complete,
+        "runtime_evidence_expected": expect_runtime_evidence,
+        "runtime_expectation_met": runtime_expectation_met,
         "model_adapter_recorded": actual_model,
         "process_returncode": result.returncode,
         "parse_error": parse_error,
@@ -227,6 +231,7 @@ def main() -> int:
                 },
                 "blocked",
                 "not_evaluated",
+                expect_runtime_evidence=False,
             ),
         ]
         elapsed = round(time.monotonic() - started, 3)
@@ -247,6 +252,10 @@ def main() -> int:
                 "false_result_matches": sum(1 for case in cases if case["false_result_match"]),
                 "complete_evidence_bundles": sum(1 for case in cases if not case["missing_outputs"]),
                 "complete_runtime_bundles": sum(1 for case in cases if case["runtime_evidence_complete"]),
+                "preflight_blocks_without_runtime": sum(
+                    1 for case in cases
+                    if case["runtime_evidence_expected"] is False and case["runtime_expectation_met"]
+                ),
             },
             "cases": cases,
         }

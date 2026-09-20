@@ -78,10 +78,47 @@ reproduction outcomes:
 - shell syntax is refused in direct mode until native shell execution is
   explicitly authorized.
 
+The shell-syntax case is a preflight block: it keeps the ordinary evidence bundle
+but intentionally creates no target runtime attempt. Launch-time failures such as
+a missing executable still retain runtime evidence.
+
 The machine-readable report is written to
 `benchmark_outputs/golden_smoke.json`. It makes no API calls and requires no
 GPU. This is a harness regression smoke test, not evidence of broad paper
 reproduction capability.
+
+## Reviewed README-command planning
+
+Run the plan-only protocol across the four existing commit-pinned real repositories:
+
+```bash
+python benchmarks/run_reviewed_selection_suite.py --cases micrograd mingpt pytorch-mnist nanogpt-shakespeare --output tmp/reviewed-selection.json
+```
+
+This fetches only the pinned source commits and runs `--plan-only`. It checks the
+expected command/category, stable `cmd-XX` identity, selection fingerprint,
+copyable reviewed-run arguments, and that planning writes no repository evidence.
+It performs no dependency installation, target command, training, or model call.
+The latest retained result is `benchmark_outputs/reviewed_selection_latest.json`;
+**4/4** cases currently pass. This is target-selection evidence, not execution or
+paper-reproduction evidence.
+
+## Source-integrity performance baseline
+
+Measure the current full-content tracked-source snapshots on synthetic Git repositories:
+
+```bash
+python benchmarks/run_source_integrity_benchmark.py --counts 1000 10000 --output tmp/source-integrity.json
+```
+
+The latest Windows record in `benchmark_outputs/source_integrity_latest.json`
+observes snapshot/verify around `0.705 s / 0.670 s` for 1k tracked 128-byte files
+and `6.054 s / 5.897 s` for 10k. Mutation detection is checked in every case.
+These synthetic small-file timings include filesystem/Git conditions of one host;
+they are not latency guarantees. Larger stress tiers are explicit opt-in because
+fixture creation and file-count overhead become substantial. Change the snapshot
+strategy only when a simpler replacement clearly wins on this same benchmark
+without weakening dirty-source detection.
 
 ## Installed-skill first-use check
 

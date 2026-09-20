@@ -20,6 +20,15 @@
 - Extend repository validation with Agent Skills name/description/compatibility
   bounds, `metadata`/`allowed-tools` type checks and the existing public-SKILL
   line limit, with focused negative tests.
+- Add reviewable README-command selection: `--plan-only` returns `cmd-XX`
+  candidates and a selection fingerprint; explicit execution can bind
+  `--command-id` to that reviewed plan. Stale plans, unknown IDs, setup/download
+  targets and direct-mode shell syntax fail before target execution.
+- Add stable machine-readable reproduction error codes for common dependency,
+  asset, timeout, command, metric, source-integrity and evidence-integrity failures.
+- Add an API-free reviewed-selection suite over the four existing pinned real
+  repositories (current result: 4/4 planning checks passed) and a repeatable
+  1k/10k source-integrity performance baseline for future optimization decisions.
 
 ### Real-client first-use evidence and bounded handoff
 

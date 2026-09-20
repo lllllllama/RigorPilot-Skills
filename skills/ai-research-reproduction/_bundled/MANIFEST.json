@@ -79,7 +79,7 @@
     {
       "source": "shared/scripts/write_run_bundle.py",
       "target": "_bundled/shared/scripts/write_run_bundle.py",
-      "sha256": "cc34419b57bf690e6777e8f74f2a09f2c0d27a35ce89bf207acfb4677ef820ad"
+      "sha256": "f34ab7b6f378862541f05aee444620faa1ae220b753070b1e45f69ecbc454730"
     },
     {
       "source": "skills/analyze-project/scripts/analyze_project.py",

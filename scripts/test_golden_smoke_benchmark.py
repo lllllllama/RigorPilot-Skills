@@ -33,8 +33,13 @@ def main() -> int:
             raise AssertionError(f"unexpected golden benchmark summary: {summary}")
         if summary["false_result_matches"] != 0:
             raise AssertionError("golden benchmark detected a false result match")
-        if summary["complete_evidence_bundles"] != 5 or summary["complete_runtime_bundles"] != 5:
-            raise AssertionError("golden benchmark did not produce five complete evidence and runtime bundles")
+        if summary["complete_evidence_bundles"] != 5 or summary["complete_runtime_bundles"] != 4:
+            raise AssertionError("golden benchmark lost expected evidence/runtime bundle counts")
+        if summary.get("preflight_blocks_without_runtime") != 1:
+            raise AssertionError("golden benchmark lost the no-runtime shell preflight contract")
+        shell_case = next(case for case in report["cases"] if case["name"] == "shell_requires_opt_in")
+        if shell_case["runtime_evidence_expected"] is not False or shell_case["runtime_expectation_met"] is not True:
+            raise AssertionError("shell preflight unexpectedly created or required runtime evidence")
         adapter_case = next(case for case in report["cases"] if case["name"] == "model_adapter_snapshot")
         if adapter_case["model_adapter_recorded"] != "golden-test-model":
             raise AssertionError("golden benchmark lost the model adapter snapshot")
@@ -42,7 +47,7 @@ def main() -> int:
             raise AssertionError("golden benchmark lost its API-free, GPU-free contract")
 
         print("ok: True")
-        print("checks: 10")
+        print("checks: 12")
         print("failures: 0")
         return 0
     finally:

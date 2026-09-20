@@ -115,6 +115,8 @@ def main() -> int:
             raise AssertionError("verify-only did not fail closed for tampered evidence")
         if tampered.get("checks", {}).get("evidence_manifest") is not False:
             raise AssertionError("evidence manifest did not identify the tampered bundle")
+        if tampered.get("error", {}).get("code") != "evidence_tampered":
+            raise AssertionError("tampered evidence did not expose the stable evidence_tampered code")
         checks += 1
 
         mutating_repo = temp_root / "mutating-repo"
@@ -132,6 +134,8 @@ def main() -> int:
             raise AssertionError("tracked-source mutation was not downgraded for review")
         if "tracked.txt" not in changed["source_integrity"].get("changed_files", []):
             raise AssertionError("tracked-source mutation did not identify the changed file")
+        if changed.get("error", {}).get("code") != "source_modified":
+            raise AssertionError("tracked-source mutation did not expose source_modified")
         checks += 1
 
         untracked_repo = temp_root / "untracked-repo"
@@ -158,6 +162,34 @@ def main() -> int:
             raise AssertionError("new untracked source file was not downgraded for review")
         if "generated_override.py" not in untracked["source_integrity"].get("unexpected_added_source_files", []):
             raise AssertionError("new untracked source file was not identified")
+        if untracked.get("error", {}).get("code") != "source_modified":
+            raise AssertionError("new untracked source did not expose source_modified")
+        checks += 1
+
+        predirty_repo = temp_root / "predirty-repo"
+        predirty_output = temp_root / "predirty-output"
+        initialize_repo(
+            predirty_repo,
+            "python mutate_dirty.py",
+            {
+                "mutate_dirty.py": "from pathlib import Path\nPath('tracked.txt').write_text('after-run\\n', encoding='utf-8')\nprint('done=1')\n",
+                "tracked.txt": "committed\n",
+            },
+        )
+        (predirty_repo / "tracked.txt").write_text("dirty-before-run\n", encoding="utf-8")
+        predirty, _ = run(
+            predirty_repo,
+            predirty_output,
+            "--run-selected",
+            "--agent-output",
+            "--no-gpu-monitor",
+        )
+        if predirty["source_integrity"].get("unchanged") is not False:
+            raise AssertionError("mutation of an already-dirty tracked file was missed")
+        if "tracked.txt" not in predirty["source_integrity"].get("changed_tracked_files", []):
+            raise AssertionError("already-dirty tracked mutation did not identify the changed file")
+        if predirty.get("error", {}).get("code") != "source_modified":
+            raise AssertionError("already-dirty tracked mutation did not expose source_modified")
         checks += 1
 
         print("ok: True")

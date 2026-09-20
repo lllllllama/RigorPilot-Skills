@@ -2,7 +2,7 @@
 
 [简体中文](ENGINEERING_ROADMAP.zh-CN.md) · [README](../README.md) · [Implementation record](P0_P1_DELIVERY.md)
 
-Updated 2026-09-13. Planned work is not an implemented capability.
+Updated 2026-09-20. Planned work is not an implemented capability.
 
 ## Product scope
 
@@ -17,12 +17,14 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Area | Implementation | Boundary |
 |---|---|---|
 | Installation | Self-contained main skill; shared bundled runtime and guides for all-skills installs | Tests cover installed layouts, public CLIs and actual short execution, not a live third-party installation service |
+| Reviewed planning | `--plan-only` exposes README-backed `cmd-XX` candidates and a selection fingerprint; explicit execution binds command ID to the reviewed candidate set | Setup/download commands are excluded; a changed candidate set fails before target execution; this is not a sandbox or command-authenticity proof |
 | Execution | Processes, timeout/cancel, events/logs and explicit executable identity | Local host, not an OS sandbox; sampling/admission is not a hard resource quota |
 | Recovery | Checkpoints, completed-result reuse, uncertain-dispatch blocking | No blind request replay or training-checkpoint restoration |
-| Verification | Independent commands/source checks; optional artifact size/hash and JSON-metric tolerances, rechecked at finish | Without configured structured checks, acceptance remains exit/stdout-only; no artifact-freshness or paper-reproduction claim |
+| Verification | Independent commands/source checks; stable machine-readable error codes; optional artifact size/hash and JSON-metric tolerances, rechecked at finish | Without configured structured checks, acceptance remains exit/stdout-only; no artifact-freshness or paper-reproduction claim |
 | README | Byte-preserving inserts and optional source-adjacent copies in ordinary runs, preserving original media context | Conflicting files are retained; regenerate links after moving directories; external-media availability is not guaranteed |
 | Models | Anthropic Messages tools, validated parameters and usage accounting | Three real attempts returned 502; no successful live acceptance. Other profile metadata does not imply transport support |
-| External evidence | Four historical, commit-pinned protocols with retained source files/media | Includes selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
+| External evidence | Four historical commit-pinned protocols plus a fresh 4/4 plan-only reviewed-selection pass on the same pinned repositories | The new pass verifies target planning only; historical cases include selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
+| Integrity performance | Repeatable synthetic tracked-file benchmark; current Windows baseline records 1k and 10k file snapshot/verify costs | Small synthetic files, one host and Python-allocation measurements; not a latency SLA. Change the snapshot strategy only after a simpler replacement clearly wins on the same benchmark without weakening detection |
 | Paired pilot preparation | Three frozen tasks, six A/B slots, independent graders and real local calibration | All six model slots remain unrun; no generic live executor or enforced model budget in this kit |
 | Neutral trial core | Restricted tools, independent grading, durable reservations and a bounded Messages A/B CLI | Local HTTP integration tested; successful real-provider acceptance, campaign billing caps, bundled-helper execution and OS isolation remain absent |
 | Functional acceptance | Installed-layout runtime, exact positive/negative outcomes, independent predictions/logs and README checks; optional pinned micrograd | [Four actual checks](SKILL_ACCEPTANCE.md); scripted preparation, existing dependencies, no model uplift or cold-install claim |
@@ -37,6 +39,8 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
    No API/GPU/downloads; not model-quality evidence.
 3. **Repository protocols:** [Pinned cases](../benchmarks/README.md) distinguish
    selection, execution, partial completion and metric matching.
+   The reviewed-selection suite independently checks `cmd-XX` identity,
+   fingerprint binding and plan-only side effects on all four pinned repositories.
 4. **Optional standalone-runner acceptance:** one bounded
    [micrograd canary](../benchmarks/run_agent_canary.py), only with a working
    service and confirmed budget. Preserve actual model/tool traces, usage,
@@ -47,6 +51,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Priority | Deliverable | Acceptance gate |
 |---|---|---|
 | P0: ongoing | Installation, portability, publication, feedback and security documentation | Installed files work; three-platform CI passes; failures are not reported as success |
+| P1: implemented, ongoing regression | Reviewable README command selection | Candidate IDs and fingerprint are exposed before execution; stale plans, unknown IDs, setup/download targets and unreviewed shell syntax fail closed |
 | P1: default skill | Fresh installed-skill use on one commit-pinned public repository | Actual logs, original-file/media integrity, browsable annotations and independent checks; distinguish installation, explicit invocation and client auto-loading |
 | P1: optional standalone runner | One real-model run, with no manually substituted trajectory | Responses, tools, usage and verifier evidence; stop and retain service failures; not a prerequisite for the default skill route |
 | P1: implemented, ongoing regression | Both main runners accept `--source-adjacent-readme` | Nested README/media/evidence links work; original bytes and unrelated files are retained; repeats check ownership |
@@ -59,9 +64,17 @@ and long-term memory infrastructure until demonstrated failures justify them.
 
 ## Current delivery plan
 
-Installed explicit-skill use, reporting fixes and independent checks are now
-recorded in the [micrograd acceptance report](FIRST_USE_ACCEPTANCE.md).
+Installed explicit-skill use, reporting fixes and independent checks are recorded
+in the [micrograd acceptance report](FIRST_USE_ACCEPTANCE.md). The default
+orchestrator now has a reviewable `plan -> command-id/fingerprint -> run -> verify`
+path, stable error codes, and a fresh 4/4 pinned-repository planning check.
 Fresh-client automatic loading and model comparisons remain unverified.
+
+The source-integrity benchmark currently records roughly `0.705 s / 0.670 s`
+snapshot/verify at 1k tracked 128-byte files and `6.054 s / 5.897 s` at 10k on
+the local Windows host. Keep the direct full-content hash implementation for now;
+revisit it only when a lower-complexity Git-tree/index design shows a clear win
+on the same benchmark without weakening dirty-source detection.
 
 The [neutral controller core](CONTROLLED_TRIALS.md) now exercises tool and budget
 boundaries without new model calls. Its skill namespace is read-only, so future
@@ -73,10 +86,11 @@ Apply these gates; generated files alone do not establish task completion:
 
 | Order | Scope | Acceptance and stopping condition |
 |---|---|---|
-| 1 | One pinned micrograd checkout and independent installed-skill trial | Agent selects and executes from README without a supplied command; retain failures/interventions; reuse existing dependencies, no large downloads or training |
-| 2 | Report issues observed during first use | Separate actual execution, unexecuted suggestions and observations; no automatic human decision merely for a missing environment file; real dependency/asset failures remain visible |
-| 3 | Independent acceptance and publication | Check actual logs, original-file SHA-256, per-section restoration and local evidence links; full regression and Git publication checks before sync |
-| 4 | Small paired evaluation (preparation/calibration delivered; live pending) | [Frozen tasks and actual grader calibration](PAIRED_PILOT.md); connect an isolated, budget-enforcing model executor before one canary and six paired trials |
+| 1 | Reviewed planning across pinned repositories | `--plan-only` selects the expected README target, exposes a review token and writes no evidence; current four-case result is 4/4 |
+| 2 | One pinned micrograd checkout and independent installed-skill trial | Agent selects and executes from README without a supplied command; retain failures/interventions; reuse existing dependencies, no large downloads or training |
+| 3 | Report issues observed during first use | Separate actual execution, unexecuted suggestions and observations; no automatic human decision merely for a missing environment file; real dependency/asset failures remain visible |
+| 4 | Independent acceptance and publication | Check actual logs, original-file SHA-256, per-section restoration and local evidence links; full regression and Git publication checks before sync |
+| 5 | Small paired evaluation (preparation/calibration delivered; live pending) | [Frozen tasks and actual grader calibration](PAIRED_PILOT.md); connect an isolated, budget-enforcing model executor before one canary and six paired trials |
 
 Installation, execution with an explicitly named skill/path, and automatic skill
 selection in a fresh client are separate gates. The first two do not establish

@@ -34,6 +34,7 @@ if str(SHARED_SCRIPTS) not in sys.path:
 
 from runtime_runner import run_persistent_command
 from model_adapter import ModelAdapterError, load_model_profile, missing_capabilities
+from command_utils import contains_shell_syntax
 
 
 def load_lessons_store():
@@ -429,14 +430,24 @@ def verify_evidence_manifest(repo_path: Path, output_dir: Path) -> Dict[str, Any
 
 
 def plan_payload(chosen: Dict[str, Any], setup_plan: Dict[str, Any], shell_mode: str) -> Dict[str, Any]:
+    selected_id = chosen.get("documented_command_id")
+    fingerprint = chosen.get("selection_fingerprint")
     return {
         "schema_version": "1.0",
         "mode": "plan_only",
         "selected_goal": chosen["selected_goal"],
+        "selected_command_id": selected_id,
         "documented_command": chosen.get("documented_command") or None,
         "documented_command_source": chosen.get("command_source", "none"),
         "documented_command_section": chosen.get("documented_command_section"),
         "requires_substitution": bool(chosen.get("requires_substitution")),
+        "selection_source": chosen.get("selection_source"),
+        "selection_fingerprint": fingerprint,
+        "command_candidates": chosen.get("command_candidates", []),
+        "reviewed_run_args": (
+            ["--run-selected", "--command-id", selected_id, "--plan-fingerprint", fingerprint]
+            if selected_id and fingerprint else []
+        ),
         "setup_advisory_count": len(setup_plan.get("unresolved_setup_risks", [])),
         "plan_side_effects": {
             "executes_target_command": False,
@@ -456,6 +467,22 @@ def plan_payload(chosen: Dict[str, Any], setup_plan: Dict[str, Any], shell_mode:
     }
 
 
+def selection_error_payload(error: CommandSelectionError) -> Dict[str, Any]:
+    return {
+        "schema_version": "1.0",
+        "mode": "selection_error",
+        "status": "blocked",
+        "error": {
+            "code": error.code,
+            "summary": str(error),
+            "requires_human": True,
+            "safe_next_actions": ["Run --plan-only again and choose a command from the current candidate set."],
+        },
+        "selection_fingerprint": error.fingerprint,
+        "command_candidates": error.candidates,
+    }
+
+
 def compact_agent_payload(
     context: Dict[str, Any],
     output_dir: Path,
@@ -466,7 +493,10 @@ def compact_agent_payload(
         "schema_version": "1.0",
         "status": context.get("status"),
         "selected_goal": context.get("selected_goal"),
+        "selected_command_id": context.get("documented_command_id"),
         "documented_command": context.get("documented_command"),
+        "selection_fingerprint": context.get("selection_fingerprint"),
+        "error": context.get("error"),
         "runtime_status": context.get("runtime_status"),
         "result_match": context.get("result_match", {}).get("status", "not_evaluated"),
         "main_blocker": context.get("main_blocker"),
@@ -490,12 +520,14 @@ def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
     status_path = output_dir / "status.json"
     if not status_path.is_file():
         return {"schema_version": "1.0", "mode": "verify_only", "evidence_valid": False,
-                "checks": {"status_file": False}, "error": f"Missing {status_path}"}
+                "checks": {"status_file": False},
+                "error": {"code": "evidence_missing", "summary": f"Missing {status_path}"}}
     try:
         status = json.loads(status_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return {"schema_version": "1.0", "mode": "verify_only", "evidence_valid": False,
-                "checks": {"status_file": False}, "error": str(exc)}
+                "checks": {"status_file": False},
+                "error": {"code": "evidence_invalid", "summary": str(exc)}}
 
     checks["status_file"] = True
     try:
@@ -561,6 +593,18 @@ def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
     manifest_verification = verify_evidence_manifest(repo_path, output_dir)
     checks["evidence_manifest"] = bool(manifest_verification.get("valid"))
 
+    failed_checks = [name for name, ok in checks.items() if not ok]
+    if not failed_checks:
+        verification_error = None
+    elif "target_repo" in failed_checks:
+        verification_error = {"code": "target_repo_mismatch", "summary": "Evidence belongs to a different target repository."}
+    elif "source_current" in failed_checks:
+        verification_error = {"code": "source_changed_after_run", "summary": "Current source no longer matches the post-run source snapshot."}
+    elif "evidence_manifest" in failed_checks:
+        verification_error = {"code": "evidence_tampered", "summary": "Retained evidence no longer matches its local manifest."}
+    else:
+        verification_error = {"code": "evidence_invalid", "summary": "One or more evidence consistency checks failed."}
+
     return {
         "schema_version": "1.0",
         "mode": "verify_only",
@@ -572,6 +616,82 @@ def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
         "source_integrity": source_integrity,
         "evidence_manifest": manifest_verification,
         "status_path": str(status_path),
+        "error": verification_error,
+    }
+
+
+def _bounded_log_text(run_data: Dict[str, Any], limit: int = 131072) -> str:
+    parts = [str(item) for item in run_data.get("execution_log", [])]
+    for key in ("stderr_log_path", "stdout_log_path"):
+        raw_path = run_data.get(key)
+        if not raw_path:
+            continue
+        try:
+            data = Path(str(raw_path)).read_bytes()
+        except OSError:
+            continue
+        parts.append(data[-limit:].decode("utf-8", errors="replace"))
+    return "\n".join(parts)[-limit:]
+
+
+def classify_execution_error(
+    *,
+    run_selected: bool,
+    chosen: Dict[str, Any],
+    run_data: Dict[str, Any],
+    source_integrity: Dict[str, Any],
+) -> Optional[str]:
+    if not run_selected:
+        return None
+    if source_integrity.get("unchanged") is False:
+        return "source_modified"
+    if (
+        run_data.get("runtime_status") == "success"
+        and run_data.get("result_match", {}).get("status") == "mismatched"
+    ):
+        return "metric_mismatch"
+    if chosen.get("requires_substitution"):
+        return "placeholder_required"
+    if not chosen.get("documented_command"):
+        return "no_documented_command"
+    if not chosen.get("command_feasible", True):
+        reason = str(chosen.get("command_feasibility_reason") or "").lower()
+        if "shell" in reason:
+            return "shell_review_required"
+        if "download" in reason:
+            return "large_download_review_required"
+        if "directory is absent" in reason:
+            return "missing_asset"
+        return "prerequisite_unavailable"
+    if run_data.get("status") == "success":
+        return None
+
+    evidence = _bounded_log_text(run_data)
+    lowered = evidence.lower()
+    blocker = str(run_data.get("main_blocker") or "").lower()
+    if "shell syntax" in lowered or "shell syntax" in blocker:
+        return "shell_review_required"
+    if "modulenotfounderror" in lowered or "no module named" in lowered:
+        return "missing_dependency"
+    if "filenotfounderror" in lowered or "no such file or directory" in lowered:
+        return "missing_asset"
+    if run_data.get("runtime_status") == "timed_out" or "timed out" in blocker:
+        return "timeout"
+    if run_data.get("cancelled") or run_data.get("runtime_status") == "cancelled":
+        return "cancelled"
+    if "executable not found" in blocker or "failed before launch" in lowered:
+        return "command_not_found"
+    return "command_failed"
+
+
+def build_error_record(context: Dict[str, Any], error_code: Optional[str]) -> Optional[Dict[str, Any]]:
+    if not error_code:
+        return None
+    return {
+        "code": error_code,
+        "summary": context.get("main_blocker"),
+        "requires_human": bool(context.get("human_decisions_required")),
+        "safe_next_actions": [context.get("next_safe_action")] if context.get("next_safe_action") else [],
     }
 
 
@@ -670,6 +790,20 @@ def estimate_training_duration(repo_path: Path, command: str, max_train_steps: i
 
 
 OUT_DIR_RE = re.compile(r"--out[_-]?dir[= ]([\w./-]+)")
+TARGET_COMMAND_KINDS = {"run", "smoke"}
+CATEGORY_PRIORITY = {"inference": 0, "evaluation": 1, "training": 2, "other": 3}
+NON_TARGET_COMMAND_PREFIXES = (
+    "pip install ", "pip3 install ", "python -m pip install ", "python3 -m pip install ",
+    "uv pip install ", "poetry install ", "conda install ", "conda create ", "conda env create ",
+    "conda activate ", "git clone ", "wget ", "curl ", "aria2c ", "make install ",
+    "npm install ", "npm ci ", "yarn install ", "pnpm install ", "apt install ", "apt-get install ",
+    "dnf install ", "yum install ", "brew install ", "choco install ", "winget install ",
+)
+
+
+def is_non_target_command(command: str) -> bool:
+    lowered = command.strip().lower()
+    return any(lowered == prefix.rstrip() or lowered.startswith(prefix) for prefix in NON_TARGET_COMMAND_PREFIXES)
 
 
 def command_score(command: Dict[str, Any], produced_out_dirs: frozenset = frozenset()) -> int:
@@ -708,8 +842,16 @@ LARGE_REMOTE_MODEL_RE = re.compile(
 )
 
 
-def command_feasibility(command: Dict[str, Any], repo_path: Optional[Path]) -> tuple[bool, str]:
+def command_feasibility(
+    command: Dict[str, Any],
+    repo_path: Optional[Path],
+    shell_mode: str = "direct",
+) -> tuple[bool, str]:
     text_value = str(command.get("command", ""))
+    if command.get("needs_substitution"):
+        return False, "documented placeholder values require substitution before execution"
+    if shell_mode == "direct" and contains_shell_syntax(text_value):
+        return False, "command requires native shell syntax; review it before using --shell-mode native"
     if command.get("category") != "inference":
         return True, "no static prerequisite blocker detected"
     out_match = OUT_DIR_RE.search(text_value)
@@ -720,7 +862,28 @@ def command_feasibility(command: Dict[str, Any], repo_path: Optional[Path]) -> t
     return True, "no static prerequisite blocker detected"
 
 
-def choose_goal(commands: List[Dict[str, Any]], repo_path: Optional[Path] = None) -> Dict[str, Any]:
+def _candidate_fingerprint(candidates: List[Dict[str, Any]]) -> str:
+    stable = [
+        {
+            "id": item["id"],
+            "command": item["command"],
+            "category": item["category"],
+            "kind": item["kind"],
+            "section": item.get("section"),
+            "source": item.get("source"),
+            "source_file": item.get("source_file"),
+            "needs_substitution": item.get("needs_substitution", False),
+        }
+        for item in candidates
+    ]
+    return hashlib.sha256(json.dumps(stable, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def build_command_candidates(
+    commands: List[Dict[str, Any]],
+    repo_path: Optional[Path] = None,
+    shell_mode: str = "direct",
+) -> List[Dict[str, Any]]:
     produced_out_dirs = frozenset(
         match.group(1)
         for item in commands
@@ -728,53 +891,140 @@ def choose_goal(commands: List[Dict[str, Any]], repo_path: Optional[Path] = None
         for match in [OUT_DIR_RE.search(str(item.get("command", "")).lower())]
         if match
     )
-    ranked = sorted(commands, key=lambda item: -command_score(item, produced_out_dirs))
-    goal_candidates = [
-        {
-            "command": item.get("command", ""),
-            "category": item.get("category"),
-            "score": command_score(item, produced_out_dirs),
-            "needs_substitution": bool(item.get("needs_substitution")),
-            "feasible": command_feasibility(item, repo_path)[0],
-            "feasibility_reason": command_feasibility(item, repo_path)[1],
-        }
-        for item in ranked[:3]
-    ]
+    candidates: List[Dict[str, Any]] = []
+    for item in commands:
+        if item.get("kind", "run") not in TARGET_COMMAND_KINDS or is_non_target_command(str(item.get("command", ""))):
+            continue
+        feasible, feasibility_reason = command_feasibility(item, repo_path, shell_mode)
+        candidates.append(
+            {
+                "id": f"cmd-{len(candidates) + 1:02d}",
+                "command": item.get("command", ""),
+                "category": item.get("category", "other"),
+                "kind": item.get("kind", "run"),
+                "section": item.get("section"),
+                "source": item.get("source", "readme"),
+                "source_file": item.get("source_file"),
+                "score": command_score(item, produced_out_dirs),
+                "needs_substitution": bool(item.get("needs_substitution")),
+                "requires_native_shell": bool(
+                    not item.get("needs_substitution")
+                    and contains_shell_syntax(str(item.get("command", "")))
+                ),
+                "feasible": feasible,
+                "feasibility_reason": feasibility_reason,
+                "auto_selectable": bool(not item.get("needs_substitution") and feasible),
+            }
+        )
+    ranked = sorted(
+        candidates,
+        key=lambda item: (
+            CATEGORY_PRIORITY.get(str(item.get("category")), 99),
+            -int(item.get("score", 0)),
+            item["id"],
+        ),
+    )
+    for rank, item in enumerate(ranked, start=1):
+        item["selection_rank"] = rank
+    return candidates
 
-    for category in ["inference", "evaluation", "training", "other"]:
-        candidates = [item for item in commands if item.get("category") == category]
-        if not candidates:
-            continue
-        runnable = [
-            item
-            for item in candidates
-            if not item.get("needs_substitution") and command_feasibility(item, repo_path)[0]
-        ]
-        if not runnable:
-            continue
-        best = max(runnable, key=lambda item: command_score(item, produced_out_dirs))
+
+class CommandSelectionError(ValueError):
+    def __init__(self, code: str, message: str, candidates: List[Dict[str, Any]], fingerprint: str):
+        super().__init__(message)
+        self.code = code
+        self.candidates = candidates
+        self.fingerprint = fingerprint
+
+
+def choose_goal(
+    commands: List[Dict[str, Any]],
+    repo_path: Optional[Path] = None,
+    shell_mode: str = "direct",
+    command_id: str = "",
+    plan_fingerprint: str = "",
+) -> Dict[str, Any]:
+    candidates = build_command_candidates(commands, repo_path, shell_mode)
+    fingerprint = _candidate_fingerprint(candidates)
+    if plan_fingerprint and plan_fingerprint != fingerprint:
+        raise CommandSelectionError(
+            "plan_changed",
+            "The documented command set changed after review; run --plan-only again before execution.",
+            candidates,
+            fingerprint,
+        )
+
+    selected: Optional[Dict[str, Any]] = None
+    selection_source = "policy"
+    if command_id:
+        selected = next((item for item in candidates if item["id"] == command_id), None)
+        if selected is None:
+            raise CommandSelectionError(
+                "unknown_command_id",
+                f"Unknown command id `{command_id}`; select one of the current plan candidates.",
+                candidates,
+                fingerprint,
+            )
+        selection_source = "reviewed_command_id"
+    else:
+        ranked = sorted(
+            (item for item in candidates if item["auto_selectable"]),
+            key=lambda item: (
+                CATEGORY_PRIORITY.get(str(item.get("category")), 99),
+                -int(item.get("score", 0)),
+                item["id"],
+            ),
+        )
+        if ranked:
+            selected = ranked[0]
+        elif candidates:
+            selected = sorted(
+                candidates,
+                key=lambda item: (
+                    CATEGORY_PRIORITY.get(str(item.get("category")), 99),
+                    -int(item.get("score", 0)),
+                    item["id"],
+                ),
+            )[0]
+            selection_source = "policy_blocked_candidate"
+        else:
+            selected = None
+
+    if selected is not None:
         return {
-            "selected_goal": category,
-            "goal_priority": category,
-            "documented_command": best.get("command", ""),
-            "command_source": best.get("source", "readme"),
-            "documented_command_kind": best.get("kind", "run"),
-            "documented_command_section": best.get("section"),
-            "documented_command_source_file": best.get("source_file"),
-            "requires_substitution": bool(best.get("needs_substitution")),
-            "goal_candidates": goal_candidates,
+            "selected_goal": selected["category"],
+            "goal_priority": selected["category"],
+            "documented_command": selected["command"],
+            "documented_command_id": selected["id"],
+            "command_source": selected.get("source", "readme"),
+            "documented_command_kind": selected.get("kind", "run"),
+            "documented_command_section": selected.get("section"),
+            "documented_command_source_file": selected.get("source_file"),
+            "requires_substitution": bool(selected.get("needs_substitution")),
+            "command_feasible": bool(selected.get("feasible")),
+            "command_feasibility_reason": selected.get("feasibility_reason"),
+            "selection_source": selection_source,
+            "selection_fingerprint": fingerprint,
+            "command_candidates": candidates,
+            "goal_candidates": sorted(candidates, key=lambda item: item["selection_rank"])[:3],
         }
 
     return {
         "selected_goal": "repo-intake-only",
         "goal_priority": "other",
         "documented_command": "",
+        "documented_command_id": None,
         "command_source": "none",
         "documented_command_kind": "none",
         "documented_command_section": None,
         "documented_command_source_file": None,
         "requires_substitution": False,
-        "goal_candidates": goal_candidates,
+        "command_feasible": False,
+        "command_feasibility_reason": "no auto-selectable README-backed run/smoke command",
+        "selection_source": selection_source,
+        "selection_fingerprint": fingerprint,
+        "command_candidates": candidates,
+        "goal_candidates": sorted(candidates, key=lambda item: item["selection_rank"])[:3],
     }
 
 
@@ -1289,6 +1539,14 @@ def build_context(
         if section:
             source_note += text(user_language, f", section `{section}`", f"，章节 `{section}`")
         command_notes.append(source_note)
+        if chosen.get("documented_command_id"):
+            command_notes.append(
+                text(
+                    user_language,
+                    f"Reviewed command id: `{chosen['documented_command_id']}`; selection source: `{chosen.get('selection_source', 'policy')}`.",
+                    f"已审阅命令 ID：`{chosen['documented_command_id']}`；选择来源：`{chosen.get('selection_source', 'policy')}`。",
+                )
+            )
     command_notes.append(f"Planned skill chain: {', '.join(skill_chain)}")
 
     # Setup discovery gaps are advisory until a selected action actually needs them.
@@ -1329,6 +1587,64 @@ def build_context(
             "Preserve the failed acceptance evidence and review the mismatch before any retry or protocol change; command completion alone does not satisfy the expected result.",
             "保留验收失败证据，在重试或修改实验协议前检查不匹配原因；命令完成本身不代表已达到期望结果。",
         )
+    elif run_selected and status == "blocked" and chosen.get("requires_substitution"):
+        next_action = text(
+            user_language,
+            "Resolve the README placeholder values from documented repository context, then run --plan-only again before executing the updated concrete command.",
+            "先从仓库文档中确定 README 占位符的真实值，再重新运行 --plan-only，确认具体命令后执行。",
+        )
+        next_safe_action = text(
+            user_language,
+            "Do not execute literal <...> placeholders or guess protocol-sensitive values; preserve the reviewed plan and replan after the concrete values are known.",
+            "不要直接执行字面量 <...> 占位符，也不要猜测影响实验协议的值；确定真实值后重新生成并审核计划。",
+        )
+    elif run_selected and status == "blocked" and not chosen.get("command_feasible", True):
+        feasibility_reason = str(chosen.get("command_feasibility_reason") or "")
+        lowered_reason = feasibility_reason.lower()
+        if "native shell" in lowered_reason or "shell syntax" in lowered_reason:
+            next_action = text(
+                user_language,
+                f"Review the exact shell operators in `{chosen['documented_command']}`. If they are intended and authorized, rerun the same reviewed candidate with `--run-selected --command-id {chosen.get('documented_command_id')} --plan-fingerprint {chosen.get('selection_fingerprint')} --shell-mode native`.",
+                f"检查 `{chosen['documented_command']}` 中的 shell 运算符；若确认文档确实要求且已授权，请使用同一已审核候选并加 `--run-selected --command-id {chosen.get('documented_command_id')} --plan-fingerprint {chosen.get('selection_fingerprint')} --shell-mode native` 重新执行。",
+            )
+            next_safe_action = text(
+                user_language,
+                "Keep direct mode as the default. Only after reviewing the exact documented command, rerun that reviewed candidate with `--shell-mode native`; do not broaden shell authorization globally.",
+                "默认继续使用 direct 模式；仅在检查过该文档命令后，才对同一已审核候选加 `--shell-mode native` 重跑，不要扩大为全局 shell 授权。",
+            )
+        elif "download" in lowered_reason:
+            next_action = text(
+                user_language,
+                "Review the documented model/asset download size and source, obtain explicit authorization for the download, then replan before execution.",
+                "检查文档中的模型/资源下载来源与规模，取得明确下载授权后再重新计划并执行。",
+            )
+            next_safe_action = text(
+                user_language,
+                "Do not bypass the large-download gate by changing the command or silently fetching a different checkpoint.",
+                "不要通过修改命令绕过大下载门槛，也不要静默改为下载其他 checkpoint。",
+            )
+        elif "directory is absent" in lowered_reason:
+            next_action = text(
+                user_language,
+                "Satisfy the README-documented local prerequisite that produces the required output directory, then run --plan-only again.",
+                "先按 README 满足会生成所需本地输出目录的前置步骤，然后重新运行 --plan-only。",
+            )
+            next_safe_action = text(
+                user_language,
+                "Do not invent a replacement checkpoint/output directory; preserve the documented producer-consumer relationship.",
+                "不要自行编造替代 checkpoint/输出目录；保持文档中的生产者-消费者关系。",
+            )
+        else:
+            next_action = text(
+                user_language,
+                f"Review the documented prerequisite before retrying: {feasibility_reason}",
+                f"重试前先检查文档前置条件：{feasibility_reason}",
+            )
+            next_safe_action = text(
+                user_language,
+                "Keep the reviewed command unchanged until its documented prerequisite is satisfied, then replan.",
+                "在满足文档前置条件前保持已审核命令不变，满足后重新计划。",
+            )
     elif chosen["selected_goal"] == "training":
         if lane == "trusted" and not full_training_authorized:
             next_action = text(
@@ -1451,11 +1767,17 @@ def build_context(
         "status": status,
         "documented_command_status": documented_status,
         "documented_command": chosen["documented_command"] or "None extracted",
+        "documented_command_id": chosen.get("documented_command_id"),
         "documented_command_kind": chosen.get("documented_command_kind", "none"),
         "documented_command_source": chosen.get("command_source", "none"),
         "documented_command_section": chosen.get("documented_command_section"),
         "documented_command_source_file": chosen.get("documented_command_source_file"),
         "requires_substitution": bool(chosen.get("requires_substitution")),
+        "command_feasible": bool(chosen.get("command_feasible")),
+        "command_feasibility_reason": chosen.get("command_feasibility_reason"),
+        "selection_source": chosen.get("selection_source"),
+        "selection_fingerprint": chosen.get("selection_fingerprint"),
+        "command_candidates": chosen.get("command_candidates", []),
         "goal_candidates": chosen.get("goal_candidates", []),
         "evidence_level": "direct" if chosen["documented_command"] else "mixed",
         "result_summary": result_summary,
@@ -1557,6 +1879,16 @@ def main() -> int:
     parser.add_argument("--user-language", default="en", help="Language tag for human-readable reports.")
     parser.add_argument("--run-selected", action="store_true", help="Execute the selected documented command.")
     parser.add_argument(
+        "--command-id",
+        default="",
+        help="Select a README-backed command id returned by --plan-only; never accepts arbitrary shell text.",
+    )
+    parser.add_argument(
+        "--plan-fingerprint",
+        default="",
+        help="Bind --command-id to the exact candidate set returned by the reviewed plan.",
+    )
+    parser.add_argument(
         "--plan-only",
         action="store_true",
         help="Inspect README/setup signals and print the selected command plus side-effect contract without writing evidence or executing target code.",
@@ -1608,6 +1940,8 @@ def main() -> int:
         parser.error("--plan-only cannot be combined with --run-selected")
     if args.verify_output and (args.plan_only or args.run_selected):
         parser.error("--verify-output cannot be combined with --plan-only or --run-selected")
+    if args.plan_fingerprint and not args.command_id:
+        parser.error("--plan-fingerprint requires --command-id")
 
     if args.timeout <= 0 or args.train_timeout <= 0:
         parser.error("--timeout and --train-timeout must be greater than zero")
@@ -1662,7 +1996,27 @@ def main() -> int:
     if missing_model_capabilities:
         parser.error(f"model profile is missing required capabilities: {', '.join(missing_model_capabilities)}")
     setup_plan = run_json(setup_script, ["--repo", str(repo_path), "--json"])
-    chosen = choose_goal(command_data.get("commands", []), repo_path)
+    if args.command_id and args.run_selected and not args.plan_fingerprint:
+        candidates = build_command_candidates(command_data.get("commands", []), repo_path, args.shell_mode)
+        error = CommandSelectionError(
+            "review_token_required",
+            "Executing an explicit command id requires the selection fingerprint returned by --plan-only.",
+            candidates,
+            _candidate_fingerprint(candidates),
+        )
+        print(json.dumps(selection_error_payload(error), indent=2, ensure_ascii=False))
+        return 2
+    try:
+        chosen = choose_goal(
+            command_data.get("commands", []),
+            repo_path,
+            args.shell_mode,
+            args.command_id,
+            args.plan_fingerprint,
+        )
+    except CommandSelectionError as exc:
+        print(json.dumps(selection_error_payload(exc), indent=2, ensure_ascii=False))
+        return 2
     if args.plan_only:
         print(json.dumps(plan_payload(chosen, setup_plan, args.shell_mode), indent=2, ensure_ascii=False))
         return 0
@@ -1751,12 +2105,20 @@ def main() -> int:
         "model_adapter": model_adapter,
     }
     if args.run_selected and chosen.get("requires_substitution"):
-        run_data["status"] = "not_run"
-        run_data["documented_command_status"] = "not_run"
+        run_data["status"] = "blocked"
+        run_data["documented_command_status"] = "blocked"
         run_data["main_blocker"] = text(
             args.user_language,
             "Documented command contains placeholder values (<...>); substitute them before execution.",
             "文档命令包含占位符（<...>），需要先替换为真实值再执行。",
+        )
+    elif args.run_selected and chosen.get("documented_command") and not chosen.get("command_feasible", True):
+        run_data["status"] = "blocked"
+        run_data["documented_command_status"] = "blocked"
+        run_data["main_blocker"] = text(
+            args.user_language,
+            f"Selected documented command is not safe to run under the current plan: {chosen.get('command_feasibility_reason')}",
+            f"当前计划下不应直接执行选定的文档命令：{chosen.get('command_feasibility_reason')}",
         )
     elif args.run_selected:
         if chosen["selected_goal"] == "training":
@@ -1874,6 +2236,13 @@ def main() -> int:
         context["protocol_deviations"].append(
             "Target command changed source/config files: " + ", ".join(source_integrity.get("changed_files", []))
         )
+    error_code = classify_execution_error(
+        run_selected=args.run_selected,
+        chosen=chosen,
+        run_data=run_data,
+        source_integrity=source_integrity,
+    )
+    context["error"] = build_error_record(context, error_code)
 
     context["annotated_readme"] = None
     context["readme_section_coverage"] = {}
@@ -1921,7 +2290,11 @@ def main() -> int:
         "elapsed_seconds": round(time.monotonic() - started_monotonic, 3),
         "run_selected": bool(args.run_selected),
         "selected_goal": context.get("selected_goal"),
+        "selected_command_id": context.get("documented_command_id"),
         "documented_command": context.get("documented_command"),
+        "selection_source": context.get("selection_source"),
+        "selection_fingerprint": context.get("selection_fingerprint"),
+        "error": context.get("error"),
         "source_integrity": source_integrity,
     }
     invocation_path.write_text(json.dumps(invocation, indent=2, ensure_ascii=False), encoding="utf-8")

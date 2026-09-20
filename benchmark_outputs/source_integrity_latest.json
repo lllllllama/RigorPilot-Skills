@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "rigorpilot-source-integrity",
+  "generated_at": "2026-09-20T05:03:38.644470Z",
+  "status": "passed",
+  "measurement_scope": "Synthetic tracked text files; tracemalloc covers Python allocations, not total process RSS or filesystem cache.",
+  "wall_duration_seconds": 85.75,
+  "cases": [
+    {
+      "tracked_files": 1000,
+      "bytes_per_file": 128,
+      "approx_tracked_bytes": 128000,
+      "before_snapshot_seconds": 0.705266,
+      "after_snapshot_seconds": 0.663636,
+      "verify_snapshot_seconds": 0.67007,
+      "python_tracemalloc_peak_bytes": 827577,
+      "change_detection_ok": true,
+      "case_wall_seconds": 7.297
+    },
+    {
+      "tracked_files": 10000,
+      "bytes_per_file": 128,
+      "approx_tracked_bytes": 1280000,
+      "before_snapshot_seconds": 6.054441,
+      "after_snapshot_seconds": 5.606159,
+      "verify_snapshot_seconds": 5.896833,
+      "python_tracemalloc_peak_bytes": 4567709,
+      "change_detection_ok": true,
+      "case_wall_seconds": 78.453
+    }
+  ]
+}

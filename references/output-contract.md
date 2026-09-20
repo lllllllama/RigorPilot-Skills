@@ -42,6 +42,13 @@ Trusted output traits:
 - `--plan-only` provides a no-target-execution/no-evidence-write command and
   side-effect preview, while `--verify-output` performs compact post-run evidence
   checks without replaying the target command
+- planning exposes README-backed `cmd-XX` candidates plus a selection fingerprint.
+  Explicit candidate execution binds `--command-id` to that fingerprint; a stale
+  plan or unknown id fails before target execution. Setup/download commands are
+  not selectable reproduction targets
+- partial/blocked trusted runs expose a stable machine-readable `error.code`
+  alongside the human blocker and next-safe-action text; callers should branch on
+  the code rather than parsing localized prose
 - controller recovery must not auto-replay commands: dead runs become
   `interrupted`, while stale live processes become `orphaned`
 

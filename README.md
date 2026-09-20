@@ -16,7 +16,7 @@ Trusted reproduction is the default; candidate exploration requires explicit aut
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-74%2F74%20passed-8250df?style=flat-square">
+  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-76%2F76%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="historical external protocols" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -119,8 +119,8 @@ Recommended first run:
 
 | Step | What it does | What it does not do |
 |---|---|---|
-| Plan | Selects the smallest README-backed target and reports the side-effect contract | No target execution, installs, downloads, source edits or evidence writes |
-| Run | Executes the reviewed target and writes evidence under the target repo by default | Does not turn process success into a paper-result claim |
+| Plan | Lists README-backed `cmd-XX` candidates, selects the smallest trusted target, and returns a selection fingerprint | No target execution, installs, downloads, source edits or evidence writes |
+| Run | Executes a reviewed `command-id` bound to that plan fingerprint and writes evidence under the target repo by default | Setup/download commands cannot be selected; a changed plan fails before target execution |
 | Verify | Rechecks the retained evidence, README round trip, runtime state and current source snapshot | Does not rerun the target command |
 
 Start with the `RIGORPILOT_README.md` reported in `source_adjacent_readme.path`,
@@ -176,7 +176,7 @@ contract. Candidate results never become trusted baseline results by declaration
 | Artifact | What to inspect |
 |---|---|
 | `repro_outputs/ANNOTATED_README.md` | Original README with inserted section verdicts |
-| `SUMMARY.md`, `COMMANDS.md`, `LOG.md`, `status.json` | Outcome, exact commands, observations and machine-readable status |
+| `SUMMARY.md`, `COMMANDS.md`, `LOG.md`, `status.json` | Outcome, exact commands, reviewed selection provenance, stable `error.code`, observations and machine-readable status |
 | `invocation.json`, `evidence_manifest.json` | Invocation/source-integrity summary plus retained file sizes and SHA-256 hashes for local consistency checks |
 | `PATCHES.md`, `SCIENTIFIC_CHANGELOG.md`, `COMPARABILITY_REPORT.md` | Changes, scientific meaning and comparison boundaries |
 | `_runtime/<run_id>/` | Process state, events, resource samples and stdout/stderr |
@@ -193,8 +193,10 @@ files and the evidence directory's `readme_delivery.json`.
 [Output contract](references/output-contract.md) · [Rigor principles](references/research-rigor-principles.md)
 
 For agent clients, the shortest normal path is `--plan-only --agent-output`, then
-`--run-selected --agent-output`, then `--verify-output --agent-output`. Routine
-success should not require reading orchestrator, bundle, writer, or runtime source.
+run a returned `cmd-XX` with its `--plan-fingerprint`, then `--verify-output --agent-output`.
+The fingerprint binds execution to the reviewed README command set; setup/download
+commands are excluded from reproduction candidates. Routine success should not
+require reading orchestrator, bundle, writer, or runtime source.
 When `--output-dir` is omitted, the orchestrator writes to the target repository's
 `repro_outputs/` directory, not the caller's current working directory.
 The evidence manifest detects later changes against the retained manifest; it is
@@ -252,7 +254,21 @@ including skill-name syntax/length, description length, optional compatibility
 length, `metadata`/`allowed-tools` types, and the repository's public `SKILL.md`
 line limit.
 
-Latest local Windows record (2026-09-20): **74/74 scripts passed in 212.5 s**.
+Two additional API-free checks cover the new control path:
+
+```bash
+python benchmarks/run_reviewed_selection_suite.py --cases micrograd mingpt pytorch-mnist nanogpt-shakespeare --output tmp/reviewed-selection.json
+python benchmarks/run_source_integrity_benchmark.py --counts 1000 10000 --output tmp/source-integrity.json
+```
+
+The pinned reviewed-selection suite currently passes **4/4** without executing
+target commands. The local source-integrity baseline records about **0.705 s / 0.670 s**
+for snapshot/verify at 1k tracked files and **6.054 s / 5.897 s** at 10k small
+tracked files. These are Windows synthetic-file measurements, not general latency guarantees.
+[Reviewed-selection result](benchmark_outputs/reviewed_selection_latest.json) ·
+[Integrity baseline](benchmark_outputs/source_integrity_latest.json)
+
+Latest local Windows record (2026-09-20): **76/76 scripts passed in 245.9 s**.
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 

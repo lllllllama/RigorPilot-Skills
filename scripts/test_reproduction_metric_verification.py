@@ -120,6 +120,8 @@ def main() -> int:
         if mismatched["result_match"]["status"] != "mismatched":
             raise AssertionError("out-of-tolerance metric was not marked mismatched")
         assert_failed_acceptance(mismatched, mismatched_output)
+        if mismatched.get("error", {}).get("code") != "metric_mismatch":
+            raise AssertionError("metric mismatch did not expose metric_mismatch")
         if "Do not widen tolerances" not in mismatched["next_action"] or "failed acceptance evidence" not in mismatched["next_safe_action"]:
             raise AssertionError("Mismatch guidance did not preserve the acceptance contract")
         checks += 1
@@ -151,6 +153,8 @@ def main() -> int:
         )
         if failed["status"] != "partial" or failed["runtime_status"] != "failed" or "exited with code" not in failed["main_blocker"]:
             raise AssertionError("Missing metrics masked the actual failed-process blocker")
+        if failed.get("error", {}).get("code") != "command_failed":
+            raise AssertionError("metric mismatch masked the stable failed-process error code")
         checks += 1
         evaluation_tail = mismatched_readme.split("## Evaluation", 1)[1]
         if "[!WARNING]" not in evaluation_tail or "tier: result-match" in evaluation_tail:
