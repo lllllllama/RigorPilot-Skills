@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "scope": "fresh local timeout diagnostic, no model call; does not change AUTO canary verdict",
+  "target_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "timeout_seconds": 30,
+  "status": "completed",
+  "returncode": 0,
+  "seconds": 10.61,
+  "stdout_contains_2_passed": true,
+  "stdout_tail": "============================= test session starts =============================\nplatform win32 -- Python 3.12.7, pytest-7.4.4, pluggy-1.6.0 -- D:\\Anaconda3\\python.exe\ncachedir: .tmp_pytest_cache\nrootdir: C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-timeout-diag-tm18aflk\\repo\ncollecting ... collected 2 items\n\ntest/test_engine.py::test_sanity_check PASSED                            [ 50%]\ntest/test_engine.py::test_more_ops PASSED                                [100%]\n\n============================== 2 passed in 9.02s ==============================\n",
+  "stderr_tail": ""
+}

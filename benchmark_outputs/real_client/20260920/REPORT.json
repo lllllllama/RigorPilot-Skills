@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "scope": "real_client_acceptance_sequence_not_model_uplift",
+  "date": "2026-09-20",
+  "skill_commit": "184b163b34222455cad78285bb6016774b1c8439",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "explicit_named_skill": {
+    "report": "B/REPORT.json",
+    "overall_pass": true,
+    "client_completed": true,
+    "task_status_success": true,
+    "independent_grader_passed": true,
+    "client_seconds": 128.094,
+    "tool_starts": 6,
+    "model_usage": {
+      "input_tokens": 145689,
+      "cached_input_tokens": 116224,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 3087,
+      "reasoning_output_tokens": 770
+    }
+  },
+  "fresh_client_auto_loading": {
+    "report": "AUTO/REPORT.json",
+    "overall_pass": false,
+    "client_completed": true,
+    "auto_loading_trace_evidence": true,
+    "task_status_success": false,
+    "failure_code": "timeout",
+    "selected_timeout_seconds": 20,
+    "user_command_timeout_bound_seconds": 30,
+    "client_seconds": 157.281,
+    "tool_starts": 8,
+    "model_usage": {
+      "input_tokens": 222679,
+      "cached_input_tokens": 189952,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 3337,
+      "reasoning_output_tokens": 970
+    }
+  },
+  "paired_baseline_A": "not_run_after_auto_gate_failure",
+  "model_uplift": null,
+  "stop_reason": "auto_loading_task_timeout",
+  "conclusion": "Explicit named-skill fast-path acceptance passed. Natural-language auto-loading was observed and the client completed, but end-to-end auto-loading acceptance failed because the selected pytest run timed out at an agent-chosen 20-second command timeout. No retry or A/B expansion was run.",
+  "cost": null
+}

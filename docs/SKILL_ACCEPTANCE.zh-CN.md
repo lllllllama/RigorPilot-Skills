@@ -9,7 +9,9 @@
 公开归档通过字节/链接检查及独立临时索引中的 Git 发布检查，未改变正式暂存区。
 后续已发布到 [`3f4ff41`](https://github.com/lllllllama/RigorPilot-Skills/commit/3f4ff415bc678fc83db673288d33b1a8fb5458aa)，
 [三平台 CI](https://github.com/lllllllama/RigorPilot-Skills/actions/runs/34757822033) 均通过。
-另见[真实客户端试用](REAL_CLIENT_ACCEPTANCE.zh-CN.md)：测试与证据通过，但整轮超时。
+另见[真实客户端复验](REAL_CLIENT_ACCEPTANCE.zh-CN.md)：修正后的显式 named-skill
+Fast Path 已正常完成并通过独立验收；自然语言自动加载也已观察到，但该独立任务因代理在
+用户允许 30 秒时选择 20 秒 timeout，仍保持失败结论。
 
 ## 直接查看结果
 

@@ -11,7 +11,10 @@ archive passed byte/link checks and Git publication validation in an isolated
 temporary index, without changing the normal staging area. Subsequently published at
 [`3f4ff41`](https://github.com/lllllllama/RigorPilot-Skills/commit/3f4ff415bc678fc83db673288d33b1a8fb5458aa),
 with [all three CI platforms passing](https://github.com/lllllllama/RigorPilot-Skills/actions/runs/34757822033).
-See also the [real-client trial](REAL_CLIENT_ACCEPTANCE.md): tests and evidence passed, but the client timed out.
+See also the [real-client follow-up](REAL_CLIENT_ACCEPTANCE.md): the corrected
+explicit named-skill Fast Path now completes and passes independent acceptance;
+natural-language auto-loading is also observed, but that separate task remains
+failed after the agent chose a 20-second timeout inside a 30-second user bound.
 
 ## Inspect the outcomes
 

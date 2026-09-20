@@ -1,6 +1,40 @@
-# Real-client first use: tests passed, client timed out
+# Real-client acceptance: explicit fast path passes; auto-loading task times out
 
-[简体中文](REAL_CLIENT_ACCEPTANCE.zh-CN.md) · [Home](../README.md) · [Machine report](../benchmark_outputs/real_client/20260913/REPORT.json)
+[简体中文](REAL_CLIENT_ACCEPTANCE.zh-CN.md) · [Home](../README.md) · [Latest machine report](../benchmark_outputs/real_client/20260920/REPORT.json) · [Historical 2026-09-13 report](../benchmark_outputs/real_client/20260913/REPORT.json)
+
+## 2026-09-20 follow-up
+
+The corrected Fast Path was exercised again on pinned micrograd commit `7bc720e`
+with current skill commit `184b163`, Codex `0.154.0-alpha.6.2`, `gpt-6-astra`
+at high reasoning, the existing Python/PyTorch/pytest environment, CPU only, and
+the same 240-second outer watchdog. The skill was copied from the local Git commit
+into the fresh project's `.agents/skills/`; this run tests real-client behavior,
+not the remote installer.
+
+| Gate | Observed result | Evidence |
+|---|---|---|
+| Explicit named-skill Fast Path | **Passed**. Client returned 0 with `turn.completed`; 6 tool starts, 128.094 s. `python -m pytest` passed both original tests, source integrity stayed unchanged, the independent first-use grader passed, and `--verify-output` accepted the bundle. | [B report](../benchmark_outputs/real_client/20260920/B/REPORT.json) · [client end](../benchmark_outputs/real_client/20260920/B/client/END.public.json) · [independent check](../benchmark_outputs/real_client/20260920/B/EVIDENCE_CHECK.json) |
+| Fresh-client natural-language auto-loading | **Skill discovery passed, end-to-end task acceptance failed.** The prompt did not name a skill; the trace references the project skill and `orchestrate_repro.py`, and the client completed normally with 8 tool starts in 157.281 s. The agent nevertheless chose `--timeout 20` even though the task allowed up to 30 s; pytest remained at `collecting ...` and the run was truthfully recorded `partial` / `timeout`. | [AUTO report](../benchmark_outputs/real_client/20260920/AUTO/REPORT.json) · [client end](../benchmark_outputs/real_client/20260920/AUTO/client/END.public.json) · [status](../benchmark_outputs/real_client/20260920/AUTO/repo/repro_outputs/status.json) |
+| 30-second no-model diagnostic | **Passed** on a fresh checkout: both tests completed in 10.61 s. This supports treating the AUTO failure as a too-strict selected timeout on this attempt; it is not a retroactive pass or a model retry. | [diagnostic](../benchmark_outputs/real_client/20260920/TIMEOUT_DIAGNOSTIC.json) |
+| A/B model comparison | **Not run.** The protocol stops expansion after the AUTO gate fails; `model_uplift` remains `null`. | [sequence report](../benchmark_outputs/real_client/20260920/REPORT.json) |
+
+Both real turns have complete returned usage records in their reports. The explicit
+run reported 145,689 input tokens (116,224 cached) and 3,087 output tokens; AUTO
+reported 222,679 input tokens (189,952 cached) and 3,337 output tokens. Provider
+cost remains unknown. Private quota percentages are not published and are not
+treated as token accounting or a billing cap.
+
+The live failure produced one concrete correction: Fast Path guidance now says
+to preserve an explicit user command-timeout bound instead of silently making it
+stricter. A non-training timeout now tells the agent to keep the reviewed command
+and protocol unchanged and, only when the existing user budget permits, increase
+`--timeout` rather than changing dependencies, inputs, or evaluation semantics.
+
+The next live gate is therefore **one fresh-client natural-language auto-loading
+canary with the corrected timeout guidance**. Do not run A/B until that gate also
+passes; the failed AUTO attempt above remains in the evidence set.
+
+## Historical 2026-09-13 trial
 
 2026-09-13: install a pinned public skill and run micrograd in a fresh Codex session.
 **Original tests and independent evidence checks passed, but the client did not finish
@@ -69,15 +103,10 @@ remote MCP connection warnings are retained, not treated as proof of an outage o
 
 Successful reports previously suggested continuing to the next verification step.
 They now direct the agent to inspect existing evidence, deliver the bounded result,
-and stop without unrequested experiments. Skill guidance clarifies this finish boundary
-and starts routine use from the entrypoint/help, with implementation inspection for concrete issues.
-Regression covers English/Chinese success, dry runs and actual failures; metric-mismatch
-and training-authorization boundaries remain intact.
-**A new live run has not yet established whether this correction reduces timeout risk.**
-
-Next, when budget permits, retry only this task in a fresh directory with the corrected
-version. Require command success, source fidelity, independent evidence acceptance **and**
-normal client completion before running a same-condition A baseline; artifact count is not task quality.
+and stop without unrequested experiments. The 2026-09-20 explicit named-skill run
+above established normal client completion for that corrected Fast Path. The
+natural-language AUTO run separately exposed the stricter-than-requested timeout
+issue, so same-condition A/B remains gated on a successful fresh-client AUTO rerun.
 
 The public snapshot is about 0.5 MB, retaining source, media and notebooks.
 [File hashes](../benchmark_outputs/real_client/20260913/FILES.json) cover unchanged copied files.

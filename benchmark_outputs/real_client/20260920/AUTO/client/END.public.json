@@ -1,0 +1,17 @@
+{
+  "returncode": 0,
+  "stop_reason": null,
+  "seconds": 157.281,
+  "turn_completed": true,
+  "turn_failed": false,
+  "tool_starts": 8,
+  "trace_sha256": "bafdd3a3f62f7bfb0b4b3cea750c049fbe0564c60bf15b90a3d8271d0a77c08b",
+  "auto_loading_evidence": {
+    "mentions_skill_slug": true,
+    "mentions_orchestrator": true,
+    "mentions_project_skill_path": true
+  },
+  "quota_checks_count": 6,
+  "quota_floor_breached": false,
+  "raw_quota_values_published": false
+}

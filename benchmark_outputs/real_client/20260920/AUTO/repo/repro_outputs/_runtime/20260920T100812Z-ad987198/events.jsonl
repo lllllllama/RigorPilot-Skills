@@ -1,0 +1,49 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-20T10:08:12.066911Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-20T10:08:12.092873Z", "type": "started", "data": {"pid": 54088, "argv": ["D:\\Anaconda3\\python.EXE", "-m", "pytest"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-20T10:08:12.096874Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 2711552, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-20T10:08:13.109725Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 36380672, "cpu_seconds": 0.484375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-20T10:08:13.112475Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-20T10:08:14.132728Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 41873408, "cpu_seconds": 0.546875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-20T10:08:14.138770Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 8, "timestamp": "2026-09-20T10:08:15.152003Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 41906176, "cpu_seconds": 0.5625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 9, "timestamp": "2026-09-20T10:08:15.156315Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 10, "timestamp": "2026-09-20T10:08:16.182959Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 82219008, "cpu_seconds": 0.75, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 11, "timestamp": "2026-09-20T10:08:16.187470Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 12, "timestamp": "2026-09-20T10:08:17.201016Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 215601152, "cpu_seconds": 1.03125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 13, "timestamp": "2026-09-20T10:08:17.205491Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 14, "timestamp": "2026-09-20T10:08:18.220417Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 221614080, "cpu_seconds": 1.09375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 15, "timestamp": "2026-09-20T10:08:18.223619Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 16, "timestamp": "2026-09-20T10:08:19.246737Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 225615872, "cpu_seconds": 1.109375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 17, "timestamp": "2026-09-20T10:08:19.251750Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 18, "timestamp": "2026-09-20T10:08:20.270878Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 236331008, "cpu_seconds": 1.109375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 19, "timestamp": "2026-09-20T10:08:20.276900Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 20, "timestamp": "2026-09-20T10:08:21.291860Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 251699200, "cpu_seconds": 1.140625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 21, "timestamp": "2026-09-20T10:08:21.294912Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 22, "timestamp": "2026-09-20T10:08:22.310385Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 251699200, "cpu_seconds": 1.140625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 23, "timestamp": "2026-09-20T10:08:22.316384Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 24, "timestamp": "2026-09-20T10:08:23.336540Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 257953792, "cpu_seconds": 1.140625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 25, "timestamp": "2026-09-20T10:08:23.343543Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 26, "timestamp": "2026-09-20T10:08:24.361715Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 257982464, "cpu_seconds": 1.140625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 27, "timestamp": "2026-09-20T10:08:24.368471Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 28, "timestamp": "2026-09-20T10:08:25.385835Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 258306048, "cpu_seconds": 1.140625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 29, "timestamp": "2026-09-20T10:08:25.388832Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 30, "timestamp": "2026-09-20T10:08:26.402615Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 265482240, "cpu_seconds": 1.15625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 31, "timestamp": "2026-09-20T10:08:26.407634Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 32, "timestamp": "2026-09-20T10:08:27.423065Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 328773632, "cpu_seconds": 1.25, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 33, "timestamp": "2026-09-20T10:08:27.428224Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 34, "timestamp": "2026-09-20T10:08:28.446943Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 328982528, "cpu_seconds": 1.28125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 35, "timestamp": "2026-09-20T10:08:28.448942Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 36, "timestamp": "2026-09-20T10:08:29.464394Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 347774976, "cpu_seconds": 1.375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 37, "timestamp": "2026-09-20T10:08:29.468627Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 38, "timestamp": "2026-09-20T10:08:30.485750Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 428937216, "cpu_seconds": 1.859375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 39, "timestamp": "2026-09-20T10:08:30.490302Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 40, "timestamp": "2026-09-20T10:08:31.525230Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 448966656, "cpu_seconds": 1.984375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 41, "timestamp": "2026-09-20T10:08:31.529316Z", "type": "heartbeat", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 42, "timestamp": "2026-09-20T10:08:32.098116Z", "type": "timeout_detected", "data": {"timeout_seconds": 20}}
+{"schema_version": "1.0", "sequence": 43, "timestamp": "2026-09-20T10:08:32.099622Z", "type": "termination_requested", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 44, "timestamp": "2026-09-20T10:08:32.169371Z", "type": "taskkill_finished", "data": {"returncode": 1}}
+{"schema_version": "1.0", "sequence": 45, "timestamp": "2026-09-20T10:08:37.177872Z", "type": "termination_escalated", "data": {"pid": 54088}}
+{"schema_version": "1.0", "sequence": 46, "timestamp": "2026-09-20T10:08:37.183809Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 322}}
+{"schema_version": "1.0", "sequence": 47, "timestamp": "2026-09-20T10:08:37.184894Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 0}}
+{"schema_version": "1.0", "sequence": 48, "timestamp": "2026-09-20T10:08:37.186861Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 322}}
+{"schema_version": "1.0", "sequence": 49, "timestamp": "2026-09-20T10:08:37.240652Z", "type": "completed", "data": {"status": "timed_out", "returncode": 1}}

@@ -64,15 +64,23 @@ commits; local success alone is not a remote CI claim.
 
 ## Real provider trials and remaining acceptance work
 
-Three explicitly bounded real requests through the existing gateway were made:
+Three explicitly bounded real requests through the existing gateway were made historically:
 two using its configured model and one using an alternate model. All returned
 HTTP 502 before a model response or tool action. See [first trial](../benchmark_outputs/agent_canary/first-live/REPORT.json),
 [second trial](../benchmark_outputs/agent_canary/second-live/REPORT.json), and
 [alternate-model trial](../benchmark_outputs/agent_canary/sonnet-live/REPORT.json).
-No successful model trial is claimed.
+Those historical gateway attempts did not produce a successful model trial.
 Zero reported tokens on these failures means no usage response was received,
-not proof the gateway charged nothing. A working provider and one successful
-real-model trial remain required before calling P1's live acceptance complete.
+not proof the gateway charged nothing.
+
+A later [2026-09-20 Codex real-client follow-up](REAL_CLIENT_ACCEPTANCE.md)
+provides one successful explicit named-skill live-client acceptance: the selected
+micrograd tests, source-integrity check, independent grader, evidence verifier,
+and outer `turn.completed` all passed. The same follow-up directly observed
+natural-language automatic skill loading and normal client completion, but that
+separate AUTO task failed after the model chose a 20-second command timeout inside
+the user's 30-second bound. Accordingly, A/B model-quality evaluation remains
+gated on a corrected AUTO rerun; `model_uplift` remains `null`.
 
 With a working endpoint and model, run one bounded public-repository trial:
 

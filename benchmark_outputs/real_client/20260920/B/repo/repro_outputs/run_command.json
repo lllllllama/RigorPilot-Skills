@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "D:\\Anaconda3\\python.exe",
+    ".agents/skills/ai-research-reproduction/scripts/orchestrate_repro.py",
+    "--repo",
+    ".",
+    "--run-selected",
+    "--command-id",
+    "cmd-01",
+    "--plan-fingerprint",
+    "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c",
+    "--timeout",
+    "20",
+    "--no-gpu-monitor",
+    "--source-adjacent-readme",
+    "--user-language",
+    "zh-CN",
+    "--agent-output"
+  ],
+  "environment": {
+    "RIGORPILOT_LESSONS": "0",
+    "CUDA_VISIBLE_DEVICES": "-1",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1"
+  },
+  "exit_code": 0,
+  "duration_seconds": 8.969000000040978
+}

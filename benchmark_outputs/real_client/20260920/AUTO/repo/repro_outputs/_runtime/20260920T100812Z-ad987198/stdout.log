@@ -1,0 +1,5 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.7, pytest-7.4.4, pluggy-1.6.0 -- D:\Anaconda3\python.EXE
+cachedir: repro_outputs\pytest_cache
+rootdir: D:\test_projects\ai-paper-reproduction-skill\benchmark_outputs\real_client\20260920\AUTO\repo
+collecting ... 

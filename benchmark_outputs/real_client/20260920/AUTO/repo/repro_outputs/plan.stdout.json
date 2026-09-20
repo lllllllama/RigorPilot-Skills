@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "mode": "plan_only",
+  "selected_goal": "evaluation",
+  "selected_command_id": "cmd-01",
+  "documented_command": "python -m pytest",
+  "documented_command_source": "code_block",
+  "documented_command_section": "Running tests",
+  "requires_substitution": false,
+  "selection_source": "policy",
+  "selection_fingerprint": "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c",
+  "command_candidates": [
+    {
+      "id": "cmd-01",
+      "command": "python -m pytest",
+      "category": "evaluation",
+      "kind": "run",
+      "section": "Running tests",
+      "source": "code_block",
+      "source_file": null,
+      "score": 48,
+      "needs_substitution": false,
+      "requires_native_shell": false,
+      "feasible": true,
+      "feasibility_reason": "no static prerequisite blocker detected",
+      "auto_selectable": true,
+      "selection_rank": 1
+    }
+  ],
+  "reviewed_run_args": [
+    "--run-selected",
+    "--command-id",
+    "cmd-01",
+    "--plan-fingerprint",
+    "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c"
+  ],
+  "setup_advisory_count": 0,
+  "plan_side_effects": {
+    "executes_target_command": false,
+    "installs_dependencies": false,
+    "downloads_assets": false,
+    "modifies_target_source": false,
+    "writes_evidence": false
+  },
+  "proposed_run_contract": {
+    "shell_mode": "direct",
+    "installs_dependencies": false,
+    "downloads_assets": false,
+    "orchestrator_modifies_target_source": false,
+    "target_command_side_effects": "repository-defined; review the selected command",
+    "writes_evidence": true
+  }
+}

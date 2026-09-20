@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "scope": "fresh_client_natural_language_auto_skill_selection_canary",
+  "date": "2026-09-20",
+  "skill_commit": "184b163b34222455cad78285bb6016774b1c8439",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "checks": {
+    "prompt_did_not_name_skill": true,
+    "client_returncode_zero": true,
+    "client_completed": true,
+    "auto_loading_trace_evidence": true,
+    "task_status_success": false,
+    "runtime_success": false,
+    "source_integrity_unchanged": true,
+    "independent_grader_passed": false,
+    "verify_output_passed": true,
+    "source_adjacent_readme_present": true
+  },
+  "overall_pass": false,
+  "stop_reason": null,
+  "client_seconds": 157.281,
+  "tool_starts": 8,
+  "auto_loading_evidence": {
+    "mentions_skill_slug": true,
+    "mentions_orchestrator": true,
+    "mentions_project_skill_path": true
+  },
+  "selection_source": "reviewed_command_id",
+  "selected_command_id": "cmd-01",
+  "documented_command": "python -m pytest",
+  "model_usage": {
+    "input_tokens": 222679,
+    "cached_input_tokens": 189952,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 3337,
+    "reasoning_output_tokens": 970
+  },
+  "model_cost": null,
+  "model_uplift": null,
+  "limits": [
+    "Prompt contains only the task/bounds and does not name the skill or its path.",
+    "Project-local skill is installed; global skills and memory are disabled.",
+    "Auto-loading requires trace evidence referencing the skill and reproduction orchestrator, not task success alone.",
+    "One model attempt only; no automatic retry."
+  ],
+  "model_usage_complete": true,
+  "baseline_A": "not_run_after_auto_gate_failure"
+}

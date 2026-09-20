@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "D:\\Anaconda3\\python.exe",
+    ".agents/skills/ai-research-reproduction/scripts/orchestrate_repro.py",
+    "--repo",
+    ".",
+    "--verify-output",
+    "--agent-output"
+  ],
+  "exit_code": 0
+}

@@ -1,0 +1,89 @@
+usage: orchestrate_repro.py [-h] --repo REPO [--output-dir OUTPUT_DIR]
+                            [--source-adjacent-readme]
+                            [--train-output-dir TRAIN_OUTPUT_DIR]
+                            [--runtime-root RUNTIME_ROOT]
+                            [--model-profile-json MODEL_PROFILE_JSON]
+                            [--require-model-capability REQUIRE_MODEL_CAPABILITY]
+                            [--monitor-gpu] [--no-gpu-monitor]
+                            [--user-language USER_LANGUAGE] [--run-selected]
+                            [--command-id COMMAND_ID]
+                            [--plan-fingerprint PLAN_FINGERPRINT]
+                            [--plan-only] [--verify-output] [--agent-output]
+                            [--include-analysis-pass] [--include-paper-gap]
+                            [--timeout TIMEOUT]
+                            [--train-timeout TRAIN_TIMEOUT]
+                            [--lane {trusted,explore}]
+                            [--full-training-authorized]
+                            [--resume-from RESUME_FROM]
+                            [--max-train-steps MAX_TRAIN_STEPS]
+                            [--expected-metric NAME=VALUE]
+                            [--metric-absolute-tolerance METRIC_ABSOLUTE_TOLERANCE]
+                            [--shell-mode {direct,native}]
+
+Run a minimal README-first reproduction orchestration.
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO           Path to the target repository.
+  --output-dir OUTPUT_DIR
+                        Directory to write standardized outputs into (default:
+                        <repo>/repro_outputs).
+  --source-adjacent-readme
+                        Also write an owned RIGORPILOT_README.md beside the
+                        original README, preserving relative media paths.
+  --train-output-dir TRAIN_OUTPUT_DIR
+                        Optional override for the supplemental training output
+                        directory.
+  --runtime-root RUNTIME_ROOT
+                        Optional runtime state root (default: <output-
+                        dir>/_runtime).
+  --model-profile-json MODEL_PROFILE_JSON
+                        Optional provider-neutral model identity/capability
+                        profile.
+  --require-model-capability REQUIRE_MODEL_CAPABILITY
+                        Required model capability; repeat as needed.
+  --monitor-gpu         Sample NVIDIA telemetry for non-training commands too.
+  --no-gpu-monitor      Disable NVIDIA telemetry for training commands.
+  --user-language USER_LANGUAGE
+                        Language tag for human-readable reports.
+  --run-selected        Execute the selected documented command.
+  --command-id COMMAND_ID
+                        Select a README-backed command id returned by --plan-
+                        only; never accepts arbitrary shell text.
+  --plan-fingerprint PLAN_FINGERPRINT
+                        Bind --command-id to the exact candidate set returned
+                        by the reviewed plan.
+  --plan-only           Inspect README/setup signals and print the selected
+                        command plus side-effect contract without writing
+                        evidence or executing target code.
+  --verify-output       Verify an existing evidence bundle and print a compact
+                        result without executing target code.
+  --agent-output        Print a compact agent-facing result; the durable
+                        evidence bundle remains unchanged.
+  --include-analysis-pass
+                        Run analyze-project and record its outputs in the
+                        stage ledger.
+  --include-paper-gap   Request paper-context-resolver; records a blocked
+                        stage until a narrow question and source are supplied.
+  --timeout TIMEOUT     Execution timeout in seconds for non-training
+                        documented commands.
+  --train-timeout TRAIN_TIMEOUT
+                        Monitoring timeout in seconds for training commands.
+  --lane {trusted,explore}
+                        Execution lane policy.
+  --full-training-authorized
+                        Allow the orchestrator to proceed beyond startup
+                        verification for training.
+  --resume-from RESUME_FROM
+                        Optional checkpoint path to pass through to run-train.
+  --max-train-steps MAX_TRAIN_STEPS
+                        Optional expected max train steps for reporting.
+  --expected-metric NAME=VALUE
+                        Explicit expected metric for result matching. Repeat
+                        for multiple metrics.
+  --metric-absolute-tolerance METRIC_ABSOLUTE_TOLERANCE
+                        Maximum absolute error allowed for every --expected-
+                        metric value.
+  --shell-mode {direct,native}
+                        Use direct argv execution by default; native shell
+                        execution requires explicit opt-in after review.

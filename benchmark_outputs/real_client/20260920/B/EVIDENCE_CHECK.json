@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "grader": "first-use-log-and-readme-fidelity",
+  "inputs": {
+    "baseline": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\BASELINE.json",
+    "repo": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\repo",
+    "output_dir": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\repo\\repro_outputs"
+  },
+  "limits": [
+    "Requires a trusted pre-run baseline; does not authenticate its provenance or completeness.",
+    "Independent marker scanner and ATX parser; not a full Markdown/browser or fragment-anchor validator.",
+    "Runtime/log consistency is not proof against coordinated forgery or malicious OS/filesystem changes.",
+    "Explicit stdout containment is a task-specific log condition, not independent scientific metric verification.",
+    "No model capability, automatic skill discovery, installation or clean dependency-environment claim."
+  ],
+  "checks": {
+    "original_files": {
+      "ok": true,
+      "details": {
+        "files_checked": 13,
+        "baseline_sha256": "8e8a36a0ee070efc54c5a4711655b6adcc2e3fc32a2597364a8f6ba773d076e7"
+      }
+    },
+    "status_file": {
+      "ok": true,
+      "details": {
+        "sha256": "f5cf786ab1ba95edeb176529b094d5d0e21ad3dfa80bcb1760df1c8fe87a76f9"
+      }
+    },
+    "readme_fidelity_and_links": {
+      "ok": true,
+      "details": {
+        "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\repo\\repro_outputs\\ANNOTATED_README.md": {
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "sections": 8,
+          "inserted_links_checked": 12
+        },
+        "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\repo\\RIGORPILOT_README.md": {
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "sections": 8,
+          "inserted_links_checked": 12
+        }
+      }
+    },
+    "runtime_and_stdout": {
+      "ok": true,
+      "details": {
+        "run_id": "20260920T100351Z-746a34a7",
+        "command": "python -m pytest",
+        "returncode": 0,
+        "stdout_sha256": "30f37df46500e28d5e4e5ed801e36543e0eb61d23c5c3bc4786524a418819a89",
+        "stdout_bytes": 420,
+        "expected_stdout": "2 passed",
+        "stdout_condition": "passed"
+      }
+    }
+  },
+  "ok": true,
+  "task_log_condition": "passed"
+}

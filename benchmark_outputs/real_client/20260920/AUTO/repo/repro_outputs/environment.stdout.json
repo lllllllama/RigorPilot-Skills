@@ -1,0 +1,7 @@
+{
+  "python": "3.12.7 | packaged by conda-forge | (main, Oct  4 2024, 15:47:54) [MSC v.1941 64 bit (AMD64)]",
+  "executable": "D:\\Anaconda3\\python.exe",
+  "pytest": "7.4.4",
+  "torch": "2.12.1+cu126",
+  "device": "CPU: original tests use torch.Tensor(...).double() without device transfer"
+}

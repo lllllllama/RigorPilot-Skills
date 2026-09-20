@@ -1,0 +1,21 @@
+{
+  "command_id": "cmd-01",
+  "fingerprint": "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c",
+  "reviewed_command": "python -m pytest",
+  "selection_reason": "Only two existing CPU gradient correctness tests; exact README Running tests command.",
+  "acceptance": "Both existing tests pass without assertion changes.",
+  "side_effect_review": "Test code constructs scalar graphs and CPU tensors only; ordinary pytest caches and evidence outputs allowed. No install, downloads, training or network.",
+  "environment": {
+    "RIGORPILOT_LESSONS": "0",
+    "CUDA_VISIBLE_DEVICES": "-1",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1"
+  },
+  "python": "3.12.7 | packaged by conda-forge | (main, Oct  4 2024, 15:47:54) [MSC v.1941 64 bit (AMD64)]",
+  "executable": "D:\\Anaconda3\\python.exe",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "package_versions": {
+    "pytest": "7.4.4",
+    "torch": "2.12.1+cu126"
+  },
+  "scope": "test_sanity_check and test_more_ops; not general proof of autodiff correctness."
+}

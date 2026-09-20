@@ -1587,6 +1587,21 @@ def build_context(
             "Preserve the failed acceptance evidence and review the mismatch before any retry or protocol change; command completion alone does not satisfy the expected result.",
             "保留验收失败证据，在重试或修改实验协议前检查不匹配原因；命令完成本身不代表已达到期望结果。",
         )
+    elif (
+        run_selected
+        and chosen["selected_goal"] != "training"
+        and run_data.get("runtime_status") == "timed_out"
+    ):
+        next_action = text(
+            user_language,
+            "Inspect the retained stdout/stderr to confirm whether the same documented command was still making progress. If the user's stated command-time budget allows it, rerun the same reviewed command with a larger `--timeout` within that bound; do not change dependencies, inputs, or the command merely to avoid the timeout.",
+            "检查保留的 stdout/stderr，确认同一文档命令在超时时是否仍有进展。若用户给定的单命令时间预算允许，可在该上限内用更大的 `--timeout` 重跑同一已审核命令；不要仅为避开超时而修改依赖、输入或命令。",
+        )
+        next_safe_action = text(
+            user_language,
+            "Keep the reviewed command and protocol unchanged. Only increase `--timeout` up to the user's existing bound after confirming the timeout was the blocker; otherwise preserve the partial evidence and stop.",
+            "保持已审核命令和实验协议不变。确认阻塞项确实只是超时后，才可在用户既有上限内增大 `--timeout`；否则保留 partial 证据并停止。",
+        )
     elif run_selected and status == "blocked" and chosen.get("requires_substitution"):
         next_action = text(
             user_language,

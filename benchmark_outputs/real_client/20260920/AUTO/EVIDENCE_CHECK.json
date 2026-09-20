@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "grader": "first-use-log-and-readme-fidelity",
+  "inputs": {
+    "baseline": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\BASELINE.json",
+    "repo": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo",
+    "output_dir": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\repro_outputs"
+  },
+  "limits": [
+    "Requires a trusted pre-run baseline; does not authenticate its provenance or completeness.",
+    "Independent marker scanner and ATX parser; not a full Markdown/browser or fragment-anchor validator.",
+    "Runtime/log consistency is not proof against coordinated forgery or malicious OS/filesystem changes.",
+    "Explicit stdout containment is a task-specific log condition, not independent scientific metric verification.",
+    "No model capability, automatic skill discovery, installation or clean dependency-environment claim."
+  ],
+  "checks": {
+    "original_files": {
+      "ok": true,
+      "details": {
+        "files_checked": 13,
+        "baseline_sha256": "8e8a36a0ee070efc54c5a4711655b6adcc2e3fc32a2597364a8f6ba773d076e7"
+      }
+    },
+    "status_file": {
+      "ok": true,
+      "details": {
+        "sha256": "1d2a7470f3feabe5013f082a771af949eb770355568781c25c57d7a257eb161b"
+      }
+    },
+    "readme_fidelity_and_links": {
+      "ok": true,
+      "details": {
+        "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\repro_outputs\\ANNOTATED_README.md": {
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "sections": 8,
+          "inserted_links_checked": 12
+        },
+        "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\RIGORPILOT_README.md": {
+          "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+          "sections": 8,
+          "inserted_links_checked": 12
+        }
+      }
+    },
+    "runtime_and_stdout": {
+      "ok": false,
+      "error": "runtime does not record successful terminal execution"
+    }
+  },
+  "ok": false,
+  "task_log_condition": "failed"
+}

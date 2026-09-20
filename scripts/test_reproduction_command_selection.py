@@ -230,6 +230,8 @@ def main() -> int:
         timeout_result, _ = invoke(timeout_repo, "--run-selected", "--timeout", "1")
         if timeout_result.get("error", {}).get("code") != "timeout":
             raise AssertionError(f"timed-out command was not classified: {timeout_result.get('error')}")
+        if "reviewed command" not in timeout_result.get("next_safe_action", "") or "--timeout" not in timeout_result.get("next_safe_action", ""):
+            raise AssertionError("timeout guidance did not preserve the reviewed command and user-bounded timeout contract")
         checks += 1
 
         print("ok: True")

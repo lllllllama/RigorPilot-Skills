@@ -1,0 +1,12 @@
+{
+  "returncode": 0,
+  "stop_reason": null,
+  "seconds": 128.094,
+  "turn_completed": true,
+  "turn_failed": false,
+  "tool_starts": 6,
+  "trace_sha256": "039baa7ddd4e0ad3a4bf11b8f66d90cd663d1bfcb0a13c23f7cf0d66ce0136e1",
+  "quota_checks_count": 6,
+  "quota_floor_breached": false,
+  "raw_quota_values_published": false
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "Path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\README.md",
+    "Hash": "D9D2EC92F63D8DEAE6260BD2A535A5E633566B73169CCDE0A416A5B0CD3F4118"
+  },
+  {
+    "Path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\micrograd\\engine.py",
+    "Hash": "95F19FA3734458D868E067D770F0773027763A2F654900BFBC1DF8C5413ACF84"
+  },
+  {
+    "Path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\micrograd\\nn.py",
+    "Hash": "F54453501ABC4FD38AE724A8B378D6A5D23BFDD0A49C77E619B95F86AD16594D"
+  },
+  {
+    "Path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\micrograd\\__init__.py",
+    "Hash": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+  },
+  {
+    "Path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\test\\test_engine.py",
+    "Hash": "27142177F5BADD0F3AA0AE1A78AE91B0017CD08D9E44A3E0F774142C0F53D531"
+  },
+  {
+    "Path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\AUTO\\repo\\setup.py",
+    "Hash": "80C7A5B4FF6977AACA18F0E534561900D60C3FF093600D1F46EE5AF0EF129C0F"
+  }
+]

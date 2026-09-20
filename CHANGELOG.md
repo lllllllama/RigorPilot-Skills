@@ -29,6 +29,13 @@
 - Add an API-free reviewed-selection suite over the four existing pinned real
   repositories (current result: 4/4 planning checks passed) and a repeatable
   1k/10k source-integrity performance baseline for future optimization decisions.
+- Re-run pinned micrograd through a real Codex client. The explicit named-skill
+  Fast Path now completes normally and passes task, source-integrity,
+  independent-grader and evidence-verification gates. A separate natural-language
+  fresh-client run proves project-skill auto-loading and normal client completion,
+  but remains an end-to-end failure because the agent chose `--timeout 20` inside
+  the user's 30-second command bound. Retain that failure, stop before A/B, and
+  add timeout guidance that preserves explicit user bounds and the reviewed command.
 
 ### Real-client first-use evidence and bounded handoff
 

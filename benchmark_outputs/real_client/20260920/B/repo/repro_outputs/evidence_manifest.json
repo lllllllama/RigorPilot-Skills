@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "target_repo": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\repo",
+  "output_dir": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\repo\\repro_outputs",
+  "files": {
+    "summary": {
+      "scope": "output",
+      "path": "SUMMARY.md",
+      "size_bytes": 668,
+      "sha256": "4d7ea56f76c4bcedd9187843c6782f3af3b454d561b8024d321051bb65ba81ce"
+    },
+    "status": {
+      "scope": "output",
+      "path": "status.json",
+      "size_bytes": 10258,
+      "sha256": "f5cf786ab1ba95edeb176529b094d5d0e21ad3dfa80bcb1760df1c8fe87a76f9"
+    },
+    "commands": {
+      "scope": "output",
+      "path": "COMMANDS.md",
+      "size_bytes": 2553,
+      "sha256": "b9e0997c1176fc29b34b38ada3678c7ff720b6f2ad4df382062f63572f2201d7"
+    },
+    "log": {
+      "scope": "output",
+      "path": "LOG.md",
+      "size_bytes": 4443,
+      "sha256": "16fbdc2364b5ac3d5812eb69dfdf90561fd9d844d824d1cd8e53776828b8bfff"
+    },
+    "scientific_changelog": {
+      "scope": "output",
+      "path": "SCIENTIFIC_CHANGELOG.md",
+      "size_bytes": 1503,
+      "sha256": "33bccc02c788d7e4e966dd3e41cd0214b47494bce9b92b9c5d44117714580a9a"
+    },
+    "comparability_report": {
+      "scope": "output",
+      "path": "COMPARABILITY_REPORT.md",
+      "size_bytes": 1143,
+      "sha256": "09697160e3fcd4d015695bbe6e4410aa1192607ae1935338106497cf7d2d8147"
+    },
+    "annotated_readme": {
+      "scope": "output",
+      "path": "ANNOTATED_README.md",
+      "size_bytes": 5619,
+      "sha256": "3581a1bb028374dedbe223c3acf944aa45e6f3781aca009b5467f2d8bab2da97"
+    },
+    "invocation": {
+      "scope": "output",
+      "path": "invocation.json",
+      "size_bytes": 1804,
+      "sha256": "b3d3fcf436f8d10e34cc3d87a7daaaa8fff246ba9747b6d3b06ee36201039a82"
+    },
+    "runtime_state": {
+      "scope": "output",
+      "path": "_runtime/20260920T100351Z-746a34a7/state.json",
+      "size_bytes": 1191,
+      "sha256": "6f8b25872aae1c24058e53c5f2d6d1e8fbbfafbdf5718a08d93511635fb55ab7"
+    },
+    "runtime_events": {
+      "scope": "output",
+      "path": "_runtime/20260920T100351Z-746a34a7/events.jsonl",
+      "size_bytes": 3448,
+      "sha256": "0a74c23b950e18bb1c776cc3c354fdad727fc0599179d0891a6a5b27e50ca7e3"
+    },
+    "runtime_stdout": {
+      "scope": "output",
+      "path": "_runtime/20260920T100351Z-746a34a7/stdout.log",
+      "size_bytes": 420,
+      "sha256": "30f37df46500e28d5e4e5ed801e36543e0eb61d23c5c3bc4786524a418819a89"
+    },
+    "runtime_stderr": {
+      "scope": "output",
+      "path": "_runtime/20260920T100351Z-746a34a7/stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime_resources": {
+      "scope": "output",
+      "path": "_runtime/20260920T100351Z-746a34a7/resources.jsonl",
+      "size_bytes": 2947,
+      "sha256": "350d18a2a804ab6cd0b16cfa4c3e68a7998e8a8e6534f8c9045a8ccd5aa6141a"
+    },
+    "source_readme": {
+      "scope": "repo",
+      "path": "README.md",
+      "size_bytes": 3009,
+      "sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118"
+    }
+  }
+}

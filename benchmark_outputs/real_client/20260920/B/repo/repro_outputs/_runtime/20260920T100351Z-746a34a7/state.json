@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20260920T100351Z-746a34a7",
+  "attempt": 1,
+  "retry_of": null,
+  "status": "success",
+  "created_at": "2026-09-20T10:03:51.228915Z",
+  "started_at": "2026-09-20T10:03:51.411263Z",
+  "finished_at": "2026-09-20T10:03:58.584782Z",
+  "last_heartbeat": "2026-09-20T10:03:58.584782Z",
+  "pid": 56576,
+  "returncode": 0,
+  "timed_out": false,
+  "cancelled": false,
+  "launch_error": null,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "model_adapter": {
+    "schema_version": "1.0",
+    "status": "unconfigured",
+    "adapter_id": "external-agent",
+    "provider": "host",
+    "model": "unspecified",
+    "revision": null,
+    "capabilities": [],
+    "endpoint": null,
+    "credential_env": null,
+    "parameters": {},
+    "metadata": {},
+    "fingerprint": "ad285507d7850f1f8108ddd22e965d9fbe8980e71ce91b1769c859a6d733da62"
+  },
+  "resource_summary": {
+    "scope": "root_process_and_optional_device_global",
+    "samples": 7,
+    "max_root_process_rss_bytes": 545038336,
+    "max_root_process_cpu_seconds": 3.6875,
+    "gpu_sampling_available": false,
+    "max_device_gpu_memory_used_mib": {}
+  }
+}

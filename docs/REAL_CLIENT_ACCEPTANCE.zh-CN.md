@@ -1,6 +1,34 @@
-# 真实客户端首次使用：测试通过，整轮超时
+# 真实客户端验收：显式 Fast Path 通过，自动加载任务超时
 
-[English](REAL_CLIENT_ACCEPTANCE.md) · [首页](../README.zh-CN.md) · [机器报告](../benchmark_outputs/real_client/20260913/REPORT.json)
+[English](REAL_CLIENT_ACCEPTANCE.md) · [首页](../README.zh-CN.md) · [最新机器报告](../benchmark_outputs/real_client/20260920/REPORT.json) · [2026-09-13 历史报告](../benchmark_outputs/real_client/20260913/REPORT.json)
+
+## 2026-09-20 复验
+
+使用当前技能提交 `184b163`、固定 micrograd `7bc720e`、Codex
+`0.154.0-alpha.6.2`、`gpt-6-astra` / high、已有 Python/PyTorch/pytest、CPU，
+外层仍使用 240 秒 watchdog。技能从当前本地 Git 提交复制到新仓库的
+`.agents/skills/`；因此本次验证真实客户端行为，不重复声称远程安装器验收。
+
+| 门槛 | 实际结果 | 证据 |
+|---|---|---|
+| 显式 named-skill Fast Path | **通过**。客户端返回 0 且有 `turn.completed`；6 次工具启动，128.094 s。README 的 `python -m pytest` 两项原测试均通过，源码完整性不变，独立首次使用 grader 与 `--verify-output` 均通过。 | [B 报告](../benchmark_outputs/real_client/20260920/B/REPORT.json) · [结束记录](../benchmark_outputs/real_client/20260920/B/client/END.public.json) · [独立验收](../benchmark_outputs/real_client/20260920/B/EVIDENCE_CHECK.json) |
+| 新客户端自然语言自动加载 | **自动发现通过，但端到端任务验收失败。** prompt 未写技能名；trace 明确出现项目级技能与 `orchestrate_repro.py`，客户端也正常完成：8 次工具启动，157.281 s。但代理在用户允许“单命令最多 30 秒”时自行选择 `--timeout 20`，pytest 停在 `collecting ...` 后被如实记录为 `partial` / `timeout`。 | [AUTO 报告](../benchmark_outputs/real_client/20260920/AUTO/REPORT.json) · [结束记录](../benchmark_outputs/real_client/20260920/AUTO/client/END.public.json) · [状态](../benchmark_outputs/real_client/20260920/AUTO/repo/repro_outputs/status.json) |
+| 30 秒无模型诊断 | 新 checkout 上 **通过**：两项测试 10.61 s 内完成。该结果支持把 AUTO 失败视为本次选择的 timeout 过严；它不是把 AUTO 改判为通过，也不是模型重试。 | [诊断](../benchmark_outputs/real_client/20260920/TIMEOUT_DIAGNOSTIC.json) |
+| A/B 模型对照 | **未运行**。AUTO gate 未通过后按协议停止扩展，`model_uplift` 仍为 `null`。 | [总报告](../benchmark_outputs/real_client/20260920/REPORT.json) |
+
+两次真实 turn 都返回了完整 usage：显式运行 145,689 input tokens（其中
+116,224 cached）和 3,087 output tokens；AUTO 为 222,679 input tokens（189,952
+cached）和 3,337 output tokens。provider 费用仍未知。私人额度百分比不发布，
+也不用于反推 token 或费用。
+
+这次失败直接产生一项修正：Fast Path 现在明确要求保留用户给出的单命令 timeout
+上限，不应在普通可信执行中自行缩得更严；非训练 timeout 的安全下一步也改为保持
+同一已审核命令和协议，只在用户既有预算允许时增大 `--timeout`，而不是修改依赖、输入或评测语义。
+
+因此下一道 live gate 是：**用修正后的 timeout 指引再做一次全新自然语言自动加载 canary**。
+只有该门槛也通过后才进入 A/B；本次 AUTO 失败记录永久保留。
+
+## 2026-09-13 历史试用
 
 2026-09-13：从公开入口安装固定版本，在全新 Codex 会话中运行 micrograd。
 **原始测试和证据验收通过，但客户端未在 240 秒内结束，因此整体不通过。**
@@ -58,13 +86,10 @@ shell 执行，文件修改另计。原生 token 预算功能仍属实验性，�
 
 ## 根据观察做了什么修正
 
-成功报告原先仍建议“继续下一步验证”。现在改为核验现有证据、交付本次结果后停止，
-不自动追加实验；技能说明也明确完成边界，常规使用从入口与帮助开始，遇具体问题再读实现。
-回归覆盖中英文成功报告、干运行和真实失败，指标不匹配与训练确认边界仍保留。
-**这是有证据依据的修正，但尚未通过新的真实模型试跑证明能减少超时。**
-
-下一步只需在预算允许时，以同样任务、新目录重试修正版本，验收必须同时满足：
-命令通过、原文保真、证据通过、客户端正常结束。通过后再跑同条件 A 组，不能只比较产物数量。
+成功报告原先仍建议“继续下一步验证”。现在改为核验现有证据、交付本次结果后停止。
+上面的 2026-09-20 显式 named-skill 复验已经证明该 Fast Path 可以正常完成外层客户端；
+自然语言 AUTO 则进一步暴露了“自行把 30 秒上限缩成 20 秒”的新问题，因此 A/B 仍需等
+修正后的 AUTO gate 通过后再启动。
 
 公开快照约 0.5 MB；原文件、媒体和 notebook 均保留。
 [文件字节清单](../benchmark_outputs/real_client/20260913/FILES.json) 标记原样复制的文件；

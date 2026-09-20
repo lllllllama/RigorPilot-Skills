@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "scope": "one_real_client_fast_path_canary_not_model_uplift",
+  "date": "2026-09-20",
+  "skill_commit": "184b163b34222455cad78285bb6016774b1c8439",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "checks": {
+    "client_returncode_zero": true,
+    "client_completed": true,
+    "task_status_success": true,
+    "runtime_success": true,
+    "source_integrity_unchanged": true,
+    "independent_grader_passed": true,
+    "verify_output_passed": true,
+    "source_adjacent_readme_present": true
+  },
+  "overall_pass": true,
+  "stop_reason": null,
+  "client_seconds": 128.094,
+  "tool_starts": 6,
+  "task_error": null,
+  "selection_source": "reviewed_command_id",
+  "selected_command_id": "cmd-01",
+  "documented_command": "python -m pytest",
+  "result_match": "not_evaluated",
+  "model_usage": {
+    "input_tokens": 145689,
+    "cached_input_tokens": 116224,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 3087,
+    "reasoning_output_tokens": 770
+  },
+  "model_cost": null,
+  "model_uplift": null,
+  "baseline_A": "not_run_after_subsequent_auto_gate_failure",
+  "quota": {
+    "checked_without_publishing_values": true,
+    "hard_budget_guarantee": false
+  },
+  "limits": [
+    "Explicit named-skill invocation, not automatic skill discovery.",
+    "Existing Python/PyTorch/pytest environment; no dependency cold start.",
+    "Quota percentages are private and not published; they are not token accounting or a billing cap.",
+    "One model attempt only; no automatic retry after provider/client failure or timeout.",
+    "Command success alone does not satisfy this canary without normal client completion and independent evidence verification."
+  ],
+  "model_usage_complete": true
+}

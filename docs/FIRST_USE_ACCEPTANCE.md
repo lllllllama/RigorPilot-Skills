@@ -37,7 +37,12 @@ timings do not establish a speedup; the parent replay configuration error is not
   This is not a remote product-release installation test. Installer TLS validation was enabled and telemetry disabled.
 - Node 22.17.0 is below the installer's declared 22.20.0 requirement. Installation succeeded with an engine warning, not a supported-version acceptance claim. See [raw setup evidence](../benchmark_outputs/showcases/micrograd-first-use-before/SETUP.json).
 - Python 3.12.7; fresh virtualenvs inherited host PyTorch 2.12.1+cu126 and pytest 7.4.4. Tests ran on CPU, without model/data downloads or large dependency installation. This is not a dependency cold start. Child commands resolve via PATH; launching the orchestrator with venv Python alone does not activate the environment.
-- The parent prepared installation/environment. The independent agent read, selected and executed without a supplied test command. The skill path was explicit; fresh-client natural-language auto-loading and complete provider trajectories were not tested.
+- The parent prepared installation/environment. The independent agent read,
+  selected and executed without a supplied test command. This historical trial
+  used an explicit skill path. A later [2026-09-20 real-client follow-up](REAL_CLIENT_ACCEPTANCE.md)
+  directly observed natural-language project-skill auto-loading and normal outer
+  client completion; that AUTO task still failed on an agent-selected 20-second
+  command timeout, so end-to-end auto-loading acceptance remains incomplete.
 - Published snapshots total about 0.6 MiB including the failure; local workspaces total about 22.3 MiB including installer caches. No separate model API calls; host-agent tokens/cost were unmeasured, not zero. Subscription balance is unavailable.
 - Raw logs retain original absolute paths; use the links above for browsing. Relocated snapshots are not live resumable tasks and their old ownership receipts must not be reused. The public replay record omits unrelated inherited PATH entries; the original remains local.
 
@@ -56,4 +61,6 @@ verify scientific metrics or protect against coordinated evidence forgery.
 
 Next-stage preparation is now in the [three-task paired pilot](PAIRED_PILOT.md):
 frozen inputs and real grader calibration, with all six model slots still unrun.
-Fresh-client loading, successful standalone model execution and model-quality comparisons still require separately confirmed budgets and acceptance.
+Fresh-client loading itself has now been directly observed, and the explicit
+named-skill real-client run completed successfully. A corrected AUTO task and
+model-quality A/B comparison remain gated and require separately confirmed budgets.

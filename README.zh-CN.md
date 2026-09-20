@@ -86,7 +86,7 @@ RigorPilot 直接切分原文件，每个章节插入一条带证据链接的批
 
 新增：[安装后 micrograd 真实试用](docs/FIRST_USE_ACCEPTANCE.zh-CN.md)——保留修改前后命令报告、失败尝试与独立验收，不把它当作模型能力对照。
 
-真实模型试用：[公开安装 → 2 项测试通过 → 证据验收通过 → 客户端超时](docs/REAL_CLIENT_ACCEPTANCE.zh-CN.md)。完整产物和失败记录均保留，不宣称端到端通过或模型增益。
+真实客户端复验：[显式 named-skill Fast Path 已通过；自然语言自动加载已被 trace 证明，但任务因代理自行选择 20 秒命令上限而超时](docs/REAL_CLIENT_ACCEPTANCE.zh-CN.md)。新的 30 秒无模型诊断两项测试通过；AUTO 失败不改判，A/B 与模型增益仍未运行。
 
 <a id="quick-start"></a>
 
@@ -259,7 +259,7 @@ python benchmarks/run_source_integrity_benchmark.py --counts 1000 10000 --output
 [Reviewed-selection 结果](benchmark_outputs/reviewed_selection_latest.json) ·
 [完整性性能基线](benchmark_outputs/source_integrity_latest.json)
 
-最近本地 Windows 记录（2026-09-20）：**76/76 脚本通过，用时 245.9 秒**。
+最近本地 Windows 记录（2026-09-20）：**76/76 脚本通过，用时 294.6 秒**。
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
 

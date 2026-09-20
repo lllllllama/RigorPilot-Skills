@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "argv": [
+    "D:\\Anaconda3\\python.exe",
+    ".agents/skills/ai-research-reproduction/scripts/orchestrate_repro.py",
+    "--repo",
+    ".",
+    "--run-selected",
+    "--command-id",
+    "cmd-01",
+    "--plan-fingerprint",
+    "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c",
+    "--timeout",
+    "20",
+    "--no-gpu-monitor",
+    "--source-adjacent-readme",
+    "--user-language",
+    "zh-CN",
+    "--agent-output"
+  ],
+  "cwd": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260920\\B\\repo",
+  "started_at": "2026-09-20T10:03:50.551744+00:00",
+  "finished_at": "2026-09-20T10:03:59.041505+00:00",
+  "elapsed_seconds": 8.485,
+  "run_selected": true,
+  "selected_goal": "evaluation",
+  "selected_command_id": "cmd-01",
+  "documented_command": "python -m pytest",
+  "selection_source": "reviewed_command_id",
+  "selection_fingerprint": "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c",
+  "error": null,
+  "source_integrity": {
+    "status": "verified",
+    "unchanged": true,
+    "tracked_file_count": 13,
+    "untracked_source_file_count_before": 26,
+    "untracked_source_file_count_after": 26,
+    "before_sha256": "1a6fd3cc6c519b41d8b1c49cede4443ddcdb2453a00f78a389dd60d606979738",
+    "after_sha256": "1a6fd3cc6c519b41d8b1c49cede4443ddcdb2453a00f78a389dd60d606979738",
+    "changed_files": [],
+    "changed_tracked_files": [],
+    "changed_untracked_source_files": [],
+    "unexpected_added_source_files": [],
+    "modified_untracked_source_files": [],
+    "removed_untracked_source_files": [],
+    "ignored_untracked_roots": [
+      "artifacts/assets",
+      "repro_outputs",
+      "repro_outputs/_runtime",
+      "train_outputs"
+    ]
+  }
+}
