@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "mode": "verify_only",
+  "evidence_valid": false,
+  "checks": {
+    "status_file": false,
+    "runtime_terminal": false
+  },
+  "runtime": {
+    "run_id": "20260921T025519Z-09a06136",
+    "status": "running",
+    "state_path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\repo\\repro_outputs\\_runtime\\20260921T025519Z-09a06136\\state.json",
+    "started_at": "2026-09-21T02:55:19.611281Z",
+    "last_heartbeat": "2026-09-21T02:55:47.130692Z"
+  },
+  "error": {
+    "code": "runtime_incomplete_without_status",
+    "summary": "Missing status.json while a retained runtime state is still nonterminal; the orchestrator may still be running or may have been interrupted before child-process cleanup and terminal evidence finalization. Do not replay the command automatically."
+  }
+}

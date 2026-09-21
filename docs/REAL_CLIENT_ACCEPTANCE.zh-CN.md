@@ -1,6 +1,42 @@
-# 真实客户端验收：显式 Fast Path 通过，自动加载任务超时
+# 真实客户端验收：显式 Fast Path 通过，自动加载端到端仍未闭环
 
-[English](REAL_CLIENT_ACCEPTANCE.md) · [首页](../README.zh-CN.md) · [最新机器报告](../benchmark_outputs/real_client/20260920/REPORT.json) · [2026-09-13 历史报告](../benchmark_outputs/real_client/20260913/REPORT.json)
+[English](REAL_CLIENT_ACCEPTANCE.md) · [首页](../README.zh-CN.md) · [最新机器报告](../benchmark_outputs/real_client/20260921/REPORT.json) · [2026-09-20 报告](../benchmark_outputs/real_client/20260920/REPORT.json) · [2026-09-13 历史报告](../benchmark_outputs/real_client/20260913/REPORT.json)
+
+## 2026-09-21 AUTO 复验
+
+用户明确授权本轮不等待历史协议中的 70% quota 启动门槛，因此 quota 百分比只做
+观察，不参与自动停止；其他条件保持不变：固定 micrograd `7bc720e`、技能提交
+`9a86470`、Codex `0.154.0-alpha.6.2`、`gpt-6-astra` / high、目标命令最多
+30 秒、外层 240 秒、最多 16 次工具启动、无自动重试、AUTO 失败后不进入 A/B。
+
+自然语言 prompt 仍未写技能名；trace 再次证明项目级 `ai-research-reproduction`
+被自动发现并实际调用 `orchestrate_repro.py`。上一轮的 20 秒问题已经修正：本轮确实
+使用了完整 **30 秒** 目标 timeout。**但端到端验收仍失败。**
+
+这次代理又给整个 orchestrator 套了一层同样 30 秒的 `subprocess` timeout。
+外层包装约 30.047 秒先超时，orchestrator 因此来不及完成自己的子进程清理与终态
+证据落盘。保留的 runtime `state.json` 仍是 `running`，`status.json` 没有生成，
+独立 first-use grader 无法通过；随后外层 Codex 客户端在 240 秒 watchdog 处结束，
+共 9 次工具启动，没有 `turn.completed`。
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 自然语言自动加载 | **再次观察到**；prompt 未写技能名，trace 命中项目技能与 orchestrator | [AUTO 报告](../benchmark_outputs/real_client/20260921/AUTO/REPORT.json) · [结束记录](../benchmark_outputs/real_client/20260921/AUTO/client/END.public.json) |
+| 用户命令时间上限 | **已保留**为 30 秒 | [orchestrator 命令](../benchmark_outputs/real_client/20260921/AUTO/repo/repro_outputs/orchestrator.command.json) |
+| orchestrator 收口 | **失败**；等长外层 timeout 抢先杀死 orchestrator | [runtime 状态](../benchmark_outputs/real_client/20260921/AUTO/repo/repro_outputs/_runtime/20260921T025519Z-09a06136/state.json) |
+| 事后验证 | 以 `runtime_incomplete_without_status` **失败关闭**，不自动重放命令 | [postmortem verifier](../benchmark_outputs/real_client/20260921/AUTO/POSTMORTEM_VERIFY.json) |
+| 原始源码 | 13 个 baseline 文件仍匹配；这不等于任务完成 | [独立检查](../benchmark_outputs/real_client/20260921/AUTO/EVIDENCE_CHECK.json) |
+| 模型用量 / 增益 | 无 `turn.completed`，usage 不可得、费用未知；A/B 未运行，`model_uplift=null` | [机器总报告](../benchmark_outputs/real_client/20260921/REPORT.json) |
+
+对应产品修正不是“再试一次”，而是把 timeout 语义机器化：`--timeout` 只限制**目标
+命令**，不限制 orchestrator 全生命周期；`plan-only` 现在明确返回
+`timeout_scope=target_command_only`、`orchestrator_must_reach_terminal_state=true`、
+`external_timeout_wrapper_allowed=false`。若宿主必须设置外层 watchdog，它必须明显长于
+目标 timeout，给子进程清理和终态证据落盘留出时间。`--verify-output` 也会把这种残留
+非终态 runtime 识别为 `runtime_incomplete_without_status`，而不是笼统的 missing evidence。
+
+本轮 quota gate 由用户显式授权绕过，因此它不是对前几轮预算协议的同条件替代；失败仍保留，
+也不会解锁 A/B。
 
 ## 2026-09-20 复验
 
@@ -25,8 +61,8 @@ cached）和 3,337 output tokens。provider 费用仍未知。私人额度百分
 上限，不应在普通可信执行中自行缩得更严；非训练 timeout 的安全下一步也改为保持
 同一已审核命令和协议，只在用户既有预算允许时增大 `--timeout`，而不是修改依赖、输入或评测语义。
 
-因此下一道 live gate 是：**用修正后的 timeout 指引再做一次全新自然语言自动加载 canary**。
-只有该门槛也通过后才进入 A/B；本次 AUTO 失败记录永久保留。
+上面的 2026-09-21 复验已经使用 30 秒 timeout，并暴露了新的“等长外层 wrapper”问题。
+两次 AUTO 失败都会永久保留；A/B 继续阻塞。
 
 ## 2026-09-13 历史试用
 

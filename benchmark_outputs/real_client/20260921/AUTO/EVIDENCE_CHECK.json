@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "grader": "first-use-log-and-readme-fidelity",
+  "inputs": {
+    "baseline": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\BASELINE.json",
+    "repo": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\repo",
+    "output_dir": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\repo\\repro_outputs"
+  },
+  "limits": [
+    "Requires a trusted pre-run baseline; does not authenticate its provenance or completeness.",
+    "Independent marker scanner and ATX parser; not a full Markdown/browser or fragment-anchor validator.",
+    "Runtime/log consistency is not proof against coordinated forgery or malicious OS/filesystem changes.",
+    "Explicit stdout containment is a task-specific log condition, not independent scientific metric verification.",
+    "No model capability, automatic skill discovery, installation or clean dependency-environment claim."
+  ],
+  "checks": {
+    "original_files": {
+      "ok": true,
+      "details": {
+        "files_checked": 13,
+        "baseline_sha256": "8e8a36a0ee070efc54c5a4711655b6adcc2e3fc32a2597364a8f6ba773d076e7"
+      }
+    },
+    "status_file": {
+      "ok": false,
+      "error": "missing or out-of-scope file: D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\repo\\repro_outputs\\status.json"
+    },
+    "readme_fidelity_and_links": {
+      "ok": false,
+      "error": "status evidence unavailable"
+    },
+    "runtime_and_stdout": {
+      "ok": false,
+      "error": "status evidence unavailable"
+    }
+  },
+  "ok": false,
+  "task_log_condition": "failed"
+}

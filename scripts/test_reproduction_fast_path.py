@@ -192,6 +192,34 @@ def main() -> int:
             raise AssertionError("already-dirty tracked mutation did not expose source_modified")
         checks += 1
 
+        interrupted_repo = temp_root / "interrupted-repo"
+        interrupted_output = temp_root / "interrupted-output"
+        initialize_repo(interrupted_repo, "python evaluate.py", {"evaluate.py": "print('score=1.0')\n"})
+        state_path = interrupted_output / "_runtime/interrupted-run/state.json"
+        state_path.parent.mkdir(parents=True)
+        state_path.write_text(
+            json.dumps(
+                {
+                    "schema_version": "1.0",
+                    "run_id": "interrupted-run",
+                    "status": "running",
+                    "started_at": "2026-09-21T00:00:00Z",
+                    "last_heartbeat": "2026-09-21T00:00:05Z",
+                }
+            ),
+            encoding="utf-8",
+        )
+        interrupted, interrupted_process = run_allow_failure(
+            interrupted_repo, interrupted_output, "--verify-output", "--agent-output"
+        )
+        if interrupted_process.returncode == 0 or interrupted.get("evidence_valid") is not False:
+            raise AssertionError("verify-only accepted an incomplete runtime without status.json")
+        if interrupted.get("error", {}).get("code") != "runtime_incomplete_without_status":
+            raise AssertionError("incomplete runtime did not expose the stable interruption code")
+        if interrupted.get("runtime", {}).get("status") != "running":
+            raise AssertionError("incomplete runtime diagnosis lost the retained runtime state")
+        checks += 1
+
         print("ok: True")
         print(f"checks: {checks}")
         print("failures: 0")

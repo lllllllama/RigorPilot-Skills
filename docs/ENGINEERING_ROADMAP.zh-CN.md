@@ -21,7 +21,7 @@ RigorPilot 把研究仓库 README 中的运行目标转化为有界执行和可�
 | 恢复 | 任务检查点、已完成命令复用、不确定派发阻塞 | 不自动重复未知结果的请求；不能恢复模型训练内部 checkpoint |
 | 完成判定 | 命令验收与源码完整性分开；稳定机器可读错误码；可选产物大小/哈希与 JSON 指标容差检查，最终重新验收 | 未配置结构化检查时仍只检查退出码/输出字串；不证明产物新生成或论文指标复现 |
 | README | 原始字节分块插入；普通入口可选源旁副本，原文和媒体上下文不改 | 同名冲突不覆盖；复制目录后需重新生成证据链接；不承诺浏览器可访问所有外部媒体 |
-| 模型 / 客户端 | Codex 真实客户端已有一例显式 named-skill Fast Path 完整通过；自然语言 fresh-client 也已证明自动加载并正常结束，但代理在用户允许 30 秒时自行设为 `--timeout 20`，导致任务超时 | 尚无 A/B 效果估计；AUTO 端到端验收仍失败。可选 Anthropic 独立 transport 仍是另一条路径，尚无成功 live-provider 验收 |
+| 模型 / 客户端 | Codex 真实客户端已有一例显式 named-skill Fast Path 完整通过；自然语言 fresh-client 已多次证明项目技能自动加载 | AUTO 端到端仍失败：先是把 30 秒缩成 20 秒，随后已保留 30 秒但又给整个 orchestrator 套等长外层 timeout，破坏终态证据。尚无 A/B 效果估计；可选 Anthropic 独立 transport 仍是另一条路径 |
 | 外部证据 | 固定 commit 的四项历史协议，加同一批固定仓库最新 4/4 plan-only reviewed-selection 验证 | 新结果只证明目标计划；历史用例包括选择阶段和部分训练，不证明四篇论文复现或未知仓库成功率 |
 | 完整性性能 | 可重复的合成 tracked-file 基准；当前 Windows 记录覆盖 1k/10k 文件 snapshot/verify | 小型合成文件、单机与 Python 分配测量，不是延迟 SLA；只有更简单的替代方案在同一基准明确更优且不削弱检测时才调整 snapshot 策略 |
 | 小型对照准备 | 三个冻结任务、六个 A/B 试验槽位、独立评分器与真实本地校准 | 六个模型试验均未运行；本工具还没有通用真实模型执行器或强制模型预算 |
@@ -64,8 +64,10 @@ RigorPilot 把研究仓库 README 中的运行目标转化为有界执行和可�
 可审核的 `plan -> command-id/fingerprint -> run -> verify` 路径、稳定错误码，
 并在四个固定真实仓库完成最新 4/4 planning 验证。2026-09-20 的
 [真实客户端复验](REAL_CLIENT_ACCEPTANCE.zh-CN.md)已让显式 named-skill Fast Path
-完整通过，也直接观察到 fresh-client 自动加载；AUTO 任务本身因把用户允许的 30 秒
-缩成 20 秒而失败，因此模型对照仍未运行。
+完整通过，也多次直接观察到 fresh-client 自动加载。2026-09-20 AUTO 因把用户允许的
+30 秒缩成 20 秒失败；2026-09-21 AUTO 已保留 30 秒，却给整个 orchestrator 套了等长
+30 秒外层 timeout，导致 runtime 未进入终态且没有 `status.json`，随后外层客户端 240 秒超时。
+因此模型对照仍未运行。
 
 源码完整性基准在当前 Windows 主机记录：1k 个 128-byte tracked 文件 snapshot/verify
 约 `0.705 s / 0.670 s`，10k 个约 `6.054 s / 5.897 s`。当前继续保留直接全内容 hash；
@@ -81,7 +83,7 @@ RigorPilot 把研究仓库 README 中的运行目标转化为有界执行和可�
 |---|---|---|
 | 1 | 固定真实仓库 reviewed planning | `--plan-only` 选择预期 README 目标、暴露 review token 且不写证据；当前四项 4/4 |
 | 2 | 显式 named-skill 真实客户端 canary | **2026-09-20 已通过**：任务/运行成功、独立 grader、源码完整性、证据验证与 `turn.completed` 同时满足 |
-| 3 | fresh-client 自然语言自动加载 canary | 已观察到技能自动加载和客户端正常结束，但任务因代理选择 20 秒 timeout 失败；只在 timeout 指引修正后重跑，并永久保留本次失败 |
+| 3 | fresh-client 自然语言自动加载 canary | 已多次观察到技能自动加载；端到端仍失败。最新一轮已保留 30 秒目标 timeout，但等长外层 wrapper 抢先杀死 orchestrator。永久保留失败，要求直接执行 orchestrator 并完成终态证据后才进入 A/B |
 | 4 | 独立验收与发布证据 | 核查真实日志、原文件 SHA-256、逐节批注还原及本地证据链接；全量回归和 Git 发布检查通过后同步 |
 | 5 | 小型对照试验（准备与校准已交付，模型试验待验收） | 仅在修正后的 AUTO gate 也通过后启动；再使用[冻结任务与真实评分器校准](PAIRED_PILOT.zh-CN.md)做单例和六个对照试验 |
 

@@ -429,9 +429,26 @@ def verify_evidence_manifest(repo_path: Path, output_dir: Path) -> Dict[str, Any
     }
 
 
-def plan_payload(chosen: Dict[str, Any], setup_plan: Dict[str, Any], shell_mode: str) -> Dict[str, Any]:
+def plan_payload(
+    chosen: Dict[str, Any],
+    setup_plan: Dict[str, Any],
+    shell_mode: str,
+    nontraining_timeout_seconds: int,
+    training_timeout_seconds: int,
+) -> Dict[str, Any]:
     selected_id = chosen.get("documented_command_id")
     fingerprint = chosen.get("selection_fingerprint")
+    training_target = chosen.get("selected_goal") == "training"
+    timeout_flag = "--train-timeout" if training_target else "--timeout"
+    target_timeout_seconds = training_timeout_seconds if training_target else nontraining_timeout_seconds
+    reviewed_run_args = []
+    if selected_id and fingerprint:
+        reviewed_run_args = [
+            "--run-selected",
+            "--command-id", selected_id,
+            "--plan-fingerprint", fingerprint,
+            timeout_flag, str(target_timeout_seconds),
+        ]
     return {
         "schema_version": "1.0",
         "mode": "plan_only",
@@ -444,10 +461,7 @@ def plan_payload(chosen: Dict[str, Any], setup_plan: Dict[str, Any], shell_mode:
         "selection_source": chosen.get("selection_source"),
         "selection_fingerprint": fingerprint,
         "command_candidates": chosen.get("command_candidates", []),
-        "reviewed_run_args": (
-            ["--run-selected", "--command-id", selected_id, "--plan-fingerprint", fingerprint]
-            if selected_id and fingerprint else []
-        ),
+        "reviewed_run_args": reviewed_run_args,
         "setup_advisory_count": len(setup_plan.get("unresolved_setup_risks", [])),
         "plan_side_effects": {
             "executes_target_command": False,
@@ -458,6 +472,16 @@ def plan_payload(chosen: Dict[str, Any], setup_plan: Dict[str, Any], shell_mode:
         },
         "proposed_run_contract": {
             "shell_mode": shell_mode,
+            "target_command_timeout_seconds": target_timeout_seconds,
+            "target_timeout_flag": timeout_flag,
+            "timeout_scope": "target_command_only",
+            "orchestrator_must_reach_terminal_state": True,
+            "external_timeout_wrapper_allowed": False,
+            "outer_timeout_guidance": (
+                "Do not wrap the orchestrator in an equal or shorter timeout. "
+                f"If the host requires an outer watchdog, keep it comfortably longer than {timeout_flag} "
+                "so child-process cleanup and terminal evidence can finish."
+            ),
             "installs_dependencies": False,
             "downloads_assets": False,
             "orchestrator_modifies_target_source": False,
@@ -515,10 +539,54 @@ def compact_agent_payload(
     }
 
 
+def incomplete_runtime_without_status(output_dir: Path) -> Optional[Dict[str, Any]]:
+    runtime_root = output_dir / "_runtime"
+    if not runtime_root.is_dir():
+        return None
+    candidates: List[Dict[str, Any]] = []
+    for state_path in runtime_root.glob("*/state.json"):
+        try:
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(state, dict) or state.get("status") not in {"created", "running"}:
+            continue
+        candidates.append(
+            {
+                "run_id": state.get("run_id") or state_path.parent.name,
+                "status": state.get("status"),
+                "state_path": str(state_path.resolve()),
+                "started_at": state.get("started_at"),
+                "last_heartbeat": state.get("last_heartbeat"),
+            }
+        )
+    if not candidates:
+        return None
+    candidates.sort(key=lambda item: str(item.get("last_heartbeat") or item.get("started_at") or ""))
+    return candidates[-1]
+
+
 def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
     checks: Dict[str, bool] = {}
     status_path = output_dir / "status.json"
     if not status_path.is_file():
+        incomplete_runtime = incomplete_runtime_without_status(output_dir)
+        if incomplete_runtime is not None:
+            return {
+                "schema_version": "1.0",
+                "mode": "verify_only",
+                "evidence_valid": False,
+                "checks": {"status_file": False, "runtime_terminal": False},
+                "runtime": incomplete_runtime,
+                "error": {
+                    "code": "runtime_incomplete_without_status",
+                    "summary": (
+                        "Missing status.json while a retained runtime state is still nonterminal; "
+                        "the orchestrator may still be running or may have been interrupted before "
+                        "child-process cleanup and terminal evidence finalization. Do not replay the command automatically."
+                    ),
+                },
+            }
         return {"schema_version": "1.0", "mode": "verify_only", "evidence_valid": False,
                 "checks": {"status_file": False},
                 "error": {"code": "evidence_missing", "summary": f"Missing {status_path}"}}
@@ -1924,8 +1992,25 @@ def main() -> int:
         action="store_true",
         help="Request paper-context-resolver; records a blocked stage until a narrow question and source are supplied.",
     )
-    parser.add_argument("--timeout", type=int, default=120, help="Execution timeout in seconds for non-training documented commands.")
-    parser.add_argument("--train-timeout", type=int, default=120, help="Monitoring timeout in seconds for training commands.")
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=120,
+        help=(
+            "Target-command timeout in seconds for non-training documented commands. "
+            "Do not wrap the whole orchestrator in an equal or shorter external timeout; "
+            "cleanup and terminal evidence finalization occur after the target deadline."
+        ),
+    )
+    parser.add_argument(
+        "--train-timeout",
+        type=int,
+        default=120,
+        help=(
+            "Target training monitoring timeout in seconds. Pass the intended bound during --plan-only "
+            "so reviewed_run_args binds it; do not wrap the whole orchestrator in an equal or shorter external timeout."
+        ),
+    )
     parser.add_argument("--lane", choices=["trusted", "explore"], default="trusted", help="Execution lane policy.")
     parser.add_argument("--full-training-authorized", action="store_true", help="Allow the orchestrator to proceed beyond startup verification for training.")
     parser.add_argument("--resume-from", default="", help="Optional checkpoint path to pass through to run-train.")
@@ -2033,7 +2118,13 @@ def main() -> int:
         print(json.dumps(selection_error_payload(exc), indent=2, ensure_ascii=False))
         return 2
     if args.plan_only:
-        print(json.dumps(plan_payload(chosen, setup_plan, args.shell_mode), indent=2, ensure_ascii=False))
+        print(
+            json.dumps(
+                plan_payload(chosen, setup_plan, args.shell_mode, args.timeout, args.train_timeout),
+                indent=2,
+                ensure_ascii=False,
+            )
+        )
         return 0
 
     assets_root = output_dir.parent / "artifacts" / "assets"

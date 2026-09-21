@@ -58,16 +58,45 @@ def main() -> int:
             "# Demo\n\n## Evaluation\n\n```bash\npython eval_a.py\npython eval_b.py\n```\n",
             {"eval_a.py": "print('metric=1')\n", "eval_b.py": "print('metric=2')\n"},
         )
-        plan, _ = invoke(multi, "--plan-only")
+        plan, _ = invoke(multi, "--plan-only", "--timeout", "30")
         candidates = plan["command_candidates"]
         if [item["id"] for item in candidates] != ["cmd-01", "cmd-02"]:
             raise AssertionError(f"candidate ids are not stable/extraction ordered: {candidates}")
         if plan["selected_command_id"] != "cmd-01" or not plan["selection_fingerprint"]:
             raise AssertionError("plan did not expose selected command id/fingerprint")
         if plan["reviewed_run_args"] != [
-            "--run-selected", "--command-id", "cmd-01", "--plan-fingerprint", plan["selection_fingerprint"]
+            "--run-selected", "--command-id", "cmd-01", "--plan-fingerprint", plan["selection_fingerprint"],
+            "--timeout", "30",
         ]:
             raise AssertionError("plan did not return copyable reviewed execution args")
+        checks += 1
+
+        contract = plan.get("proposed_run_contract", {})
+        if contract.get("target_command_timeout_seconds") != 30 or contract.get("timeout_scope") != "target_command_only":
+            raise AssertionError("plan lost target-command timeout scope")
+        if contract.get("target_timeout_flag") != "--timeout":
+            raise AssertionError("plan lost the reviewed non-training timeout flag")
+        if contract.get("orchestrator_must_reach_terminal_state") is not True:
+            raise AssertionError("plan no longer requires orchestrator terminal-state finalization")
+        if contract.get("external_timeout_wrapper_allowed") is not False:
+            raise AssertionError("plan no longer forbids a racing external timeout wrapper")
+        if "equal or shorter timeout" not in contract.get("outer_timeout_guidance", ""):
+            raise AssertionError("plan no longer warns against a racing outer timeout")
+        checks += 1
+
+        training_repo = init_repo(
+            temp_root / "training-plan",
+            "# Training fixture\n\n## Training\n\n```bash\npython train.py\n```\n",
+            {"train.py": "print('train-start')\n"},
+        )
+        training_plan, _ = invoke(training_repo, "--plan-only", "--train-timeout", "45")
+        if training_plan.get("selected_goal") != "training":
+            raise AssertionError("training plan did not classify the documented training target")
+        if training_plan.get("reviewed_run_args", [])[-2:] != ["--train-timeout", "45"]:
+            raise AssertionError("training reviewed args did not bind --train-timeout")
+        training_contract = training_plan.get("proposed_run_contract", {})
+        if training_contract.get("target_timeout_flag") != "--train-timeout" or training_contract.get("target_command_timeout_seconds") != 45:
+            raise AssertionError("training plan lost its reviewed timeout contract")
         checks += 1
 
         reviewed, reviewed_process = invoke(

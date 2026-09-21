@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "scope": "fresh_client_auto_loading_canary_with_user_authorized_quota_override",
+  "date": "2026-09-21",
+  "skill_commit": "9a86470a42468d89729fb08a6064c7deb2af228d",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "overall_pass": false,
+  "checks": {
+    "prompt_did_not_name_skill": true,
+    "client_returncode_zero": false,
+    "client_completed": false,
+    "auto_loading_trace_evidence": true,
+    "task_status_success": false,
+    "runtime_success": false,
+    "source_integrity_unchanged": false,
+    "independent_grader_passed": false,
+    "verify_output_passed": false,
+    "source_adjacent_readme_present": false,
+    "target_timeout_preserved_at_30_seconds": true,
+    "orchestrator_reached_terminal_state": false,
+    "postmortem_verifier_classified_interruption": true
+  },
+  "auto_loading_evidence": {
+    "mentions_skill_slug": true,
+    "mentions_orchestrator": true,
+    "mentions_project_skill_path": true
+  },
+  "client_seconds": 242.047,
+  "tool_starts": 9,
+  "stop_reason": "wall_timeout",
+  "model_usage": null,
+  "model_usage_complete": false,
+  "model_cost": null,
+  "model_uplift": null,
+  "root_cause": {
+    "code": "orchestrator_killed_by_equal_external_timeout",
+    "target_command_timeout_seconds": 30,
+    "external_orchestrator_wrapper_timeout_seconds": 30,
+    "external_wrapper_timed_out": true,
+    "external_wrapper_duration_seconds": 30.04699999996228,
+    "runtime_state": "running",
+    "runtime_state_path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\repo\\repro_outputs\\_runtime\\20260921T025519Z-09a06136\\state.json",
+    "status_json_written": false,
+    "explanation": "The agent preserved the user-authorized 30-second target timeout, but wrapped the entire orchestrator in another 30-second subprocess timeout. The wrapper expired first, so the orchestrator could not finish child-process cleanup or terminal evidence finalization."
+  },
+  "independent_evidence": {
+    "original_files_unchanged": true,
+    "first_use_grader_passed": false,
+    "original_verify_error": {
+      "code": "evidence_missing",
+      "summary": "Missing D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\repo\\repro_outputs\\status.json"
+    },
+    "postmortem_verify": "AUTO/POSTMORTEM_VERIFY.json"
+  },
+  "quota": {
+    "gate_override_by_user": true,
+    "observation_only": true,
+    "historical_start_floor_satisfied": false,
+    "historical_stop_floor_breached_during_run": true,
+    "raw_percentages_published": false,
+    "hard_budget_guarantee": false
+  },
+  "protocol_deviations": [
+    "quota_start_floor and quota_stop_floor were observation-only for this run by explicit user authorization"
+  ],
+  "next_gate": "Do not rerun automatically. The product guidance now forbids an equal/shorter external timeout around the orchestrator and the verifier distinguishes incomplete runtime state from missing evidence.",
+  "paired_baseline_A": "not_run_after_auto_gate_failure"
+}

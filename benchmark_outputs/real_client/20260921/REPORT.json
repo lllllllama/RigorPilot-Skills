@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "scope": "real_client_acceptance_followup_not_model_uplift",
+  "date": "2026-09-21",
+  "skill_commit": "9a86470a42468d89729fb08a6064c7deb2af228d",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "auto_loading": {
+    "report": "AUTO/REPORT.json",
+    "observed": true,
+    "client_completed": false,
+    "overall_pass": false,
+    "stop_reason": "wall_timeout",
+    "root_cause_code": "orchestrator_killed_by_equal_external_timeout",
+    "target_timeout_seconds": 30,
+    "quota_gate_override_by_user": true
+  },
+  "model_usage": null,
+  "model_cost": null,
+  "model_uplift": null,
+  "paired_baseline_A": "not_run",
+  "conclusion": "Natural-language project-skill auto-loading was again observed, and the corrected 30-second target timeout was used. End-to-end acceptance still failed because the agent wrapped the orchestrator in an equal 30-second external timeout, interrupting terminal runtime/evidence finalization; the outer client later hit its 240-second watchdog."
+}

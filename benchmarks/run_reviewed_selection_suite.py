@@ -97,6 +97,7 @@ def main() -> int:
                 plan = {}
             expected_command = orchestration.get("expected_command")
             expected_goal = orchestration.get("expected_goal")
+            expected_timeout_flag = "--train-timeout" if expected_goal == "training" else "--timeout"
             candidates = plan.get("command_candidates") or []
             selected_id = plan.get("selected_command_id")
             selected_candidate = next((item for item in candidates if item.get("id") == selected_id), None)
@@ -111,6 +112,7 @@ def main() -> int:
                 "review_args_bound": plan.get("reviewed_run_args") == [
                     "--run-selected", "--command-id", selected_id,
                     "--plan-fingerprint", plan.get("selection_fingerprint"),
+                    expected_timeout_flag, "120",
                 ],
                 "no_repo_evidence_write": not (target / "repro_outputs").exists(),
             }

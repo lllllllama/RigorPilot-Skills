@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "benchmark": "rigorpilot-reviewed-selection-suite",
-  "generated_at": "2026-09-20T05:40:58.406043Z",
+  "generated_at": "2026-09-21T03:17:42.845369Z",
   "requested_cases": [
     "micrograd",
     "mingpt",
@@ -11,7 +11,7 @@
   "status": "passed",
   "passed": 4,
   "failed": 0,
-  "wall_duration_seconds": 15.61,
+  "wall_duration_seconds": 11.39,
   "scope": "Pinned real-repository README planning only; no target command execution, dependency installation, model call, or training.",
   "cases": [
     {
@@ -36,7 +36,7 @@
         "review_args_bound": true,
         "no_repo_evidence_write": true
       },
-      "duration_seconds": 2.797
+      "duration_seconds": 2.172
     },
     {
       "case": "mingpt",
@@ -60,7 +60,7 @@
         "review_args_bound": true,
         "no_repo_evidence_write": true
       },
-      "duration_seconds": 3.468
+      "duration_seconds": 2.406
     },
     {
       "case": "pytorch-mnist",
@@ -84,7 +84,7 @@
         "review_args_bound": true,
         "no_repo_evidence_write": true
       },
-      "duration_seconds": 5.078
+      "duration_seconds": 3.391
     },
     {
       "case": "nanogpt-shakespeare",
@@ -108,7 +108,7 @@
         "review_args_bound": true,
         "no_repo_evidence_write": true
       },
-      "duration_seconds": 3.906
+      "duration_seconds": 3.016
     }
   ]
 }

@@ -46,6 +46,10 @@ Trusted output traits:
   Explicit candidate execution binds `--command-id` to that fingerprint; a stale
   plan or unknown id fails before target execution. Setup/download commands are
   not selectable reproduction targets
+- `--timeout` is the target-command timeout, not the orchestrator lifecycle timeout.
+  `plan-only` marks `timeout_scope=target_command_only`, requires the orchestrator
+  to reach terminal state, and forbids an equal/shorter external timeout wrapper;
+  a host-level watchdog must leave cleanup/evidence-finalization margin
 - partial/blocked trusted runs expose a stable machine-readable `error.code`
   alongside the human blocker and next-safe-action text; callers should branch on
   the code rather than parsing localized prose

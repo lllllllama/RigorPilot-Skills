@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "mode": "verify_only",
+  "evidence_valid": false,
+  "checks": {
+    "status_file": false
+  },
+  "error": {
+    "code": "evidence_missing",
+    "summary": "Missing D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260921\\AUTO\\repo\\repro_outputs\\status.json"
+  }
+}

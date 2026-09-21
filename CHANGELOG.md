@@ -36,6 +36,14 @@
   but remains an end-to-end failure because the agent chose `--timeout 20` inside
   the user's 30-second command bound. Retain that failure, stop before A/B, and
   add timeout guidance that preserves explicit user bounds and the reviewed command.
+- Run one additional natural-language AUTO canary with user-authorized quota-gate
+  override. Auto-loading is again observed and the 30-second target timeout is
+  preserved, but the agent wraps the whole orchestrator in an equal 30-second
+  subprocess timeout. The wrapper interrupts cleanup/terminal evidence, leaves a
+  runtime state at `running`, and the outer client later hits its 240-second
+  watchdog. Add a structured plan contract forbidding equal/shorter outer timeout
+  wrappers and teach `--verify-output` to report
+  `runtime_incomplete_without_status` without replaying the command.
 
 ### Real-client first-use evidence and bounded handoff
 

@@ -22,7 +22,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Recovery | Checkpoints, completed-result reuse, uncertain-dispatch blocking | No blind request replay or training-checkpoint restoration |
 | Verification | Independent commands/source checks; stable machine-readable error codes; optional artifact size/hash and JSON-metric tolerances, rechecked at finish | Without configured structured checks, acceptance remains exit/stdout-only; no artifact-freshness or paper-reproduction claim |
 | README | Byte-preserving inserts and optional source-adjacent copies in ordinary runs, preserving original media context | Conflicting files are retained; regenerate links after moving directories; external-media availability is not guaranteed |
-| Models / clients | Codex real-client acceptance now has one successful explicit named-skill Fast Path; a natural-language fresh-client run proved automatic skill loading and normal client completion but its task timed out after the agent chose `--timeout 20` inside a 30 s user bound | No A/B effect estimate; AUTO end-to-end acceptance is still failed. The optional standalone Anthropic transport remains separate and has no successful live-provider acceptance |
+| Models / clients | Codex real-client acceptance has one successful explicit named-skill Fast Path; natural-language fresh-client runs repeatedly prove automatic project-skill loading | AUTO end-to-end acceptance is still failed: first on a self-tightened 20 s timeout, then after preserving 30 s but wrapping the whole orchestrator in an equal external timeout and interrupting terminal evidence. No A/B effect estimate; the optional standalone Anthropic transport remains separate |
 | External evidence | Four historical commit-pinned protocols plus a fresh 4/4 plan-only reviewed-selection pass on the same pinned repositories | The new pass verifies target planning only; historical cases include selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
 | Integrity performance | Repeatable synthetic tracked-file benchmark; current Windows baseline records 1k and 10k file snapshot/verify costs | Small synthetic files, one host and Python-allocation measurements; not a latency SLA. Change the snapshot strategy only after a simpler replacement clearly wins on the same benchmark without weakening detection |
 | Paired pilot preparation | Three frozen tasks, six A/B slots, independent graders and real local calibration | All six model slots remain unrun; no generic live executor or enforced model budget in this kit |
@@ -68,10 +68,12 @@ Installed explicit-skill use, reporting fixes and independent checks are recorde
 in the [micrograd acceptance report](FIRST_USE_ACCEPTANCE.md). The default
 orchestrator now has a reviewable `plan -> command-id/fingerprint -> run -> verify`
 path, stable error codes, and a fresh 4/4 pinned-repository planning check.
-The 2026-09-20 [real-client follow-up](REAL_CLIENT_ACCEPTANCE.md) passed explicit
-named-skill Fast Path acceptance and directly observed fresh-client automatic
-skill loading. The AUTO task itself still failed because the model tightened the
-allowed 30 s command bound to 20 s; A/B comparisons remain unrun.
+The [real-client follow-up](REAL_CLIENT_ACCEPTANCE.md) passed explicit named-skill
+Fast Path acceptance and repeatedly observed fresh-client automatic skill loading.
+The 2026-09-20 AUTO failed after tightening the allowed 30 s command bound to 20 s.
+The 2026-09-21 AUTO preserved 30 s but wrapped the whole orchestrator in an equal
+30 s external timeout, leaving the runtime nonterminal and no `status.json` before
+the outer client hit 240 s. A/B comparisons remain unrun.
 
 The source-integrity benchmark currently records roughly `0.705 s / 0.670 s`
 snapshot/verify at 1k tracked 128-byte files and `6.054 s / 5.897 s` at 10k on
@@ -91,7 +93,7 @@ Apply these gates; generated files alone do not establish task completion:
 |---|---|---|
 | 1 | Reviewed planning across pinned repositories | `--plan-only` selects the expected README target, exposes a review token and writes no evidence; current four-case result is 4/4 |
 | 2 | Explicit named-skill real-client canary | **Passed 2026-09-20**: task/runtime success, independent grader, source integrity, evidence verification and `turn.completed` |
-| 3 | Fresh-client natural-language auto-loading canary | Skill loading and client completion observed, but task acceptance failed on an agent-selected 20 s timeout; rerun only after the timeout-guidance correction, retaining this failure |
+| 3 | Fresh-client natural-language auto-loading canary | Skill loading is repeatedly observed. End-to-end acceptance still fails: the latest run preserves the 30 s target timeout but kills the orchestrator with an equal external wrapper timeout. Keep failures; require direct orchestrator execution and terminal evidence before A/B |
 | 4 | Independent acceptance and publication | Check actual logs, original-file SHA-256, per-section restoration and local evidence links; full regression and Git publication checks before sync |
 | 5 | Small paired evaluation (preparation/calibration delivered; live pending) | Start only after the corrected AUTO gate passes; then use [frozen tasks and actual grader calibration](PAIRED_PILOT.md) for one canary and six paired trials |
 

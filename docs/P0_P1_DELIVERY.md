@@ -77,10 +77,12 @@ A later [2026-09-20 Codex real-client follow-up](REAL_CLIENT_ACCEPTANCE.md)
 provides one successful explicit named-skill live-client acceptance: the selected
 micrograd tests, source-integrity check, independent grader, evidence verifier,
 and outer `turn.completed` all passed. The same follow-up directly observed
-natural-language automatic skill loading and normal client completion, but that
-separate AUTO task failed after the model chose a 20-second command timeout inside
-the user's 30-second bound. Accordingly, A/B model-quality evaluation remains
-gated on a corrected AUTO rerun; `model_uplift` remains `null`.
+natural-language automatic skill loading. The first AUTO task failed after the
+model chose a 20-second command timeout inside the user's 30-second bound. A
+2026-09-21 follow-up preserved 30 seconds but wrapped the whole orchestrator in
+an equal 30-second timeout, interrupting terminal evidence and later hitting the
+240-second outer watchdog. Accordingly, A/B model-quality evaluation remains
+gated; `model_uplift` remains `null`.
 
 With a working endpoint and model, run one bounded public-repository trial:
 

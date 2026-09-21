@@ -86,7 +86,7 @@ are not completed evaluations, converged training or reproduced paper scores.
 
 New: [installed-skill micrograd trial](docs/FIRST_USE_ACCEPTANCE.md), with before/after command reports, a retained failed attempt and independent checks—not a model-quality comparison.
 
-Real-client follow-up: [explicit named-skill Fast Path passed; natural-language auto-loading was observed but its task timed out under an agent-chosen 20 s command limit](docs/REAL_CLIENT_ACCEPTANCE.md). A fresh 30 s no-model diagnostic passed both tests; the failed AUTO attempt remains failed and no A/B model uplift is claimed.
+Real-client evidence: [explicit named-skill Fast Path passed; natural-language auto-loading was observed repeatedly, but AUTO is not end-to-end accepted](docs/REAL_CLIENT_ACCEPTANCE.md). The 2026-09-20 AUTO chose 20 s inside a 30 s user bound; the 2026-09-21 follow-up preserved 30 s but wrapped the whole orchestrator in an equal external timeout, interrupting terminal evidence and ending at the 240 s client watchdog. Both failures are retained; A/B/model uplift remain unrun.
 
 <a id="quick-start"></a>
 
@@ -268,7 +268,7 @@ tracked files. These are Windows synthetic-file measurements, not general latenc
 [Reviewed-selection result](benchmark_outputs/reviewed_selection_latest.json) ·
 [Integrity baseline](benchmark_outputs/source_integrity_latest.json)
 
-Latest local Windows record (2026-09-20): **76/76 scripts passed in 294.6 s**.
+Latest local Windows record (2026-09-21): **76/76 scripts passed in 258.5 s**.
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 

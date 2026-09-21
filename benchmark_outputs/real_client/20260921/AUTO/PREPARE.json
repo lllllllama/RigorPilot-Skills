@@ -1,0 +1,15 @@
+{
+  "prepared_at": "2026-09-21T02:53:32.660802+00:00",
+  "skill_commit": "9a86470a42468d89729fb08a6064c7deb2af228d",
+  "target_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "installed_files": 46,
+  "prompt_mentions_skill_name": false,
+  "model": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "limits": {
+    "seconds": 240,
+    "tool_starts": 16,
+    "quota_start_floor": 70,
+    "quota_stop_floor": 65
+  }
+}

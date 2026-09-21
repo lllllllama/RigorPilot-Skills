@@ -134,7 +134,8 @@ Field intent:
     review requirement and safe next actions
   - examples include `missing_dependency`, `missing_asset`, `placeholder_required`,
     `shell_review_required`, `command_not_found`, `command_failed`, `timeout`,
-    `metric_mismatch`, `source_modified`, and evidence-verification errors
+    `metric_mismatch`, `source_modified`, `runtime_incomplete_without_status`,
+    and evidence-verification errors
 - `assumptions`
   - important assumptions that still shape execution or interpretation
 - `unverified_inferences`

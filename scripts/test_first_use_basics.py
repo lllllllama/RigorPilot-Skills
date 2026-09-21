@@ -2,6 +2,7 @@
 """Offline preflight and quota-contract tests; never call Codex or a model."""
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -44,6 +45,20 @@ class FirstUseBasics(unittest.TestCase):
                       {"rateLimits": {"limitId": "other", "primary": {"usedPercent": 5}}}):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 quota_snapshot(value)
+
+    def test_timeout_help_preserves_orchestrator_finalization(self):
+        orchestrator = ROOT / "skills/ai-research-reproduction/scripts/orchestrate_repro.py"
+        result = subprocess.run(
+            [sys.executable, str(orchestrator), "--help"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        self.assertIn("Target-command timeout", result.stdout)
+        self.assertIn("equal or shorter external timeout", result.stdout)
+        self.assertIn("terminal evidence finalization", result.stdout)
 
 
 if __name__ == "__main__":

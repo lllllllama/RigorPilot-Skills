@@ -40,9 +40,11 @@ timings do not establish a speedup; the parent replay configuration error is not
 - The parent prepared installation/environment. The independent agent read,
   selected and executed without a supplied test command. This historical trial
   used an explicit skill path. A later [2026-09-20 real-client follow-up](REAL_CLIENT_ACCEPTANCE.md)
-  directly observed natural-language project-skill auto-loading and normal outer
-  client completion; that AUTO task still failed on an agent-selected 20-second
-  command timeout, so end-to-end auto-loading acceptance remains incomplete.
+  directly observed natural-language project-skill auto-loading. The first AUTO
+  task completed the outer turn but failed on an agent-selected 20-second command
+  timeout. A later 2026-09-21 AUTO preserved the 30-second user bound but wrapped
+  the orchestrator in an equal external timeout, leaving nonterminal runtime
+  evidence and no completed outer turn. End-to-end auto-loading acceptance remains incomplete.
 - Published snapshots total about 0.6 MiB including the failure; local workspaces total about 22.3 MiB including installer caches. No separate model API calls; host-agent tokens/cost were unmeasured, not zero. Subscription balance is unavailable.
 - Raw logs retain original absolute paths; use the links above for browsing. Relocated snapshots are not live resumable tasks and their old ownership receipts must not be reused. The public replay record omits unrelated inherited PATH entries; the original remains local.
 
@@ -61,6 +63,6 @@ verify scientific metrics or protect against coordinated evidence forgery.
 
 Next-stage preparation is now in the [three-task paired pilot](PAIRED_PILOT.md):
 frozen inputs and real grader calibration, with all six model slots still unrun.
-Fresh-client loading itself has now been directly observed, and the explicit
-named-skill real-client run completed successfully. A corrected AUTO task and
-model-quality A/B comparison remain gated and require separately confirmed budgets.
+Fresh-client loading itself has now been directly observed repeatedly, and the
+explicit named-skill real-client run completed successfully. AUTO end-to-end
+acceptance and model-quality A/B comparison remain gated.

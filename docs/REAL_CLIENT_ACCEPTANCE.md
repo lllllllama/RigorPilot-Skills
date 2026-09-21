@@ -1,6 +1,50 @@
-# Real-client acceptance: explicit fast path passes; auto-loading task times out
+# Real-client acceptance: explicit fast path passes; auto-loading remains incomplete
 
-[简体中文](REAL_CLIENT_ACCEPTANCE.zh-CN.md) · [Home](../README.md) · [Latest machine report](../benchmark_outputs/real_client/20260920/REPORT.json) · [Historical 2026-09-13 report](../benchmark_outputs/real_client/20260913/REPORT.json)
+[简体中文](REAL_CLIENT_ACCEPTANCE.zh-CN.md) · [Home](../README.md) · [Latest machine report](../benchmark_outputs/real_client/20260921/REPORT.json) · [2026-09-20 report](../benchmark_outputs/real_client/20260920/REPORT.json) · [Historical 2026-09-13 report](../benchmark_outputs/real_client/20260913/REPORT.json)
+
+## 2026-09-21 AUTO follow-up
+
+The user explicitly authorized one new AUTO canary without waiting for the
+historical 70% quota-start threshold. Quota readings were therefore observation
+only for this run; all other bounds stayed fixed: pinned micrograd `7bc720e`,
+skill commit `9a86470`, Codex `0.154.0-alpha.6.2`, `gpt-6-astra` / high,
+30 seconds per target command, 240 seconds outer wall time, 16 tool starts,
+no automatic retry, no A/B expansion.
+
+The fresh prompt again did not name the skill. Trace evidence again shows
+project-local `ai-research-reproduction` discovery and use of
+`orchestrate_repro.py`. The earlier 20-second problem was corrected: the agent
+selected the full 30-second target timeout. **End-to-end acceptance still failed.**
+
+This time the agent wrapped the entire orchestrator in another 30-second
+`subprocess` timeout. The external wrapper expired at about 30.047 seconds before
+the orchestrator could complete its own child-process timeout cleanup and terminal
+evidence finalization. The retained runtime state therefore remained `running`,
+`status.json` was never written, the independent first-use grader could not pass,
+and the outer Codex client later hit its 240-second watchdog after 9 tool starts
+without `turn.completed`.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Natural-language auto-loading | **Observed again**; prompt did not name the skill and trace references the project skill/orchestrator | [AUTO report](../benchmark_outputs/real_client/20260921/AUTO/REPORT.json) · [client end](../benchmark_outputs/real_client/20260921/AUTO/client/END.public.json) |
+| User command-time bound | **Preserved** at 30 s | [orchestrator command](../benchmark_outputs/real_client/20260921/AUTO/repo/repro_outputs/orchestrator.command.json) |
+| Orchestrator finalization | **Failed**; equal external timeout killed the orchestrator before terminal evidence | [runtime state](../benchmark_outputs/real_client/20260921/AUTO/repo/repro_outputs/_runtime/20260921T025519Z-09a06136/state.json) |
+| Postmortem verification | **Failed closed** as `runtime_incomplete_without_status`; no automatic replay | [postmortem verifier](../benchmark_outputs/real_client/20260921/AUTO/POSTMORTEM_VERIFY.json) |
+| Source originals | 13 baseline files still matched; this does not establish task success | [independent check](../benchmark_outputs/real_client/20260921/AUTO/EVIDENCE_CHECK.json) |
+| Model usage / uplift | Usage unavailable because no `turn.completed`; cost unknown; A/B not run and `model_uplift` remains `null` | [machine summary](../benchmark_outputs/real_client/20260921/REPORT.json) |
+
+The new correction is narrower than adding another retry: Fast Path and CLI help
+now state that `--timeout` limits the **target command**, not the full orchestrator
+lifecycle. `plan-only` exposes `timeout_scope=target_command_only`,
+`orchestrator_must_reach_terminal_state=true`, and
+`external_timeout_wrapper_allowed=false`. If a host needs an outer watchdog it
+must be comfortably longer than the target timeout. `--verify-output` now also
+distinguishes an incomplete nonterminal runtime from evidence that never existed,
+returning `runtime_incomplete_without_status` without replaying the command.
+
+This 2026-09-21 run used a user-authorized quota-protocol deviation, so it is not
+a same-budget replacement for the earlier runs. It is retained as a failure and
+does not unlock A/B evaluation.
 
 ## 2026-09-20 follow-up
 
@@ -30,9 +74,9 @@ stricter. A non-training timeout now tells the agent to keep the reviewed comman
 and protocol unchanged and, only when the existing user budget permits, increase
 `--timeout` rather than changing dependencies, inputs, or evaluation semantics.
 
-The next live gate is therefore **one fresh-client natural-language auto-loading
-canary with the corrected timeout guidance**. Do not run A/B until that gate also
-passes; the failed AUTO attempt above remains in the evidence set.
+The 2026-09-21 run above tested that timeout correction and exposed a separate
+outer-wrapper timeout race. Both failed AUTO attempts remain in the evidence set;
+A/B stays blocked.
 
 ## Historical 2026-09-13 trial
 
