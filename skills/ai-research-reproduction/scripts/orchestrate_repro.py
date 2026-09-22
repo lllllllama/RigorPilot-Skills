@@ -32,7 +32,7 @@ SHARED_SCRIPTS = (
 if str(SHARED_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SHARED_SCRIPTS))
 
-from runtime_runner import run_persistent_command
+from runtime_runner import TERMINAL_STATES, run_persistent_command
 from model_adapter import ModelAdapterError, load_model_profile, missing_capabilities
 from command_utils import contains_shell_syntax
 
@@ -349,7 +349,12 @@ def write_evidence_manifest(
         "runtime_stdout": Path(context["stdout_log_path"]) if context.get("stdout_log_path") else None,
         "runtime_stderr": Path(context["stderr_log_path"]) if context.get("stderr_log_path") else None,
         "runtime_resources": Path(context["resources_log_path"]) if context.get("resources_log_path") else None,
+        "runtime_spec": Path(context["runtime_state_path"]).with_name("spec.json") if context.get("runtime_state_path") else None,
     }
+    adjacent = context.get("source_adjacent_readme") or {}
+    if adjacent.get("status") == "written" and adjacent.get("path"):
+        candidates["source_adjacent_readme"] = Path(adjacent["path"])
+        candidates["readme_delivery"] = output_dir / "readme_delivery.json"
     source_readme = next((repo_path / name for name in ("README.md", "README") if (repo_path / name).is_file()), None)
     if source_readme is not None:
         candidates["source_readme"] = source_readme
@@ -361,7 +366,7 @@ def write_evidence_manifest(
 
     manifest_path = output_dir / "evidence_manifest.json"
     manifest = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "target_repo": str(repo_path.resolve()),
         "output_dir": str(output_dir.resolve()),
         "files": records,
@@ -392,11 +397,13 @@ def _resolve_manifest_record(record: Dict[str, Any], repo_path: Path, output_dir
             return None
         return resolved
     if scope == "absolute":
-        return Path(raw_path).resolve()
+        return Path(raw_path).resolve() if Path(raw_path).is_absolute() else None
     return None
 
 
-def verify_evidence_manifest(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
+def verify_evidence_manifest(
+    repo_path: Path, output_dir: Path, expected_paths: Optional[Dict[str, Path]] = None,
+) -> Dict[str, Any]:
     manifest_path = output_dir / "evidence_manifest.json"
     if not manifest_path.is_file():
         return {"valid": False, "manifest_path": str(manifest_path), "files": {}, "error": "manifest missing"}
@@ -405,13 +412,38 @@ def verify_evidence_manifest(repo_path: Path, output_dir: Path) -> Dict[str, Any
     except (OSError, json.JSONDecodeError) as exc:
         return {"valid": False, "manifest_path": str(manifest_path), "files": {}, "error": str(exc)}
 
-    results: Dict[str, bool] = {}
+    if not isinstance(manifest, dict) or not isinstance(manifest.get("files"), dict):
+        return {"valid": False, "manifest_path": str(manifest_path), "files": {}, "error": "manifest/files must be objects"}
+    version = manifest.get("schema_version")
+    if not isinstance(version, str) or version not in {"1.0", "1.1"}:
+        return {"valid": False, "manifest_path": str(manifest_path), "files": {}, "error": "unsupported manifest schema"}
+    required_paths = {
+        "summary": output_dir / "SUMMARY.md", "status": output_dir / "status.json",
+        "commands": output_dir / "COMMANDS.md", "log": output_dir / "LOG.md",
+        "scientific_changelog": output_dir / "SCIENTIFIC_CHANGELOG.md",
+        "comparability_report": output_dir / "COMPARABILITY_REPORT.md",
+        "invocation": output_dir / "invocation.json",
+        **(expected_paths or {}),
+    }
+    if version == "1.0":
+        # Historical bundles did not retain these hashes. Expose reduced coverage
+        # instead of rewriting their bytes or pretending they have the new proof.
+        for label in ("runtime_spec", "source_adjacent_readme", "readme_delivery"):
+            if label not in manifest["files"]:
+                required_paths.pop(label, None)
+
+    results: Dict[str, bool] = {label: False for label in required_paths}
     for label, record in (manifest.get("files") or {}).items():
-        if not isinstance(record, dict):
+        if (not isinstance(record, dict) or type(record.get("size_bytes")) is not int
+                or record["size_bytes"] < 0 or not isinstance(record.get("sha256"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", record["sha256"])):
             results[str(label)] = False
             continue
         path = _resolve_manifest_record(record, repo_path, output_dir)
         if path is None or not path.is_file():
+            results[str(label)] = False
+            continue
+        if label in required_paths and path != required_paths[label].resolve():
             results[str(label)] = False
             continue
         try:
@@ -426,6 +458,7 @@ def verify_evidence_manifest(repo_path: Path, output_dir: Path) -> Dict[str, Any
         "valid": valid,
         "manifest_path": str(manifest_path),
         "files": results,
+        "coverage": "complete_manifest_v1_1" if version == "1.1" else "legacy_core_only",
     }
 
 
@@ -566,7 +599,7 @@ def incomplete_runtime_without_status(output_dir: Path) -> Optional[Dict[str, An
     return candidates[-1]
 
 
-def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
+def _verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
     checks: Dict[str, bool] = {}
     status_path = output_dir / "status.json"
     if not status_path.is_file():
@@ -598,6 +631,7 @@ def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
                 "error": {"code": "evidence_invalid", "summary": str(exc)}}
 
     checks["status_file"] = True
+    expected_paths: Dict[str, Path] = {}
     try:
         checks["target_repo"] = Path(status.get("target_repo", "")).resolve() == repo_path.resolve()
     except (OSError, TypeError):
@@ -615,15 +649,22 @@ def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
                 and stderr_path.is_file()
                 and state.get("status") == runtime.get("status")
                 and state.get("run_id") == runtime.get("run_id")
+                and state.get("status") in TERMINAL_STATES
             )
         except (OSError, json.JSONDecodeError):
             checks["runtime"] = False
+        expected_paths.update(runtime_state=state_path, runtime_stdout=stdout_path, runtime_stderr=stderr_path)
+        expected_paths["runtime_spec"] = state_path.with_name("spec.json")
+        for label, key in (("runtime_events", "events_path"), ("runtime_resources", "resources_log_path")):
+            if runtime.get(key):
+                expected_paths[label] = Path(runtime[key])
     else:
         checks["runtime"] = True
 
     annotated = output_dir / "ANNOTATED_README.md"
     source_readme = next((repo_path / name for name in ("README.md", "README") if (repo_path / name).is_file()), None)
     if annotated.is_file() and source_readme is not None:
+        expected_paths.update(annotated_readme=annotated, source_readme=source_readme)
         try:
             checks["readme_round_trip"] = strip_annotated_bytes(annotated.read_bytes()) == source_readme.read_bytes()
         except (OSError, ValueError):
@@ -658,7 +699,10 @@ def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
     else:
         checks["source_current"] = source_integrity.get("status") in {"not_requested", "not_recorded"}
 
-    manifest_verification = verify_evidence_manifest(repo_path, output_dir)
+    adjacent = status.get("source_adjacent_readme") or {}
+    if adjacent.get("status") == "written":
+        expected_paths.update(source_adjacent_readme=Path(adjacent["path"]), readme_delivery=output_dir / "readme_delivery.json")
+    manifest_verification = verify_evidence_manifest(repo_path, output_dir, expected_paths)
     checks["evidence_manifest"] = bool(manifest_verification.get("valid"))
 
     failed_checks = [name for name, ok in checks.items() if not ok]
@@ -688,6 +732,18 @@ def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
     }
 
 
+def verify_existing_output(repo_path: Path, output_dir: Path) -> Dict[str, Any]:
+    """Malformed control JSON is a rejected bundle, never an agent-facing traceback."""
+    try:
+        return _verify_existing_output(repo_path, output_dir)
+    except (OSError, ValueError, TypeError, AttributeError, KeyError) as exc:
+        return {
+            "schema_version": "1.0", "mode": "verify_only", "evidence_valid": False,
+            "checks": {"evidence_structure": False},
+            "error": {"code": "evidence_invalid", "summary": f"Malformed or unreadable evidence structure ({type(exc).__name__})."},
+        }
+
+
 def _bounded_log_text(run_data: Dict[str, Any], limit: int = 131072) -> str:
     parts = [str(item) for item in run_data.get("execution_log", [])]
     for key in ("stderr_log_path", "stdout_log_path"):
@@ -695,7 +751,10 @@ def _bounded_log_text(run_data: Dict[str, Any], limit: int = 131072) -> str:
         if not raw_path:
             continue
         try:
-            data = Path(str(raw_path)).read_bytes()
+            with Path(str(raw_path)).open("rb") as log:
+                log.seek(0, os.SEEK_END)
+                log.seek(max(0, log.tell() - limit))
+                data = log.read(limit)
         except OSError:
             continue
         parts.append(data[-limit:].decode("utf-8", errors="replace"))
@@ -2118,13 +2177,35 @@ def main() -> int:
         print(json.dumps(selection_error_payload(exc), indent=2, ensure_ascii=False))
         return 2
     if args.plan_only:
-        print(
-            json.dumps(
-                plan_payload(chosen, setup_plan, args.shell_mode, args.timeout, args.train_timeout),
-                indent=2,
-                ensure_ascii=False,
-            )
-        )
+        payload = plan_payload(chosen, setup_plan, args.shell_mode, args.timeout, args.train_timeout)
+        # Supply exact argv instead of asking a model to invent shell quoting or
+        # nest a target-sized timeout around the full controller lifecycle.
+        payload["agent_handoff"] = None
+        if (chosen.get("documented_command_id") and chosen["selected_goal"] != "training"
+                and args.lane == "trusted" and not args.include_analysis_pass and not args.include_paper_gap
+                and not args.runtime_root and not args.train_output_dir and not args.model_profile_json
+                and not args.require_model_capability and not args.monitor_gpu):
+            entry = [sys.executable, str(SKILL_ROOT / "scripts/repro_job.py")]
+            start_argv = [*entry, "start", "--repo", str(repo_path), "--output-dir", str(output_dir),
+                          "--command-id", chosen["documented_command_id"], "--plan-fingerprint", chosen["selection_fingerprint"],
+                          "--timeout", str(args.timeout), "--shell-mode", args.shell_mode, "--user-language", args.user_language]
+            if args.source_adjacent_readme:
+                start_argv += ["--source-adjacent-readme"]
+            for metric in args.expected_metric:
+                start_argv += ["--expected-metric", metric]
+            start_argv += ["--metric-absolute-tolerance", str(args.metric_absolute_tolerance)]
+            payload["agent_handoff"] = {
+                "start_argv": start_argv,
+                "status_argv": [*entry, "status", "--output-dir", str(output_dir)],
+                "cancel_argv": [*entry, "cancel", "--output-dir", str(output_dir)],
+                "wait_strategy": "start_returns_receipt_then_poll_status",
+                "receipt_identity_guidance": "After start returns, use its job-id-bound status_argv/cancel_argv. Path-only queries are for recovering a lost start response, not proof of the expected job identity.",
+                "same_request_repeat": "reuse_receipt_never_replay",
+                "scope": "trusted_nontraining_local_supervisor_not_sandbox",
+                "host_requirement": "Host must permit bounded child supervisors to outlive a short tool call; otherwise use its native persistent execution session. Never bypass a host sandbox or kill-on-close policy.",
+                "accepted_only_after": "terminal runtime, task success, source integrity and evidence verification",
+            }
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
         return 0
 
     assets_root = output_dir.parent / "artifacts" / "assets"

@@ -1,5 +1,19 @@
 # Harness Smoke Benchmarks
 
+## Short-call handoff acceptance
+
+`python benchmarks/run_agent_handoff_benchmark.py --output tmp/agent-handoff.json`
+compares an interrupted synchronous wrapper with a receipt-and-poll supervisor
+using identical synthetic sources and real processes, without model or network
+calls. Inspect [both fault cases](../benchmark_outputs/agent_handoff/faults.json)
+and [actual separate bridge receipts](../benchmark_outputs/agent_handoff/bridge-handoff.json).
+The optional installed micrograd check is
+`python benchmarks/run_job_micrograd_acceptance.py --python /path/to/existing/python --output tmp/job-micrograd.json`.
+It never installs dependencies or raises the fixed 30-second target limit.
+Both retained micrograd attempts failed that limit and remain failed, even where
+stdout printed `2 passed`. [Developer review](../docs/AGENT_RUNTIME_REVIEW.md)
+separates useful finalization evidence from task success and live-model claims.
+
 ## Installed-skill functional acceptance
 
 ```bash

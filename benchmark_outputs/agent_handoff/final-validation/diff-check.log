@@ -1,0 +1,6 @@
+warning: in the working copy of 'CHANGELOG.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'README.zh-CN.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/ENGINEERING_ROADMAP.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/ENGINEERING_ROADMAP.zh-CN.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/check_publication.py', LF will be replaced by CRLF the next time Git touches it

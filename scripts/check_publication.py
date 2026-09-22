@@ -23,7 +23,7 @@ def git_bytes(root: Path, *args: str) -> bytes:
 
 def inventory(root: Path) -> dict:
     files = []
-    paths = [path for directory in ["showcases", "agent_canary", "paired_pilot_calibration", "controller_smoke", "skill_acceptance", "real_client"]
+    paths = [path for directory in ["showcases", "agent_canary", "paired_pilot_calibration", "controller_smoke", "skill_acceptance", "real_client", "agent_handoff"]
              for path in (root / "benchmark_outputs" / directory).rglob("*")]
     for filename in ["reviewed_selection_latest.json", "source_integrity_latest.json"]:
         standalone = root / "benchmark_outputs" / filename

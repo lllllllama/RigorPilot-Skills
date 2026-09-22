@@ -38,9 +38,39 @@ def atomic_write_json(path: Path, payload: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     # Keep the sibling name short: exploratory Git worktrees can already sit
     # close to the legacy Windows MAX_PATH boundary.
-    temporary = path.with_name(f".{uuid.uuid4().hex[:4]}.tmp")
-    temporary.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    os.replace(temporary, path)
+    # A short name is useful on Windows, but a random name is not an ownership
+    # claim. Never truncate another writer's staging file on a name collision.
+    for _ in range(16):
+        temporary = path.with_name(f".{uuid.uuid4().hex[:4]}.tmp")
+        try:
+            handle = temporary.open("x", encoding="utf-8", newline="\n")
+            break
+        except FileExistsError:
+            continue
+    else:
+        raise FileExistsError("Unable to claim an atomic JSON staging file")
+    replaced = False
+    try:
+        with handle:
+            handle.write(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        # Readers/antivirus can hold a short-lived Windows sharing lock during
+        # replacement. Retry the same complete file, never expose partial JSON.
+        for attempt in range(6):
+            try:
+                os.replace(temporary, path)
+                replaced = True
+                break
+            except PermissionError:
+                if attempt == 5:
+                    raise
+                time.sleep(0.02 * (attempt + 1))
+    finally:
+        # A successful replacement releases the staging name. Another writer
+        # may already have claimed that same name, so it is no longer ours.
+        if not replaced:
+            temporary.unlink(missing_ok=True)
 
 
 class TailBuffer:

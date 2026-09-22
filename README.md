@@ -16,7 +16,7 @@ Trusted reproduction is the default; candidate exploration requires explicit aut
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills standard" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="platforms" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-76%2F76%20passed-8250df?style=flat-square">
+  <img alt="local regression" src="https://img.shields.io/badge/local%20regression-80%2F80%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="historical external protocols" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -180,6 +180,7 @@ contract. Candidate results never become trusted baseline results by declaration
 | `invocation.json`, `evidence_manifest.json` | Invocation/source-integrity summary plus retained file sizes and SHA-256 hashes for local consistency checks |
 | `PATCHES.md`, `SCIENTIFIC_CHANGELOG.md`, `COMPARABILITY_REPORT.md` | Changes, scientific meaning and comparison boundaries |
 | `_runtime/<run_id>/` | Process state, events, resource samples and stdout/stderr |
+| `.repro_job/` | Optional short-call supervisor: frozen request, reusable receipt, phase logs and completion-time verification |
 | `agent_state.json`, `trajectory.jsonl` | Optional model runner's checkpoints, tool calls and reported usage |
 
 🟢 success · 🔵 not executed · ⚪ read only · 🟡 partial · 🔴 blocked · 🟣 decision required
@@ -201,6 +202,17 @@ When `--output-dir` is omitted, the orchestrator writes to the target repository
 `repro_outputs/` directory, not the caller's current working directory.
 The evidence manifest detects later changes against the retained manifest; it is
 not a digital signature, external attestation or substitute for an OS sandbox.
+
+For hosts with short tool-call deadlines, the plan also returns
+`agent_handoff.start_argv`. Start returns a job receipt with identity-bound
+`status_argv` and `cancel_argv`; use those to query or cancel the same job instead
+of wrapping the whole orchestrator in another target-sized timeout. A replaced
+job ID is rejected, and repeating the same request does not launch it again.
+Require `result.accepted=true`: controller completion and valid evidence alone
+do not mean task acceptance. Hosts must allow the supervisor to outlive a short
+call; otherwise use their native persistent session without bypassing the sandbox.
+[Short-call contract](skills/ai-research-reproduction/references/agent-job.md) ·
+[Agent-developer review and evidence](docs/AGENT_RUNTIME_REVIEW.md)
 
 <a id="validation"></a>
 
@@ -249,6 +261,22 @@ Run the repository regression suite:
 python scripts/run_all_tests.py
 ```
 
+Exercise the short-call failure boundary without a model or network request:
+
+```bash
+python benchmarks/run_agent_handoff_benchmark.py --output tmp/agent-handoff.json
+```
+
+The [retained comparison](benchmark_outputs/agent_handoff/faults-final.json) uses
+identical synthetic targets and real subprocesses to test interrupted wrappers,
+terminal evidence and duplicate-dispatch prevention; it is not a model A/B.
+Separate bridge calls also completed one job without replay. Two earlier
+installed micrograd attempts timed out and remain failed. A new
+[installed-layout validation](benchmark_outputs/agent_handoff/micrograd-final-review.json)
+passed both unchanged upstream tests and the independent grader without raising
+the 30-second target limit. This is local execution evidence, not a new live-model
+AUTO result or A/B uplift. See the [review and boundaries](docs/AGENT_RUNTIME_REVIEW.md).
+
 The validator also checks the repository's Agent Skills metadata constraints,
 including skill-name syntax/length, description length, optional compatibility
 length, `metadata`/`allowed-tools` types, and the repository's public `SKILL.md`
@@ -268,7 +296,9 @@ tracked files. These are Windows synthetic-file measurements, not general latenc
 [Reviewed-selection result](benchmark_outputs/reviewed_selection_latest.json) ·
 [Integrity baseline](benchmark_outputs/source_integrity_latest.json)
 
-Latest local Windows record (2026-09-21): **76/76 scripts passed in 258.5 s**.
+Latest local Windows record (2026-09-22): **80/80 scripts passed in 354.5 s**.
+[Validation receipt and source hashes](benchmark_outputs/agent_handoff/final-validation/report.json) ·
+[Complete regression log](benchmark_outputs/agent_handoff/final-validation/regression.log)
 The CI badge links to the current Windows, Linux and macOS results.
 Local tests do not substitute for live-model or held-out evaluation.
 

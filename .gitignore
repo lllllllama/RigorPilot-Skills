@@ -39,3 +39,4 @@ agent.md
 !benchmark_outputs/real_client/**/repro_outputs/
 !benchmark_outputs/real_client/**/artifacts/
 !benchmark_outputs/real_client/**/*.log
+!benchmark_outputs/agent_handoff/final-validation/*.log

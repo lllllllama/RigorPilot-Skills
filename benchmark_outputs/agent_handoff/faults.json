@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "agent-handoff-fault-comparison",
+  "generated_at": "2026-09-22T08:59:51.001691+00:00",
+  "scope": "scripted control, synthetic fixtures, real local subprocesses; not a model-value or throughput benchmark",
+  "model_calls": 0,
+  "model_uplift": null,
+  "host": {
+    "platform": "Windows",
+    "python": "3.12.11"
+  },
+  "implementation_sha256": {
+    "repro_job.py": "52ff52158cee67535b9230debbbb1c3f9d4adb53485e435aa8960a14cfe94923",
+    "orchestrate_repro.py": "bc8c6f6a5b14652d60b33dfdd2ed6b516d384c4f79bf51c444f1a8c0e6676eff"
+  },
+  "status": "passed",
+  "cases": [
+    {
+      "case": "timeout_finalization",
+      "target_timeout_seconds": 1,
+      "fixture_sleep_seconds": 3.0,
+      "checks": {
+        "identical_fixture_source": true,
+        "direct_interruption_observed": true,
+        "direct_missing_terminal_evidence": true,
+        "short_call_handoff": true,
+        "no_duplicate_execution": true,
+        "complete_evidence": true,
+        "correct_runtime": true,
+        "honest_acceptance": true
+      },
+      "arms": {
+        "direct_short_wrapper": {
+          "outer_call_seconds": 1.015,
+          "wrapper_timeout_seconds": 1,
+          "wrapper_expired": true,
+          "exit_code": null,
+          "status_written_at_return": false,
+          "status_written_after_fixture_exit": false,
+          "source_sha256": "5d3237c6aaf7518dec77766ce497fb1fa35599c19757a99b706bf14d07047e02"
+        },
+        "receipt_and_poll": {
+          "outer_call_seconds": 0.296,
+          "returned_before_terminal": true,
+          "same_job_on_resubmission": true,
+          "execution_count": 1,
+          "lifecycle": "completed",
+          "status_written": true,
+          "result": {
+            "accepted": false,
+            "task_status": "partial",
+            "runtime_status": "timed_out",
+            "evidence_valid": true,
+            "result_match": "not_evaluated",
+            "execution_exit_code": 0,
+            "verification_exit_code": 0,
+            "error": {
+              "code": "timeout",
+              "summary": "Selected documented command did not finish within 1 seconds.",
+              "requires_human": true,
+              "safe_next_actions": [
+                "Keep the reviewed command and protocol unchanged. Only increase `--timeout` up to the user's existing bound after confirming the timeout was the blocker; otherwise preserve the partial evidence and stop."
+              ]
+            },
+            "verification_path": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-handoff-benchmark-0sf2a8cy\\timeout_finalization\\receipt_and_poll\\repo\\repro_outputs\\.repro_job\\verification.stdout.json",
+            "verified_at": "2026-09-22T08:59:39.291120+00:00"
+          },
+          "wall_seconds": 4.812,
+          "target_stdout": "started\n",
+          "source_sha256": "5d3237c6aaf7518dec77766ce497fb1fa35599c19757a99b706bf14d07047e02"
+        }
+      },
+      "passed": true
+    },
+    {
+      "case": "success_after_client_return",
+      "target_timeout_seconds": 5,
+      "fixture_sleep_seconds": 2.0,
+      "checks": {
+        "identical_fixture_source": true,
+        "direct_interruption_observed": true,
+        "direct_missing_terminal_evidence": true,
+        "short_call_handoff": true,
+        "no_duplicate_execution": true,
+        "complete_evidence": true,
+        "correct_runtime": true,
+        "honest_acceptance": true
+      },
+      "arms": {
+        "direct_short_wrapper": {
+          "outer_call_seconds": 1.031,
+          "wrapper_timeout_seconds": 1,
+          "wrapper_expired": true,
+          "exit_code": null,
+          "status_written_at_return": false,
+          "status_written_after_fixture_exit": false,
+          "source_sha256": "50ccae42347f86d0d8beb6a9e1fde5cb80a7fecc4198e45ea517d841d0c096c8"
+        },
+        "receipt_and_poll": {
+          "outer_call_seconds": 0.265,
+          "returned_before_terminal": true,
+          "same_job_on_resubmission": true,
+          "execution_count": 1,
+          "lifecycle": "completed",
+          "status_written": true,
+          "result": {
+            "accepted": true,
+            "task_status": "success",
+            "runtime_status": "success",
+            "evidence_valid": true,
+            "result_match": "not_evaluated",
+            "execution_exit_code": 0,
+            "verification_exit_code": 0,
+            "error": null,
+            "verification_path": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-handoff-benchmark-0sf2a8cy\\success_after_client_return\\receipt_and_poll\\repo\\repro_outputs\\.repro_job\\verification.stdout.json",
+            "verified_at": "2026-09-22T08:59:50.698671+00:00"
+          },
+          "wall_seconds": 5.234,
+          "target_stdout": "started\nscore=1.0\n",
+          "source_sha256": "50ccae42347f86d0d8beb6a9e1fde5cb80a7fecc4198e45ea517d841d0c096c8"
+        }
+      },
+      "passed": true
+    }
+  ]
+}

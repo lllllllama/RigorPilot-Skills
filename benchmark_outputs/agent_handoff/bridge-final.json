@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "scope": "Separate ckrao calls, trusted synthetic target, no model; not a Codex sandbox or live-model acceptance claim.",
+  "status": "passed",
+  "checks": {
+    "start_returned_before_completion": true,
+    "later_call_accepted": true,
+    "identity_checked": true,
+    "same_job_reused": true,
+    "execution_count_one": true
+  },
+  "start_seconds": 0.172,
+  "execution_count": 1,
+  "final_receipt": {
+    "schema_version": "1.0",
+    "job_id": "c82cdd149b9f464c978d8a81acde65b0",
+    "request_sha256": "10a8d21622f7cee894943daf44e4d0da676cfa034c5ed735281c71a5e06d31f1",
+    "lifecycle": "completed",
+    "phase": "finished",
+    "created_at": "2026-09-22T10:15:08.401687+00:00",
+    "updated_at": "2026-09-22T10:15:13.687733+00:00",
+    "worker_pid": 52308,
+    "result": {
+      "accepted": true,
+      "task_status": "success",
+      "runtime_status": "success",
+      "evidence_valid": true,
+      "result_match": "matched",
+      "execution_exit_code": 0,
+      "verification_exit_code": 0,
+      "error": null,
+      "verification_path": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-bridge-review-oqlvp0f8\\repro_outputs\\.repro_job\\verification.stdout.json",
+      "verified_at": "2026-09-22T10:15:13.687733+00:00"
+    },
+    "error": null,
+    "controller_pid": 59980,
+    "output_dir": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-bridge-review-oqlvp0f8\\repro_outputs",
+    "terminal": true,
+    "cancel_requested": false,
+    "automatic_replay_allowed": false,
+    "poll_after_seconds": null,
+    "verification_is_completion_snapshot": true,
+    "identity_checked": true,
+    "status_argv": [
+      "D:\\msys2\\ucrt64\\bin\\python.exe",
+      "D:\\test_projects\\ai-paper-reproduction-skill\\skills\\ai-research-reproduction\\scripts\\repro_job.py",
+      "status",
+      "--output-dir",
+      "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-bridge-review-oqlvp0f8\\repro_outputs",
+      "--job-id",
+      "c82cdd149b9f464c978d8a81acde65b0"
+    ],
+    "cancel_argv": [
+      "D:\\msys2\\ucrt64\\bin\\python.exe",
+      "D:\\test_projects\\ai-paper-reproduction-skill\\skills\\ai-research-reproduction\\scripts\\repro_job.py",
+      "cancel",
+      "--output-dir",
+      "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-bridge-review-oqlvp0f8\\repro_outputs",
+      "--job-id",
+      "c82cdd149b9f464c978d8a81acde65b0"
+    ]
+  },
+  "source_sha256": "bb5001a944784ff6cdcb5dbf0c74aa16ea9c7cd268d8e463cb2bef292078f8a4"
+}

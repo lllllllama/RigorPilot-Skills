@@ -53,6 +53,14 @@ Trusted output traits:
 - partial/blocked trusted runs expose a stable machine-readable `error.code`
   alongside the human blocker and next-safe-action text; callers should branch on
   the code rather than parsing localized prose
+- optional short-call execution uses `scripts/repro_job.py` and the plan's exact
+  `agent_handoff` argv. One output directory owns one frozen request; repeated
+  submission returns the existing receipt, and cancellation allows terminal
+  evidence finalization. Controller completion is separate from task acceptance.
+- new evidence manifests use schema `1.1`, binding mandatory artifacts to their
+  expected paths, including runtime spec and any delivered source-adjacent README
+  and ownership receipt. Legacy `1.0` checks explicitly report `legacy_core_only`
+  coverage; historical evidence is not rewritten to manufacture new coverage.
 - controller recovery must not auto-replay commands: dead runs become
   `interrupted`, while stale live processes become `orphaned`
 

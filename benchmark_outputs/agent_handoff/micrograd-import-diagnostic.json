@@ -1,0 +1,6 @@
+{
+  "returncode": 0,
+  "stdout": "python_started\npytest_import 0.375\ntorch_import 21.764999999999418\n",
+  "stderr": "Timeout (0:00:12)!\nThread 0x0000272c (most recent call first):\n  File \"D:\\Anaconda3\\Lib\\site-packages\\torch\\__init__.py\", line 263 in _load_dll_libraries\n  File \"D:\\Anaconda3\\Lib\\site-packages\\torch\\__init__.py\", line 287 in <module>\n  File \"<frozen importlib._bootstrap>\", line 488 in _call_with_frames_removed\n  File \"<frozen importlib._bootstrap_external>\", line 995 in exec_module\n  File \"<frozen importlib._bootstrap>\", line 935 in _load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 1331 in _find_and_load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 1360 in _find_and_load\n  File \"<string>\", line 1 in <module>\n",
+  "seconds": 23.25
+}

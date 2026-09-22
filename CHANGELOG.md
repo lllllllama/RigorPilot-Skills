@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+### Short-call agent handoff
+
+- Add an optional non-training `repro_job.py start/status/cancel` supervisor and
+  exact handoff argv in the read-only plan. Freeze requests, reuse receipts on
+  repeated submissions, reject conflicting outputs, and never replay lost jobs.
+- Bind receipt polling/cancellation to job identity so a reused directory cannot
+  silently substitute another job; path-only recovery queries expose unchecked identity.
+- Keep target timeout separate from controller finalization; cooperative cancel
+  uses the existing runtime. Distinguish controller completion, evidence validity
+  and bounded task acceptance. Preserve the synchronous/training entrypoints.
+- Harden verification against malformed JSON, missing or rebound required
+  manifest records, and matching-but-nonterminal runtime states. Manifest `1.1`
+  covers runtime specs and source-adjacent delivery; legacy coverage is explicit.
+- Bound diagnostic log reads and retry transient atomic-replace sharing locks
+  without exposing partial JSON. Exclusively claim short staging filenames and
+  never unlink another writer's reused name after replacement. Add lifecycle, concurrency, negative-verifier
+  and controlled fault-comparison regressions; no model-uplift claim is made.
+- Retain the complete regression log and a machine-readable validation receipt
+  with source/log hashes; publish only the reviewed validation log directory.
+
 ### Agent fast path
 
 - Add a compact first-use path for the reproduction skill: `--plan-only` previews

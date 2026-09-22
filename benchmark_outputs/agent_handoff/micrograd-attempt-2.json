@@ -1,0 +1,229 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "installed-job-micrograd",
+  "model_calls": 0,
+  "model_uplift": null,
+  "generated_at": "2026-09-22T08:59:52.084415+00:00",
+  "status": "failed",
+  "checks": {
+    "readme_target_selected": true,
+    "returned_job_receipt": true,
+    "supervisor_completed": true,
+    "job_acceptance": false,
+    "independent_original_tests_and_fidelity": false,
+    "original_stdout_two_passed": true
+  },
+  "source": {
+    "commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+    "origin": "retained_upstream_bytes_verified_against_baseline",
+    "original_sha256": {
+      ".gitignore": "56475c7ecd4c99194d05c676394e8b6c4081c5466338bb183b900a90218cc84b",
+      "LICENSE": "f372f582c99dc5b0e8dcf5ca5542183a735365468857ec6416af628490187cc1",
+      "README.md": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+      "demo.ipynb": "bd1b1a59bf07c3abf3ce6899aedd6c345594d19bf54d12257d8c5a5bca5c23ab",
+      "gout.svg": "c5c5461e9735cd42974fd6b5091eba227e8a25692b59b72ed815661949e189b0",
+      "micrograd/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "micrograd/engine.py": "95f19fa3734458d868e067d770f0773027763a2f654900bfbc1df8c5413acf84",
+      "micrograd/nn.py": "f54453501abc4fd38ae724a8b378d6a5d23bfdd0a49c77e619b95f86ad16594d",
+      "moon_mlp.png": "bbd4f795955b6d2b8651101ab0ed77d193354a2de39123ae4f9638967b55de2e",
+      "puppy.jpg": "29a54a909a48a08539b133c7f89f7696632afefd4c3e0fd16498c419003f921c",
+      "setup.py": "80c7a5b4ff6977aaca18f0e534561900d60c3ff093600d1f46ee5af0ef129c0f",
+      "test/test_engine.py": "27142177f5badd0f3aa0ae1a78ae91b0017cd08d9e44a3e0f774142c0f53d531",
+      "trace_graph.ipynb": "e75fc7682da23d0e6a87dbc6ab2efaa21b95e109dc4db516b89eff3a28193300"
+    }
+  },
+  "skill_snapshot": {
+    "SKILL.md": "aa5f44aac96f6a970313a3fc2f7644001fb317529f0a5a4d44393b0d589bce36",
+    "agents/openai.yaml": "4478ec7562d468ad530cf16e807369fd5f7841404077633c6528bea6f219c1ee",
+    "assets/COMMANDS.template.md": "1223d5e8a8ccadfaa192dcdc800870baa144f50be76dfee58d4a20b21f802f76",
+    "assets/LOG.template.md": "d61b79c66070bdeef6753c43da78742ae43831d2f9b7df2dc09ace90b35ff6d0",
+    "assets/model_profile.template.json": "00d2420b1097831752743e0815151878f6bf29eba8e0e6dd299b92e48ca1b816",
+    "assets/PATCHES.template.md": "90819f4d6387aa969aa9329c97cf745716ad0ca2af8cc205899add15eb3adc36",
+    "assets/readme_annotations.template.json": "6224bd875a70a007b951ab83be1161bcce22e115e15ac53ac953bc41ee9729af",
+    "assets/status.template.json": "4dc22e358fe4fa7c9ec6bae5c6871b50319f480a33170efd235a806e1fa4c456",
+    "assets/SUMMARY.template.md": "56f2dcb2ec92d1d51658601b065925dee782176805eedc8b7f7fae0b784cb2c9",
+    "references/agent-job.md": "abccef62c1bdc1bb3f6469263e524736ccd7dac5ddc487c1078a442391ed2490",
+    "references/agent-operating-principles.md": "5b111a17e6493eeac6074f5e815acc6854b15c3a8a5b17563471c059b91915a4",
+    "references/agent-runner.md": "bd50734bd67afea418e89cac020c21307ef662ec5fd5b93a883260d35d773757",
+    "references/architecture.md": "f0511919371f1e27e0ef4d7c9558e808e1d6b733cc92886dbcf0246b2453f41d",
+    "references/continuous-learning-policy.md": "75352f1df724e2e7b62493c955aad28af9d9e645e974ef2295f0c46ef699bf0a",
+    "references/deep-learning-experiment-principles.md": "9696c3c81ed96ee3fa319eeb0eac4eb25a8df8292de85a758408c8056edd9ec1",
+    "references/explore-variant-spec.md": "1b11aba7ab86734cac5c5d954497f0e99a0d3a59f8cec51680c4c31542ccb733",
+    "references/language-policy.md": "0dc3716710e0b2ad0bfaa0dd9d5910840646d288c50bf02c0386cbcb1df77ca9",
+    "references/output-spec.md": "6afafb81e6ae634b105e96bb6a53a3a8e3f2b61b01398c1da5bd72ddeadc9491",
+    "references/patch-policy.md": "03bd1f2eeedf6da5793cfed5c395070d67305a1bc66a7ff9058544d1d890cc1a",
+    "references/readme-annotation-policy.md": "1c25841c0dce2c94758126051d3eeec58ffc8f050b73a76a47f0ce7c97d2cea2",
+    "references/research-pitfall-checklist.md": "ab4ade1732ae0460f52de27a4b5b3df4f62155c9e5c68429ac6ec956610e4c97",
+    "references/research-rigor-principles.md": "b78bb786bbc43c12910d3ac389c25cd3bd3bb1ef12fdbda42a85fbac5d7aadf4",
+    "references/research-safety-principles.md": "366dc59abc19311c2cdae9bbecccdcb56ddea04eb2c984670eb7ab4f2f1952df",
+    "references/research-thinking-loop.md": "1b0252681072ad054fd063f5eb96b09d2973c4e9ffe9032674d4757a67f4248a",
+    "references/runtime-and-model-adapter.md": "bba8f962b28564652ea1a66cbafcc78afe251d58b6bfe8ba924312dc00651867",
+    "scripts/annotate_readme.py": "36e7f2819aa48eed5c00b3870ba087806b5f7698f6ed980025d1712da28e530c",
+    "scripts/doctor.py": "aec6f9f6e857749b0cc627bb7970483b62d2030797aa004d0e4bc89d22222d16",
+    "scripts/orchestrate_repro.py": "bc8c6f6a5b14652d60b33dfdd2ed6b516d384c4f79bf51c444f1a8c0e6676eff",
+    "scripts/repro_job.py": "52ff52158cee67535b9230debbbb1c3f9d4adb53485e435aa8960a14cfe94923",
+    "scripts/run_agent.py": "eb66ffb5546e465a0c28f23a16287f32180e567edfb41f03f8b826ce47af9712",
+    "_bundled/MANIFEST.json": "622adcb2ddc0ebb102fe6eebc0b715237eb5ac64c606fdddef9783f53e3c040d",
+    "_bundled/shared/scripts/agent_provider.py": "54f5daf29feb7303ff35c023e11019d35476e83d1707d7cfc1e6e15a9b41d753",
+    "_bundled/shared/scripts/command_utils.py": "628e1d6c936ee9624fbb0584cf33c75c482d2f48be0f64df9bad7cdb28e35363",
+    "_bundled/shared/scripts/lessons_store.py": "8922ad2958f2a4035a15f5ac443bc7ab8b81e050a439fc9a0eb378e1e1af784e",
+    "_bundled/shared/scripts/model_adapter.py": "ff485c76f236aabddd87c934b38a61edbe1a94169c0122295be9767855bc0bc5",
+    "_bundled/shared/scripts/resource_monitor.py": "35f92f4732ebc520b759a1c073ebce3549570ff5ca33dd318939e1c9394fe96d",
+    "_bundled/shared/scripts/runtime_runner.py": "2bac1213fb9fcd57a7fae5684ee896a979d556066617c3c3ceca395f8a229839",
+    "_bundled/shared/scripts/task_queue.py": "c9a2ed11c0c1ce35754256748fd94bc8e3fe0fab4462d420a4eb495a62f750ec",
+    "_bundled/shared/scripts/write_explore_bundle.py": "e8e14b4111d4d8e53e49e6c7dcac6f4291bf32b7742b88057db9c74ce23b9fb0",
+    "_bundled/shared/scripts/write_run_bundle.py": "9bd2b76c661ed70919b9d41a72cacf8846017fcc952df917ca534ca33c42d2cf",
+    "_bundled/skills/analyze-project/scripts/analyze_project.py": "dc88483b94f3d4298ea4b7d07b58125cc0cf7c030643ba377d235c110570a575",
+    "_bundled/skills/env-and-assets-bootstrap/scripts/plan_setup.py": "3b0b0299aa291987ef56a2fbd1172c9ed3bab61384bc94e8e0bf807e173d6e68",
+    "_bundled/skills/env-and-assets-bootstrap/scripts/prepare_assets.py": "d8f31846396dc8f1806dac9269054834f5cc5689246b044a6fff5eaaf6ce962f",
+    "_bundled/skills/minimal-run-and-audit/scripts/write_outputs.py": "21b5ab7259fec4602653a534860610f0b5a825ad0d579375ee8c5c16da64f5f4",
+    "_bundled/skills/repo-intake-and-plan/scripts/extract_commands.py": "3980a05b12d79e60f9956b0f8e3b1f4f19645fb4e4849a751a1993938fb292e4",
+    "_bundled/skills/repo-intake-and-plan/scripts/scan_repo.py": "31632b909d7e1f522a8cb5b11ec998ea536327c8a7a3a54743d214c68c6a26ac",
+    "_bundled/skills/run-train/scripts/run_training.py": "a8083899b34121f8d30e9ed10c8f6656d219ac9003ccfe524e7a83e876fe8d63",
+    "_bundled/skills/run-train/scripts/write_outputs.py": "08e568b48dd6540a7c3f521e10f805fc20b650b992fac2420c1eec741f76a8ee"
+  },
+  "doctor": {
+    "ok": true,
+    "python": "D:\\Anaconda3\\python.exe",
+    "python_version": "3.12.7",
+    "checks": [
+      {
+        "check": "python",
+        "ok": true,
+        "next_action": null
+      },
+      {
+        "check": "git",
+        "ok": true,
+        "next_action": null
+      },
+      {
+        "check": "entrypoint",
+        "ok": true,
+        "next_action": null
+      },
+      {
+        "check": "bundle",
+        "ok": true,
+        "next_action": null
+      },
+      {
+        "check": "repository",
+        "ok": true,
+        "next_action": null
+      },
+      {
+        "check": "readme",
+        "ok": true,
+        "next_action": null
+      },
+      {
+        "check": "module:torch",
+        "ok": true,
+        "next_action": null
+      },
+      {
+        "check": "module:pytest",
+        "ok": true,
+        "next_action": null
+      }
+    ],
+    "scope": "read_only_local_preflight_not_task_or_model_acceptance"
+  },
+  "selected_command": "python -m pytest",
+  "start_return_seconds": 0.297,
+  "job": {
+    "schema_version": "1.0",
+    "job_id": "d3966590ab7442b3b6c60f4a68fae5d0",
+    "request_sha256": "94ff9657333c40a46bc6b9bec308232f2f7f83406ce74e1102282ddfb0c85c48",
+    "lifecycle": "completed",
+    "phase": "finished",
+    "created_at": "2026-09-22T08:59:54.476372+00:00",
+    "updated_at": "2026-09-22T09:00:28.125527+00:00",
+    "worker_pid": 51444,
+    "result": {
+      "accepted": false,
+      "task_status": "partial",
+      "runtime_status": "timed_out",
+      "evidence_valid": true,
+      "result_match": "not_evaluated",
+      "execution_exit_code": 0,
+      "verification_exit_code": 0,
+      "error": {
+        "code": "timeout",
+        "summary": "选定的文档命令未在 30 秒内完成。",
+        "requires_human": true,
+        "safe_next_actions": [
+          "保持已审核命令和实验协议不变。确认阻塞项确实只是超时后，才可在用户既有上限内增大 `--timeout`；否则保留 partial 证据并停止。"
+        ]
+      },
+      "verification_path": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\repo\\repro_outputs\\.repro_job\\verification.stdout.json",
+      "verified_at": "2026-09-22T09:00:28.125527+00:00"
+    },
+    "error": null,
+    "controller_pid": 15176,
+    "output_dir": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\repo\\repro_outputs",
+    "terminal": true,
+    "cancel_requested": false,
+    "automatic_replay_allowed": false,
+    "poll_after_seconds": null,
+    "verification_is_completion_snapshot": true
+  },
+  "wall_seconds": 34.297,
+  "independent_grader": {
+    "schema_version": "1.0",
+    "grader": "first-use-log-and-readme-fidelity",
+    "inputs": {
+      "baseline": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\BASELINE.json",
+      "repo": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\repo",
+      "output_dir": "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\repo\\repro_outputs"
+    },
+    "limits": [
+      "Requires a trusted pre-run baseline; does not authenticate its provenance or completeness.",
+      "Independent marker scanner and ATX parser; not a full Markdown/browser or fragment-anchor validator.",
+      "Runtime/log consistency is not proof against coordinated forgery or malicious OS/filesystem changes.",
+      "Explicit stdout containment is a task-specific log condition, not independent scientific metric verification.",
+      "No model capability, automatic skill discovery, installation or clean dependency-environment claim."
+    ],
+    "checks": {
+      "original_files": {
+        "ok": true,
+        "details": {
+          "files_checked": 13,
+          "baseline_sha256": "6369195aa3050629ae9bdb8f54176d1fe86759e95954b3976d03ff3f79e22518"
+        }
+      },
+      "status_file": {
+        "ok": true,
+        "details": {
+          "sha256": "411bafdfb011533e8158ec2175df5fa1ed9e8f60c8e9c8408aa3980ef39e5d19"
+        }
+      },
+      "readme_fidelity_and_links": {
+        "ok": true,
+        "details": {
+          "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\repo\\repro_outputs\\ANNOTATED_README.md": {
+            "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+            "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+            "sections": 8,
+            "inserted_links_checked": 12
+          },
+          "C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\repo\\RIGORPILOT_README.md": {
+            "source_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+            "stripped_sha256": "d9d2ec92f63d8deae6260bd2a535a5e633566b73169ccde0a416a5b0cd3f4118",
+            "sections": 8,
+            "inserted_links_checked": 12
+          }
+        }
+      },
+      "runtime_and_stdout": {
+        "ok": false,
+        "error": "runtime does not record successful terminal execution"
+      }
+    },
+    "ok": false,
+    "task_log_condition": "failed"
+  },
+  "original_test_stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.12.7, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\17745\\AppData\\Local\\Temp\\rigorpilot-installed-job-39bh0ifv\\repo\ncollected 2 items\n\ntest\\test_engine.py ..                                                   [100%]\n\n============================= 2 passed in 29.86s ==============================\n",
+  "scope": "One local installed-layout task using existing CPU dependencies, no live model; not automatic skill discovery, remote installer, or model uplift."
+}

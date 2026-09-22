@@ -377,6 +377,71 @@
       "sha256": "0baf3abdba018235d481e7b2c147c30f9064c19034b8b5ca78b43650625b5c2f"
     },
     {
+      "path": "benchmark_outputs/agent_handoff/bridge-final.json",
+      "bytes": 2547,
+      "sha256": "c6f37318eafeda6b117505d7b9a4ee3c756ddc6ee8ce9fc03a8da694f9e7f7dc"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/bridge-handoff.json",
+      "bytes": 6345,
+      "sha256": "2e5f0b1e6ed171c77e38bcf7a612a4baf8103fbd0250263b580861c019ba3654"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/faults-final.json",
+      "bytes": 5470,
+      "sha256": "333ee7ce51b8a87e56ac8109d26db61091f5d765ca2207d24fc232b957106fae"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/faults.json",
+      "bytes": 5088,
+      "sha256": "2b20c8f676db9260e4c9a103742bd52545913b66fd94f524dd6ec75a77966a8a"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/final-validation/bundle.log",
+      "bytes": 35,
+      "sha256": "d6c96e56c4dd003ae557e209f2939d48563a998ac1e604a05db0aacb083703e7"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/final-validation/diff-check.log",
+      "bytes": 682,
+      "sha256": "cc4fa102c46a42ff2d6c3de0ad3606176ee4c746f6403468346a158d421c22b3"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/final-validation/registry.log",
+      "bytes": 35,
+      "sha256": "922d2ffba77208148f17587fd78485a7f940746a5a40b9612aa29c8ca8281b4b"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/final-validation/regression.log",
+      "bytes": 3630,
+      "sha256": "0654cab42dcc9c747284462f9d040165077186478e8eb64cdb7f24ab7b538626"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/final-validation/report.json",
+      "bytes": 23397,
+      "sha256": "6095e1bc924bf87d87046951353a59395b73f5fcdbbc373cc1b843d9f433a26e"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/micrograd-attempt-1.json",
+      "bytes": 12669,
+      "sha256": "80083595ffc7a1930c5a507f1b9dfe72962754e3df93862e0b3230b7a41520ac"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/micrograd-attempt-2.json",
+      "bytes": 13186,
+      "sha256": "b4312153e7bd7d03187d7c2b99e69c5d53dcc2dbd11ba002e82b12b68b284719"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/micrograd-final-review.json",
+      "bytes": 14001,
+      "sha256": "ebbc361d38fae6be8d3ac884af29149301ac2c39844321a59c7bc7b8d66ac28e"
+    },
+    {
+      "path": "benchmark_outputs/agent_handoff/micrograd-import-diagnostic.json",
+      "bytes": 819,
+      "sha256": "8af13c3f3c1b3797aa99b5f6de29992cdf9f08f77794c9bf9b587a7e4d14a202"
+    },
+    {
       "path": "benchmark_outputs/controller_smoke/missing_asset/evidence/budget.jsonl",
       "bytes": 2335,
       "sha256": "af23f02d2a543538011f528fc788b7999eae93ca027b0e7ea78d81ce0d51b4cd"

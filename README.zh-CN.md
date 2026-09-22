@@ -16,7 +16,7 @@ RigorPilot 不重写原始 README，只在各章节插入执行结果与证据�
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square"></a>
   <a href="https://agentskills.io"><img alt="Agent Skills 开放标准" src="https://img.shields.io/badge/Agent%20Skills-open%20standard-1f6feb?style=flat-square"></a>
   <img alt="支持平台" src="https://img.shields.io/badge/Windows%20%7C%20Linux-supported-6f42c1?style=flat-square">
-  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-76%2F76%20passed-8250df?style=flat-square">
+  <img alt="本地回归" src="https://img.shields.io/badge/local%20regression-80%2F80%20passed-8250df?style=flat-square">
   <a href="benchmark_outputs/external_suite_latest.json"><img alt="历史外部协议验证" src="https://img.shields.io/badge/historical%20protocols-4%2F4%20passed-238636?style=flat-square"></a>
 </p>
 
@@ -178,6 +178,7 @@ README → 文档目标 → 审核准备步骤 → 有界执行 → 验收 → �
 | `invocation.json`、`evidence_manifest.json` | 调用/源码完整性摘要，以及用于本地一致性检查的文件大小与 SHA-256 |
 | `PATCHES.md`、`SCIENTIFIC_CHANGELOG.md`、`COMPARABILITY_REPORT.md` | 修改、科学含义与可比性边界 |
 | `_runtime/<run_id>/` | 进程状态、事件、资源采样与标准输出和错误日志 |
+| `.repro_job/` | 可选短调用监督器：冻结请求、可重复查询的回执、阶段日志与完成时的验收快照 |
 | `agent_state.json`、`trajectory.jsonl` | 可选模型执行器的检查点、工具调用与已报告用量 |
 
 🟢 成功 · 🔵 未执行 · ⚪ 仅阅读 · 🟡 部分完成 · 🔴 阻塞 · 🟣 需要决策
@@ -196,6 +197,14 @@ fingerprint 将实际执行绑定到已审核的 README 命令集合；setup/dow
 不会受调用者当前工作目录影响。
 证据清单用于对照保留的 manifest 检测后续变化；它不是数字签名、外部证明，
 也不能替代操作系统沙箱。
+
+宿主工具调用时限较短时，使用计划返回的 `agent_handoff.start_argv`，再使用启动
+回执中绑定 `job_id` 的 `status_argv` / `cancel_argv` 查询或取消同一任务，不给整个
+编排器套用与目标命令相同的超时。身份不匹配会被拒绝，重复提交同一请求不会重跑。
+需要检查 `result.accepted=true`；控制器完成或证据有效本身不代表任务验收通过。
+宿主必须允许监督器跨短调用存活；否则使用其原生持久会话，不绕过沙箱。
+[短调用契约](skills/ai-research-reproduction/references/agent-job.md) ·
+[Agent 开发者审查与验证证据](docs/AGENT_RUNTIME_REVIEW.md)
 
 <a id="validation"></a>
 
@@ -242,6 +251,19 @@ python scripts/run_harness_lab.py
 python scripts/run_all_tests.py
 ```
 
+无需模型或网络请求，即可复查短调用的失败边界：
+
+```bash
+python benchmarks/run_agent_handoff_benchmark.py --output tmp/agent-handoff.json
+```
+
+[保留的对照结果](benchmark_outputs/agent_handoff/faults-final.json)使用相同合成目标与真实
+子进程，检查外层中断、终态证据和防重复执行；它不是模型 A/B。
+不同桥接工具调用之间也已完成一次无重复执行的任务。前两次安装态 micrograd 超时
+记录保持失败；新的[独立安装验证](benchmark_outputs/agent_handoff/micrograd-final-review.json)
+在不放宽 30 秒目标时限的条件下，通过两项原始测试和独立验收。这是本地执行证据，
+不是新的真实模型 AUTO 通过或 A/B 增益。完整边界见[开发者审查](docs/AGENT_RUNTIME_REVIEW.md)。
+
 仓库校验器同时检查本项目采用的 Agent Skills 元数据约束，包括技能名称格式与长度、
 description 长度、可选 compatibility 长度、`metadata`/`allowed-tools` 类型，
 以及公共 `SKILL.md` 的行数上限。
@@ -259,7 +281,9 @@ python benchmarks/run_source_integrity_benchmark.py --counts 1000 10000 --output
 [Reviewed-selection 结果](benchmark_outputs/reviewed_selection_latest.json) ·
 [完整性性能基线](benchmark_outputs/source_integrity_latest.json)
 
-最近本地 Windows 记录（2026-09-21）：**76/76 脚本通过，用时 258.5 秒**。
+最近本地 Windows 记录（2026-09-22）：**80/80 脚本通过，用时 354.5 秒**。
+[验证回执与源码哈希](benchmark_outputs/agent_handoff/final-validation/report.json) ·
+[完整回归日志](benchmark_outputs/agent_handoff/final-validation/regression.log)
 持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
 本地测试不能替代真实模型验收或未见任务评估。
 

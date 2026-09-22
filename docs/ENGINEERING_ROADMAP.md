@@ -2,7 +2,16 @@
 
 [简体中文](ENGINEERING_ROADMAP.zh-CN.md) · [README](../README.md) · [Implementation record](P0_P1_DELIVERY.md)
 
-Updated 2026-09-20. Planned work is not an implemented capability.
+Updated 2026-09-22. Planned work is not an implemented capability.
+
+The [agent-runtime review](AGENT_RUNTIME_REVIEW.md) adds an optional short-call
+supervisor with exact plan handoff argv, reusable job receipts and independent
+completion-time acceptance. Real subprocess fault comparisons and separate
+`ckrao` calls exercise the mechanism. Two installed micrograd attempts retain
+valid timeout evidence and remain failures; the later review validation passes
+the unchanged tests and independent grader at the same 30-second target limit.
+This does not rewrite the historical AUTO failures or unlock a model A/B claim;
+a fresh Codex-sandbox acceptance run is still a separate gate.
 
 ## Product scope
 

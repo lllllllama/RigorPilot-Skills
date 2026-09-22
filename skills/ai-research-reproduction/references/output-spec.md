@@ -174,6 +174,13 @@ Field intent:
 
 ## Runtime evidence
 
+For a short-call supervisor, see [agent-job.md](agent-job.md). Job lifecycle and
+completion-time `result.accepted` are distinct from both runtime status and
+`evidence_valid`. A timeout can have complete, valid evidence without acceptance.
+New manifest schema `1.1` also binds runtime `spec.json`, source-adjacent delivery
+and ownership receipts. Legacy schema `1.0` remains inspectable with explicitly
+reduced `legacy_core_only` coverage; it does not acquire new hashes retroactively.
+
 Every executed command should persist under the active evidence output directory:
 
 ```text

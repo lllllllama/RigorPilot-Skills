@@ -11,11 +11,10 @@ compatibility: Requires Python 3.11+ and Git for bundled orchestration; target r
 Guide README-first deep learning reproduction toward a minimal trustworthy run
 with auditable evidence. Reproduction is not "make it run by changing
 anything"; faithfully read the README, environment, weights, datasets, and
-documented commands, then record results and deviations. Start with
-`references/agent-operating-principles.md`; load
-`references/research-rigor-principles.md` and
-`references/deep-learning-experiment-principles.md` when scientific meaning or
-experiment details are at stake.
+documented commands, then record results and deviations. The rules below suffice
+for an ordinary bounded evaluation. Load specialized references for a concrete
+uncertainty or a change to scientific meaning, not as a mandatory reading tour.
+Use `references/agent-operating-principles.md` when a workflow judgment needs clarification.
 
 ## Fast Path
 
@@ -26,6 +25,9 @@ For a routine bounded run, keep the control path short:
 3. Run the selected candidate, or another reviewed candidate, with `--run-selected --command-id <cmd-XX> --plan-fingerprint <fingerprint> --agent-output` plus requested timeout/metric/source-adjacent options. Preserve an explicit user command-timeout bound instead of silently making it stricter on a routine trusted run. `--timeout` limits the target command; do **not** wrap the whole orchestrator in an equal or shorter external timeout, because it still needs time to terminate children and write terminal evidence. A changed command set fails closed; setup/download commands are never target candidates.
 4. Run `--verify-output --agent-output`; inspect detailed evidence files only when verification fails or the result is partial/blocked.
 5. Deliver the bounded result and stop.
+
+For short-lived host tool calls, use the plan's `agent_handoff.start_argv`, then the returned receipt's job-id-bound `status_argv` / `cancel_argv`. This non-training entrypoint returns promptly, refuses duplicate execution for the same output/request, and cancels cooperatively. It requires a host that permits bounded child supervisors; otherwise use the host's native persistent execution session, never bypass its sandbox.
+Job `completed` means the controller finished, not that the task passed. Require `result.accepted=true`, inspect the verification snapshot, and retain failed/partial attempts. A lost worker or uncertain response is a reason to inspect the same job, not automatically start another one. See `references/agent-job.md` only when needed.
 
 Do **not** inspect `orchestrate_repro.py`, `annotate_readme.py`, `_bundled/`, writers, or runtime internals on a normal success path. Inspect implementation only for a concrete blocker, unexpected side effect, bundle-integrity failure, or unresolved safety question. Use `scripts/doctor.py` for first-use environment/install diagnostics. Executed commands keep full lifecycle/log evidence under `repro_outputs/_runtime/<run_id>/`.
 
