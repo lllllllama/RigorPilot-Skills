@@ -1,0 +1,48 @@
+{
+  "ok": true,
+  "python": "D:\\Anaconda3\\python.exe",
+  "python_version": "3.12.7",
+  "checks": [
+    {
+      "check": "python",
+      "ok": true,
+      "next_action": null
+    },
+    {
+      "check": "git",
+      "ok": true,
+      "next_action": null
+    },
+    {
+      "check": "entrypoint",
+      "ok": true,
+      "next_action": null
+    },
+    {
+      "check": "bundle",
+      "ok": true,
+      "next_action": null
+    },
+    {
+      "check": "repository",
+      "ok": true,
+      "next_action": null
+    },
+    {
+      "check": "readme",
+      "ok": true,
+      "next_action": null
+    },
+    {
+      "check": "module:torch",
+      "ok": true,
+      "next_action": null
+    },
+    {
+      "check": "module:pytest",
+      "ok": true,
+      "next_action": null
+    }
+  ],
+  "scope": "read_only_local_preflight_not_task_or_model_acceptance"
+}

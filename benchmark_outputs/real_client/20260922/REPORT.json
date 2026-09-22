@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "scope": "real_client_auto_acceptance_followup_not_model_uplift",
+  "date": "2026-09-22",
+  "skill_commit": "7590f366386ef5b739a262eb654f6e1411200119",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "auto_loading": {
+    "report": "AUTO/REPORT.json",
+    "overall_pass": true,
+    "client_completed": true,
+    "task_status_success": true,
+    "runtime_success": true,
+    "independent_grader_passed": true,
+    "verify_output_passed": true,
+    "source_integrity_unchanged": true,
+    "client_seconds": 104.469,
+    "tool_starts": 5,
+    "model_usage": {
+      "input_tokens": 141255,
+      "cached_input_tokens": 90880,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 1983,
+      "reasoning_output_tokens": 501
+    },
+    "execution_path": {
+      "handoff_selected_by_agent": false,
+      "synchronous_orchestrator_used": true,
+      "equal_outer_timeout_wrapper_used": false,
+      "tool_command_count": 10
+    },
+    "quota_gate_override_by_user": true
+  },
+  "paired_ab_status": "unlocked_but_not_run",
+  "model_uplift": null,
+  "model_cost": null,
+  "conclusion": "The fresh-client natural-language AUTO gate passed end to end on the current skill commit. The client auto-loaded the project skill, ran the reviewed README test target, retained source fidelity, passed independent grading and evidence verification, and completed its outer turn. A/B remains separate."
+}

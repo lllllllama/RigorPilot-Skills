@@ -79,6 +79,7 @@ conformance claim for that evolving MCP extension.
 | [Second installed micrograd attempt](../benchmark_outputs/agent_handoff/micrograd-attempt-2.json) | Unbuffered stdout retains `2 passed in 29.86s`, but the process did not exit within 30 s; terminal `timed_out`, valid evidence and `accepted=false` remain distinct | End-to-end task acceptance; a success-looking log line does not override the process deadline |
 | [Separate import diagnostic](../benchmark_outputs/agent_handoff/micrograd-import-diagnostic.json) | A separate observed import took about 21.8 s, with a sampled stack in PyTorch DLL loading | The unique cause of the failed attempt, a cold-start performance distribution, a retroactive pass |
 | [Installed micrograd review validation](../benchmark_outputs/agent_handoff/micrograd-final-review.json) | Same pinned source and existing interpreter, 30 s target limit unchanged: pytest reports `2 passed in 24.82s`, terminal runtime and independent grader pass; start returns in 0.281 s and total lifecycle is 30.093 s | A new live-model AUTO pass, an A/B benefit, a claim that earlier attempts passed, or a general latency guarantee |
+| [2026-09-22 fresh-client AUTO](../benchmark_outputs/real_client/20260922/AUTO/REPORT.json) | Natural-language project-skill loading and end-to-end real-client acceptance on the current release: reviewed target/runtime, source integrity, independent grading, evidence verification and outer `turn.completed` all pass | The model did not select `repro_job.py` in this successful turn; it used the synchronous orchestrator without an equal outer timeout. This is not an A/B model-benefit estimate and does not erase earlier failures |
 | [Full regression receipt](../benchmark_outputs/agent_handoff/final-validation/report.json) | 80/80 scripts passed in 354.5 s; retained command exit codes, logs and source hashes bind the local verification to its tested code | Remote CI, universal cross-platform compatibility or model effectiveness |
 
 Run the fault comparison without network or model calls:
@@ -115,12 +116,13 @@ does not erase earlier failure or establish a general success rate.
 micrograd 运行均未在 30 秒内完成进程退出；第二次虽然输出 `2 passed in 29.86s`，
 仍保持超时和验收失败。本轮新的独立安装验证保留 30 秒目标上限，pytest 报告
 `2 passed in 24.82s`，进程、证据和独立验收全部通过；控制器总耗时 30.093 秒包含收尾，
-不等于放宽目标命令时限。成功的新记录不改变前两次失败，也不是新的模型 AUTO 验收。
+不等于放宽目标命令时限。成功的新记录不改变前两次失败。
 独立导入诊断发现明显的 PyTorch DLL 加载耗时，但不能据此断言所有超时只有一个原因。
 
 当前 `ckrao` 的不同工具调用之间已经实际验证：0.172 秒拿到回执，之后绑定任务身份查询成功，
 重复提交仍是同一任务且执行计数为 1。该结果只证明当前桥接宿主，不外推到 Codex 沙箱。
 
-下一步的真实客户端检验应先确认宿主允许监督器跨工具调用存活。若宿主终止整个
-进程树，就使用其原生持久执行会话，不绕过沙箱。新的本地机制证据不能替代一次新的
-完整 AUTO canary，更不能替代相同条件、独立评分的模型 A/B。
+2026-09-22 的 fresh-client AUTO 已端到端通过，但模型本次选择的是同步 orchestrator，
+没有使用 `repro_job.py`；因此 handoff 的实用性仍由独立桥接/故障证据支撑，不能归因到
+AUTO 成功。若宿主终止整个进程树，应使用其原生持久执行会话，不绕过沙箱。当前证据
+仍不能替代相同条件、独立评分的模型 A/B。

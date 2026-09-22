@@ -81,8 +81,11 @@ natural-language automatic skill loading. The first AUTO task failed after the
 model chose a 20-second command timeout inside the user's 30-second bound. A
 2026-09-21 follow-up preserved 30 seconds but wrapped the whole orchestrator in
 an equal 30-second timeout, interrupting terminal evidence and later hitting the
-240-second outer watchdog. Accordingly, A/B model-quality evaluation remains
-gated; `model_uplift` remains `null`.
+240-second outer watchdog. A 2026-09-22 fresh-client follow-up retains both failures
+and passes AUTO end to end on skill commit `7590f36`: auto-loading, reviewed target
+execution, source fidelity, independent grading, evidence verification and outer
+`turn.completed` all pass. A/B is therefore no longer blocked by AUTO acceptance,
+but it remains unrun and `model_uplift` remains `null`.
 
 With a working endpoint and model, run one bounded public-repository trial:
 

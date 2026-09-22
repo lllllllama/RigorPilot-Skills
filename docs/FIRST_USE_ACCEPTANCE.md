@@ -44,7 +44,9 @@ timings do not establish a speedup; the parent replay configuration error is not
   task completed the outer turn but failed on an agent-selected 20-second command
   timeout. A later 2026-09-21 AUTO preserved the 30-second user bound but wrapped
   the orchestrator in an equal external timeout, leaving nonterminal runtime
-  evidence and no completed outer turn. End-to-end auto-loading acceptance remains incomplete.
+  evidence and no completed outer turn. A 2026-09-22 follow-up retains both failures
+  and passes fresh-client AUTO end to end on the current skill: task/runtime success,
+  source fidelity, independent grading, evidence verification and `turn.completed`.
 - Published snapshots total about 0.6 MiB including the failure; local workspaces total about 22.3 MiB including installer caches. No separate model API calls; host-agent tokens/cost were unmeasured, not zero. Subscription balance is unavailable.
 - Raw logs retain original absolute paths; use the links above for browsing. Relocated snapshots are not live resumable tasks and their old ownership receipts must not be reused. The public replay record omits unrelated inherited PATH entries; the original remains local.
 
@@ -64,5 +66,6 @@ verify scientific metrics or protect against coordinated evidence forgery.
 Next-stage preparation is now in the [three-task paired pilot](PAIRED_PILOT.md):
 frozen inputs and real grader calibration, with all six model slots still unrun.
 Fresh-client loading itself has now been directly observed repeatedly, and the
-explicit named-skill real-client run completed successfully. AUTO end-to-end
-acceptance and model-quality A/B comparison remain gated.
+explicit named-skill and fresh-client AUTO real-client runs have both completed
+successfully. Model-quality A/B comparison is now unblocked by AUTO acceptance but
+remains unrun and requires its own frozen-budget protocol.

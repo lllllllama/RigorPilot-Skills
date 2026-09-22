@@ -86,7 +86,7 @@ are not completed evaluations, converged training or reproduced paper scores.
 
 New: [installed-skill micrograd trial](docs/FIRST_USE_ACCEPTANCE.md), with before/after command reports, a retained failed attempt and independent checks—not a model-quality comparison.
 
-Real-client evidence: [explicit named-skill Fast Path passed; natural-language auto-loading was observed repeatedly, but AUTO is not end-to-end accepted](docs/REAL_CLIENT_ACCEPTANCE.md). The 2026-09-20 AUTO chose 20 s inside a 30 s user bound; the 2026-09-21 follow-up preserved 30 s but wrapped the whole orchestrator in an equal external timeout, interrupting terminal evidence and ending at the 240 s client watchdog. Both failures are retained; A/B/model uplift remain unrun.
+Real-client evidence: [explicit named-skill Fast Path and fresh-client natural-language AUTO now both pass end to end](docs/REAL_CLIENT_ACCEPTANCE.md). The 2026-09-20 and 2026-09-21 AUTO failures are retained; the 2026-09-22 follow-up auto-loaded the project skill, ran the reviewed README test target, passed source/evidence/independent grading, and completed the outer turn. A/B/model uplift remain unrun.
 
 <a id="quick-start"></a>
 
@@ -296,7 +296,7 @@ tracked files. These are Windows synthetic-file measurements, not general latenc
 [Reviewed-selection result](benchmark_outputs/reviewed_selection_latest.json) ·
 [Integrity baseline](benchmark_outputs/source_integrity_latest.json)
 
-Latest local Windows record (2026-09-22): **80/80 scripts passed in 354.5 s**.
+Latest local Windows record (2026-09-22): **80/80 scripts passed in 350.8 s**.
 [Validation receipt and source hashes](benchmark_outputs/agent_handoff/final-validation/report.json) ·
 [Complete regression log](benchmark_outputs/agent_handoff/final-validation/regression.log)
 The CI badge links to the current Windows, Linux and macOS results.

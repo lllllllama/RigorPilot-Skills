@@ -1,6 +1,38 @@
-# Real-client acceptance: explicit fast path passes; auto-loading remains incomplete
+# Real-client acceptance: explicit Fast Path and fresh-client AUTO pass
 
-[简体中文](REAL_CLIENT_ACCEPTANCE.zh-CN.md) · [Home](../README.md) · [Latest machine report](../benchmark_outputs/real_client/20260921/REPORT.json) · [2026-09-20 report](../benchmark_outputs/real_client/20260920/REPORT.json) · [Historical 2026-09-13 report](../benchmark_outputs/real_client/20260913/REPORT.json)
+[简体中文](REAL_CLIENT_ACCEPTANCE.zh-CN.md) · [Home](../README.md) · [Latest machine report](../benchmark_outputs/real_client/20260922/REPORT.json) · [2026-09-21 report](../benchmark_outputs/real_client/20260921/REPORT.json) · [2026-09-20 report](../benchmark_outputs/real_client/20260920/REPORT.json) · [Historical 2026-09-13 report](../benchmark_outputs/real_client/20260913/REPORT.json)
+
+## 2026-09-22 AUTO acceptance
+
+One fresh natural-language AUTO canary was run on skill commit `7590f36` and the
+same pinned micrograd commit `7bc720e`, Codex `0.154.0-alpha.6.2`,
+`gpt-6-astra` / high, existing CPU Python/PyTorch/pytest environment, 30-second
+target-command bound, 240-second outer watchdog and 16 tool-start cap. The user
+explicitly kept the prior quota-percentage override, so quota readings were
+observation-only and are not a same-budget model comparison.
+
+**This AUTO gate passed end to end.** The prompt did not name the skill; the trace
+shows project-local skill discovery and use of the reviewed README target. The
+client returned 0 with `turn.completed` after 104.469 seconds and 5 tool starts.
+The selected `python -m pytest` runtime succeeded in 15.313 seconds, source
+integrity stayed unchanged, the independent first-use grader passed, the retained
+bundle passed `--verify-output`, and the source-adjacent README was delivered.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Natural-language skill loading | **Passed**; prompt omitted skill name/path and trace references the project skill | [AUTO report](../benchmark_outputs/real_client/20260922/AUTO/REPORT.json) · [prompt](../benchmark_outputs/real_client/20260922/AUTO/client/PROMPT.txt) |
+| Client completion | **Passed**; return code 0, `turn.completed`, no watchdog stop | [client end](../benchmark_outputs/real_client/20260922/AUTO/client/END.public.json) · [trace](../benchmark_outputs/real_client/20260922/AUTO/client/TRACE.jsonl) |
+| Target execution | **Passed**; README-backed `python -m pytest`, runtime `success` | [status](../benchmark_outputs/real_client/20260922/AUTO/repo/repro_outputs/status.json) · [runtime stdout](../benchmark_outputs/real_client/20260922/AUTO/repo/repro_outputs/_runtime/20260922T114013Z-7a4eccf7/stdout.log) |
+| Source/evidence acceptance | **Passed**; source unchanged, independent grader and `--verify-output` pass | [independent grader](../benchmark_outputs/real_client/20260922/AUTO/EVIDENCE_CHECK.json) · [verify](../benchmark_outputs/real_client/20260922/AUTO/VERIFY.json) |
+| Execution path | Model used the synchronous orchestrator **without** an equal external timeout wrapper; it did not select `repro_job.py` in this turn | [machine report](../benchmark_outputs/real_client/20260922/REPORT.json) |
+| Usage / model effect | 141,255 input tokens (90,880 cached), 1,983 output tokens; provider cost unknown. A/B remains unrun and `model_uplift=null` | [AUTO report](../benchmark_outputs/real_client/20260922/AUTO/REPORT.json) |
+
+This closes the fresh-client AUTO **acceptance** gate; it does not prove that the
+skill improves model quality. The optional `repro_job.py` short-call handoff was
+not selected by the model in this successful turn, so its usefulness remains
+grounded in the separate real bridge/fault evidence rather than attributed to
+this AUTO pass. A/B evaluation is now unblocked by client acceptance but remains
+a separate experiment with frozen tasks, budgets and independent grading.
 
 ## 2026-09-21 AUTO follow-up
 
@@ -43,8 +75,8 @@ distinguishes an incomplete nonterminal runtime from evidence that never existed
 returning `runtime_incomplete_without_status` without replaying the command.
 
 This 2026-09-21 run used a user-authorized quota-protocol deviation, so it is not
-a same-budget replacement for the earlier runs. It is retained as a failure and
-does not unlock A/B evaluation.
+a same-budget replacement for the earlier runs. It remains a retained failure;
+the later 2026-09-22 run above closes the AUTO acceptance gate without rewriting it.
 
 ## 2026-09-20 follow-up
 
@@ -76,7 +108,7 @@ and protocol unchanged and, only when the existing user budget permits, increase
 
 The 2026-09-21 run above tested that timeout correction and exposed a separate
 outer-wrapper timeout race. Both failed AUTO attempts remain in the evidence set;
-A/B stays blocked.
+the 2026-09-22 run closes AUTO acceptance, while A/B/model uplift remain unrun.
 
 ## Historical 2026-09-13 trial
 
@@ -150,7 +182,9 @@ They now direct the agent to inspect existing evidence, deliver the bounded resu
 and stop without unrequested experiments. The 2026-09-20 explicit named-skill run
 above established normal client completion for that corrected Fast Path. The
 natural-language AUTO run separately exposed the stricter-than-requested timeout
-issue, so same-condition A/B remains gated on a successful fresh-client AUTO rerun.
+issue. The retained 2026-09-21 failure then exposed the equal outer-wrapper race;
+the 2026-09-22 fresh-client AUTO pass closes that client-acceptance gate. A/B
+remains a separate, still-unrun effectiveness experiment.
 
 The public snapshot is about 0.5 MB, retaining source, media and notebooks.
 [File hashes](../benchmark_outputs/real_client/20260913/FILES.json) cover unchanged copied files.

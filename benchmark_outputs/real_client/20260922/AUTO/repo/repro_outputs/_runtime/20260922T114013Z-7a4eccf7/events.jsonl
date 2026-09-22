@@ -1,0 +1,35 @@
+{"schema_version": "1.0", "sequence": 1, "timestamp": "2026-09-22T11:40:13.460900Z", "type": "created", "data": {}}
+{"schema_version": "1.0", "sequence": 2, "timestamp": "2026-09-22T11:40:13.577136Z", "type": "started", "data": {"pid": 39600, "argv": ["D:\\Anaconda3\\python.EXE", "-m", "pytest"]}}
+{"schema_version": "1.0", "sequence": 3, "timestamp": "2026-09-22T11:40:13.583137Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 4800512, "cpu_seconds": 0.0, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 4, "timestamp": "2026-09-22T11:40:14.598982Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 126611456, "cpu_seconds": 0.375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 5, "timestamp": "2026-09-22T11:40:14.601976Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 6, "timestamp": "2026-09-22T11:40:15.641909Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 398946304, "cpu_seconds": 0.796875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 7, "timestamp": "2026-09-22T11:40:15.674731Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 8, "timestamp": "2026-09-22T11:40:16.657586Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 465252352, "cpu_seconds": 1.109375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 9, "timestamp": "2026-09-22T11:40:16.670766Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 10, "timestamp": "2026-09-22T11:40:17.666551Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 474378240, "cpu_seconds": 1.375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 11, "timestamp": "2026-09-22T11:40:17.682539Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 12, "timestamp": "2026-09-22T11:40:18.667723Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 481796096, "cpu_seconds": 1.859375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 13, "timestamp": "2026-09-22T11:40:18.682494Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 14, "timestamp": "2026-09-22T11:40:19.694229Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 491257856, "cpu_seconds": 2.484375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 15, "timestamp": "2026-09-22T11:40:19.735835Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 16, "timestamp": "2026-09-22T11:40:20.692025Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 498933760, "cpu_seconds": 3.046875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 17, "timestamp": "2026-09-22T11:40:20.703554Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 18, "timestamp": "2026-09-22T11:40:21.697139Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 505516032, "cpu_seconds": 3.515625, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 19, "timestamp": "2026-09-22T11:40:21.708147Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 20, "timestamp": "2026-09-22T11:40:22.733501Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 508809216, "cpu_seconds": 4.234375, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 21, "timestamp": "2026-09-22T11:40:22.742647Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 22, "timestamp": "2026-09-22T11:40:23.762558Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 509014016, "cpu_seconds": 4.921875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 23, "timestamp": "2026-09-22T11:40:23.772092Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 24, "timestamp": "2026-09-22T11:40:24.787293Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 518311936, "cpu_seconds": 5.53125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 25, "timestamp": "2026-09-22T11:40:24.797904Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 26, "timestamp": "2026-09-22T11:40:25.774162Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 529514496, "cpu_seconds": 6.25, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 27, "timestamp": "2026-09-22T11:40:25.797359Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 28, "timestamp": "2026-09-22T11:40:26.797236Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 533106688, "cpu_seconds": 6.96875, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 29, "timestamp": "2026-09-22T11:40:26.838054Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 30, "timestamp": "2026-09-22T11:40:27.814526Z", "type": "resource_sample", "data": {"root_process_available": true, "rss_bytes": 554405888, "cpu_seconds": 7.953125, "gpu_sampled": false, "gpu_available": false}}
+{"schema_version": "1.0", "sequence": 31, "timestamp": "2026-09-22T11:40:27.825357Z", "type": "heartbeat", "data": {"pid": 39600}}
+{"schema_version": "1.0", "sequence": 32, "timestamp": "2026-09-22T11:40:28.550031Z", "type": "stream_chunk", "data": {"stream": "stdout", "characters": 423}}
+{"schema_version": "1.0", "sequence": 33, "timestamp": "2026-09-22T11:40:28.552027Z", "type": "stream_closed", "data": {"stream": "stdout", "characters": 423}}
+{"schema_version": "1.0", "sequence": 34, "timestamp": "2026-09-22T11:40:28.553030Z", "type": "stream_closed", "data": {"stream": "stderr", "characters": 0}}
+{"schema_version": "1.0", "sequence": 35, "timestamp": "2026-09-22T11:40:28.765973Z", "type": "completed", "data": {"status": "success", "returncode": 0}}

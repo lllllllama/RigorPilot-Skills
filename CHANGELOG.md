@@ -64,6 +64,12 @@
   watchdog. Add a structured plan contract forbidding equal/shorter outer timeout
   wrappers and teach `--verify-output` to report
   `runtime_incomplete_without_status` without replaying the command.
+- Run a fresh 2026-09-22 natural-language AUTO canary on the identity-bound job
+  release. The client auto-loads the project skill and completes normally; the
+  reviewed `python -m pytest` target, source integrity, independent grader and
+  `--verify-output` all pass. The model chooses the synchronous orchestrator without
+  an equal outer timeout rather than `repro_job.py`; retain separate bridge/fault
+  evidence for the optional handoff. AUTO acceptance is closed; A/B remains unrun.
 
 ### Real-client first-use evidence and bounded handoff
 

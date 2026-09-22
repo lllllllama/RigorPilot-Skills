@@ -10,8 +10,9 @@ completion-time acceptance. Real subprocess fault comparisons and separate
 `ckrao` calls exercise the mechanism. Two installed micrograd attempts retain
 valid timeout evidence and remain failures; the later review validation passes
 the unchanged tests and independent grader at the same 30-second target limit.
-This does not rewrite the historical AUTO failures or unlock a model A/B claim;
-a fresh Codex-sandbox acceptance run is still a separate gate.
+This does not rewrite the historical AUTO failures or establish model uplift.
+A fresh 2026-09-22 natural-language AUTO canary now passes end to end on the
+current skill, so client acceptance no longer blocks a later frozen A/B study.
 
 ## Product scope
 
@@ -31,7 +32,7 @@ replace researcher judgment or change algorithms/budgets to manufacture success.
 | Recovery | Checkpoints, completed-result reuse, uncertain-dispatch blocking | No blind request replay or training-checkpoint restoration |
 | Verification | Independent commands/source checks; stable machine-readable error codes; optional artifact size/hash and JSON-metric tolerances, rechecked at finish | Without configured structured checks, acceptance remains exit/stdout-only; no artifact-freshness or paper-reproduction claim |
 | README | Byte-preserving inserts and optional source-adjacent copies in ordinary runs, preserving original media context | Conflicting files are retained; regenerate links after moving directories; external-media availability is not guaranteed |
-| Models / clients | Codex real-client acceptance has one successful explicit named-skill Fast Path; natural-language fresh-client runs repeatedly prove automatic project-skill loading | AUTO end-to-end acceptance is still failed: first on a self-tightened 20 s timeout, then after preserving 30 s but wrapping the whole orchestrator in an equal external timeout and interrupting terminal evidence. No A/B effect estimate; the optional standalone Anthropic transport remains separate |
+| Models / clients | Codex real-client acceptance now has both a successful explicit named-skill Fast Path and a successful fresh-client natural-language AUTO run; two earlier AUTO failures remain retained | The successful AUTO used the synchronous orchestrator without an equal outer timeout; it did not select the optional handoff. No A/B effect estimate; the standalone Anthropic transport remains separate |
 | External evidence | Four historical commit-pinned protocols plus a fresh 4/4 plan-only reviewed-selection pass on the same pinned repositories | The new pass verifies target planning only; historical cases include selection-only and partial runs, not four paper reproductions or an unseen-task success rate |
 | Integrity performance | Repeatable synthetic tracked-file benchmark; current Windows baseline records 1k and 10k file snapshot/verify costs | Small synthetic files, one host and Python-allocation measurements; not a latency SLA. Change the snapshot strategy only after a simpler replacement clearly wins on the same benchmark without weakening detection |
 | Paired pilot preparation | Three frozen tasks, six A/B slots, independent graders and real local calibration | All six model slots remain unrun; no generic live executor or enforced model budget in this kit |
@@ -82,7 +83,9 @@ Fast Path acceptance and repeatedly observed fresh-client automatic skill loadin
 The 2026-09-20 AUTO failed after tightening the allowed 30 s command bound to 20 s.
 The 2026-09-21 AUTO preserved 30 s but wrapped the whole orchestrator in an equal
 30 s external timeout, leaving the runtime nonterminal and no `status.json` before
-the outer client hit 240 s. A/B comparisons remain unrun.
+the outer client hit 240 s. The 2026-09-22 AUTO retains those failures and passes
+end to end: task/runtime, source integrity, independent grading, evidence
+verification and outer client completion all succeed. A/B comparisons remain unrun.
 
 The source-integrity benchmark currently records roughly `0.705 s / 0.670 s`
 snapshot/verify at 1k tracked 128-byte files and `6.054 s / 5.897 s` at 10k on
@@ -102,9 +105,9 @@ Apply these gates; generated files alone do not establish task completion:
 |---|---|---|
 | 1 | Reviewed planning across pinned repositories | `--plan-only` selects the expected README target, exposes a review token and writes no evidence; current four-case result is 4/4 |
 | 2 | Explicit named-skill real-client canary | **Passed 2026-09-20**: task/runtime success, independent grader, source integrity, evidence verification and `turn.completed` |
-| 3 | Fresh-client natural-language auto-loading canary | Skill loading is repeatedly observed. End-to-end acceptance still fails: the latest run preserves the 30 s target timeout but kills the orchestrator with an equal external wrapper timeout. Keep failures; require direct orchestrator execution and terminal evidence before A/B |
+| 3 | Fresh-client natural-language auto-loading canary | **Passed 2026-09-22** after retaining both earlier failures: auto-loading, reviewed target execution, task/runtime success, source integrity, independent grader, evidence verification and `turn.completed` all pass |
 | 4 | Independent acceptance and publication | Check actual logs, original-file SHA-256, per-section restoration and local evidence links; full regression and Git publication checks before sync |
-| 5 | Small paired evaluation (preparation/calibration delivered; live pending) | Start only after the corrected AUTO gate passes; then use [frozen tasks and actual grader calibration](PAIRED_PILOT.md) for one canary and six paired trials |
+| 5 | Small paired evaluation (preparation/calibration delivered; live pending) | AUTO acceptance no longer blocks this stage. Use [frozen tasks and actual grader calibration](PAIRED_PILOT.md); keep model/budget/provider conditions fixed and do not infer uplift from client acceptance alone |
 
 Installation, execution with an explicitly named skill/path, and automatic skill
 selection in a fresh client are separate gates. The first two do not establish

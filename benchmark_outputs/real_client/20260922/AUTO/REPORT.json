@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "scope": "fresh_client_natural_language_auto_skill_selection_canary",
+  "date": "2026-09-22",
+  "skill_commit": "7590f366386ef5b739a262eb654f6e1411200119",
+  "upstream_commit": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "model_requested": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "checks": {
+    "prompt_did_not_name_skill": true,
+    "client_returncode_zero": true,
+    "client_completed": true,
+    "auto_loading_trace_evidence": true,
+    "task_status_success": true,
+    "runtime_success": true,
+    "source_integrity_unchanged": true,
+    "independent_grader_passed": true,
+    "verify_output_passed": true,
+    "source_adjacent_readme_present": true
+  },
+  "overall_pass": true,
+  "stop_reason": null,
+  "client_seconds": 104.469,
+  "tool_starts": 5,
+  "auto_loading_evidence": {
+    "mentions_skill_slug": true,
+    "mentions_orchestrator": true,
+    "mentions_project_skill_path": true
+  },
+  "selection_source": "reviewed_command_id",
+  "selected_command_id": "cmd-01",
+  "documented_command": "python -m pytest",
+  "model_usage": {
+    "input_tokens": 141255,
+    "cached_input_tokens": 90880,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1983,
+    "reasoning_output_tokens": 501
+  },
+  "model_cost": null,
+  "model_uplift": null,
+  "limits": [
+    "Prompt contains only the task/bounds and does not name the skill or its path.",
+    "Project-local skill is installed; global skills and memory are disabled.",
+    "Auto-loading requires trace evidence referencing the skill and reproduction orchestrator, not task success alone.",
+    "One model attempt only; no automatic retry.",
+    "User explicitly overrode the historical quota start/stop percentage gates for this one canary; quota readings are observation-only and not a billing guarantee."
+  ],
+  "protocol_deviations": [
+    "quota_start_floor and quota_stop_floor were observation-only for this run by explicit user authorization"
+  ],
+  "model_usage_complete": true,
+  "execution_path": {
+    "handoff_selected_by_agent": false,
+    "synchronous_orchestrator_used": true,
+    "equal_outer_timeout_wrapper_used": false,
+    "tool_command_count": 10
+  },
+  "paired_ab_status": "unlocked_but_not_run",
+  "interpretation": "Fresh-client natural-language AUTO acceptance passed. This run used the synchronous orchestrator without an equal external timeout wrapper; it did not exercise repro_job.py from the model turn. Separate retained bridge/fault evidence covers the optional handoff. No model-uplift claim is made."
+}

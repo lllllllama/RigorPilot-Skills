@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "status": "success",
+  "selected_goal": "evaluation",
+  "selected_command_id": "cmd-01",
+  "documented_command": "python -m pytest",
+  "selection_fingerprint": "978e341ec64f6b7f99f209dee739edd22fd0c52d3b8990b3a1c9668f4deaa38c",
+  "error": null,
+  "runtime_status": "success",
+  "result_match": "not_evaluated",
+  "main_blocker": "无。",
+  "next_safe_action": "核验现有证据并向用户交付结果，然后停止；未经请求，不启动额外命令或可选阶段。",
+  "evidence": {
+    "summary": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\repro_outputs\\SUMMARY.md",
+    "status": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\repro_outputs\\status.json",
+    "stdout": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\repro_outputs\\_runtime\\20260922T114013Z-7a4eccf7\\stdout.log",
+    "stderr": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\repro_outputs\\_runtime\\20260922T114013Z-7a4eccf7\\stderr.log",
+    "annotated_readme": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\repro_outputs\\ANNOTATED_README.md",
+    "invocation": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\repro_outputs\\invocation.json",
+    "manifest": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\repro_outputs\\evidence_manifest.json"
+  },
+  "source_integrity": {
+    "status": "verified",
+    "unchanged": true,
+    "tracked_file_count": 13,
+    "untracked_source_file_count_before": 27,
+    "untracked_source_file_count_after": 27,
+    "before_sha256": "a7fd8673ca5c2cddfb2454e923efb9cbc15d9e7a3f68291797b37c357d48b9b1",
+    "after_sha256": "a7fd8673ca5c2cddfb2454e923efb9cbc15d9e7a3f68291797b37c357d48b9b1",
+    "changed_files": [],
+    "changed_tracked_files": [],
+    "changed_untracked_source_files": [],
+    "unexpected_added_source_files": [],
+    "modified_untracked_source_files": [],
+    "removed_untracked_source_files": [],
+    "ignored_untracked_roots": [
+      "artifacts/assets",
+      "repro_outputs",
+      "repro_outputs/_runtime",
+      "train_outputs"
+    ]
+  },
+  "source_adjacent_readme": {
+    "status": "written",
+    "schema_version": "1.0",
+    "source_readme": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\README.md",
+    "path": "D:\\test_projects\\ai-paper-reproduction-skill\\benchmark_outputs\\real_client\\20260922\\AUTO\\repo\\RIGORPILOT_README.md",
+    "sha256": "ae6833bf03a73e8fea7390748f66d154f8455539f8381cad13004881bc50ac66",
+    "round_trip_verified": true
+  }
+}

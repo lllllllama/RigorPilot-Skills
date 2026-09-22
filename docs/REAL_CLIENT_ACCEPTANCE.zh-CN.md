@@ -1,6 +1,31 @@
-# 真实客户端验收：显式 Fast Path 通过，自动加载端到端仍未闭环
+# 真实客户端验收：显式 Fast Path 与 fresh-client AUTO 均已通过
 
-[English](REAL_CLIENT_ACCEPTANCE.md) · [首页](../README.zh-CN.md) · [最新机器报告](../benchmark_outputs/real_client/20260921/REPORT.json) · [2026-09-20 报告](../benchmark_outputs/real_client/20260920/REPORT.json) · [2026-09-13 历史报告](../benchmark_outputs/real_client/20260913/REPORT.json)
+[English](REAL_CLIENT_ACCEPTANCE.md) · [首页](../README.zh-CN.md) · [最新机器报告](../benchmark_outputs/real_client/20260922/REPORT.json) · [2026-09-21 报告](../benchmark_outputs/real_client/20260921/REPORT.json) · [2026-09-20 报告](../benchmark_outputs/real_client/20260920/REPORT.json) · [2026-09-13 历史报告](../benchmark_outputs/real_client/20260913/REPORT.json)
+
+## 2026-09-22 AUTO 验收
+
+使用技能提交 `7590f36`、固定 micrograd `7bc720e`、Codex
+`0.154.0-alpha.6.2`、`gpt-6-astra` / high、已有 CPU Python/PyTorch/pytest，
+目标命令 30 秒、外层 240 秒、最多 16 次工具启动。用户继续明确授权 quota 百分比仅
+作观察，因此本轮不是同预算模型能力对照。
+
+**本轮 fresh-client AUTO 端到端通过。** prompt 未写技能名或路径；trace 证明项目级
+技能被自动发现并实际使用 README 审核目标。客户端 104.469 秒正常结束，returncode 0、
+有 `turn.completed`、5 次工具启动；`python -m pytest` runtime 15.313 秒成功，源码
+完整性保持不变，独立 first-use grader、`--verify-output` 和源旁 README 交付全部通过。
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 自然语言技能加载 | **通过**；prompt 未写技能名/路径，trace 命中项目技能 | [AUTO 报告](../benchmark_outputs/real_client/20260922/AUTO/REPORT.json) · [prompt](../benchmark_outputs/real_client/20260922/AUTO/client/PROMPT.txt) |
+| 客户端结束 | **通过**；return code 0、`turn.completed`、无 watchdog stop | [结束记录](../benchmark_outputs/real_client/20260922/AUTO/client/END.public.json) · [trace](../benchmark_outputs/real_client/20260922/AUTO/client/TRACE.jsonl) |
+| 目标执行 | **通过**；README 的 `python -m pytest`，runtime 为 `success` | [status](../benchmark_outputs/real_client/20260922/AUTO/repo/repro_outputs/status.json) · [stdout](../benchmark_outputs/real_client/20260922/AUTO/repo/repro_outputs/_runtime/20260922T114013Z-7a4eccf7/stdout.log) |
+| 源码/证据验收 | **通过**；源码未变、独立 grader 与 `--verify-output` 全通过 | [独立 grader](../benchmark_outputs/real_client/20260922/AUTO/EVIDENCE_CHECK.json) · [verify](../benchmark_outputs/real_client/20260922/AUTO/VERIFY.json) |
+| 实际执行路径 | 模型使用同步 orchestrator，且**没有**再套等长外层 timeout；本次 turn 没有选择 `repro_job.py` | [机器总报告](../benchmark_outputs/real_client/20260922/REPORT.json) |
+| 用量 / 模型效果 | 141,255 input tokens（90,880 cached）、1,983 output tokens；费用未知。A/B 未运行，`model_uplift=null` | [AUTO 报告](../benchmark_outputs/real_client/20260922/AUTO/REPORT.json) |
+
+这关闭的是 fresh-client AUTO **验收门槛**，不是模型增益结论。可选 `repro_job.py`
+并未在这次成功 turn 中被模型选择，因此其有效性继续由独立的真实桥接/故障证据支撑，
+不能归因到本次 AUTO 成功。A/B 已解除 AUTO gate，但仍需单独冻结任务、预算和评分器后运行。
 
 ## 2026-09-21 AUTO 复验
 
@@ -35,8 +60,8 @@
 目标 timeout，给子进程清理和终态证据落盘留出时间。`--verify-output` 也会把这种残留
 非终态 runtime 识别为 `runtime_incomplete_without_status`，而不是笼统的 missing evidence。
 
-本轮 quota gate 由用户显式授权绕过，因此它不是对前几轮预算协议的同条件替代；失败仍保留，
-也不会解锁 A/B。
+本轮 quota gate 由用户显式授权绕过，因此它不是对前几轮预算协议的同条件替代；失败仍保留。
+后续 2026-09-22 成功轮关闭 AUTO 验收门槛，但不改变本轮失败事实。
 
 ## 2026-09-20 复验
 
@@ -62,7 +87,7 @@ cached）和 3,337 output tokens。provider 费用仍未知。私人额度百分
 同一已审核命令和协议，只在用户既有预算允许时增大 `--timeout`，而不是修改依赖、输入或评测语义。
 
 上面的 2026-09-21 复验已经使用 30 秒 timeout，并暴露了新的“等长外层 wrapper”问题。
-两次 AUTO 失败都会永久保留；A/B 继续阻塞。
+两次 AUTO 失败都会永久保留；2026-09-22 已关闭 AUTO 验收门槛，但 A/B/模型增益仍未运行。
 
 ## 2026-09-13 历史试用
 

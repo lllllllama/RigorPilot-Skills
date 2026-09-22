@@ -13,9 +13,9 @@ temporary index, without changing the normal staging area. Subsequently publishe
 with [all three CI platforms passing](https://github.com/lllllllama/RigorPilot-Skills/actions/runs/34757822033).
 See also the [real-client follow-up](REAL_CLIENT_ACCEPTANCE.md): the corrected
 explicit named-skill Fast Path completes and passes independent acceptance;
-natural-language auto-loading is repeatedly observed, but AUTO end-to-end remains
-failed. The latest run preserved the 30-second target bound but killed the
-orchestrator with an equal external timeout before terminal evidence was written.
+after two retained failed AUTO attempts, the 2026-09-22 fresh-client natural-language
+AUTO run also passes end to end with task/runtime success, independent grading,
+source integrity, evidence verification and normal outer-turn completion.
 
 ## Inspect the outcomes
 
