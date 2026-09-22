@@ -5,7 +5,9 @@
 `python benchmarks/run_agent_handoff_benchmark.py --output tmp/agent-handoff.json`
 compares an interrupted synchronous wrapper with a receipt-and-poll supervisor
 using identical synthetic sources and real processes, without model or network
-calls. Inspect [both fault cases](../benchmark_outputs/agent_handoff/faults.json)
+calls. The benchmark explicitly requests `--include-agent-handoff`; ordinary
+`--plan-only` output does not expose this optional control path. Inspect
+[both fault cases](../benchmark_outputs/agent_handoff/faults.json)
 and [actual separate bridge receipts](../benchmark_outputs/agent_handoff/bridge-handoff.json).
 The optional installed micrograd check is
 `python benchmarks/run_job_micrograd_acceptance.py --python /path/to/existing/python --output tmp/job-micrograd.json`.

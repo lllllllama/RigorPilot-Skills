@@ -71,7 +71,7 @@ def main() -> int:
         if code or doctor.get("ok") is not True:
             raise ValueError("required existing target dependencies unavailable")
         _, plan = call([python, str(installed / "scripts/orchestrate_repro.py"), "--repo", str(repo),
-                         "--plan-only", "--timeout", "30", "--source-adjacent-readme", "--user-language", "zh-CN"])
+                         "--plan-only", "--include-agent-handoff", "--timeout", "30", "--source-adjacent-readme", "--user-language", "zh-CN"])
         report["selected_command"] = plan.get("documented_command")
         started = time.monotonic()
         _, receipt = call(plan["agent_handoff"]["start_argv"], timeout=10)

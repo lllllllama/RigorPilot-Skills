@@ -5,7 +5,7 @@
 Updated 2026-09-22. Planned work is not an implemented capability.
 
 The [agent-runtime review](AGENT_RUNTIME_REVIEW.md) adds an optional short-call
-supervisor with exact plan handoff argv, reusable job receipts and independent
+supervisor with opt-in exact handoff argv, reusable job receipts and independent
 completion-time acceptance. Real subprocess fault comparisons and separate
 `ckrao` calls exercise the mechanism. Two installed micrograd attempts retain
 valid timeout evidence and remain failures; the later review validation passes

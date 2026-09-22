@@ -41,12 +41,9 @@
   未下载模型/数据或重装大型依赖，不是冷启动依赖安装。子进程根据 PATH 选择解释器，
   仅用虚拟环境 Python 启动编排器不等于已激活该环境。
 - 父任务预置安装和环境；独立代理自行阅读、选择和执行，未获预先指定的测试命令。
-  这次历史试用明确提供了技能路径。后续 [2026-09-20 真实客户端复验](REAL_CLIENT_ACCEPTANCE.zh-CN.md)
-  已直接观察到自然语言项目技能自动加载。第一轮 AUTO 外层客户端正常结束，但因代理选择
-  20 秒命令 timeout 失败；2026-09-21 后续 AUTO 已保留用户给出的 30 秒上限，却又给整个
-  orchestrator 套等长外层 timeout，留下非终态 runtime 且外层 turn 未完成。2026-09-22
-  后续复验永久保留这两次失败，并让 fresh-client AUTO 端到端通过：任务/runtime、源码完整性、
-  独立 grader、证据验证与 `turn.completed` 同时满足。
+  这次历史试用明确提供了技能路径。当前跨客户端门槛与后续 AUTO 状态统一见
+  [当前验收状态](ACCEPTANCE_STATUS.md)；详细真实轨迹保留在
+  [真实客户端验收](REAL_CLIENT_ACCEPTANCE.zh-CN.md)。
 - 三次公开快照合计约 0.6 MiB，含失败记录；本地工作目录合计约 22.3 MiB，含安装缓存。
   无额外独立模型 API 调用；宿主代理的 token/费用未计量，不能记为零或推算订阅余额。
 - 原始日志保留当时的绝对路径；浏览请使用本页链接。移动后的快照不是可直接恢复的活动任务，
@@ -64,6 +61,5 @@ python scripts/check_publication.py
 新实验可复用 [首次使用验收器](../benchmarks/README.md#installed-skill-first-use-check)。它不执行
 目标仓库，不认证基线来源，不验证外部媒体服务、浏览器渲染、科学指标或抗协同伪造。
 
-下一阶段的[三任务评测准备](PAIRED_PILOT.zh-CN.md)已交付：输入已冻结，评分器已真实校准，
-六个模型试验仍未运行。显式 named-skill 与 fresh-client AUTO 真实客户端验收现均已通过；
-模型能力 A/B 已解除 AUTO gate，但仍需按独立冻结预算协议实际运行后才能形成增益结论。
+下一阶段见[三任务评测准备](PAIRED_PILOT.zh-CN.md)。当前客户端/AUTO/A-B 门槛统一以
+[当前验收状态](ACCEPTANCE_STATUS.md)为准，不再在这份历史 first-use 报告中重复维护。

@@ -5,11 +5,13 @@ Keep changes small, lane-aware, and easy to validate.
 ## Local workflow
 
 1. Edit the relevant files under `skills/`, `references/`, `shared/`, or `scripts/`.
-2. Synchronize bundled dependencies and run the automatically discovered full suite:
+2. Synchronize bundled dependencies. During iteration, use the core suite; before
+   commit/release, run the automatically discovered full suite:
 
 ```bash
 python scripts/sync_reproduction_bundle.py
 python scripts/sync_reproduction_bundle.py --check
+python scripts/run_all_tests.py --core
 python scripts/run_all_tests.py
 python scripts/check_publication.py
 ```

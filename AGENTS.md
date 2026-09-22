@@ -58,7 +58,9 @@ python scripts/validate_repo.py
 python scripts/test_skill_registry.py
 ```
 
-- The full regression suite is every `scripts/test_*.py` file; all must pass.
+- During local iteration, `python scripts/run_all_tests.py --core` runs the
+  high-signal reproduction/install subset. Before commit/release, the full
+  regression suite is every `scripts/test_*.py` file; all must pass.
 - Conventions: public `SKILL.md` files stay ≤ 130 lines; the skill registry
   (`references/skill-registry.json`) stays in sync with `skills/*`; scripts
   run on both Windows PowerShell and Linux shells; human-readable outputs are

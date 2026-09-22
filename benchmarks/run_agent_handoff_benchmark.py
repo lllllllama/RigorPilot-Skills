@@ -58,7 +58,7 @@ def main() -> int:
                 output = repo / "repro_outputs"
                 base = [sys.executable, str(SCRIPTS / "orchestrate_repro.py"), "--repo", str(repo),
                         "--timeout", str(target_timeout), "--no-gpu-monitor", "--agent-output"]
-                plan = run_json([*base, "--plan-only"], temp)
+                plan = run_json([*base, "--plan-only", "--include-agent-handoff"], temp)
                 start = time.monotonic()
                 if arm == "direct_short_wrapper":
                     wrapper_timeout = 1

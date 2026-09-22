@@ -32,6 +32,7 @@ shell loop would lose the project's strongest properties.
 `repro_job.py` is optional and deliberately narrow: trusted non-training tasks,
 one finite worker, existing runtime, ordinary files, no service installation,
 no model provider, no new skill slug, and no arbitrary command-argv endpoint.
+Ordinary plans omit it; short-call hosts opt in with `--include-agent-handoff`.
 Plan extraction and fingerprint validation still happen before target execution.
 The generated handoff is omitted for unsupported orchestration options.
 
@@ -53,6 +54,11 @@ execution session. No sandbox breakaway is used. Host process-tree destruction,
 power failure, PID reuse, or hostile same-user filesystem changes remain outside
 any authenticity/exactly-once guarantee. On uncertain state, inspect rather than
 replay. Static README classification is not an arbitrary-shell security boundary.
+
+The opt-in split also reduces ordinary agent context. On the retained micrograd
+fixture, the same current plan was 2,103 bytes without handoff versus 4,324 bytes
+with it (51.4% smaller); this is a payload-size observation, not a token or model-
+quality claim. A regression test enforces that default plans omit the handoff.
 
 ## Verifiable usefulness, not a fabricated novelty claim
 

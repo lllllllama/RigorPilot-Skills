@@ -11,11 +11,9 @@ archive passed byte/link checks and Git publication validation in an isolated
 temporary index, without changing the normal staging area. Subsequently published at
 [`3f4ff41`](https://github.com/lllllllama/RigorPilot-Skills/commit/3f4ff415bc678fc83db673288d33b1a8fb5458aa),
 with [all three CI platforms passing](https://github.com/lllllllama/RigorPilot-Skills/actions/runs/34757822033).
-See also the [real-client follow-up](REAL_CLIENT_ACCEPTANCE.md): the corrected
-explicit named-skill Fast Path completes and passes independent acceptance;
-after two retained failed AUTO attempts, the 2026-09-22 fresh-client natural-language
-AUTO run also passes end to end with task/runtime success, independent grading,
-source integrity, evidence verification and normal outer-turn completion.
+Cross-client gates change independently of this functional suite. See the compact
+[current acceptance ledger](ACCEPTANCE_STATUS.md) and the retained
+[real-client traces](REAL_CLIENT_ACCEPTANCE.md) instead of duplicating that status here.
 
 ## Inspect the outcomes
 

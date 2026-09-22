@@ -23,6 +23,7 @@ ROOT_REQUIRED_FILES = [
     "README.md",
     "README.zh-CN.md",
     "CONTRIBUTING.md",
+    "docs/ACCEPTANCE_STATUS.md",
     ".editorconfig",
     ".claude/commands/ai-research-reproduction.md",
     ".claude/commands/ai-research-explore.md",

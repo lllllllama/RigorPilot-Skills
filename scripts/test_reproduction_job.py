@@ -11,6 +11,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,8 @@ SCRIPTS = ROOT / "skills/ai-research-reproduction/scripts"
 JOB = SCRIPTS / "repro_job.py"
 ORCHESTRATOR = SCRIPTS / "orchestrate_repro.py"
 ENV = dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONDONTWRITEBYTECODE="1", RIGORPILOT_LESSONS="0")
+sys.path.insert(0, str(SCRIPTS))
+import repro_job as job_module
 
 
 def remove_tree(path: Path) -> None:
@@ -196,8 +199,12 @@ class JobTests(unittest.TestCase):
         self.assertFalse((self.output / "_runtime").exists())
 
     def test_plan_provides_exact_installed_handoff_argv(self):
+        ordinary = subprocess.run([sys.executable, str(ORCHESTRATOR), "--repo", str(self.repo),
+                                   "--plan-only", "--timeout", "7", "--source-adjacent-readme"],
+                                  env=ENV, capture_output=True, text=True, encoding="utf-8", check=True)
+        self.assertNotIn("agent_handoff", json.loads(ordinary.stdout))
         proc = subprocess.run([sys.executable, str(ORCHESTRATOR), "--repo", str(self.repo),
-                               "--plan-only", "--timeout", "7", "--source-adjacent-readme"],
+                               "--plan-only", "--include-agent-handoff", "--timeout", "7", "--source-adjacent-readme"],
                               env=ENV, capture_output=True, text=True, encoding="utf-8", check=True)
         plan = json.loads(proc.stdout)
         handoff = plan["agent_handoff"]
@@ -244,6 +251,22 @@ class JobTests(unittest.TestCase):
     def test_unknown_job_query_has_no_side_effect(self):
         self.call("status", "--output-dir", str(self.output), expected=2)
         self.assertFalse(self.output.exists())
+
+    def test_control_record_read_retries_transient_windows_lock(self):
+        record = self.temp / "record.json"
+        record.write_text('{"ok": true}\n', encoding="utf-8")
+        original_open = Path.open
+        attempts = []
+
+        def transient(path, *args, **kwargs):
+            if path == record and len(attempts) < 2:
+                attempts.append(1)
+                raise PermissionError("simulated sharing lock")
+            return original_open(path, *args, **kwargs)
+
+        with patch.object(Path, "open", new=transient):
+            self.assertEqual(job_module.read_object(record), {"ok": True})
+        self.assertEqual(len(attempts), 2)
 
     def test_receipt_identity_binds_poll_and_cancel(self):
         receipt, _args = self.launch()

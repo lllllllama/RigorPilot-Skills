@@ -56,10 +56,21 @@ def no_symlinks(path: Path) -> None:
 
 
 def read_object(path: Path) -> dict[str, Any]:
-    no_symlinks(path)
-    if path.stat().st_size > 2 * 1024 * 1024:
+    # Windows readers can briefly collide with the worker's atomic replacement.
+    # Retry only transient sharing locks; malformed/missing records still fail closed.
+    for attempt in range(6):
+        try:
+            no_symlinks(path)
+            with path.open("rb") as handle:
+                payload = handle.read(2 * 1024 * 1024 + 1)
+            break
+        except PermissionError:
+            if attempt == 5:
+                raise
+            time.sleep(0.02 * (attempt + 1))
+    if len(payload) > 2 * 1024 * 1024:
         raise JobError("invalid_job_record", "Job JSON exceeds the 2 MiB control-record limit.")
-    value = json.loads(path.read_text(encoding="utf-8"))
+    value = json.loads(payload.decode("utf-8"))
     if not isinstance(value, dict):
         raise JobError("invalid_job_record", "Expected a JSON object in a job control record.")
     return value

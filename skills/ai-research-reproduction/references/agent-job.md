@@ -8,10 +8,11 @@ all child processes when a tool call ends.
 
 ## Review, hand off, observe
 
-First run the usual read-only plan with the intended user timeout and output:
+Only use this path when the host has short tool-call deadlines. Request the
+handoff explicitly so ordinary plans stay compact:
 
 ```bash
-python scripts/orchestrate_repro.py --repo /path/to/repo --plan-only --agent-output --timeout 30 --source-adjacent-readme
+python scripts/orchestrate_repro.py --repo /path/to/repo --plan-only --agent-output --include-agent-handoff --timeout 30 --source-adjacent-readme
 ```
 
 Paths above are relative to the installed skill. Review the README candidate and

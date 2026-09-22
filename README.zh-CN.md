@@ -86,7 +86,7 @@ RigorPilot 直接切分原文件，每个章节插入一条带证据链接的批
 
 新增：[安装后 micrograd 真实试用](docs/FIRST_USE_ACCEPTANCE.zh-CN.md)——保留修改前后命令报告、失败尝试与独立验收，不把它当作模型能力对照。
 
-真实客户端证据：[显式 named-skill Fast Path 与 fresh-client 自然语言 AUTO 现均已端到端通过](docs/REAL_CLIENT_ACCEPTANCE.zh-CN.md)。2026-09-20 与 2026-09-21 的 AUTO 失败永久保留；2026-09-22 复验自动加载项目技能，执行已审核 README 测试目标，并同时通过源码完整性、独立 grader、证据验证与外层 `turn.completed`。A/B 与模型增益仍未运行。
+当前验收：显式 named-skill 与 fresh-client 自然语言 AUTO 均已端到端通过；历史失败继续保留，A/B/模型增益仍未运行。[简明状态](docs/ACCEPTANCE_STATUS.md) · [真实客户端证据](docs/REAL_CLIENT_ACCEPTANCE.zh-CN.md)
 
 <a id="quick-start"></a>
 
@@ -198,30 +198,38 @@ fingerprint 将实际执行绑定到已审核的 README 命令集合；setup/dow
 证据清单用于对照保留的 manifest 检测后续变化；它不是数字签名、外部证明，
 也不能替代操作系统沙箱。
 
-宿主工具调用时限较短时，使用计划返回的 `agent_handoff.start_argv`，再使用启动
-回执中绑定 `job_id` 的 `status_argv` / `cancel_argv` 查询或取消同一任务，不给整个
-编排器套用与目标命令相同的超时。身份不匹配会被拒绝，重复提交同一请求不会重跑。
-需要检查 `result.accepted=true`；控制器完成或证据有效本身不代表任务验收通过。
-宿主必须允许监督器跨短调用存活；否则使用其原生持久会话，不绕过沙箱。
-[短调用契约](skills/ai-research-reproduction/references/agent-job.md) ·
-[Agent 开发者审查与验证证据](docs/AGENT_RUNTIME_REVIEW.md)
+短工具调用宿主可显式加 `--plan-only --include-agent-handoff`，取得绑定任务身份的
+start/status/cancel argv；普通计划不再暴露这条额外控制路径。
+[短调用契约](skills/ai-research-reproduction/references/agent-job.md)
 
 <a id="validation"></a>
 
 ## ✅ 离线验证
 
-克隆本项目，安装 Python 3.11+ 和 Git 后运行：
+日常开发先运行高信号核心回归：
+
+```bash
+python scripts/run_all_tests.py --core
+```
+
+提交/发布前运行完整自动发现套件：
+
+```bash
+python scripts/run_all_tests.py
+python scripts/check_publication.py
+```
+
+最近本地 Windows 完整回归（2026-09-22）：**80/80 脚本通过，用时 354.8 秒**。
+最新 core 回归：**20/20，用时 63.6 秒**。core 只用于高频迭代，不能替代完整回归或 CI。
+
+安装态功能验收（不调用模型）：
 
 ```bash
 python benchmarks/run_skill_acceptance.py --output tmp/skill-check
 ```
 
-实际运行安装目录中的主技能，覆盖缺数据、指标达标、退出码为零但指标错误三个小用例，
-独立检查原始日志、预测结果、原文件和 README 插入。已有 PyTorch/pytest 时，
-加 `--include-micrograd` 可同时运行上游原始两项测试。
-不调用模型、不下载、不安装包；每次使用新的输出目录。
-[实测结果与完整证据](docs/SKILL_ACCEPTANCE.zh-CN.md)：**4/4 功能验收**通过，
-不是四次成功复现，也不是模型增益证明。
+覆盖正负证据行为；已有 PyTorch/pytest 时可选固定 micrograd。
+[功能验收](docs/SKILL_ACCEPTANCE.zh-CN.md)
 
 遇到安装或环境问题时（安装后将技能路径替换为实际位置）：
 
@@ -233,68 +241,10 @@ python skills/ai-research-reproduction/scripts/doctor.py --repo /path/to/target
 `--require-module torch --require-module pytest` 检查依赖是否可发现，
 不会自动安装依赖或执行目标源码。
 
-查看失败与恢复的完整流程：
-
-```bash
-python scripts/run_harness_lab.py
-```
-
-这个离线示例采用**预设决策、真实进程**，验证失败 → 准备 → 暂停 →
-控制进程重启 → 独立验收，不调用 API、不使用 GPU、不下载模型。
-打开命令输出中的 `REPORT.json` 及其关联证据即可核查。
-已有输出不会被覆盖；再次运行可加 `--output tmp/check-2`。
-它不是真实模型能力证明。[示例源码与检查项](examples/harness-lab/README.md)
-
-运行仓库回归套件：
-
-```bash
-python scripts/run_all_tests.py
-```
-
-无需模型或网络请求，即可复查短调用的失败边界：
-
-```bash
-python benchmarks/run_agent_handoff_benchmark.py --output tmp/agent-handoff.json
-```
-
-[保留的对照结果](benchmark_outputs/agent_handoff/faults-final.json)使用相同合成目标与真实
-子进程，检查外层中断、终态证据和防重复执行；它不是模型 A/B。
-不同桥接工具调用之间也已完成一次无重复执行的任务。前两次安装态 micrograd 超时
-记录保持失败；新的[独立安装验证](benchmark_outputs/agent_handoff/micrograd-final-review.json)
-在不放宽 30 秒目标时限的条件下，通过两项原始测试和独立验收。这是本地执行证据，
-不是新的真实模型 AUTO 通过或 A/B 增益。完整边界见[开发者审查](docs/AGENT_RUNTIME_REVIEW.md)。
-
-仓库校验器同时检查本项目采用的 Agent Skills 元数据约束，包括技能名称格式与长度、
-description 长度、可选 compatibility 长度、`metadata`/`allowed-tools` 类型，
-以及公共 `SKILL.md` 的行数上限。
-
-另有两项无需模型 API 的新控制路径检查：
-
-```bash
-python benchmarks/run_reviewed_selection_suite.py --cases micrograd mingpt pytorch-mnist nanogpt-shakespeare --output tmp/reviewed-selection.json
-python benchmarks/run_source_integrity_benchmark.py --counts 1000 10000 --output tmp/source-integrity.json
-```
-
-固定版本的 reviewed-selection 套件当前 **4/4** 通过，且不执行目标命令。
-本机 source-integrity 基线：1k tracked 文件 snapshot/verify 约 **0.705 s / 0.670 s**，
-10k 小文件约 **6.054 s / 5.897 s**。这是 Windows 合成小文件测量，不是通用延迟承诺。
-[Reviewed-selection 结果](benchmark_outputs/reviewed_selection_latest.json) ·
-[完整性性能基线](benchmark_outputs/source_integrity_latest.json)
-
-最近本地 Windows 记录（2026-09-22）：**80/80 脚本通过，用时 350.8 秒**。
-[验证回执与源码哈希](benchmark_outputs/agent_handoff/final-validation/report.json) ·
-[完整回归日志](benchmark_outputs/agent_handoff/final-validation/regression.log)
-持续集成徽章链接指向 Windows、Linux 和 macOS 的最新结果。
+深入验证从主路径移出：[benchmark 方法](benchmarks/README.md) ·
+[Agent runtime/故障证据](docs/AGENT_RUNTIME_REVIEW.md) ·
+[配对 A/B 工具](docs/PAIRED_PILOT.zh-CN.md) · [受控试验](docs/CONTROLLED_TRIALS.zh-CN.md)。
 本地测试不能替代真实模型验收或未见任务评估。
-
-准备模型对照可用[小型评测工具](docs/PAIRED_PILOT.zh-CN.md)：提供冻结任务和
-真实评分器校准日志。六个计划中的模型试验尚未运行；校准不代表技能增益。
-
-[受控试验检查](docs/CONTROLLED_TRIALS.zh-CN.md)提供真实失败与恢复日志、受限工具
-和未知用量停止验证；模型响应为脚本化测试数据。
-另提供[有界 A/B 命令行入口](docs/CONTROLLED_TRIALS.zh-CN.md#一次有界-ab-对照)：
-模型传输 → 预审命令 → 独立评分 → 完整性校验汇总。
-本地 HTTP 集成已测试；真实供应商下的有效性仍未测量。
 
 ## 工程与贡献
 

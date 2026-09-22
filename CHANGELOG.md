@@ -7,6 +7,13 @@
 - Add an optional non-training `repro_job.py start/status/cancel` supervisor and
   exact handoff argv in the read-only plan. Freeze requests, reuse receipts on
   repeated submissions, reject conflicting outputs, and never replay lost jobs.
+- Keep that handoff out of ordinary plan output unless the caller explicitly uses
+  `--include-agent-handoff`; the retained micrograd plan shrinks from 4,324 to
+  2,103 bytes while preserving the same target. Add a compact `--core` local
+  regression mode, including the shared operating-principles contract, while
+  retaining the full auto-discovered suite for commit/CI.
+- Retry transient Windows sharing locks when reading job-control JSON so status
+  polling does not turn an in-progress atomic replacement into a false job failure.
 - Bind receipt polling/cancellation to job identity so a reused directory cannot
   silently substitute another job; path-only recovery queries expose unchecked identity.
 - Keep target timeout separate from controller finalization; cooperative cancel

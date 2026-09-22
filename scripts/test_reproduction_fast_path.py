@@ -72,8 +72,26 @@ def main() -> int:
         plan, _ = run(repo, output, "--plan-only", "--agent-output")
         if plan["mode"] != "plan_only" or plan["documented_command"] != "python evaluate.py":
             raise AssertionError("plan-only did not expose the selected documented command")
+        if "agent_handoff" in plan:
+            raise AssertionError("ordinary plan unexpectedly exposed the optional short-call handoff")
         if any(plan["plan_side_effects"].values()) or output.exists() or (temp_root / "artifacts").exists():
             raise AssertionError("plan-only wrote evidence or claimed execution side effects")
+        checks += 1
+
+        handoff_plan, _ = run(repo, output, "--plan-only", "--agent-output", "--include-agent-handoff")
+        if handoff_plan["selected_command_id"] != plan["selected_command_id"] or handoff_plan["selection_fingerprint"] != plan["selection_fingerprint"]:
+            raise AssertionError("requesting the optional handoff changed reviewed target identity")
+        if not isinstance(handoff_plan.get("agent_handoff"), dict):
+            raise AssertionError("explicit short-call planning did not return handoff argv")
+        checks += 1
+
+        invalid_handoff = subprocess.run(
+            [sys.executable, str(ORCHESTRATOR), "--repo", str(repo), "--include-agent-handoff"],
+            check=False, capture_output=True, text=True, encoding="utf-8",
+            env=dict(os.environ, PYTHONIOENCODING="utf-8", RIGORPILOT_LESSONS="0"),
+        )
+        if invalid_handoff.returncode != 2 or "--include-agent-handoff requires --plan-only" not in invalid_handoff.stderr:
+            raise AssertionError("handoff opt-in was accepted outside plan-only mode")
         checks += 1
 
         compact, process = run(

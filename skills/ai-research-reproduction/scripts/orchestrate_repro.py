@@ -2036,6 +2036,14 @@ def main() -> int:
         help="Inspect README/setup signals and print the selected command plus side-effect contract without writing evidence or executing target code.",
     )
     parser.add_argument(
+        "--include-agent-handoff",
+        action="store_true",
+        help=(
+            "With --plan-only, also return the optional short-call start/status/cancel argv. "
+            "Omit by default so ordinary agents see only the direct reviewed run path."
+        ),
+    )
+    parser.add_argument(
         "--verify-output",
         action="store_true",
         help="Verify an existing evidence bundle and print a compact result without executing target code.",
@@ -2097,6 +2105,8 @@ def main() -> int:
 
     if args.plan_only and args.run_selected:
         parser.error("--plan-only cannot be combined with --run-selected")
+    if args.include_agent_handoff and not args.plan_only:
+        parser.error("--include-agent-handoff requires --plan-only")
     if args.verify_output and (args.plan_only or args.run_selected):
         parser.error("--verify-output cannot be combined with --plan-only or --run-selected")
     if args.plan_fingerprint and not args.command_id:
@@ -2178,10 +2188,10 @@ def main() -> int:
         return 2
     if args.plan_only:
         payload = plan_payload(chosen, setup_plan, args.shell_mode, args.timeout, args.train_timeout)
-        # Supply exact argv instead of asking a model to invent shell quoting or
-        # nest a target-sized timeout around the full controller lifecycle.
-        payload["agent_handoff"] = None
-        if (chosen.get("documented_command_id") and chosen["selected_goal"] != "training"
+        # Keep the normal plan compact. Short-lived hosts can explicitly request
+        # exact handoff argv instead of making every agent choose between two
+        # execution paths on every routine run.
+        if (args.include_agent_handoff and chosen.get("documented_command_id") and chosen["selected_goal"] != "training"
                 and args.lane == "trusted" and not args.include_analysis_pass and not args.include_paper_gap
                 and not args.runtime_root and not args.train_output_dir and not args.model_profile_json
                 and not args.require_model_capability and not args.monitor_gpu):
@@ -2205,6 +2215,8 @@ def main() -> int:
                 "host_requirement": "Host must permit bounded child supervisors to outlive a short tool call; otherwise use its native persistent execution session. Never bypass a host sandbox or kill-on-close policy.",
                 "accepted_only_after": "terminal runtime, task success, source integrity and evidence verification",
             }
+        elif args.include_agent_handoff:
+            payload["agent_handoff"] = None
         print(json.dumps(payload, indent=2, ensure_ascii=False))
         return 0
 

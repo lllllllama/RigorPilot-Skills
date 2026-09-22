@@ -86,7 +86,7 @@ are not completed evaluations, converged training or reproduced paper scores.
 
 New: [installed-skill micrograd trial](docs/FIRST_USE_ACCEPTANCE.md), with before/after command reports, a retained failed attempt and independent checks—not a model-quality comparison.
 
-Real-client evidence: [explicit named-skill Fast Path and fresh-client natural-language AUTO now both pass end to end](docs/REAL_CLIENT_ACCEPTANCE.md). The 2026-09-20 and 2026-09-21 AUTO failures are retained; the 2026-09-22 follow-up auto-loaded the project skill, ran the reviewed README test target, passed source/evidence/independent grading, and completed the outer turn. A/B/model uplift remain unrun.
+Current acceptance: explicit named-skill and fresh-client natural-language AUTO both pass end to end; earlier failures remain retained and A/B/model uplift remain unrun. [Compact status](docs/ACCEPTANCE_STATUS.md) · [real-client evidence](docs/REAL_CLIENT_ACCEPTANCE.md)
 
 <a id="quick-start"></a>
 
@@ -203,34 +203,39 @@ When `--output-dir` is omitted, the orchestrator writes to the target repository
 The evidence manifest detects later changes against the retained manifest; it is
 not a digital signature, external attestation or substitute for an OS sandbox.
 
-For hosts with short tool-call deadlines, the plan also returns
-`agent_handoff.start_argv`. Start returns a job receipt with identity-bound
-`status_argv` and `cancel_argv`; use those to query or cancel the same job instead
-of wrapping the whole orchestrator in another target-sized timeout. A replaced
-job ID is rejected, and repeating the same request does not launch it again.
-Require `result.accepted=true`: controller completion and valid evidence alone
-do not mean task acceptance. Hosts must allow the supervisor to outlive a short
-call; otherwise use their native persistent session without bypassing the sandbox.
-[Short-call contract](skills/ai-research-reproduction/references/agent-job.md) ·
-[Agent-developer review and evidence](docs/AGENT_RUNTIME_REVIEW.md)
+Short tool-call hosts can opt in with `--plan-only --include-agent-handoff` to
+receive identity-bound start/status/cancel argv. Ordinary plans omit this extra
+control path. [Short-call contract](skills/ai-research-reproduction/references/agent-job.md)
 
 <a id="validation"></a>
 
 ## ✅ Offline validation
 
-From a clone of this project, with Python 3.11+ and Git:
+For normal development, run the high-signal core suite first:
+
+```bash
+python scripts/run_all_tests.py --core
+```
+
+Before commit/release, run the complete automatically discovered suite:
+
+```bash
+python scripts/run_all_tests.py
+python scripts/check_publication.py
+```
+
+Latest local Windows full-suite record (2026-09-22): **80/80 scripts passed in 354.8 s**.
+Latest core run: **20/20 in 63.6 s**. The core suite is for iteration; it does
+not replace the full suite or CI.
+
+For installed-layout functional acceptance without model calls:
 
 ```bash
 python benchmarks/run_skill_acceptance.py --output tmp/skill-check
 ```
 
-Runs the installed-layout skill runtime on three small cases: missing data,
-matching metrics, and exit-zero/wrong metrics. Independently checks raw logs,
-predictions, original files and README insertions. With existing PyTorch/pytest,
-add `--include-micrograd` to run the two unchanged upstream tests too.
-No model calls, downloads or package installs; use a fresh output directory each time.
-[Recorded outcomes and full evidence](docs/SKILL_ACCEPTANCE.md) — **4/4 functional
-checks**, not four successful reproductions or measured model uplift.
+It covers positive/negative evidence behavior and can optionally include pinned
+micrograd when PyTorch/pytest already exist. [Functional acceptance](docs/SKILL_ACCEPTANCE.md)
 
 For installation/environment problems (replace the skill path after installation):
 
@@ -242,75 +247,10 @@ This read-only check reports the actual Python, Git, bundled-file integrity and
 README availability. Add `--require-module torch --require-module pytest` for
 dependency discovery; it does not install anything or execute target code.
 
-For the failure-and-recovery walkthrough:
-
-```bash
-python scripts/run_harness_lab.py
-```
-
-This offline example uses **scripted decisions and actual processes**. It exercises
-failure → preparation → pause → controller restart → independent verification,
-without API calls, GPU use or model downloads. Inspect the printed `REPORT.json`
-path and its linked artifacts. Existing output is never overwritten; use
-`--output tmp/check-2` to repeat. It is not evidence of live-model capability.
-[Example source and checks](examples/harness-lab/README.md)
-
-Run the repository regression suite:
-
-```bash
-python scripts/run_all_tests.py
-```
-
-Exercise the short-call failure boundary without a model or network request:
-
-```bash
-python benchmarks/run_agent_handoff_benchmark.py --output tmp/agent-handoff.json
-```
-
-The [retained comparison](benchmark_outputs/agent_handoff/faults-final.json) uses
-identical synthetic targets and real subprocesses to test interrupted wrappers,
-terminal evidence and duplicate-dispatch prevention; it is not a model A/B.
-Separate bridge calls also completed one job without replay. Two earlier
-installed micrograd attempts timed out and remain failed. A new
-[installed-layout validation](benchmark_outputs/agent_handoff/micrograd-final-review.json)
-passed both unchanged upstream tests and the independent grader without raising
-the 30-second target limit. This is local execution evidence, not a new live-model
-AUTO result or A/B uplift. See the [review and boundaries](docs/AGENT_RUNTIME_REVIEW.md).
-
-The validator also checks the repository's Agent Skills metadata constraints,
-including skill-name syntax/length, description length, optional compatibility
-length, `metadata`/`allowed-tools` types, and the repository's public `SKILL.md`
-line limit.
-
-Two additional API-free checks cover the new control path:
-
-```bash
-python benchmarks/run_reviewed_selection_suite.py --cases micrograd mingpt pytorch-mnist nanogpt-shakespeare --output tmp/reviewed-selection.json
-python benchmarks/run_source_integrity_benchmark.py --counts 1000 10000 --output tmp/source-integrity.json
-```
-
-The pinned reviewed-selection suite currently passes **4/4** without executing
-target commands. The local source-integrity baseline records about **0.705 s / 0.670 s**
-for snapshot/verify at 1k tracked files and **6.054 s / 5.897 s** at 10k small
-tracked files. These are Windows synthetic-file measurements, not general latency guarantees.
-[Reviewed-selection result](benchmark_outputs/reviewed_selection_latest.json) ·
-[Integrity baseline](benchmark_outputs/source_integrity_latest.json)
-
-Latest local Windows record (2026-09-22): **80/80 scripts passed in 350.8 s**.
-[Validation receipt and source hashes](benchmark_outputs/agent_handoff/final-validation/report.json) ·
-[Complete regression log](benchmark_outputs/agent_handoff/final-validation/regression.log)
-The CI badge links to the current Windows, Linux and macOS results.
+Deeper checks are intentionally off the main path: [benchmark methodology](benchmarks/README.md) ·
+[agent runtime/fault evidence](docs/AGENT_RUNTIME_REVIEW.md) ·
+[paired A/B kit](docs/PAIRED_PILOT.md) · [controlled trials](docs/CONTROLLED_TRIALS.md).
 Local tests do not substitute for live-model or held-out evaluation.
-
-For model comparisons, the [small paired-evaluation kit](docs/PAIRED_PILOT.md)
-provides frozen tasks and actual grader-calibration logs. The six planned model
-trials remain unrun; calibration is not evidence of skill uplift.
-
-[Controlled-trial checks](docs/CONTROLLED_TRIALS.md) add real failure/recovery
-logs, restricted tools and unknown-usage stops, with scripted model responses.
-The guide also provides a [bounded A/B command-line entrypoint](docs/CONTROLLED_TRIALS.md#one-bounded-ab-pair)
-for model transport → reviewed commands → independent grading → sealed summary.
-Local HTTP integration is tested; real-provider effectiveness is not yet measured.
 
 ## Engineering and contributions
 

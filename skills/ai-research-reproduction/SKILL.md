@@ -8,13 +8,10 @@ compatibility: Requires Python 3.11+ and Git for bundled orchestration; target r
 
 ## Purpose
 
-Guide README-first deep learning reproduction toward a minimal trustworthy run
-with auditable evidence. Reproduction is not "make it run by changing
-anything"; faithfully read the README, environment, weights, datasets, and
-documented commands, then record results and deviations. The rules below suffice
-for an ordinary bounded evaluation. Load specialized references for a concrete
-uncertainty or a change to scientific meaning, not as a mandatory reading tour.
-Use `references/agent-operating-principles.md` when a workflow judgment needs clarification.
+Guide README-first deep learning reproduction toward the smallest trustworthy
+run with auditable evidence. Preserve documented meaning; record assumptions,
+deviations and blockers instead of changing semantics to manufacture success.
+Load specialized references only for a concrete uncertainty.
 
 ## Fast Path
 
@@ -26,24 +23,16 @@ For a routine bounded run, keep the control path short:
 4. Run `--verify-output --agent-output`; inspect detailed evidence files only when verification fails or the result is partial/blocked.
 5. Deliver the bounded result and stop.
 
-For short-lived host tool calls, use the plan's `agent_handoff.start_argv`, then the returned receipt's job-id-bound `status_argv` / `cancel_argv`. This non-training entrypoint returns promptly, refuses duplicate execution for the same output/request, and cancels cooperatively. It requires a host that permits bounded child supervisors; otherwise use the host's native persistent execution session, never bypass its sandbox.
-Job `completed` means the controller finished, not that the task passed. Require `result.accepted=true`, inspect the verification snapshot, and retain failed/partial attempts. A lost worker or uncertain response is a reason to inspect the same job, not automatically start another one. See `references/agent-job.md` only when needed.
+For a host with short tool-call deadlines, rerun planning with `--include-agent-handoff` and follow `references/agent-job.md`; otherwise keep the direct path above. Job completion is not task acceptance, and uncertain state is never a reason for automatic replay.
 
 Do **not** inspect `orchestrate_repro.py`, `annotate_readme.py`, `_bundled/`, writers, or runtime internals on a normal success path. Inspect implementation only for a concrete blocker, unexpected side effect, bundle-integrity failure, or unresolved safety question. Use `scripts/doctor.py` for first-use environment/install diagnostics. Executed commands keep full lifecycle/log evidence under `repro_outputs/_runtime/<run_id>/`.
 
 ## Fit
 
-Use this skill when all are true:
-
-- The target is an AI code repository with a README, scripts, configs, or
-  documented commands.
-- The request spans multiple trusted phases such as intake, setup, execution,
-  training verification, analysis, paper-gap resolution, and reporting.
-- The desired result is a small reproducible target, not broad experimentation.
-
-Do not use this skill for paper summaries, generic environment setup, isolated
-repo scanning, standalone command execution, open-ended research design, or
-explicit candidate-only exploration.
+Use this skill for repository-grounded, multi-phase trusted reproduction where
+the goal is a small reproducible target. Do not use it for paper summaries,
+generic setup, isolated scanning, standalone commands, open-ended research design,
+or explicitly authorized candidate exploration.
 
 ## Trusted Target Selection
 
@@ -101,28 +90,18 @@ ANNOTATED_README.md   # original README + colored per-section agent-action annot
 PATCHES.md   # only if patches were applied
 ```
 
-Use the templates under `assets/` and the field rules in `references/output-spec.md`.
-
-- Put the shortest high-value summary in `SUMMARY.md`.
-- Put copyable commands in `COMMANDS.md`.
-- Put process evidence, assumptions, failures, and decisions in `LOG.md`.
-- Put scientific meaning and change effects in `SCIENTIFIC_CHANGELOG.md`.
-- Put comparison anchors and protocol deviations in `COMPARABILITY_REPORT.md`.
-- Put durable machine-readable state in `status.json`.
-- Put branch, commit, validation, and README-fidelity impact in `PATCHES.md` when needed.
-- Put the researcher's at-a-glance view in `ANNOTATED_README.md`: the README replayed byte-for-byte—including its image, GIF, video, and HTML markup—with exactly one marked color annotation after every heading block. Never extract a text-only surrogate. Generation must pass the built-in strip/check round trip before the file is kept.
-- For original relative media/file context, use `--source-adjacent-readme` to also write `RIGORPILOT_README.md` beside the source README; inspect the reported path/status and never replace an unrelated existing file. See `references/output-spec.md`.
-- Distinguish verified facts from inferred guesses.
+Use the templates under `assets/` and `references/output-spec.md`. Keep summaries
+short, commands copyable, machine state stable, and scientific/comparability
+changes explicit. `ANNOTATED_README.md` must preserve the source README byte-for-byte
+outside inserted evidence blocks and pass its strip/check round trip. Use
+`--source-adjacent-readme` only for an owned `RIGORPILOT_README.md`; never replace
+an unrelated file. Distinguish verified facts from inference.
 
 ## Reference Loading
 
-- Load `references/language-policy.md` when writing human-readable outputs.
-- Load `references/research-rigor-principles.md` before making comparability, contribution, or research-result claims.
-- Load `references/deep-learning-experiment-principles.md` when dataset, split, metric, checkpoint, training, or evaluation details matter.
-- Consult `~/.rigorpilot/PERSONAL_RIGOR.md` if present, under `references/continuous-learning-policy.md` (advisory only; core wins).
-- Failed and later-resolved runs are auto-recorded as lessons via `shared/scripts/lessons_store.py` (`RIGORPILOT_LESSONS=0` disables).
-- Load `references/research-safety-principles.md` before protocol-sensitive
-  decisions.
-- Load `references/patch-policy.md` before modifying repository files.
-- Keep specialized logic in sub-skills, scripts, templates, or references rather than expanding this entrypoint.
+- Workflow judgment: `references/agent-operating-principles.md`.
+- Human-readable output: `references/language-policy.md`.
+- Scientific/comparability judgment: `references/research-rigor-principles.md` and, when experiment details matter, `references/deep-learning-experiment-principles.md`.
+- Protocol-sensitive changes: `references/research-safety-principles.md` and `references/patch-policy.md`.
+- Personal rigor and lessons are advisory only; keep specialized detail in references/scripts rather than expanding this entrypoint.
 
