@@ -1,34 +1,14 @@
-# Repository Slug Installation Note
+# Repository name for installation
 
-The canonical GitHub repository slug for this project is now:
+The current GitHub repository name is `lllllllama/RigorPilot-Skills`. Use it
+in new `npx skills add` commands. The [English README](../README.md) and
+[Chinese README](../README.zh-CN.md) contain the install options.
 
-```text
-lllllllama/ai-research-workflow-skills
-```
+The lowercase spelling `lllllllama/rigorpilot-skills` and historical names
+such as `lllllllama/ai-research-workflow-skills` and
+`lllllllama/ai-paper-reproduction-skills` may appear in older examples.
+GitHub may redirect historical names, but they are not the current repository
+name. Third-party badge URLs may use their own indexed paths.
 
-Use the canonical slug for new `npx skills add` installs:
-
-```bash
-npx skills add lllllllama/ai-research-workflow-skills --all
-npx skills add lllllllama/ai-research-workflow-skills --skill ai-research-reproduction
-npx skills add lllllllama/ai-research-workflow-skills --skill ai-research-explore
-```
-
-The older slug below may still appear in historical notes, cached examples, or local checkouts created before the rename:
-
-```text
-lllllllama/ai-paper-reproduction-skills
-```
-
-Treat that older slug as a compatibility fallback only. Prefer the canonical `ai-research-workflow-skills` slug in new documentation, onboarding notes, install scripts, and examples.
-
-## Maintenance guidance
-
-When updating installation docs, keep these references aligned:
-
-- `README.md`
-- `README.zh-CN.md`
-- installer examples that call `npx skills add`
-- release notes or migration notes that mention the repository slug
-
-This note exists to make the repository rename explicit and reduce confusion for new users following install commands.
+Keep new install examples in both READMEs aligned with the current GitHub
+repository name when it changes.

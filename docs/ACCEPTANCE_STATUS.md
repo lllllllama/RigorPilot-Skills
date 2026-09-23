@@ -13,7 +13,7 @@ the same status across every overview.
 | Fresh-client natural-language AUTO | **Passed** on 2026-09-22 at skill commit `7590f36`; two earlier failures remain retained | Historical client/task result, not a live test of current working-tree code or an A/B benefit |
 | Optional short-call handoff | **Passed** in real local bridge/fault tests and installed-layout micrograd | Host-dependent supervisor path; the successful AUTO turn used the direct orchestrator instead |
 | Core local regression | **20/20 passed in 52.4 s** on 2026-09-23 | Fast iteration subset; not a substitute for full regression |
-| Full local regression | **82/82 passed in 306.2 s** on 2026-09-23 | Local working-tree regression, not remote CI or model effectiveness |
+| Full local regression | **82/82 passed in 304.3 s** on 2026-09-23 | Local working-tree regression with D: for test temporaries; not remote CI or model effectiveness |
 | Same-model A/B effectiveness | **Not run** | `model_uplift` remains `null` |
 | Optional standalone Anthropic transport | **No successful live-provider acceptance recorded** | Separate from the default Codex/client skill route |
 
@@ -22,10 +22,13 @@ the same status across every overview.
 | Verification | Tested version and task | Host/date | Raw report and boundary |
 |---|---|---|---|
 | Core offline | Base commit `4fb7d14`; working-tree source snapshot SHA-256 `7d366a852a364fe583baa1d03a5d266894743874212a244b321ca92b81921c7b`; 20 selected scripts at that snapshot | Windows, Python 3.12.11; 2026-09-23 | Local receipt `C:\Users\17745\AppData\Local\Temp\rigorpilot-audit-core-20260923.json`; subset only |
-| Full offline | Same base commit and source snapshot; 82 discovered scripts at that snapshot | Windows, Python 3.12.11; 2026-09-23 | Local receipt `C:\Users\17745\AppData\Local\Temp\rigorpilot-audit-full-20260923.json`; no remote CI or model turn |
+| Full offline | Base commit `3d2b82c`; working-tree source snapshot SHA-256 `78e192cc912503ad5978066242b7b48b17fabb7d64870c391ce87feee2e0cd5c`; 82 discovered scripts | Windows, Python 3.12.11; 2026-09-23 | Local receipt `C:\Users\17745\AppData\Local\Temp\rigorpilot-merge-full-d-20260923.json`; no remote CI or model turn |
 | Fresh-client AUTO | Skill commit `7590f36`, micrograd commit `7bc720e`; natural-language task | Codex CLI 0.154.0-alpha.6.2, `gpt-6-astra`; 2026-09-22 | [Original report](../benchmark_outputs/real_client/20260922/AUTO/REPORT.json) and [trace-derived counts](../benchmark_outputs/real_client/20260922/TRACE_ANALYSIS.json); one task/client only |
 
 The offline receipts and logs are local to the named host, not published benchmark artifacts.
+An initial same-source run with C: temporaries passed 81/82 scripts; the external
+benchmark stopped at its 5 GiB free-disk floor. With temporaries on D:, the
+same source snapshot passed all 82 scripts.
 The historical trace contains 10 command events but 5 unique calls; the derived report
 retains the trace hash and analyzer version. Provider usage is preserved as reported:
 141,255 cumulative input tokens, including 90,880 cached input tokens. Cost remains unknown.
@@ -47,6 +50,7 @@ Historical failures remain evidence, not regressions to erase:
 当前默认路径已经收敛为 `计划 → 审核命令 → 执行 → 验证 → 结果`。显式技能调用与
 fresh-client 自然语言 AUTO 均已有真实客户端通过记录；短调用 handoff 作为按需兼容层，
 由独立桥接/故障测试验证，不再默认暴露给每次计划。模型 A/B 尚未运行，因此
-`model_uplift` 仍为 `null`。2026-09-23 的工作树离线回归为 core 20/20、完整套件
-82/82；历史真实客户端成功对应 `7590f36`，不代表当前工作树已做 live 复验。
+`model_uplift` 仍为 `null`。2026-09-23 的较早快照 core 回归为 20/20；当前工作树
+在 D 盘临时目录下完成完整套件 82/82。历史真实客户端成功对应 `7590f36`，
+不代表当前工作树已做 live 复验。
 历史失败继续保留，不用后续成功覆盖。

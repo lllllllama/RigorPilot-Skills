@@ -95,17 +95,19 @@ RigorPilot 直接切分原文件，每个章节插入一条带证据链接的批
 安装器需要 Node.js/npm。已实测 `skills@1.5.26` 与 Node 22.20.0；
 该安装器要求 Node ≥22.20.0。若出现 `EBADENGINE`，请先核对版本要求。
 
-安装全部技能：
+安装可独立使用的复现主技能：
 
 ```bash
-npx skills add lllllllama/rigorpilot-skills --all
+npx skills add lllllllama/RigorPilot-Skills --skill ai-research-reproduction
 ```
 
-或仅安装可独立使用的复现主技能：
+如需其他配套研究入口，安装全部技能：
 
 ```bash
-npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
+npx skills add lllllllama/RigorPilot-Skills --all
 ```
+
+以上命令使用[当前 GitHub 仓库名称](docs/install-repository-slug.md)。
 
 在支持 Skills 的代理中打开目标仓库，然后输入：
 

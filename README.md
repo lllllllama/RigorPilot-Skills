@@ -95,17 +95,19 @@ Current acceptance: explicit named-skill and fresh-client natural-language AUTO 
 The installer needs Node.js/npm. Tested with `skills@1.5.26` and Node 22.20.0;
 that installer requires Node ≥22.20.0. If you see `EBADENGINE`, check the requested version.
 
-Install all skills:
+Install the self-contained reproduction skill:
 
 ```bash
-npx skills add lllllllama/rigorpilot-skills --all
+npx skills add lllllllama/RigorPilot-Skills --skill ai-research-reproduction
 ```
 
-Or install only the self-contained reproduction skill:
+Install all skills for the companion research entrypoints:
 
 ```bash
-npx skills add lllllllama/rigorpilot-skills --skill ai-research-reproduction
+npx skills add lllllllama/RigorPilot-Skills --all
 ```
+
+These commands use the [current GitHub repository name](docs/install-repository-slug.md).
 
 Open the target repository in a Skills-capable agent, then ask:
 
