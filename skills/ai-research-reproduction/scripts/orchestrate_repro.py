@@ -185,6 +185,14 @@ def _is_source_side_effect(relative: str) -> bool:
     return path.suffix.lower() in SOURCE_SIDE_EFFECT_SUFFIXES or path.name.lower() in SOURCE_SIDE_EFFECT_NAMES
 
 
+def _source_file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def tracked_source_snapshot(
     repo_path: Path,
     ignore_untracked_paths: Optional[List[Path]] = None,
@@ -230,7 +238,7 @@ def tracked_source_snapshot(
             if path.is_symlink():
                 files[relative] = "symlink:" + os.readlink(path)
             elif path.is_file():
-                files[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+                files[relative] = _source_file_sha256(path)
             else:
                 files[relative] = "missing"
         except OSError as exc:
@@ -249,7 +257,7 @@ def tracked_source_snapshot(
             if path.is_symlink():
                 untracked_source_files[relative] = "symlink:" + os.readlink(path)
             elif path.is_file():
-                untracked_source_files[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+                untracked_source_files[relative] = _source_file_sha256(path)
             else:
                 untracked_source_files[relative] = "missing"
         except OSError as exc:

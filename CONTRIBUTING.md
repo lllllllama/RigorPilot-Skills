@@ -9,6 +9,7 @@ Keep changes small, lane-aware, and easy to validate.
    commit/release, run the automatically discovered full suite:
 
 ```bash
+python -m pip install -r requirements-dev.txt
 python scripts/sync_reproduction_bundle.py
 python scripts/sync_reproduction_bundle.py --check
 python scripts/run_all_tests.py --core

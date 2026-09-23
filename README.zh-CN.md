@@ -209,6 +209,7 @@ start/status/cancel argv；普通计划不再暴露这条额外控制路径。
 日常开发先运行高信号核心回归：
 
 ```bash
+python -m pip install -r requirements-dev.txt
 python scripts/run_all_tests.py --core
 ```
 
@@ -219,8 +220,9 @@ python scripts/run_all_tests.py
 python scripts/check_publication.py
 ```
 
-最近本地 Windows 完整回归（2026-09-22）：**80/80 脚本通过，用时 354.8 秒**。
-最新 core 回归：**20/20，用时 63.6 秒**。core 只用于高频迭代，不能替代完整回归或 CI。
+最新版本绑定的通过数与耗时见[验收账本](docs/ACCEPTANCE_STATUS.md)。报告和逐项完整
+日志默认写在仓库外；可用 `--report PATH` 指定报告位置。core 只用于高频迭代，
+不能替代完整回归或 CI。
 
 安装态功能验收（不调用模型）：
 

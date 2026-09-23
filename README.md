@@ -214,6 +214,7 @@ control path. [Short-call contract](skills/ai-research-reproduction/references/a
 For normal development, run the high-signal core suite first:
 
 ```bash
+python -m pip install -r requirements-dev.txt
 python scripts/run_all_tests.py --core
 ```
 
@@ -224,9 +225,10 @@ python scripts/run_all_tests.py
 python scripts/check_publication.py
 ```
 
-Latest local Windows full-suite record (2026-09-22): **80/80 scripts passed in 354.8 s**.
-Latest core run: **20/20 in 63.6 s**. The core suite is for iteration; it does
-not replace the full suite or CI.
+The latest version-bound counts and timing are in the
+[acceptance ledger](docs/ACCEPTANCE_STATUS.md). Reports and complete per-script
+logs are written outside the repository by default; use `--report PATH` to
+choose a location. The core suite does not replace the full suite or CI.
 
 For installed-layout functional acceptance without model calls:
 

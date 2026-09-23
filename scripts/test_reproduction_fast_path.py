@@ -6,7 +6,6 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -62,7 +61,8 @@ def run_allow_failure(repo: Path, output: Path, *extra: str) -> tuple[dict, subp
 
 
 def main() -> int:
-    temp_root = Path(tempfile.mkdtemp(prefix="rigorpilot-fast-path-", dir=ROOT))
+    temporary = tempfile.TemporaryDirectory(prefix="rigorpilot-fast-path-")
+    temp_root = Path(temporary.name)
     checks = 0
     try:
         repo = temp_root / "clean-repo"
@@ -243,7 +243,7 @@ def main() -> int:
         print("failures: 0")
         return 0
     finally:
-        shutil.rmtree(temp_root, ignore_errors=True)
+        temporary.cleanup()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "analyzer_version": "1.0",
+  "source_trace": "benchmark_outputs/real_client/20260922/AUTO/client/TRACE.jsonl",
+  "source_trace_sha256": "4d7a2a07605524d733c3962d81d8a874f104b784b7b0873646d5097701b62e01",
+  "source_report": "benchmark_outputs/real_client/20260922/AUTO/REPORT.json",
+  "tested_skill_commit": "7590f366386ef5b739a262eb654f6e1411200119",
+  "task_fixture_version": "7bc720e951fe422b8f8814aa5aa1b64121d26b4c",
+  "client_version": "codex-cli 0.154.0-alpha.6.2",
+  "date": "2026-09-22",
+  "verification_type": "fresh_client_natural_language_auto_skill_selection_canary",
+  "provider_usage_raw": {
+    "input_tokens": 141255,
+    "cached_input_tokens": 90880,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1983,
+    "reasoning_output_tokens": 501
+  },
+  "model_cost_raw": null,
+  "counts": {
+    "command_event_count": 10,
+    "unique_command_count": 5,
+    "command_started_count": 5,
+    "command_completed_count": 5,
+    "command_failed_count": 0,
+    "incomplete_command_ids": []
+  },
+  "interpretation": "Calls are distinct by client session, turn, and item ID. The original trace and reports are unchanged; event count is not an execution count."
+}

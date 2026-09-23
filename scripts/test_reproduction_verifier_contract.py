@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 import shutil
 import sys
@@ -59,6 +60,13 @@ class VerifierContractTests(unittest.TestCase):
             tail = orch._bounded_log_text({"stderr_log_path": str(path)}, limit=1024)
         self.assertLessEqual(len(tail), 1024)
         self.assertIn("ModuleNotFoundError", tail)
+
+    def test_source_hash_streams_exact_large_bytes(self):
+        path = self.root / "source.bin"
+        payload = b"\x00\xff\r\n" * (1024 * 1024)
+        path.write_bytes(payload)
+        with patch.object(Path, "read_bytes", side_effect=AssertionError("unbounded read")):
+            self.assertEqual(orch._source_file_sha256(path), hashlib.sha256(payload).hexdigest())
 
     def test_legacy_manifest_coverage_is_explicit(self):
         records = {}

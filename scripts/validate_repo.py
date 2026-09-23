@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate repository structure and lightweight skill metadata."""
+"""Validate repository structure and Agent Skills metadata."""
 
 from __future__ import annotations
 
@@ -9,6 +9,8 @@ import py_compile
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+
+import yaml
 
 
 SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -107,42 +109,43 @@ ROOT_REQUIRED_TESTS = [
 IGNORED_PATH_PARTS = {"tmp", "artifacts", "repro_outputs", "benchmark_outputs", "_bundled", "__pycache__", ".git", ".claude", ".codex"}
 
 
-def _parse_scalar(value: str) -> str:
-    value = value.strip()
-    if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
-        return value[1:-1]
-    return value
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """Safe YAML loader that rejects ambiguous duplicate mapping keys."""
+
+
+def _construct_mapping(loader: _UniqueKeyLoader, node: yaml.MappingNode) -> dict:
+    loader.flatten_mapping(node)
+    result: dict = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=True)
+        try:
+            duplicate = key in result
+        except TypeError as exc:
+            raise ValueError(f"unhashable front matter key (line {key_node.start_mark.line + 1})") from exc
+        if duplicate:
+            raise ValueError(f"duplicate front matter key `{key}` (line {key_node.start_mark.line + 1})")
+        result[key] = loader.construct_object(value_node, deep=True)
+    return result
+
+
+_UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _construct_mapping)
 
 
 def parse_front_matter(skill_md: Path) -> Dict[str, Any]:
-    text = skill_md.read_text(encoding="utf-8")
-    if not text.startswith("---\n"):
+    lines = skill_md.read_text(encoding="utf-8").splitlines(keepends=True)
+    if not lines or lines[0].rstrip("\r\n") != "---":
         raise ValueError(f"{skill_md} is missing YAML front matter.")
-
+    closing = next((i for i, line in enumerate(lines[1:], 1) if line.rstrip("\r\n") == "---"), None)
+    if closing is None:
+        raise ValueError(f"{skill_md} has malformed front matter.")
     try:
-        _, front_matter, _ = text.split("---", 2)
-    except ValueError as exc:
-        raise ValueError(f"{skill_md} has malformed front matter.") from exc
-
-    data: Dict[str, Any] = {}
-    active_mapping: str | None = None
-    for raw_line in front_matter.splitlines():
-        line = raw_line.strip()
-        if not line or ":" not in line:
-            continue
-        indentation = len(raw_line) - len(raw_line.lstrip())
-        key, value = line.split(":", 1)
-        key = key.strip()
-        if indentation:
-            if active_mapping == "metadata" and isinstance(data.get("metadata"), dict):
-                data["metadata"][key] = _parse_scalar(value)
-            continue
-        if key == "metadata" and not value.strip():
-            data[key] = {}
-            active_mapping = key
-            continue
-        data[key] = _parse_scalar(value)
-        active_mapping = None
+        data = yaml.load("".join(lines[1:closing]), Loader=_UniqueKeyLoader)
+    except (yaml.YAMLError, ValueError) as exc:
+        raise ValueError(f"Invalid YAML front matter in {skill_md}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ValueError(f"YAML front matter in {skill_md} must be a mapping")
+    if any(not isinstance(key, str) for key in data):
+        raise ValueError(f"YAML front matter in {skill_md} must have string field names")
     return data
 
 
@@ -159,7 +162,9 @@ def validate_agent_skill_frontmatter(skill_dir: Path, front_matter: Dict[str, An
     declared_name = front_matter.get("name", "")
     description = front_matter.get("description", "")
 
-    if not declared_name:
+    if not isinstance(declared_name, str):
+        errors.append(f"Agent Skills name in {skill_md} must be a string")
+    elif not declared_name:
         errors.append(f"Missing name in {skill_md}")
     else:
         if len(declared_name) > AGENT_SKILL_NAME_MAX:
@@ -176,7 +181,9 @@ def validate_agent_skill_frontmatter(skill_dir: Path, front_matter: Dict[str, An
                 f"Front matter name mismatch for {skill_md}: `{declared_name}` != `{skill_dir.name}`"
             )
 
-    if not description:
+    if not isinstance(description, str):
+        errors.append(f"Agent Skills description in {skill_md} must be a string")
+    elif not description:
         errors.append(f"Missing description in {skill_md}")
     elif len(description) > AGENT_SKILL_DESCRIPTION_MAX:
         errors.append(
@@ -184,8 +191,10 @@ def validate_agent_skill_frontmatter(skill_dir: Path, front_matter: Dict[str, An
         )
 
     compatibility = front_matter.get("compatibility")
-    if compatibility is not None:
-        if not isinstance(compatibility, str) or not compatibility:
+    if "compatibility" in front_matter:
+        if not isinstance(compatibility, str):
+            errors.append(f"Agent Skills compatibility in {skill_md} must be a string")
+        elif not compatibility:
             errors.append(f"Empty compatibility field in {skill_md}")
         elif len(compatibility) > AGENT_SKILL_COMPATIBILITY_MAX:
             errors.append(
@@ -193,14 +202,14 @@ def validate_agent_skill_frontmatter(skill_dir: Path, front_matter: Dict[str, An
             )
 
     metadata = front_matter.get("metadata")
-    if metadata is not None:
+    if "metadata" in front_matter:
         if not isinstance(metadata, dict):
             errors.append(f"Metadata in {skill_md} must be a string-to-string mapping")
         elif any(not isinstance(key, str) or not isinstance(value, str) for key, value in metadata.items()):
             errors.append(f"Metadata in {skill_md} must be a string-to-string mapping")
 
     allowed_tools = front_matter.get("allowed-tools")
-    if allowed_tools is not None and (not isinstance(allowed_tools, str) or not allowed_tools.strip()):
+    if "allowed-tools" in front_matter and (not isinstance(allowed_tools, str) or not allowed_tools.strip()):
         errors.append(f"Allowed-tools in {skill_md} must be a non-empty space-separated string")
 
     if public:
