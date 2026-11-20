@@ -4,6 +4,8 @@ Run research repositories from their README, with bounded execution and auditabl
 RigorPilot adds section-level results without rewriting the original README.
 Trusted reproduction is the default; candidate exploration requires explicit authorization.
 
+Maintained by [Chengkun Rao (饶承坤)](https://lllllllama.github.io/).
+
 [English](README.md) · [简体中文](README.zh-CN.md)
 
 [![Skillselion Top 100](https://skillselion.com/badge/skills/lllllllama/rigorpilot-skills/paper-context-resolver.svg?award=1)](https://skillselion.com/skills/lllllllama/rigorpilot-skills/paper-context-resolver)
