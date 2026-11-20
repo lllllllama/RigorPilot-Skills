@@ -4,7 +4,7 @@ Run research repositories from their README, with bounded execution and auditabl
 RigorPilot adds section-level results without rewriting the original README.
 Trusted reproduction is the default; candidate exploration requires explicit authorization.
 
-Maintained by [Chengkun Rao (饶承坤)](https://lllllllama.github.io/).
+Maintained by [Chengkun Rao (饶承坤)](https://lllllllama.github.io/) · [micrograd reproduction case study](https://lllllllama.github.io/research-reproduction/).
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
